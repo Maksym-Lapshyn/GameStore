@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameStore.DAL.Abstract;
 using GameStore.Domain.Entities;
+using GameStore.DAL.Context;
 
 namespace GameStore.DAL.Concrete
 {
@@ -60,6 +61,5 @@ namespace GameStore.DAL.Concrete
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
     }
 }

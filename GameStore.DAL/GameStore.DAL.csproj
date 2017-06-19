@@ -49,6 +49,7 @@
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="Concrete\EfGenericRepository.cs" />
     <Compile Include="Concrete\EfUnitOfWork.cs" />
+    <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,8 +62,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Context\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
