@@ -28,7 +28,7 @@ namespace GameStore.Web.Controllers
         public JsonResult ListAllComments(string gameKey)
         {
             IEnumerable<Comment> comments = _iService.GetAllCommentsByGameKey(gameKey);
-            return Json(comments);
+            return Json(comments, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

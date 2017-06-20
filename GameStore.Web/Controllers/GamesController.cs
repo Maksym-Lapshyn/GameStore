@@ -43,7 +43,7 @@ namespace GameStore.Web.Controllers
         public JsonResult ListAllGames()
         {
             IEnumerable<Game> games = _iService.GetAllGames();
-            return Json(games);
+            return Json(games, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

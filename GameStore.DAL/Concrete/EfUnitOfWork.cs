@@ -9,7 +9,7 @@ using GameStore.DAL.Context;
 
 namespace GameStore.DAL.Concrete
 {
-    public class EfUnitOfWork
+    public class EfUnitOfWork : IUnitOfWork
     {
         private GameStoreContext _context = new GameStoreContext();
 

@@ -9,11 +9,11 @@ using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Concrete
 {
-    public class GameService : IGameService
+    public class UOWGameService : IGameService
     {
         private IUnitOfWork _unitOfWork;
 
-        public GameService(IUnitOfWork unitOfWork)
+        public UOWGameService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
