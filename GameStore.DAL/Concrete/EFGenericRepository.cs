@@ -21,6 +21,12 @@ namespace GameStore.DAL.Concrete
             _dbSet = _context.Set<TEntity>();
         }
 
+        public void GenericRepository()
+        {
+            _context = new GameStoreContext();
+            _dbSet = _context.Set<TEntity>();
+        }
+
         public IEnumerable<TEntity> Get()
         {
             return _dbSet;
