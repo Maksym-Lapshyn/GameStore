@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using GameStore.DAL.Abstract;
 using GameStore.Domain.Entities;
+using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Concrete
 {
-    public class GameServices
+    public class GameService : IGameService
     {
         private IUnitOfWork _unitOfWork;
 
-        public GameServices(IUnitOfWork unitOfWork)
+        public GameService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -46,9 +47,9 @@ namespace GameStore.Services.Concrete
             return _unitOfWork.GameRepository.Get();
         }
 
-        public void AddCommentToGame(int gameId, Comment newComment)
+        public void AddCommentToGame(string gameKey, Comment newComment)
         {
-            Game game = _unitOfWork.GameRepository.GetById(gameId);
+            Game game = _unitOfWork.GameRepository.Get().First(g => g.Key == gameKey);
             game.Comments.Add(newComment);
             _unitOfWork.Save();
         }
@@ -58,12 +59,12 @@ namespace GameStore.Services.Concrete
             return _unitOfWork.GameRepository.Get().First(g => g.Key == key).Comments;
         }
 
-        public IEnumerable<Game> GetGamesByGenre(string genre)
+        public IEnumerable<Game> GetGamesByGenre(string genreName)
         {
-            return _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(_genre => _genre.Name == genre));
+            return _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(genre => genre.Name == genreName));
         }
 
-        public IEnumerable<Game> GetGamesByPlatformTypes(IEnumerable<string> platformTypes)
+        public IEnumerable<Game> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames)
         {
             IEnumerable<Game> allGames = _unitOfWork.GameRepository.Get();
             List<Game> matchedGames = new List<Game>();
@@ -71,7 +72,7 @@ namespace GameStore.Services.Concrete
             {
                 foreach (PlatformType type in game.PlatformTypes)
                 {
-                    if (platformTypes.Contains(type.Type))
+                    if (platformTypeNames.Contains(type.Type))
                     {
                         matchedGames.Add(game);
                     }

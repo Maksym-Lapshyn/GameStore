@@ -16,15 +16,13 @@ namespace GameStore.DAL.Concrete
         private IGenericRepository<Game> _gameRepository;
         private IGenericRepository<Comment> _commentRepository;
         private IGenericRepository<Genre> _genreRepository;
-        private IGenericRepository<SubGenre> _subGenreRepository;
 
         public EfUnitOfWork(IGenericRepository<Game> gameRepository, IGenericRepository<Comment> commentRepository,
-            IGenericRepository<Genre> genreRepository, IGenericRepository<SubGenre> subGenreRepository)
+            IGenericRepository<Genre> genreRepository)
         {
             _gameRepository = gameRepository;
             _commentRepository = commentRepository;
             _genreRepository = genreRepository;
-            _subGenreRepository = subGenreRepository;
         }
 
         public IGenericRepository<Game> GameRepository

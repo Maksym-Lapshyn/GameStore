@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Context;
+using GameStore.Domain.Abstract;
 
 namespace GameStore.DAL.Concrete
 {
-    public class EFGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class EFGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, ISoftDeletable
     {
         private GameStoreContext _context;
         private DbSet<TEntity> _dbSet;
@@ -47,7 +48,7 @@ namespace GameStore.DAL.Concrete
             TEntity entity = _dbSet.Find(id);
             if (entity != null)
             {
-                _dbSet.Remove(entity);
+                entity.IsDeleted = true;
             }
         }
 
