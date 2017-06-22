@@ -3,21 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameStore.Domain.Entities;
+using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-    public interface IGameService
+    public interface IService<TEntity>
     {
-        void CreateNewGame(Game game);
-        void EditGame(Game game);
-        void DeleteGame(int id);
-        Game GetGameByKey(string key);
-        IEnumerable<Game> GetAllGames();
-        void AddCommentToGame(string gameKey, Comment comment);
-        IEnumerable<Comment> GetAllCommentsByGameKey(string key);
-        IEnumerable<Game> GetGamesByGenre(string genreName);
-        IEnumerable<Game> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames);
-        void Dispose();
+        void Create(TEntity entity);
+        void Edit(TEntity entity);
+        void Delete(TEntity entity);
+        TEntity Get(int id);
+        IEnumerable<TEntity> GetAll();
     }
 }

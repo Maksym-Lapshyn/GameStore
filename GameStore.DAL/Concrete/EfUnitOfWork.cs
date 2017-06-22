@@ -11,28 +11,40 @@ namespace GameStore.DAL.Concrete
 {
     public class EfUnitOfWork : IUnitOfWork
     {
-        private GameStoreContext _context = new GameStoreContext();
+        private GameStoreContext _context;
 
         private IGenericRepository<Game> _gameRepository;
         private IGenericRepository<Comment> _commentRepository;
-        private IGenericRepository<Genre> _genreRepository;
 
-        public EfUnitOfWork(IGenericRepository<Game> gameRepository, IGenericRepository<Comment> commentRepository,
-            IGenericRepository<Genre> genreRepository)
+        public EfUnitOfWork(string connectionString)
         {
-            _gameRepository = gameRepository;
-            _commentRepository = commentRepository;
-            _genreRepository = genreRepository;
+            _context = new GameStoreContext(connectionString);
         }
 
         public IGenericRepository<Game> GameRepository
         {
-            get { return _gameRepository; }
+            get
+            {
+                if (_gameRepository == null)
+                {
+                    _gameRepository = new EFGenericRepository<Game>(_context);
+                }
+
+                return _gameRepository;
+            }
         }
 
         public IGenericRepository<Comment> CommentRepository
         {
-            get { return _commentRepository; }
+            get
+            {
+                if (_commentRepository == null)
+                {
+                    _commentRepository = new EFGenericRepository<Comment>(_context);
+                }
+
+                return _commentRepository;
+            }
         }
 
         public void Save()

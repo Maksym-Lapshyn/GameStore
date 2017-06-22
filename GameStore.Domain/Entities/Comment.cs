@@ -14,13 +14,13 @@ namespace GameStore.Domain.Entities
         public string Name { get; set; }
         public string Body { get; set; }
         public Game Game { get; set; }
-        public Comment Author { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public Comment ParentComment { get; set; }
+        public virtual ICollection<Comment> ChildComments { get; set; }
         public bool IsDeleted { get; set; }
 
         public Comment()
         {
-            Comments = new List<Comment>();
+            ChildComments = new List<Comment>();
         }
     }
 }

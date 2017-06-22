@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using GameStore.Web.App_Start;
+using GameStore.Services.Infrastructure;
 
 namespace GameStore.Web
 {
@@ -13,8 +15,7 @@ namespace GameStore.Web
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
+            AutoMapperConfig.RegisterMappings();
         }
-
     }
 }

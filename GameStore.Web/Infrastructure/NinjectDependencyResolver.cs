@@ -4,13 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ninject;
-using GameStore.DAL.Abstract;
-using GameStore.DAL.Concrete;
-using GameStore.Domain.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
+using Ninject.Web.Common;
 
-namespace GameStore.DIResolver
+namespace GameStore.Infrastructure
 {
     public class NinjectDependencyResolver : IDependencyResolver
     {
@@ -34,11 +32,8 @@ namespace GameStore.DIResolver
 
         private void AddBindings()
         {
-            _kernel.Bind<IUnitOfWork>().To<EfUnitOfWork>();
-            _kernel.Bind<IGenericRepository<Game>>().To<EFGenericRepository<Game>>();
-            _kernel.Bind<IGenericRepository<Genre>>().To<EFGenericRepository<Genre>>();
-            _kernel.Bind<IGenericRepository<Comment>>().To<EFGenericRepository<Comment>>();
             _kernel.Bind<IGameService>().To<UOWGameService>();
+            _kernel.Bind<ICommentService>().To<UOWCommentService>();
         }
     }
 }

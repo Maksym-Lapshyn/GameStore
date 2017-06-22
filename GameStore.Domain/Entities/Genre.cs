@@ -11,13 +11,13 @@ namespace GameStore.Domain.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Genre> SubGenres { get; set; }
+        public virtual ICollection<Genre> ChildGenres { get; set; }
+        public Genre ParentGenre { get; set; }
         public bool IsDeleted { get; set; }
-        public bool IsSubGenre { get; set; }
 
         public Genre()
         {
-            SubGenres = new List<Genre>();
+            ChildGenres = new List<Genre>();
         }
     }
 }
