@@ -61,9 +61,9 @@ namespace GameStore.DAL.Concrete
             _dbSet.Add(entity);
         }
 
-        public void Delete(TEntity entity)
+        public void Delete(int id)
         {
-            TEntity entityToRemove = _dbSet.Find(entity);
+            TEntity entityToRemove = _dbSet.Find(id);
             if (entityToRemove != null)
             {
                 entityToRemove.IsDeleted = true;

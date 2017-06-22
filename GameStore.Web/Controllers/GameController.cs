@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
+using System.IO;
 
 namespace GameStore.Web.Controllers
 {
@@ -43,7 +44,7 @@ namespace GameStore.Web.Controllers
             return Json(game, JsonRequestBehavior.AllowGet);
         }
 
-
+        //tested
         [HttpGet]
         public JsonResult ListAllGames()
         {
@@ -51,11 +52,12 @@ namespace GameStore.Web.Controllers
             return Json(games, JsonRequestBehavior.AllowGet);
         }
 
+        //tested
         [HttpPost]
-        public JsonResult DeleteGame(GameDTO game)
+        public ActionResult DeleteGame(int id)
         {
-            _gameService.DeleteByGame(game);
-            return null;
+            _gameService.Delete(id);
+            return Redirect("https://youtube.com");
         }
 
         [HttpGet]
@@ -63,5 +65,6 @@ namespace GameStore.Web.Controllers
         {
             return null;
         }
+
     }
 }

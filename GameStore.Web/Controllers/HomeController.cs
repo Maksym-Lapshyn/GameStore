@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
+using Newtonsoft.Json;
 
 namespace GameStore.Web.Controllers
 {
@@ -21,9 +24,10 @@ namespace GameStore.Web.Controllers
         {
             if (_gameService.GetAll().Count() == 0)
             {
-                GameDTO game = new GameDTO(){Name = "Test game"};
+                GameDTO game = new GameDTO() { Name = "Test game" };
                 _gameService.Create(game);
             }
+
             return HttpNotFound();
         }
     }

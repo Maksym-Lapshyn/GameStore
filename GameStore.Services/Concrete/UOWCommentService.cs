@@ -52,9 +52,9 @@ namespace GameStore.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public void AddCommentToGame(string gameKey, CommentDTO newComment)
+        public void AddCommentToGame(CommentDTO newComment)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => g.Key == gameKey);
+            Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == newComment.GameId);
             Comment comment = Mapper.Map<CommentDTO, Comment>(newComment);
             game.Comments.Add(comment);
             _unitOfWork.Save();
@@ -62,19 +62,17 @@ namespace GameStore.Services.Concrete
 
         public void AddCommentToComment(CommentDTO newComment)
         {
+            Comment oldComment = _unitOfWork.CommentRepository.GetById(newComment.ParentCommentId);
             Comment comment = Mapper.Map<CommentDTO, Comment>(newComment);
-            Comment oldComment = _unitOfWork.CommentRepository.GetById(newComment.ParentComment.Id);
             oldComment.ChildComments.Add(comment);
             _unitOfWork.Save();
         }
 
         public IEnumerable<CommentDTO> GetAllCommentsByGameKey(string key)
         {
-            IEnumerable<Comment> comments = _unitOfWork.GameRepository.Get().First(g => g.Key == key).Comments;
+            IEnumerable<Comment> comments = _unitOfWork.GameRepository.Get().First(g => g.Key.ToLower() == key.ToLower()).Comments;
             IEnumerable<CommentDTO> commentDTOs = Mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(comments);
             return commentDTOs;
         }
-
-
     }
 }

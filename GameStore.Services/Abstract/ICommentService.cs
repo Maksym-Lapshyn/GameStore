@@ -9,7 +9,7 @@ namespace GameStore.Services.Abstract
 {
     public interface ICommentService : IService<CommentDTO>
     {
-        void AddCommentToGame(string gameKey, CommentDTO comment);
+        void AddCommentToGame(CommentDTO comment);
         void AddCommentToComment(CommentDTO comment);
         IEnumerable<CommentDTO> GetAllCommentsByGameKey(string key);
     }

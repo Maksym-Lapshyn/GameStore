@@ -18,8 +18,9 @@ namespace GameStore.Web.Controllers
             _commentService = service;
         }
 
+
         [HttpPost]
-        public JsonResult NewComment(string gameKey, CommentDTO comment)
+        public ActionResult NewComment(CommentDTO comment)
         {
             if (comment.ParentComment != null)
             {
@@ -27,12 +28,13 @@ namespace GameStore.Web.Controllers
             }
             else
             {
-                _commentService.AddCommentToGame(gameKey, comment);
+                _commentService.AddCommentToGame(comment);
             }
-            
-            return null;
+
+            return Redirect("https://youtube.com");
         }
 
+        //tested
         [HttpGet]
         public JsonResult ListAllComments(string gameKey)
         {

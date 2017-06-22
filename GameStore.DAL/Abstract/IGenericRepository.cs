@@ -14,7 +14,7 @@ namespace GameStore.DAL.Abstract
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
         TEntity GetById(int? id);
         void Insert(TEntity entity);
-        void Delete(TEntity entity);
+        void Delete(int id);
         void Update(TEntity entityToUpdate);
     }
 }

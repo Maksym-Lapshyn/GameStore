@@ -14,7 +14,7 @@ namespace GameStore.Services.DTOs
         public virtual ICollection<GenreDTO> ChildGenres { get; set; }
         public bool IsDeleted { get; set; }
         [ScriptIgnore]
-        public GenreDTO ParentGenre { get; set; }
+        public virtual GenreDTO ParentGenre { get; set; }
 
         public GenreDTO()
         {

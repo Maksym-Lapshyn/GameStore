@@ -50,23 +50,18 @@ namespace GameStore.Services.Concrete
             }
         }
 
-        public void DeleteByGame(GameDTO game)
+        public void Delete(int id)
         {
-            Game gameToRemove = Mapper.Map<GameDTO, Game>(game);
-            if (_unitOfWork.GameRepository.Get().Contains(gameToRemove))
+            Game gameToRemove = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == id);
+            if (gameToRemove != null)
             {
-                _unitOfWork.GameRepository.Delete(gameToRemove);
+                _unitOfWork.GameRepository.Delete(id);
                 _unitOfWork.Save();
             }
             else
             {
                 throw new ArgumentException("There is no such game");
             }
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public GameDTO Get(int id)

@@ -13,9 +13,13 @@ namespace GameStore.Services.DTOs
         public string Name { get; set; }
         public string Body { get; set; }
         [ScriptIgnore]
-        public GameDTO Game { get; set; }
+        public int? GameId { get; set; }
         [ScriptIgnore]
-        public CommentDTO ParentComment { get; set; }
+        public virtual GameDTO Game { get; set; }
+        [ScriptIgnore]
+        public int? ParentCommentId { get; set; }
+        [ScriptIgnore]
+        public virtual CommentDTO ParentComment { get; set; }
         public virtual ICollection<CommentDTO> ChildComments { get; set; }
         public bool IsDeleted { get; set; }
 
