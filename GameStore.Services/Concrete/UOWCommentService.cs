@@ -30,7 +30,7 @@ namespace GameStore.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public void Delete(CommentDTO entity)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -74,5 +74,7 @@ namespace GameStore.Services.Concrete
             IEnumerable<CommentDTO> commentDTOs = Mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(comments);
             return commentDTOs;
         }
+
+
     }
 }

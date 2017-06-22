@@ -11,7 +11,7 @@ namespace GameStore.Services.Abstract
     {
         void Create(TEntity entity);
         void Edit(TEntity entity);
-        void Delete(TEntity entity);
+        void Delete(int id);
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();
     }

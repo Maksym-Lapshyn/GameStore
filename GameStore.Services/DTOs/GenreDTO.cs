@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace GameStore.Services.DTOs
 {
@@ -12,6 +13,7 @@ namespace GameStore.Services.DTOs
         public string Name { get; set; }
         public virtual ICollection<GenreDTO> ChildGenres { get; set; }
         public bool IsDeleted { get; set; }
+        [ScriptIgnore]
         public GenreDTO ParentGenre { get; set; }
 
         public GenreDTO()

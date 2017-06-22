@@ -24,14 +24,14 @@ namespace GameStore.Services.Concrete
         public void Create(GameDTO gameDTO)
         {
             Game game = Mapper.Map<GameDTO, Game>(gameDTO);
-            if (_unitOfWork.GameRepository.Get().Any(g => g.Name == game.Name))
-            {
-                throw new ArgumentException("There is a game with such key already");
-            }
-            else
+            if (_unitOfWork.GameRepository.Get().All(g => g.Name != game.Name))
             {
                 _unitOfWork.GameRepository.Insert(game);
                 _unitOfWork.Save();
+            }
+            else
+            {
+                throw new ArgumentException("There is a game with such key already");
             }
         }
 
@@ -42,30 +42,55 @@ namespace GameStore.Services.Concrete
             {
                 oldGame = Mapper.Map(newGame, oldGame);
                 _unitOfWork.GameRepository.Update(oldGame);
+                _unitOfWork.Save();
             }
-            
-            _unitOfWork.Save();
+            else
+            {
+                throw new ArgumentException("There is no such game");
+            }
         }
 
-        public void Delete(GameDTO game)
+        public void DeleteByGame(GameDTO game)
         {
             Game gameToRemove = Mapper.Map<GameDTO, Game>(game);
-            _unitOfWork.GameRepository.Delete(gameToRemove);
-            _unitOfWork.Save();
+            if (_unitOfWork.GameRepository.Get().Contains(gameToRemove))
+            {
+                _unitOfWork.GameRepository.Delete(gameToRemove);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                throw new ArgumentException("There is no such game");
+            }
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public GameDTO Get(int id)
         {
             Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
-            GameDTO gameDTO = Mapper.Map<Game, GameDTO>(game);
-            return gameDTO;
+            if (game != null)
+            {
+                GameDTO gameDTO = Mapper.Map<Game, GameDTO>(game);
+                return gameDTO;
+            }
+
+            throw new ArgumentException("There is no game with such id");
         }
 
         public GameDTO GetGameByKey(string key)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => g.Key == key);
-            GameDTO gameDTO = Mapper.Map<Game, GameDTO>(game);
-            return gameDTO;
+            Game game = _unitOfWork.GameRepository.Get().First(g => g.Key.ToLower() == key.ToLower());
+            if (game != null)
+            {
+                GameDTO gameDTO = Mapper.Map<Game, GameDTO>(game);
+                return gameDTO;
+            }
+
+            throw new ArgumentException("There is no game with such key");
         }
 
         public IEnumerable<GameDTO> GetAll()
@@ -102,7 +127,5 @@ namespace GameStore.Services.Concrete
             IEnumerable<GameDTO> gameDTOs = Mapper.Map<IEnumerable<Game>, List<GameDTO>>(matchedGames);
             return gameDTOs;
         }
-
-        
     }
 }

@@ -11,6 +11,7 @@ namespace GameStore.Services.Abstract
     {
         IEnumerable<GameDTO> GetGamesByGenre(string genreName);
         IEnumerable<GameDTO> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames);
+        void DeleteByGame(GameDTO game);
         GameDTO GetGameByKey(string key);
     }
 }

@@ -9,7 +9,7 @@ using GameStore.Services.Abstract;
 
 namespace GameStore.Web.Controllers
 {
-    [OutputCache(Duration = 60, VaryByHeader = "get;post")]
+    //[OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class GameController : Controller
     {
         private IGameService _gameService;
@@ -19,6 +19,7 @@ namespace GameStore.Web.Controllers
             _gameService = service;
         }
 
+        //tested
         [HttpPost]
         public ActionResult NewGame(GameDTO newGame)
         {
@@ -26,6 +27,7 @@ namespace GameStore.Web.Controllers
             return Redirect("https://youtube.com");
         }
 
+        //tested
         [HttpPost]
         public ActionResult UpdateGame(GameDTO game)
         {
@@ -33,12 +35,14 @@ namespace GameStore.Web.Controllers
             return Redirect("https://youtube.com");
         }
 
+        //tested
         [HttpGet]
         public JsonResult ShowGame(string gameKey)
         {
             GameDTO game = _gameService.GetGameByKey(gameKey);
             return Json(game, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpGet]
         public JsonResult ListAllGames()
@@ -50,7 +54,7 @@ namespace GameStore.Web.Controllers
         [HttpPost]
         public JsonResult DeleteGame(GameDTO game)
         {
-            _gameService.Delete(game);
+            _gameService.DeleteByGame(game);
             return null;
         }
 

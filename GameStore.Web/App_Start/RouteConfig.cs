@@ -28,9 +28,9 @@ namespace GameStore.Web
             );
 
             routes.MapRoute(
-                name: "GetGameDetails",
+                name: "GetGameDetailsByKey",
                 url: "game/{gameKey}",
-                defaults: new { controller = "Game", action = "UpdateGame" }
+                defaults: new { controller = "Game", action = "ShowGame" }
             );
 
             routes.MapRoute(
