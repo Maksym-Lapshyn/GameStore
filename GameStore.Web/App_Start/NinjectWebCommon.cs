@@ -1,5 +1,5 @@
 using System.Web.Mvc;
-using GameStore.Infrastructure;
+using GameStore.Web.Infrastructure.Resolver;
 using GameStore.Services.Infrastructure;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(GameStore.Web.App_Start.NinjectWebCommon), "Start")]

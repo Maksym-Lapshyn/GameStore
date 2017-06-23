@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using Ninject;
 using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
+using GameStore.Web.Infrastructure.Abstract;
+using GameStore.Web.Infrastructure.Concrete;
 using Ninject.Web.Common;
 
-namespace GameStore.Infrastructure
+namespace GameStore.Web.Infrastructure.Resolver
 {
     public class NinjectDependencyResolver : IDependencyResolver
     {
@@ -34,6 +36,7 @@ namespace GameStore.Infrastructure
         {
             _kernel.Bind<IGameService>().To<UOWGameService>();
             _kernel.Bind<ICommentService>().To<UOWCommentService>();
+            _kernel.Bind<ILogger>().To<NLogger>();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
 using System.IO;
+using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
@@ -20,7 +21,6 @@ namespace GameStore.Web.Controllers
             _gameService = service;
         }
 
-        //tested
         [HttpPost]
         public ActionResult NewGame(GameDTO newGame)
         {
@@ -28,7 +28,6 @@ namespace GameStore.Web.Controllers
             return Redirect("https://youtube.com");
         }
 
-        //tested
         [HttpPost]
         public ActionResult UpdateGame(GameDTO game)
         {
@@ -36,7 +35,6 @@ namespace GameStore.Web.Controllers
             return Redirect("https://youtube.com");
         }
 
-        //tested
         [HttpGet]
         public JsonResult ShowGame(string gameKey)
         {
@@ -44,7 +42,6 @@ namespace GameStore.Web.Controllers
             return Json(game, JsonRequestBehavior.AllowGet);
         }
 
-        //tested
         [HttpGet]
         public JsonResult ListAllGames()
         {
@@ -52,7 +49,6 @@ namespace GameStore.Web.Controllers
             return Json(games, JsonRequestBehavior.AllowGet);
         }
 
-        //tested
         [HttpPost]
         public ActionResult DeleteGame(int id)
         {

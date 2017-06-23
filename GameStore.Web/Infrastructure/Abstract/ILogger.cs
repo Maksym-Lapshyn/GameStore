@@ -8,10 +8,9 @@ namespace GameStore.Web.Infrastructure.Abstract
 {
     public interface ILogger
     {
-        void Debug(string message);
-
-        void Info(string message);
-
-        void Error(Exception x);
+        void LogEvent();
+        void LogIp();
+        void LogException(Exception exception);
+        void LogPerformance(string message);
     }
 }

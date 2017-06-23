@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using GameStore.Web.App_Start;
 using GameStore.Services.Infrastructure;
+using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web
 {
@@ -16,6 +17,7 @@ namespace GameStore.Web
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             AutoMapperConfig.RegisterMappings();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
         }
     }
 }

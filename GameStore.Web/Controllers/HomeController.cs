@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.Xml;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
-using Newtonsoft.Json;
+using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
@@ -26,6 +26,10 @@ namespace GameStore.Web.Controllers
             {
                 GameDTO game = new GameDTO() { Name = "Test game" };
                 _gameService.Create(game);
+            }
+            else
+            {
+                throw new NullReferenceException();
             }
 
             return HttpNotFound();

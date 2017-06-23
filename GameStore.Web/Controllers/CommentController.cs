@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
+using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
@@ -34,7 +35,6 @@ namespace GameStore.Web.Controllers
             return Redirect("https://youtube.com");
         }
 
-        //tested
         [HttpGet]
         public JsonResult ListAllComments(string gameKey)
         {

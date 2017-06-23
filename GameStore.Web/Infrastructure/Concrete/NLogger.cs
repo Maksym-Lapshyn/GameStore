@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using GameStore.Web.Infrastructure.Abstract;
-using GameStore.Web.Infrastructure.Util;
 using NLog;
 using ILogger = GameStore.Web.Infrastructure.Abstract.ILogger;
 
@@ -11,27 +10,37 @@ namespace GameStore.Web.Infrastructure.Concrete
 {
     public class NLogger : ILogger
     {
-        private static Logger _logger;
+        private Logger _ipLogger;
+        private Logger _eventLogger;
+        private Logger _exceptionLogger;
+        private Logger _performanceLogger;
 
         public NLogger()
         {
-            _logger = LogManager.GetCurrentClassLogger();
+            _ipLogger = LogManager.GetLogger("IpLogger");
+            _eventLogger = LogManager.GetLogger("EventLogger");
+            _exceptionLogger = LogManager.GetLogger("ExceptionLogger");
+            _performanceLogger = LogManager.GetLogger("PerformanceLogger");
         }
 
-        public void Debug(string message)
+        public void LogEvent()
         {
-            throw new NotImplementedException();
+            _eventLogger.Debug(string.Empty);
         }
 
-        public void Info(string message)
+        public void LogIp()
         {
-            throw new NotImplementedException();
+            _ipLogger.Info(string.Empty);
         }
 
-        public void Error(Exception ex)
+        public void LogException(Exception exception)
         {
-            string exceptionMessage = LogUtility.BuildException(ex);
-            _logger.Error(exceptionMessage);
+            _exceptionLogger.Error(exception);
+        }
+
+        public void LogPerformance(string message)
+        {
+            _performanceLogger.Debug(message);
         }
     }
 }
