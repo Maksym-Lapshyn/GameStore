@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 using GameStore.DAL.Abstract;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.DAL.Entities
 {
-    public class PlatformTypeDto : ISoftDeletable
+    public class PlatformType : ISoftDeletable
     {
         public int Id { get; set; }
         public string Type { get; set; }
-        [ScriptIgnore]
-        public virtual ICollection<GameDto> Games { get; set; }
+        public virtual ICollection<Game> Games { get; set; }
         public bool IsDeleted { get; set; }
 
-        public PlatformTypeDto()
+        public PlatformType()
         {
-            Games = new List<GameDto>();
+            Games = new List<Game>();
         }
     }
 }

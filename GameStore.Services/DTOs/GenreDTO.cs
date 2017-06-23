@@ -4,21 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {
-    public class GenreDTO
+    public class GenreDto : ISoftDeletable
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<GenreDTO> ChildGenres { get; set; }
+        public virtual ICollection<GenreDto> ChildGenres { get; set; }
         public bool IsDeleted { get; set; }
         [ScriptIgnore]
-        public virtual GenreDTO ParentGenre { get; set; }
+        public virtual GenreDto ParentGenre { get; set; }
 
-        public GenreDTO()
+        public GenreDto()
         {
-            ChildGenres = new List<GenreDTO>();
+            ChildGenres = new List<GenreDto>();
         }
     }
 }

@@ -34,8 +34,8 @@ namespace GameStore.Web.Infrastructure.Resolver
 
         private void AddBindings()
         {
-            _kernel.Bind<IGameService>().To<UOWGameService>();
-            _kernel.Bind<ICommentService>().To<UOWCommentService>();
+            _kernel.Bind<IGameService>().To<UowGameService>();
+            _kernel.Bind<ICommentService>().To<UowCommentService>();
             _kernel.Bind<ILogger>().To<NLogger>();
         }
     }

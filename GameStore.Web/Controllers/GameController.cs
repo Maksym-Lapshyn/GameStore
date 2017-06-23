@@ -22,14 +22,14 @@ namespace GameStore.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewGame(GameDTO newGame)
+        public ActionResult NewGame(GameDto newGame)
         {
             _gameService.Create(newGame);
             return Redirect("https://youtube.com");
         }
 
         [HttpPost]
-        public ActionResult UpdateGame(GameDTO game)
+        public ActionResult UpdateGame(GameDto game)
         {
             _gameService.Edit(game);
             return Redirect("https://youtube.com");
@@ -38,14 +38,14 @@ namespace GameStore.Web.Controllers
         [HttpGet]
         public JsonResult ShowGame(string gameKey)
         {
-            GameDTO game = _gameService.GetGameByKey(gameKey);
+            GameDto game = _gameService.GetGameByKey(gameKey);
             return Json(game, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult ListAllGames()
         {
-            IEnumerable<GameDTO> games = _gameService.GetAll();
+            IEnumerable<GameDto> games = _gameService.GetAll();
             return Json(games, JsonRequestBehavior.AllowGet);
         }
 

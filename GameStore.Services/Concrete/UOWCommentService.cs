@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using GameStore.Services.Infrastructure;
 using AutoMapper;
 using GameStore.DAL.Abstract;
-using GameStore.Domain.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
+using GameStore.DAL.Entities;
 
 namespace GameStore.Services.Concrete
 {
-    public class UOWCommentService : ICommentService
+    public class UowCommentService : ICommentService
     {
         private IUnitOfWork _unitOfWork;
 
-        public UOWCommentService(IUnitOfWork unitOfWork)
+        public UowCommentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public void Create(CommentDTO entity)
+        public void Create(CommentDto entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Edit(CommentDTO entity)
+        public void Edit(CommentDto entity)
         {
             throw new NotImplementedException();
         }
@@ -35,16 +35,16 @@ namespace GameStore.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public CommentDTO Get(int id)
+        public CommentDto Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CommentDTO> GetAll()
+        public IEnumerable<CommentDto> GetAll()
         {
             IEnumerable<Comment> comments = _unitOfWork.CommentRepository.Get();
-            var commentDTOs = Mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(comments);
-            return commentDTOs;
+            var commentDtos = AutoMapperFactory.CreateCommentDtos(comments);
+            return commentDtos;
         }
 
         public void Dispose()
@@ -52,27 +52,27 @@ namespace GameStore.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public void AddCommentToGame(CommentDTO newComment)
+        public void AddCommentToGame(CommentDto newComment)
         {
             Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == newComment.GameId);
-            Comment comment = Mapper.Map<CommentDTO, Comment>(newComment);
+            Comment comment = AutoMapperFactory.CreateComment(newComment);
             game.Comments.Add(comment);
             _unitOfWork.Save();
         }
 
-        public void AddCommentToComment(CommentDTO newComment)
+        public void AddCommentToComment(CommentDto newComment)
         {
             Comment oldComment = _unitOfWork.CommentRepository.GetById(newComment.ParentCommentId);
-            Comment comment = Mapper.Map<CommentDTO, Comment>(newComment);
+            Comment comment = AutoMapperFactory.CreateComment(newComment);
             oldComment.ChildComments.Add(comment);
             _unitOfWork.Save();
         }
 
-        public IEnumerable<CommentDTO> GetAllCommentsByGameKey(string key)
+        public IEnumerable<CommentDto> GetAllCommentsByGameKey(string key)
         {
             IEnumerable<Comment> comments = _unitOfWork.GameRepository.Get().First(g => g.Key.ToLower() == key.ToLower()).Comments;
-            IEnumerable<CommentDTO> commentDTOs = Mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(comments);
-            return commentDTOs;
+            IEnumerable<CommentDto> commentDtos = AutoMapperFactory.CreateCommentDtos(comments);
+            return commentDtos;
         }
     }
 }

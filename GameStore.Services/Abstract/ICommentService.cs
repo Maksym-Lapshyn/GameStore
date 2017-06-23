@@ -7,10 +7,10 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-    public interface ICommentService : IService<CommentDTO>
+    public interface ICommentService : IService<CommentDto>
     {
-        void AddCommentToGame(CommentDTO comment);
-        void AddCommentToComment(CommentDTO comment);
-        IEnumerable<CommentDTO> GetAllCommentsByGameKey(string key);
+        void AddCommentToGame(CommentDto comment);
+        void AddCommentToComment(CommentDto comment);
+        IEnumerable<CommentDto> GetAllCommentsByGameKey(string key);
     }
 }

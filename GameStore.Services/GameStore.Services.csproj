@@ -50,29 +50,25 @@
     <Compile Include="Abstract\ICommentService.cs" />
     <Compile Include="Abstract\IGameService.cs" />
     <Compile Include="Abstract\IService.cs" />
-    <Compile Include="Concrete\UOWCommentService.cs" />
-    <Compile Include="Concrete\UOWGameService.cs" />
-    <Compile Include="DTOs\CommentDTO.cs" />
-    <Compile Include="DTOs\GameDTO.cs" />
-    <Compile Include="DTOs\GenreDTO.cs" />
-    <Compile Include="DTOs\PlatformTypeDTO.cs" />
+    <Compile Include="Concrete\UowCommentService.cs" />
+    <Compile Include="Concrete\UowGameService.cs" />
+    <Compile Include="DTOs\CommentDto.cs" />
+    <Compile Include="DTOs\GameDto.cs" />
+    <Compile Include="DTOs\GenreDto.cs" />
+    <Compile Include="DTOs\PlatformTypeDto.cs" />
     <Compile Include="Infrastructure\AutoMapperConfig.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
       <Project>{8a3889e4-a9ba-486d-b5c4-3a3c3ee0e824}</Project>
       <Name>GameStore.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameStore.Domain\GameStore.Domain.csproj">
-      <Project>{ea5f7e87-6ea2-4094-8aff-e2ee7564fe6c}</Project>
-      <Name>GameStore.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

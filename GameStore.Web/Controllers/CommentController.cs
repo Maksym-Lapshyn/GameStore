@@ -21,7 +21,7 @@ namespace GameStore.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult NewComment(CommentDTO comment)
+        public ActionResult NewComment(CommentDto comment)
         {
             if (comment.ParentComment != null)
             {
@@ -38,7 +38,7 @@ namespace GameStore.Web.Controllers
         [HttpGet]
         public JsonResult ListAllComments(string gameKey)
         {
-            IEnumerable<CommentDTO> comments = _commentService.GetAllCommentsByGameKey(gameKey);
+            IEnumerable<CommentDto> comments = _commentService.GetAllCommentsByGameKey(gameKey);
             return Json(comments, JsonRequestBehavior.AllowGet);
         }
     }

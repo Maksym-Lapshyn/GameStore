@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Domain", "GameStore.Domain\GameStore.Domain.csproj", "{EA5F7E87-6EA2-4094-8AFF-E2EE7564FE6C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Services", "GameStore.Services\GameStore.Services.csproj", "{C5E410DD-69D9-4A8B-ACAB-1414BA91DCBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.DAL", "GameStore.DAL\GameStore.DAL.csproj", "{8A3889E4-A9BA-486D-B5C4-3A3C3EE0E824}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Web", "GameStore.Web\GameStore.Web.csproj", "{4DA12652-999E-4D2D-81B7-5BBFA1F0878B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Services.Tests", "GameStore.Services.Tests\GameStore.Services.Tests.csproj", "{E21D8A57-D2D5-418E-AF98-CF181775BD1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EA5F7E87-6EA2-4094-8AFF-E2EE7564FE6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA5F7E87-6EA2-4094-8AFF-E2EE7564FE6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA5F7E87-6EA2-4094-8AFF-E2EE7564FE6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA5F7E87-6EA2-4094-8AFF-E2EE7564FE6C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5E410DD-69D9-4A8B-ACAB-1414BA91DCBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5E410DD-69D9-4A8B-ACAB-1414BA91DCBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5E410DD-69D9-4A8B-ACAB-1414BA91DCBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{4DA12652-999E-4D2D-81B7-5BBFA1F0878B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DA12652-999E-4D2D-81B7-5BBFA1F0878B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DA12652-999E-4D2D-81B7-5BBFA1F0878B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E21D8A57-D2D5-418E-AF98-CF181775BD1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E21D8A57-D2D5-418E-AF98-CF181775BD1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E21D8A57-D2D5-418E-AF98-CF181775BD1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E21D8A57-D2D5-418E-AF98-CF181775BD1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

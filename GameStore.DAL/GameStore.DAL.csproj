@@ -50,18 +50,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IGenericRepository.cs" />
+    <Compile Include="Abstract\ISoftDeletable.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="Concrete\EfGenericRepository.cs" />
     <Compile Include="Concrete\EfUnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
+    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\Game.cs" />
+    <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\PlatformType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameStore.Domain\GameStore.Domain.csproj">
-      <Project>{ea5f7e87-6ea2-4094-8aff-e2ee7564fe6c}</Project>
-      <Name>GameStore.Domain</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameStore.Domain.Entities;
+using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Context
 {

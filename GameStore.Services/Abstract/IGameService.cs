@@ -7,10 +7,10 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-    public interface IGameService : IService<GameDTO>
+    public interface IGameService : IService<GameDto>
     {
-        IEnumerable<GameDTO> GetGamesByGenre(string genreName);
-        IEnumerable<GameDTO> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames);
-        GameDTO GetGameByKey(string key);
+        IEnumerable<GameDto> GetGamesByGenre(string genreName);
+        IEnumerable<GameDto> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames);
+        GameDto GetGameByKey(string key);
     }
 }

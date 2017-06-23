@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {
-    public class CommentDTO
+    public class CommentDto : ISoftDeletable
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,17 +16,17 @@ namespace GameStore.Services.DTOs
         [ScriptIgnore]
         public int? GameId { get; set; }
         [ScriptIgnore]
-        public virtual GameDTO Game { get; set; }
+        public virtual GameDto Game { get; set; }
         [ScriptIgnore]
         public int? ParentCommentId { get; set; }
         [ScriptIgnore]
-        public virtual CommentDTO ParentComment { get; set; }
-        public virtual ICollection<CommentDTO> ChildComments { get; set; }
+        public virtual CommentDto ParentComment { get; set; }
+        public virtual ICollection<CommentDto> ChildComments { get; set; }
         public bool IsDeleted { get; set; }
 
-        public CommentDTO()
+        public CommentDto()
         {
-            ChildComments = new List<CommentDTO>();
+            ChildComments = new List<CommentDto>();
         }
     }
 }

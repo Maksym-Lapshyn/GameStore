@@ -24,7 +24,7 @@ namespace GameStore.Web.Controllers
         {
             if (_gameService.GetAll().Count() == 0)
             {
-                GameDTO game = new GameDTO() { Name = "Test game" };
+                GameDto game = new GameDto() { Name = "Test game" };
                 _gameService.Create(game);
             }
             else

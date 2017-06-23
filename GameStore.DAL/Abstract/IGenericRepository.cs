@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using GameStore.Domain.Abstract;
+using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Abstract
 {

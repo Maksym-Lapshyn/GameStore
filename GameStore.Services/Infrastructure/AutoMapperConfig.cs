@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.Services.DTOs;
-using GameStore.Domain.Entities;
+using GameStore.DAL.Entities;
 
 namespace GameStore.Services.Infrastructure
 {
@@ -13,17 +13,17 @@ namespace GameStore.Services.Infrastructure
     {
         public static void RegisterMappings()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<GameDTO, Game>());
-            Mapper.Initialize(cfg => cfg.CreateMap<Game, GameDTO>());
+            Mapper.Initialize(cfg => cfg.CreateMap<GameDto, Game>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Game, GameDto>());
 
-            Mapper.Initialize(cfg => cfg.CreateMap<CommentDTO, Comment>());
-            Mapper.Initialize(cfg => cfg.CreateMap<Comment, CommentDTO>());
+            Mapper.Initialize(cfg => cfg.CreateMap<CommentDto, Comment>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Comment, CommentDto>());
 
-            Mapper.Initialize(cfg => cfg.CreateMap<PlatformTypeDTO, PlatformType>());
-            Mapper.Initialize(cfg => cfg.CreateMap<PlatformType, PlatformTypeDTO>());
+            Mapper.Initialize(cfg => cfg.CreateMap<PlatformTypeDto, PlatformType>());
+            Mapper.Initialize(cfg => cfg.CreateMap<PlatformType, PlatformTypeDto>());
 
-            Mapper.Initialize(cfg => cfg.CreateMap<GenreDTO, Genre>());
-            Mapper.Initialize(cfg => cfg.CreateMap<Genre, GenreDTO>());
+            Mapper.Initialize(cfg => cfg.CreateMap<GenreDto, Genre>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Genre, GenreDto>());
 
             Mapper.Initialize(cfg => cfg.CreateMissingTypeMaps = true);
 

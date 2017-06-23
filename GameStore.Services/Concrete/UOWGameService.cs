@@ -3,27 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using GameStore.Services.Infrastructure;
 using GameStore.DAL.Abstract;
-using GameStore.Domain.Entities;
+using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using AutoMapper;
 
 namespace GameStore.Services.Concrete
 {
-    public class UOWGameService : IGameService
+    public class UowGameService : IGameService
     {
         private IUnitOfWork _unitOfWork;
 
-        public UOWGameService(IUnitOfWork unitOfWork)
+        public UowGameService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public void Create(GameDTO gameDTO)
+        public void Create(GameDto gameDTO)
         {
-            Game game = Mapper.Map<GameDTO, Game>(gameDTO);
+            Game game = AutoMapperFactory.CreateGame(gameDTO);
             if (_unitOfWork.GameRepository.Get().All(g => g.Name != game.Name))
             {
                 _unitOfWork.GameRepository.Insert(game);
@@ -35,7 +35,7 @@ namespace GameStore.Services.Concrete
             }
         }
 
-        public void Edit(GameDTO newGame)
+        public void Edit(GameDto newGame)
         {
             Game oldGame = _unitOfWork.GameRepository.GetById(newGame.Id);
             if (oldGame != null)
@@ -64,47 +64,47 @@ namespace GameStore.Services.Concrete
             }
         }
 
-        public GameDTO Get(int id)
+        public GameDto Get(int id)
         {
             Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
             if (game != null)
             {
-                GameDTO gameDTO = Mapper.Map<Game, GameDTO>(game);
+                GameDto gameDTO = AutoMapperFactory.CreateGameDto(game);
                 return gameDTO;
             }
 
             throw new ArgumentException("There is no game with such id");
         }
 
-        public GameDTO GetGameByKey(string key)
+        public GameDto GetGameByKey(string key)
         {
             Game game = _unitOfWork.GameRepository.Get().First(g => g.Key.ToLower() == key.ToLower());
             if (game != null)
             {
-                GameDTO gameDTO = Mapper.Map<Game, GameDTO>(game);
+                GameDto gameDTO = AutoMapperFactory.CreateGameDto(game);
                 return gameDTO;
             }
 
             throw new ArgumentException("There is no game with such key");
         }
 
-        public IEnumerable<GameDTO> GetAll()
+        public IEnumerable<GameDto> GetAll()
         {
             IEnumerable<Game> games = _unitOfWork.GameRepository.Get();
-            var gameDTOs = Mapper.Map<IEnumerable<Game>, List<GameDTO>>(games);
+            var gameDTOs = AutoMapperFactory.CreateGameDtos(games);
             return gameDTOs;
         }
 
         
 
-        public IEnumerable<GameDTO> GetGamesByGenre(string genreName)
+        public IEnumerable<GameDto> GetGamesByGenre(string genreName)
         {
             IEnumerable<Game> games =  _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(genre => genre.Name == genreName));
-            IEnumerable<GameDTO> gameDTOs = Mapper.Map<IEnumerable<Game>, List<GameDTO>>(games);
+            IEnumerable<GameDto> gameDTOs = AutoMapperFactory.CreateGameDtos(games);
             return gameDTOs;
         }
 
-        public IEnumerable<GameDTO> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames)
+        public IEnumerable<GameDto> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames)
         {
             IEnumerable<Game> allGames = _unitOfWork.GameRepository.Get();
             List<Game> matchedGames = new List<Game>();
@@ -119,7 +119,7 @@ namespace GameStore.Services.Concrete
                 }
             }
 
-            IEnumerable<GameDTO> gameDTOs = Mapper.Map<IEnumerable<Game>, List<GameDTO>>(matchedGames);
+            IEnumerable<GameDto> gameDTOs = Mapper.Map<IEnumerable<Game>, List<GameDto>>(matchedGames);
             return gameDTOs;
         }
     }

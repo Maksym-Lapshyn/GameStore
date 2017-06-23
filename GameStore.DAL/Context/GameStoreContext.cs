@@ -1,10 +1,10 @@
+using GameStore.DAL.Entities;
+using System;
+using System.Data.Entity;
+using System.Linq;
+
 namespace GameStore.DAL.Context
 {
-    using System;
-    using System.Data.Entity;
-    using System.Linq;
-    using GameStore.Domain.Entities;
-
     public class GameStoreContext : DbContext
     {
         public GameStoreContext(string connectionString)
