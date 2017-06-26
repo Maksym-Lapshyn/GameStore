@@ -11,7 +11,7 @@ using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
-    //[OutputCache(Duration = 60, VaryByHeader = "get;post")]
+    [OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class GameController : Controller
     {
         private IGameService _gameService;
@@ -54,10 +54,11 @@ namespace GameStore.Web.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        public FileResult DownloadGame()
+        public FileResult DownloadGame(string gameKey)
         {
-            return null;
+            string path = Server.MapPath("~/file.pdf");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            return new FileContentResult(fileBytes, "application/pdf");
         }
-
     }
 }

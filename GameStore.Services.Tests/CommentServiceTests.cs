@@ -46,7 +46,7 @@ namespace GameStore.Services.Tests
         }
 
         [TestMethod]
-        public void GetAll_ThreeComments_ReturnsAllComments()
+        public void GetAll_Nothing_ReturnsAllComments()
         {
             List<CommentDto> result = _target.GetAll().ToList();
             Assert.IsTrue(result.Count == 3);
@@ -67,7 +67,7 @@ namespace GameStore.Services.Tests
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void AddCommentToGame_NonExistingGame_ThrowsArgumentException()
+        public void AddCommentToGame_CommentDtoWithNonExistingGame_ThrowsArgumentException()
         {
             _target.AddCommentToGame(new CommentDto()
             {
@@ -93,7 +93,7 @@ namespace GameStore.Services.Tests
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void AddCommentToComment_NonExistingParentComment_ThrowsArgumentException()
+        public void AddCommentToComment_CommentDtoWithNonExistingParentComment_ThrowsArgumentException()
         {
             _target.AddCommentToComment(new CommentDto()
             {

@@ -10,7 +10,7 @@ using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
-    //[OutputCache(Duration = 60, VaryByHeader = "get;post")]
+    [OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class CommentController : Controller
     {
         private ICommentService _commentService;
