@@ -8,7 +8,7 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {
-    public class PlatformTypeDto : ISoftDeletable
+    public class PlatformTypeDto
     {
         public int Id { get; set; }
         public string Type { get; set; }

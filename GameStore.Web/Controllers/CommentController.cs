@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GameStore.Services.DTOs;
@@ -23,7 +24,7 @@ namespace GameStore.Web.Controllers
         [HttpPost]
         public ActionResult NewComment(CommentDto comment)
         {
-            if (comment.ParentComment != null)
+            if (comment.ParentCommentId != null)
             {
                 _commentService.AddCommentToComment(comment);
             }
@@ -32,10 +33,9 @@ namespace GameStore.Web.Controllers
                 _commentService.AddCommentToGame(comment);
             }
 
-            return Redirect("https://youtube.com");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        [HttpGet]
         public JsonResult ListAllComments(string gameKey)
         {
             IEnumerable<CommentDto> comments = _commentService.GetAllCommentsByGameKey(gameKey);

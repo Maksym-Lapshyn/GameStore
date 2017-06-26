@@ -22,27 +22,25 @@ namespace GameStore.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewGame(GameDto newGame)
+        public ActionResult NewGame(GameDto game)
         {
-            _gameService.Create(newGame);
-            return Redirect("https://youtube.com");
+            _gameService.Create(game);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpPost]
         public ActionResult UpdateGame(GameDto game)
         {
             _gameService.Edit(game);
-            return Redirect("https://youtube.com");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        [HttpGet]
         public JsonResult ShowGame(string gameKey)
         {
             GameDto game = _gameService.GetGameByKey(gameKey);
             return Json(game, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
         public JsonResult ListAllGames()
         {
             IEnumerable<GameDto> games = _gameService.GetAll();
@@ -53,10 +51,9 @@ namespace GameStore.Web.Controllers
         public ActionResult DeleteGame(int id)
         {
             _gameService.Delete(id);
-            return Redirect("https://youtube.com");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        [HttpGet]
         public FileResult DownloadGame()
         {
             return null;

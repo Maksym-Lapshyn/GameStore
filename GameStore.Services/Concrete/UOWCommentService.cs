@@ -43,7 +43,7 @@ namespace GameStore.Services.Concrete
         public IEnumerable<CommentDto> GetAll()
         {
             IEnumerable<Comment> comments = _unitOfWork.CommentRepository.Get();
-            var commentDtos = AutoMapperFactory.CreateCommentDtos(comments);
+            IEnumerable<CommentDto> commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
             return commentDtos;
         }
 
@@ -54,25 +54,57 @@ namespace GameStore.Services.Concrete
 
         public void AddCommentToGame(CommentDto newComment)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == newComment.GameId);
-            Comment comment = AutoMapperFactory.CreateComment(newComment);
-            game.Comments.Add(comment);
-            _unitOfWork.Save();
+            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == newComment.GameId);
+            if (game != null)
+            {
+                Comment comment = Mapper.Map<CommentDto, Comment>(newComment);
+                comment.Game = game;
+                _unitOfWork.CommentRepository.Insert(comment);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                throw new ArgumentException("There is no existing game for adding this comment");
+            }
         }
 
         public void AddCommentToComment(CommentDto newComment)
         {
-            Comment oldComment = _unitOfWork.CommentRepository.GetById(newComment.ParentCommentId);
-            Comment comment = AutoMapperFactory.CreateComment(newComment);
-            oldComment.ChildComments.Add(comment);
-            _unitOfWork.Save();
+            Comment oldComment =
+                _unitOfWork.CommentRepository.Get().FirstOrDefault(c => c.Id == newComment.ParentCommentId);
+            if (oldComment != null)
+            {
+                Comment comment = Mapper.Map<CommentDto, Comment>(newComment);
+                comment.ParentComment = oldComment;
+                _unitOfWork.CommentRepository.Insert(comment);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                throw new ArgumentException("There is no existing comment for adding a new one");
+            }
         }
 
         public IEnumerable<CommentDto> GetAllCommentsByGameKey(string key)
         {
-            IEnumerable<Comment> comments = _unitOfWork.GameRepository.Get().First(g => g.Key.ToLower() == key.ToLower()).Comments;
-            IEnumerable<CommentDto> commentDtos = AutoMapperFactory.CreateCommentDtos(comments);
-            return commentDtos;
+            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Key.ToLower() == key.ToLower());
+            if (game != null)
+            {
+                IEnumerable<Comment> comments = game.Comments;
+                if (comments != null)
+                {
+                    IEnumerable<CommentDto> commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+                    return commentDtos;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("There is no game with such key");
+            }
         }
     }
 }

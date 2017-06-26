@@ -21,10 +21,10 @@ namespace GameStore.Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        public void Create(GameDto gameDTO)
+        public void Create(GameDto gameDto)
         {
-            Game game = AutoMapperFactory.CreateGame(gameDTO);
-            if (_unitOfWork.GameRepository.Get().All(g => g.Name != game.Name))
+            Game game = Mapper.Map<GameDto, Game>(gameDto);
+            if (_unitOfWork.GameRepository.Get().All(g => g.Key != game.Key))
             {
                 _unitOfWork.GameRepository.Insert(game);
                 _unitOfWork.Save();
@@ -35,13 +35,13 @@ namespace GameStore.Services.Concrete
             }
         }
 
-        public void Edit(GameDto newGame)
+        public void Edit(GameDto gameDto)
         {
-            Game oldGame = _unitOfWork.GameRepository.GetById(newGame.Id);
-            if (oldGame != null)
+            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == gameDto.Id);
+            if (game != null)
             {
-                oldGame = Mapper.Map(newGame, oldGame);
-                _unitOfWork.GameRepository.Update(oldGame);
+                game = Mapper.Map(gameDto, game);
+                _unitOfWork.GameRepository.Update(game);
                 _unitOfWork.Save();
             }
             else
@@ -66,11 +66,11 @@ namespace GameStore.Services.Concrete
 
         public GameDto Get(int id)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
+            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == id);
             if (game != null)
             {
-                GameDto gameDTO = AutoMapperFactory.CreateGameDto(game);
-                return gameDTO;
+                GameDto gameDto = Mapper.Map<Game, GameDto>(game);
+                return gameDto;
             }
 
             throw new ArgumentException("There is no game with such id");
@@ -78,11 +78,11 @@ namespace GameStore.Services.Concrete
 
         public GameDto GetGameByKey(string key)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => g.Key.ToLower() == key.ToLower());
+            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Key.ToLower() == key.ToLower());
             if (game != null)
             {
-                GameDto gameDTO = AutoMapperFactory.CreateGameDto(game);
-                return gameDTO;
+                GameDto gameDto = Mapper.Map<Game, GameDto>(game);
+                return gameDto;
             }
 
             throw new ArgumentException("There is no game with such key");
@@ -91,17 +91,17 @@ namespace GameStore.Services.Concrete
         public IEnumerable<GameDto> GetAll()
         {
             IEnumerable<Game> games = _unitOfWork.GameRepository.Get();
-            var gameDTOs = AutoMapperFactory.CreateGameDtos(games);
-            return gameDTOs;
+            IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+            return gameDtOs;
         }
 
-        
+
 
         public IEnumerable<GameDto> GetGamesByGenre(string genreName)
         {
-            IEnumerable<Game> games =  _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(genre => genre.Name == genreName));
-            IEnumerable<GameDto> gameDTOs = AutoMapperFactory.CreateGameDtos(games);
-            return gameDTOs;
+            IEnumerable<Game> games = _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(genre => genre.Name == genreName));
+            IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+            return gameDtOs;
         }
 
         public IEnumerable<GameDto> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames)
@@ -119,8 +119,8 @@ namespace GameStore.Services.Concrete
                 }
             }
 
-            IEnumerable<GameDto> gameDTOs = Mapper.Map<IEnumerable<Game>, List<GameDto>>(matchedGames);
-            return gameDTOs;
+            IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, List<GameDto>>(matchedGames);
+            return gameDtOs;
         }
     }
 }

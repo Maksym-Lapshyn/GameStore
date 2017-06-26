@@ -7,7 +7,7 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {
-    public class GameDto : ISoftDeletable
+    public class GameDto
     {
         public int Id { get; set; }
         public string Key { get; set; }
