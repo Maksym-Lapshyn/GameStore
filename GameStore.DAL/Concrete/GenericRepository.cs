@@ -1,22 +1,19 @@
-﻿using System;
+﻿using GameStore.DAL.Abstract;
+using GameStore.DAL.Context;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.DAL.Abstract;
-using GameStore.DAL.Context;
 
 namespace GameStore.DAL.Concrete
 {
-    public class EFGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, ISoftDeletable
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, ISoftDeletable
     {
-        private GameStoreContext _context;
-        private DbSet<TEntity> _dbSet;
+        private readonly GameStoreContext _context;
+        private readonly DbSet<TEntity> _dbSet;
 
-        public EFGenericRepository(GameStoreContext context)
+        public GenericRepository(GameStoreContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();

@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Context;
 
 namespace GameStore.DAL.Concrete
 {
-    public class EfUnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
-        private GameStoreContext _context;
+        private readonly GameStoreContext _context;
 
         private IGenericRepository<Game> _gameRepository;
         private IGenericRepository<Comment> _commentRepository;
 
-        public EfUnitOfWork(string connectionString)
+        public UnitOfWork(string connectionString)
         {
             _context = new GameStoreContext(connectionString);
         }
@@ -27,7 +23,7 @@ namespace GameStore.DAL.Concrete
             {
                 if (_gameRepository == null)
                 {
-                    _gameRepository = new EFGenericRepository<Game>(_context);
+                    _gameRepository = new GenericRepository<Game>(_context);
                 }
 
                 return _gameRepository;
@@ -40,7 +36,7 @@ namespace GameStore.DAL.Concrete
             {
                 if (_commentRepository == null)
                 {
-                    _commentRepository = new EFGenericRepository<Comment>(_context);
+                    _commentRepository = new GenericRepository<Comment>(_context);
                 }
 
                 return _commentRepository;

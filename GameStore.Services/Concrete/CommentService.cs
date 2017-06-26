@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using GameStore.Services.Infrastructure;
 using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.Services.Abstract;
@@ -11,11 +9,11 @@ using GameStore.DAL.Entities;
 
 namespace GameStore.Services.Concrete
 {
-    public class UowCommentService : ICommentService
+    public class CommentService : ICommentService
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UowCommentService(IUnitOfWork unitOfWork)
+        public CommentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -45,11 +43,6 @@ namespace GameStore.Services.Concrete
             IEnumerable<Comment> comments = _unitOfWork.CommentRepository.Get();
             IEnumerable<CommentDto> commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
             return commentDtos;
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public void AddCommentToGame(CommentDto newComment)

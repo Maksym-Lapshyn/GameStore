@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using GameStore.Web.Infrastructure.Abstract;
-using System.Diagnostics;
 
 namespace GameStore.Web.Infrastructure.Attributes
 {
-    public class LogPerformanceAttribute : ActionFilterAttribute
+    public class LogEventsAndPerformanceAttribute : ActionFilterAttribute
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
         private int _startTime;
 
-        public LogPerformanceAttribute()
+        public LogEventsAndPerformanceAttribute()
         {
             _logger = (ILogger)DependencyResolver.Current.GetService(typeof(ILogger));
         }
@@ -27,7 +23,7 @@ namespace GameStore.Web.Infrastructure.Attributes
         {
             int endTime = DateTime.UtcNow.Millisecond;
             string message = (endTime - _startTime).ToString();
-            _logger.LogPerformance(message);
+            _logger.LogEventsAndPerformance(message);
         }
     }
 }

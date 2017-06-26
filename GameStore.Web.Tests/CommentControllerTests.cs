@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -12,8 +11,8 @@ namespace GameStore.Web.Tests
     [TestClass]
     public class CommentControllerTests
     {
-        private Mock<ICommentService> _mockOfCommentService;
-        private CommentController _target;
+        private readonly Mock<ICommentService> _mockOfCommentService;
+        private readonly CommentController _target;
 
         public CommentControllerTests()
         {

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Web.Script.Serialization;
-using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {

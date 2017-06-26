@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
-using System.IO;
-using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
     [OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class GameController : Controller
     {
-        private IGameService _gameService;
+        private readonly IGameService _gameService;
 
         public GameController(IGameService service)
         {

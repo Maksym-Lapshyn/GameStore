@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Ninject;
 using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Web.Infrastructure.Abstract;
 using GameStore.Web.Infrastructure.Concrete;
-using Ninject.Web.Common;
 
 namespace GameStore.Web.Infrastructure.Resolver
 {
     public class NinjectDependencyResolver : IDependencyResolver
     {
-        private IKernel _kernel;
+        private readonly IKernel _kernel;
 
         public NinjectDependencyResolver(IKernel kernel)
         {
@@ -34,8 +31,8 @@ namespace GameStore.Web.Infrastructure.Resolver
 
         private void AddBindings()
         {
-            _kernel.Bind<IGameService>().To<UowGameService>();
-            _kernel.Bind<ICommentService>().To<UowCommentService>();
+            _kernel.Bind<IGameService>().To<GameService>();
+            _kernel.Bind<ICommentService>().To<CommentService>();
             _kernel.Bind<ILogger>().To<NLogger>();
         }
     }

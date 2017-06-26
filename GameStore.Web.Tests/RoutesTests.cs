@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Moq.Protected;
 
 namespace GameStore.Web.Tests
 {

@@ -126,10 +126,9 @@
     </Compile>
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
     <Compile Include="Infrastructure\Concrete\NLogger.cs" />
-    <Compile Include="Infrastructure\Attributes\LogEventAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\LogEventsAndPerformanceAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\LogExceptionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\LogIpAttribute.cs" />
-    <Compile Include="Infrastructure\Attributes\LogPerformanceAttribute.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

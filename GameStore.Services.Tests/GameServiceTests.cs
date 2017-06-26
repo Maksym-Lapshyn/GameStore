@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
@@ -15,8 +14,8 @@ namespace GameStore.Services.Tests
     [TestClass]
     public class GameServiceTests
     {
-        private Mock<IUnitOfWork> _mockOfUow;
-        private UowGameService _target;
+        private readonly Mock<IUnitOfWork> _mockOfUow;
+        private readonly GameService _target;
         public GameServiceTests()
         {
             AutoMapperConfig.RegisterMappings();
@@ -31,7 +30,7 @@ namespace GameStore.Services.Tests
                     new Game() {Id = 3, Name = "Diablo", Key = "Diabloiii",
                         Genres = new List<Genre>{new Genre(){Name = "RPG"}}}
                 });
-            _target = new UowGameService(_mockOfUow.Object);
+            _target = new GameService(_mockOfUow.Object);
         }
 
         [TestMethod]

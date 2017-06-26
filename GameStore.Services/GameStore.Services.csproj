@@ -50,8 +50,8 @@
     <Compile Include="Abstract\ICommentService.cs" />
     <Compile Include="Abstract\IGameService.cs" />
     <Compile Include="Abstract\IService.cs" />
-    <Compile Include="Concrete\UowCommentService.cs" />
-    <Compile Include="Concrete\UowGameService.cs" />
+    <Compile Include="Concrete\CommentService.cs" />
+    <Compile Include="Concrete\GameService.cs" />
     <Compile Include="DTOs\CommentDto.cs" />
     <Compile Include="DTOs\GameDto.cs" />
     <Compile Include="DTOs\GenreDto.cs" />

@@ -4,8 +4,6 @@ using System.Linq;
 using GameStore.DAL.Abstract;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using GameStore.Services.Abstract;
-using AutoMapper;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.DTOs;
@@ -16,14 +14,14 @@ namespace GameStore.Services.Tests
     [TestClass]
     public class CommentServiceTests
     {
-        private Mock<IUnitOfWork> _mockOfUow;
-        private UowCommentService _target;
+        private readonly Mock<IUnitOfWork> _mockOfUow;
+        private readonly CommentService _target;
 
         public CommentServiceTests()
         {
             AutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
-            _target = new UowCommentService(_mockOfUow.Object);
+            _target = new CommentService(_mockOfUow.Object);
 
             _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(
                 new List<Comment>()

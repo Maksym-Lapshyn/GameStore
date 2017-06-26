@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Controllers;
@@ -11,8 +10,8 @@ namespace GameStore.Web.Tests
     [TestClass]
     public class GameControllerTests
     {
-        private Mock<IGameService> _mockOfGameService;
-        private GameController _target;
+        private readonly Mock<IGameService> _mockOfGameService;
+        private readonly GameController _target;
 
         public GameControllerTests()
         {

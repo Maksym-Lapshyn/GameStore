@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using GameStore.Services.Infrastructure;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
@@ -12,11 +10,11 @@ using AutoMapper;
 
 namespace GameStore.Services.Concrete
 {
-    public class UowGameService : IGameService
+    public class GameService : IGameService
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UowGameService(IUnitOfWork unitOfWork)
+        public GameService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -94,8 +92,6 @@ namespace GameStore.Services.Concrete
             IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
             return gameDtOs;
         }
-
-
 
         public IEnumerable<GameDto> GetGamesByGenre(string genreName)
         {

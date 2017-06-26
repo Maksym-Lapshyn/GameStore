@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
-using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IGameService _gameService;
+        private readonly IGameService _gameService;
 
         public HomeController(IGameService service)
         {
@@ -23,7 +17,7 @@ namespace GameStore.Web.Controllers
 
         public ActionResult Index()
         {
-            if (_gameService.GetAll().Count() == 0)
+            if (!_gameService.GetAll().Any())
             {
                 GameDto game = new GameDto() { Name = "Test game" };
                 _gameService.Create(game);

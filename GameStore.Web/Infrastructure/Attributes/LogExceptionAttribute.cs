@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using GameStore.Web.Infrastructure.Abstract;
 
 namespace GameStore.Web.Infrastructure.Attributes
 {
     public class LogExceptionAttribute : HandleErrorAttribute
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public LogExceptionAttribute()
         {
