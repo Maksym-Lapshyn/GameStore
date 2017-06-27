@@ -19,11 +19,10 @@ namespace GameStore.Web.Tests
         public CommentControllerTests()
         {
             _mockOfCommentService = new Mock<ICommentService>();
-			//TODO: Required: remove '()' below
-			_mockOfCommentService.Setup(m => m.GetAllCommentsByGameKey("COD123")).Returns(new List<CommentDto>()
+			_mockOfCommentService.Setup(m => m.GetBy("COD123")).Returns(new List<CommentDto>
             {
-                new CommentDto() {Name = "Elma", Body = "Wow, it is amazing"},
-                new CommentDto() {Name = "Supra", Body = "This game is so so"}
+                new CommentDto {Name = "Elma", Body = "Wow, it is amazing"},
+                new CommentDto {Name = "Supra", Body = "This game is so so"}
             });
             _target = new CommentController(_mockOfCommentService.Object);
         }
@@ -31,15 +30,15 @@ namespace GameStore.Web.Tests
         [TestMethod]
         public void NewComment_CommentWithParentCommentId_AddsCommentToComment()
         {
-            ActionResult result = _target.NewComment(new CommentDto() {ParentCommentId = 1, Name = "Jill", Body = "You know nothing!"}); // TODO: Required: remove useless variable
-			_mockOfCommentService.Verify(m => m.AddCommentToComment(It.IsAny<CommentDto>()), Times.Once);
+            ActionResult result = _target.NewComment(new CommentDto());
+			_mockOfCommentService.Verify(m => m.Add(It.IsAny<CommentDto>()), Times.Once);
         }
 
         [TestMethod]
         public void NewComment_CommentWithoutParentCommentId_AddsCommentToGame()
         {
-            ActionResult result = _target.NewComment(new CommentDto() { Name = "Jill", Body = "You know nothing!" }); // TODO: Required: remove useless variable
-			_mockOfCommentService.Verify(m => m.AddCommentToGame(It.IsAny<CommentDto>()), Times.Once);
+            ActionResult result = _target.NewComment(new CommentDto());
+			_mockOfCommentService.Verify(m => m.Add(It.IsAny<CommentDto>()), Times.Once);
         }
 
         [TestMethod]

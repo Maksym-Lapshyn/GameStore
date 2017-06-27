@@ -14,7 +14,7 @@ namespace GameStore.Web.Infrastructure.Resolver
 {
     public class NinjectDependencyResolver : IDependencyResolver
     {
-		//TODO: Consider: make fields readonly
+		//TODO: Consider: make fields readonly Fixed in ML_2
 		private IKernel _kernel;
 
         public NinjectDependencyResolver(IKernel kernel)

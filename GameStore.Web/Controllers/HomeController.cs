@@ -14,7 +14,7 @@ namespace GameStore.Web.Controllers
 {
     public class HomeController : Controller
     {
-		//TODO: Consider: make fields readonly
+		//TODO: Consider: make fields readonly Fixed in ML_2
 		private IGameService _gameService;
 
         public HomeController(IGameService service)
@@ -24,9 +24,9 @@ namespace GameStore.Web.Controllers
 
         public ActionResult Index()
         {
-            if (_gameService.GetAll().Count() == 0) //TODO: Consider: simplify LINQ
+            if (!_gameService.GetAll().Any())
 			{
-                GameDto game = new GameDto() { Name = "Test game" }; //TODO: Consider: remove '()'
+                GameDto game = new GameDto { Name = "Test game" };
 				_gameService.Create(game);
             }
 

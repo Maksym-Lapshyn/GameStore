@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Context;
+using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Concrete
 {
-	//TODO: Required: Remove 'Ef' prefix
-	//TODO: Consider: Remove 'class' restriction
-    public class EFGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, ISoftDeletable
+    //TODO: Required: Remove 'Ef' prefix Fixed in ML_2
+    public class EFGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-		//TODO: Consider: make fields readonly
+        //TODO: Consider: make fields readonly Fixed in ML_2
         private GameStoreContext _context;
         private DbSet<TEntity> _dbSet;
 
@@ -29,35 +29,17 @@ namespace GameStore.DAL.Concrete
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
             IQueryable<TEntity> query = _dbSet;
+            query = filter != null ? query.Where(filter) : query;
+            query = orderBy != null ? orderBy(query) : query;
 
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-            if (orderBy != null)// TODO: Consider: Use ternary operator
-			{
-                return orderBy(query).ToList();
-            }
-            else
-            {
-                return query.ToList();
-            }
-
+            return query.ToList();
         }
 
-		//TODO: Required: Use First() instead of Find(), null check and exception throw
-		//TODO: Consider: make parameter not nullable
-		public TEntity GetById(int? id)
+		public TEntity GetById(int id)
         {
-            TEntity entity = _dbSet.Find(id);
-            if (entity != null)
-            {
-                return _dbSet.Find(id);
-            }
-            else //TODO: Required: Remove redundant 'else'
-            {
-                throw new ArgumentNullException("There is no such entity");
-            }
+            TEntity entity = _dbSet.First(e => e.Id == id);
+
+            return entity;
         }
 
         public void Insert(TEntity entity)
@@ -65,27 +47,14 @@ namespace GameStore.DAL.Concrete
             _dbSet.Add(entity);
         }
 
-		//TODO: Required: Use First() instead of Find(), null check and exception throw
 		public void Delete(int id)
-        {
-            TEntity entityToRemove = _dbSet.Find(id);
-            if (entityToRemove != null)
-            {
-                entityToRemove.IsDeleted = true;
-            }
-            else
-            {
-                throw new ArgumentNullException("There is no such entity");
-            }
+		{
+		    TEntity entityToRemove = _dbSet.First(e => e.Id == id);
+		    entityToRemove.IsDeleted = true;
         }
 
         public void Update(TEntity entityToUpdate)
         {
-            if (entityToUpdate == null)
-            {
-                throw new ArgumentNullException("Entity is null");
-            }
-
             _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
     }

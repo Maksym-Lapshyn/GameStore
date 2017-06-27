@@ -13,33 +13,24 @@ namespace GameStore.Web.Controllers
     [OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class CommentController : Controller
     {
-		//TODO: Consider: make fields readonly
+		//TODO: Consider: make fields readonly Fixed in ML_2
 		private ICommentService _commentService;
 
         public CommentController(ICommentService service)
         {
             _commentService = service;
         }
-		//TODO: Required: remove blank line
 
 		[HttpPost]
         public ActionResult NewComment(CommentDto comment)
         {
-            if (comment.ParentCommentId != null)
-            {
-                _commentService.AddCommentToComment(comment);
-            }
-            else
-            {
-                _commentService.AddCommentToGame(comment);
-            }
-
+            _commentService.Add(comment);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         public JsonResult ListAllComments(string gameKey)
         {
-            IEnumerable<CommentDto> comments = _commentService.GetAllCommentsByGameKey(gameKey);
+            IEnumerable<CommentDto> comments = _commentService.GetBy(gameKey);
             return Json(comments, JsonRequestBehavior.AllowGet);
         }
     }

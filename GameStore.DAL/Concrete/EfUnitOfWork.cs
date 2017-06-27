@@ -9,11 +9,11 @@ using GameStore.DAL.Context;
 
 namespace GameStore.DAL.Concrete
 {
-	//TODO: Required: Remove 'Ef' prefix
-	public class EfUnitOfWork : IUnitOfWork
+    //TODO: Required: Remove 'Ef' prefix Fixed in ML_2
+    public class EfUnitOfWork : IUnitOfWork
     {
-		//TODO: Consider: make fields readonly
-		private GameStoreContext _context;
+        //TODO: Consider: make fields readonly Fixed in ML_2
+        private GameStoreContext _context;
 
         private IGenericRepository<Game> _gameRepository;
         private IGenericRepository<Comment> _commentRepository;
@@ -26,36 +26,20 @@ namespace GameStore.DAL.Concrete
 		//TODO: Suggestion: Use Lazy<T> in getter
 		public IGenericRepository<Game> GameRepository
         {
-            get
-            {
-                if (_gameRepository == null) //TODO: Required: Convert to ?? expression
-                {
-                    _gameRepository = new EFGenericRepository<Game>(_context);
-                }
-
-                return _gameRepository;
-            }
+            get { return _gameRepository ?? (_gameRepository = new EFGenericRepository<Game>(_context)); }
         }
 
 		//TODO: Suggestion: Use Lazy<T> in getter
 		public IGenericRepository<Comment> CommentRepository
         {
-            get
-            {
-                if (_commentRepository == null) //TODO: Required: Convert to ?? expression
-				{
-                    _commentRepository = new EFGenericRepository<Comment>(_context);
-                }
-
-                return _commentRepository;
-            }
+            get { return _commentRepository ?? (_commentRepository = new EFGenericRepository<Comment>(_context)); }
         }
 
         public void Save()
         {
             _context.SaveChanges();
         }
-		//TODO: Required: Remove all code bleow
+
         private bool _disposed = false;
 
         protected virtual void Dispose(bool disposing)

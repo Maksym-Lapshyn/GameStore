@@ -6,15 +6,20 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using GameStore.DAL.Abstract;
+using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Abstract
 {
-    public interface IGenericRepository<TEntity> where TEntity : class, ISoftDeletable
+    public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
-        TEntity GetById(int? id);
+
+        TEntity GetById(int id);
+
         void Insert(TEntity entity);
+
         void Delete(int id);
+
         void Update(TEntity entityToUpdate);
     }
 }

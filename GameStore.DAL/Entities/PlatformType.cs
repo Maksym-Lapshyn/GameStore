@@ -7,13 +7,11 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Entities
 {
-	//TODO: Required: Blank line after each method/property
-	public class PlatformType : ISoftDeletable
+	public class PlatformType : BaseEntity
     {
-        public int Id { get; set; }
         public string Type { get; set; }
+
         public virtual ICollection<Game> Games { get; set; }
-        public bool IsDeleted { get; set; }
 
         public PlatformType()
         {

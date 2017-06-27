@@ -8,13 +8,14 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {
-	//TODO: Required: Blank line after each method/property
 	public class PlatformTypeDto
     {
         public int Id { get; set; }
+
         public string Type { get; set; }
-        [ScriptIgnore] //TODO: Required: Remove this attribute
-		public virtual ICollection<GameDto> Games { get; set; } //TODO: Consider: Remove 'virtual' and ICollection to IEnumerable
+
+		public IEnumerable<GameDto> Games { get; set; }
+
 		public bool IsDeleted { get; set; }
 
         public PlatformTypeDto()

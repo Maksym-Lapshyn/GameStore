@@ -10,8 +10,7 @@ using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web
 {
-	//TODO: Required: remove full name
-	public class MvcApplication : System.Web.HttpApplication
+	public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {

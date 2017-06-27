@@ -15,22 +15,23 @@ namespace GameStore.Services.Tests
     [TestClass]
     public class GameServiceTests
     {
-		//TODO: Consider: make fields readonly
-		private Mock<IUnitOfWork> _mockOfUow;
+        //TODO: Consider: make fields readonly // Fixed in ML_2
+        private Mock<IUnitOfWork> _mockOfUow;
         private UowGameService _target;
+
         public GameServiceTests()
         {
             AutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
             _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(
-            new List<Game>()
+            new List<Game>
                 {
-                    new Game() {Id = 1, Name = "Quake", Key = "Quakeiii",
-                        Genres = new List<Genre>{new Genre(){Name = "Action"}}},
-                    new Game() {Id = 2, Name = "Doom", Key = "Doombfg",
-                        Genres = new List<Genre>{new Genre(){Name = "Action"}}},
-                    new Game() {Id = 3, Name = "Diablo", Key = "Diabloiii",
-                        Genres = new List<Genre>{new Genre(){Name = "RPG"}}}
+                    new Game {Id = 1, Name = "Quake", Key = "Quakeiii",
+                        Genres = new List<Genre>{new Genre{Name = "Action"}}},
+                    new Game {Id = 2, Name = "Doom", Key = "Doombfg",
+                        Genres = new List<Genre>{new Genre{Name = "Action"}}},
+                    new Game {Id = 3, Name = "Diablo", Key = "Diabloiii",
+                        Genres = new List<Genre>{new Genre{Name = "RPG"}}}
                 });
             _target = new UowGameService(_mockOfUow.Object);
         }
@@ -38,9 +39,11 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Create_ValidGame_CreatesNewGame()
         {
-            _target.Create(new GameDto()
+            _target.Create(new GameDto
             {
-                Id = 4, Key = "somekey", Name = "LOL"
+                Id = 4,
+                Key = "somekey",
+                Name = "LOL"
             });
             _mockOfUow.Verify(m => m.GameRepository.Insert(It.IsAny<Game>()), Times.Once);
         }
@@ -49,7 +52,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Create_GameWithAlreadyTakenKey_ThrowsException()
         {
-            _target.Create(new GameDto()
+            _target.Create(new GameDto
             {
                 Id = 4,
                 Key = "Quakeiii",
@@ -60,7 +63,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Edit_ExistingGame_UpdatesGame()
         {
-            _target.Edit(new GameDto()
+            _target.Edit(new GameDto
             {
                 Id = 1,
                 Key = "COD",
@@ -73,7 +76,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Edit_NonExistingGame_ThrowsArgumentException()
         {
-            _target.Edit(new GameDto()
+            _target.Edit(new GameDto
             {
                 Id = 1516,
                 Key = "COD",
@@ -106,13 +109,13 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Get_IdOfNonExistingGame_ThrowsArgumentException()
         {
-            GameDto game = _target.Get(5263216); // TODO: Required: remove useless variable
-		}
+            GameDto game = _target.Get(default(Int32));
+        }
 
         [TestMethod]
         public void Get_KeyOfExistingGame_ReturnsGame()
         {
-            GameDto game = _target.GetGameByKey("Quakeiii");
+            GameDto game = _target.GetSingleBy("Quakeiii");
             Assert.IsNotNull(game);
         }
 
@@ -120,8 +123,8 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Get_KeyOfNonExistingGame_ThrowsArgumentException()
         {
-            GameDto game = _target.GetGameByKey("somerandomkey"); // TODO: Required: remove useless variable
-		}
+            GameDto game = _target.GetSingleBy(string.Empty);
+        }
 
         [TestMethod]
         public void GetAll_ThreeGames_ReturnsAllGames()
@@ -133,14 +136,14 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetGamesByGenre_ExistingGenre_ReturnsMatches()
         {
-            List<GameDto> games = _target.GetGamesByGenre("Action").ToList();
+            List<GameDto> games = _target.GetBy("Action").ToList();
             Assert.IsTrue(games.Count == 2);
         }
 
         [TestMethod]
         public void GetGamesByGenre_NonExistingGenre_ReturnsNoMatches()
         {
-            List<GameDto> games = _target.GetGamesByGenre("gdasgdas").ToList();
+            List<GameDto> games = _target.GetBy("gdasgdas").ToList();
             Assert.IsTrue(games.Count == 0);
         }
     }

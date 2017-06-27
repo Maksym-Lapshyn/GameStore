@@ -14,7 +14,7 @@ namespace GameStore.Web.Controllers
     [OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class GameController : Controller
     {
-		//TODO: Consider: make fields readonly
+		//TODO: Consider: make fields readonly Fixed in ML_2
 		private IGameService _gameService;
 
         public GameController(IGameService service)
@@ -38,7 +38,7 @@ namespace GameStore.Web.Controllers
 
         public JsonResult ShowGame(string gameKey)
         {
-            GameDto game = _gameService.GetGameByKey(gameKey);
+            GameDto game = _gameService.GetSingleBy(gameKey);
             return Json(game, JsonRequestBehavior.AllowGet);
         }
 

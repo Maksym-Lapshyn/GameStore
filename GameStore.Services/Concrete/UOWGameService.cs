@@ -10,20 +10,12 @@ using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using AutoMapper;
 
-//TODO: Consider: Replace 
-//var entry = collection.FirstOrDefault() // collection.Find()
-//if (entry == null)
-//{
-//     throw new Exception()
-//}
-// with 'collection.First()'
-
 namespace GameStore.Services.Concrete
 {
     public class UowGameService : IGameService
     {
-		//TODO: Consider: make fields readonly
-		private IUnitOfWork _unitOfWork;
+        //TODO: Consider: make fields readonly Fixed in ML_2
+        private IUnitOfWork _unitOfWork;
 
         public UowGameService(IUnitOfWork unitOfWork)
         {
@@ -33,7 +25,8 @@ namespace GameStore.Services.Concrete
         public void Create(GameDto gameDto)
         {
             Game game = Mapper.Map<GameDto, Game>(gameDto);
-            if (_unitOfWork.GameRepository.Get().All(g => g.Key != game.Key)) //TODO: Consider: move to variable
+            bool gameKeyIsReserved = _unitOfWork.GameRepository.Get().All(g => g.Key != game.Key);
+            if (gameKeyIsReserved)
 			{
                 _unitOfWork.GameRepository.Insert(game);
                 _unitOfWork.Save();
@@ -46,74 +39,52 @@ namespace GameStore.Services.Concrete
 
         public void Edit(GameDto gameDto)
         {
-            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == gameDto.Id); 
-            if (game != null)
-            {
-                game = Mapper.Map(gameDto, game);
-                _unitOfWork.GameRepository.Update(game);
-                _unitOfWork.Save();
-            }
-            else
-            {
-                throw new ArgumentException("There is no such game");
-            }
+            Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == gameDto.Id);
+            game = Mapper.Map(gameDto, game);
+            _unitOfWork.GameRepository.Update(game);
+            _unitOfWork.Save();
         }
 
         public void Delete(int id)
         {
-            Game gameToRemove = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == id);
-            if (gameToRemove != null)
-            {
-                _unitOfWork.GameRepository.Delete(id);
-                _unitOfWork.Save();
-            }
-            else
-            {
-                throw new ArgumentException("There is no such game");
-            }
+            Game gameToRemove = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
+            _unitOfWork.GameRepository.Delete(id);
+            _unitOfWork.Save();
         }
 
         public GameDto Get(int id)
         {
-            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == id);
-            if (game != null)
-            {
-                GameDto gameDto = Mapper.Map<Game, GameDto>(game);
-                return gameDto;
-            }
+            Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
+            GameDto gameDto = Mapper.Map<Game, GameDto>(game);
 
-            throw new ArgumentException("There is no game with such id");
+            return gameDto;
         }
 
-        public GameDto GetGameByKey(string key)
+        public GameDto GetSingleBy(string gameKey)
         {
-            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Key.ToLower() == key.ToLower());
-            if (game != null)
-            {
-                GameDto gameDto = Mapper.Map<Game, GameDto>(game);
-                return gameDto;
-            }
+            Game game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
+            GameDto gameDto = Mapper.Map<Game, GameDto>(game);
 
-            throw new ArgumentException("There is no game with such key");
+            return gameDto;
         }
 
         public IEnumerable<GameDto> GetAll()
         {
             IEnumerable<Game> games = _unitOfWork.GameRepository.Get();
             IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+
             return gameDtOs;
         }
 
-
-
-        public IEnumerable<GameDto> GetGamesByGenre(string genreName)
+        public IEnumerable<GameDto> GetBy(string genreName)
         {
             IEnumerable<Game> games = _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(genre => genre.Name == genreName));
             IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+
             return gameDtOs;
         }
 
-        public IEnumerable<GameDto> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames)
+        public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
         {
             IEnumerable<Game> allGames = _unitOfWork.GameRepository.Get();
             List<Game> matchedGames = new List<Game>();
@@ -127,8 +98,8 @@ namespace GameStore.Services.Concrete
                     }
                 }
             }
-
             IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, List<GameDto>>(matchedGames);
+
             return gameDtOs;
         }
     }

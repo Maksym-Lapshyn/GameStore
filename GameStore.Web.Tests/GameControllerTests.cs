@@ -11,8 +11,8 @@ namespace GameStore.Web.Tests
     [TestClass]
     public class GameControllerTests
     {
-		//TODO: Consider: make fields readonly
-		private Mock<IGameService> _mockOfGameService;
+        //TODO: Consider: make fields readonly Fixed in ML_2
+        private Mock<IGameService> _mockOfGameService;
         private GameController _target;
 
         public GameControllerTests()
@@ -24,14 +24,14 @@ namespace GameStore.Web.Tests
         [TestMethod]
         public void NewGame_GameDto_AddsNewGame()
         {
-            ActionResult result = _target.NewGame(new GameDto() {Name = "COD"}); // TODO: Required: remove useless variable
+            ActionResult result = _target.NewGame(new GameDto());
 			_mockOfGameService.Verify(m => m.Create(It.IsAny<GameDto>()), Times.Once);
         }
 
         [TestMethod]
         public void UpdateGame_GameDto_UpdatesGame()
         {
-            ActionResult result = _target.UpdateGame(new GameDto() { Name = "COD" }); // TODO: Required: remove useless variable
+            ActionResult result = _target.UpdateGame(new GameDto());
 			_mockOfGameService.Verify(m => m.Edit(It.IsAny<GameDto>()), Times.Once);
         }
 

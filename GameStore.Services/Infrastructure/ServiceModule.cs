@@ -11,7 +11,7 @@ namespace GameStore.Services.Infrastructure
 {
     public class ServiceModule : NinjectModule
     {
-		//TODO: Consider: make fields readonly
+		//TODO: Consider: make fields readonly Fixed in ML_2
 		private string _connectionString;
 
         public ServiceModule(string connectionString)
