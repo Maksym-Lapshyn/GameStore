@@ -47,7 +47,6 @@ namespace GameStore.Services.Concrete
 
         public void Delete(int id)
         {
-            Game gameToRemove = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
             _unitOfWork.GameRepository.Delete(id);
             _unitOfWork.Save();
         }

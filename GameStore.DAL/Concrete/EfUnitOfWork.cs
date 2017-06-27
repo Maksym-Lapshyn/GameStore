@@ -40,25 +40,9 @@ namespace GameStore.DAL.Concrete
             _context.SaveChanges();
         }
 
-        private bool _disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-
-            _disposed = true;
-        }
-
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _context.Dispose();
         }
     }
 }

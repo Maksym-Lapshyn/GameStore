@@ -55,7 +55,6 @@ namespace GameStore.Services.Concrete
             Comment comment = Mapper.Map<CommentDto, Comment>(commentDto);
             if (comment.ParentCommentId != null)
             {
-                Comment oldComment = _unitOfWork.CommentRepository.GetById(comment.ParentCommentId.Value);
                 comment.ParentComment = comment;
             }
             else
