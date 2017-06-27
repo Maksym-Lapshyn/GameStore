@@ -9,12 +9,10 @@ namespace GameStore.Services.DTOs
         public string Name { get; set; }
         public string Body { get; set; }
         public int? GameId { get; set; }
-        [ScriptIgnore]
-        public virtual GameDto Game { get; set; }
+        public GameDto Game { get; set; }
         public int? ParentCommentId { get; set; }
-        [ScriptIgnore]
-        public virtual CommentDto ParentComment { get; set; }
-        public virtual ICollection<CommentDto> ChildComments { get; set; }
+        public CommentDto ParentComment { get; set; }
+        public ICollection<CommentDto> ChildComments { get; set; }
         public bool IsDeleted { get; set; }
 
         public CommentDto()

@@ -46,5 +46,12 @@ namespace GameStore.Web.Tests
             ActionResult result = _target.ListAllGames();
             Assert.IsInstanceOfType(result, typeof(JsonResult));
         }
+
+        [TestMethod]
+        public void NewGame_ReturnsViewResult()
+        {
+            ActionResult result = _target.NewGame();
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
     }
 }

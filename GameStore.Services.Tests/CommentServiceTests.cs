@@ -19,7 +19,7 @@ namespace GameStore.Services.Tests
 
         public CommentServiceTests()
         {
-            AutoMapperConfig.RegisterMappings();
+            ServiceAutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
             _target = new CommentService(_mockOfUow.Object);
 

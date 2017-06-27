@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using GameStore.Web.Infrastructure.Attributes;
 
-namespace GameStore.Web.App_Start
+namespace GameStore.Web
 {
     public class FilterConfig
     {

@@ -4,7 +4,7 @@ using GameStore.DAL.Entities;
 
 namespace GameStore.Services.Infrastructure
 {
-    public static class AutoMapperConfig
+    public static class ServiceAutoMapperConfig
     {
         public static void RegisterMappings()
         {

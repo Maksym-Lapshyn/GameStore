@@ -8,9 +8,12 @@ namespace GameStore.Services.DTOs
         public string Key { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<CommentDto> Comments { get; set; }
-        public virtual ICollection<GenreDto> Genres { get; set; }
-        public virtual ICollection<PlatformTypeDto> PlatformTypes { get; set; }
+        public decimal Price { get; set; }
+        public short UnitsInStock { get; set; }
+        public bool Discontinued { get; set; }
+        public ICollection<CommentDto> Comments { get; set; }
+        public ICollection<GenreDto> Genres { get; set; }
+        public ICollection<PlatformTypeDto> PlatformTypes { get; set; }
         public bool IsDeleted { get; set; }
 
         public GameDto()

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
+using AutoMapper;
 using GameStore.Services.DTOs;
 using GameStore.Services.Abstract;
+using GameStore.Web.Models;
 
 namespace GameStore.Web.Controllers
 {
@@ -16,11 +18,22 @@ namespace GameStore.Web.Controllers
             _gameService = service;
         }
 
+        [HttpGet]
+        public ActionResult NewGame()
+        {
+            return View(new GameViewModel());
+        }
+
         [HttpPost]
         public ActionResult NewGame(GameDto game)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(game);
+            }
+
             _gameService.Create(game);
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Redirect("/games");
         }
 
         [HttpPost]
@@ -38,8 +51,10 @@ namespace GameStore.Web.Controllers
 
         public JsonResult ListAllGames()
         {
-            IEnumerable<GameDto> games = _gameService.GetAll();
-            return Json(games, JsonRequestBehavior.AllowGet);
+            IEnumerable<GameDto> gameDtos = _gameService.GetAll();
+            IEnumerable<GameViewModel> gameViewModels =
+                Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(gameDtos);
+            return Json(gameViewModels, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

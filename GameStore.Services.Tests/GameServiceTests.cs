@@ -18,7 +18,7 @@ namespace GameStore.Services.Tests
         private readonly GameService _target;
         public GameServiceTests()
         {
-            AutoMapperConfig.RegisterMappings();
+            ServiceAutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
             _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(
             new List<Game>()

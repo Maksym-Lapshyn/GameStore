@@ -7,8 +7,7 @@ namespace GameStore.Services.DTOs
     {
         public int Id { get; set; }
         public string Type { get; set; }
-        [ScriptIgnore]
-        public virtual ICollection<GameDto> Games { get; set; }
+        public ICollection<GameDto> Games { get; set; }
         public bool IsDeleted { get; set; }
 
         public PlatformTypeDto()

@@ -16,7 +16,8 @@ namespace GameStore.Web
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            AutoMapperConfig.RegisterMappings();
+            ServiceAutoMapperConfig.RegisterMappings();
+            WebAutoMapperConfig.RegisterMappings();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
         }
     }
