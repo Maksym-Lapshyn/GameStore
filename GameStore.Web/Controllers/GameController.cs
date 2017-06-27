@@ -26,6 +26,7 @@ namespace GameStore.Web.Controllers
         public ActionResult NewGame(GameDto game)
         {
             _gameService.Create(game);
+
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
@@ -33,18 +34,21 @@ namespace GameStore.Web.Controllers
         public ActionResult UpdateGame(GameDto game)
         {
             _gameService.Edit(game);
+
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         public JsonResult ShowGame(string gameKey)
         {
             GameDto game = _gameService.GetSingleBy(gameKey);
+
             return Json(game, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ListAllGames()
         {
             IEnumerable<GameDto> games = _gameService.GetAll();
+
             return Json(games, JsonRequestBehavior.AllowGet);
         }
 
@@ -52,6 +56,7 @@ namespace GameStore.Web.Controllers
         public ActionResult DeleteGame(int id)
         {
             _gameService.Delete(id);
+
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
@@ -59,6 +64,7 @@ namespace GameStore.Web.Controllers
         {
             string path = Server.MapPath("~/file.pdf");
             byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+
             return new FileContentResult(fileBytes, "application/pdf");
         }
     }

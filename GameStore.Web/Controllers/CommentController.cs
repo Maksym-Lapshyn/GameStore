@@ -25,12 +25,14 @@ namespace GameStore.Web.Controllers
         public ActionResult NewComment(CommentDto comment)
         {
             _commentService.Add(comment);
+
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         public JsonResult ListAllComments(string gameKey)
         {
             IEnumerable<CommentDto> comments = _commentService.GetBy(gameKey);
+
             return Json(comments, JsonRequestBehavior.AllowGet);
         }
     }

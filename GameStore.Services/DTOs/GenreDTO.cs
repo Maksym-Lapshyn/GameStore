@@ -14,7 +14,7 @@ namespace GameStore.Services.DTOs
 
         public string Name { get; set; }
 
-        public virtual ICollection<GenreDto> ChildGenres { get; set; }
+        public ICollection<GenreDto> ChildGenres { get; set; }
 
         public bool IsDeleted { get; set; }
 
