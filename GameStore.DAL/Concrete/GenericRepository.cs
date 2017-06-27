@@ -7,48 +7,51 @@ using System.Linq;
 using System.Linq.Expressions;
 using GameStore.DAL.Entities;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
+namespace GameStore.DAL.Concrete
 {
-    //TODO: Consider: make fields readonly Fixed in ML_2
-    private readonly GameStoreContext _context;
-    private readonly DbSet<TEntity> _dbSet;
-
-    public GenericRepository(GameStoreContext context)
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        _context = context;
-        _dbSet = _context.Set<TEntity>();
-    }
+        //TODO: Consider: make fields readonly Fixed in ML_2
+        private readonly GameStoreContext _context;
+        private readonly DbSet<TEntity> _dbSet;
 
-    public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
-    {
-        IQueryable<TEntity> query = _dbSet;
-        query = filter != null ? query.Where(filter) : query;
-        query = orderBy != null ? orderBy(query) : query;
+        public GenericRepository(GameStoreContext context)
+        {
+            _context = context;
+            _dbSet = _context.Set<TEntity>();
+        }
 
-        return query.ToList();
-    }
+        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
+        {
+            IQueryable<TEntity> query = _dbSet;
+            query = filter != null ? query.Where(filter) : query;
+            query = orderBy != null ? orderBy(query) : query;
 
-    public TEntity GetById(int id)
-    {
-        TEntity entity = _dbSet.First(e => e.Id == id);
+            return query.ToList();
+        }
 
-        return entity;
-    }
+        public TEntity GetById(int id)
+        {
+            TEntity entity = _dbSet.First(e => e.Id == id);
 
-    public void Insert(TEntity entity)
-    {
-        _dbSet.Add(entity);
-    }
+            return entity;
+        }
 
-    public void Delete(int id)
-    {
-        TEntity entityToRemove = _dbSet.First(e => e.Id == id);
-        entityToRemove.IsDeleted = true;
-    }
+        public void Insert(TEntity entity)
+        {
+            _dbSet.Add(entity);
+        }
 
-    public void Update(TEntity entityToUpdate)
-    {
-        _context.Entry(entityToUpdate).State = EntityState.Modified;
+        public void Delete(int id)
+        {
+            TEntity entityToRemove = _dbSet.First(e => e.Id == id);
+            entityToRemove.IsDeleted = true;
+        }
+
+        public void Update(TEntity entityToUpdate)
+        {
+            _context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
     }
 }

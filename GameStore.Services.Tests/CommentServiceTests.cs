@@ -44,14 +44,14 @@ namespace GameStore.Services.Tests
         }
 
         [TestMethod]
-        public void GetAll_Nothing_ReturnsAllComments()
+        public void GetAll_ReturnsAllComments()
         {
             List<CommentDto> result = _target.GetAll().ToList();
             Assert.IsTrue(result.Count == 3);
         }
 
         [TestMethod]
-        public void AddCommentToGame_CommentDto_AddsCommentToGame()
+        public void Add_CallsInsertOnce_WhenValidCommentPassed()
         {
             _target.Add(new CommentDto
             {
@@ -63,9 +63,9 @@ namespace GameStore.Services.Tests
             _mockOfUow.Verify(m => m.CommentRepository.Insert(It.IsAny<Comment>()), Times.Once);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void AddCommentToGame_CommentDtoWithNonExistingGame_ThrowsArgumentException()
+        public void Add_ThrowsArgumentNullException_WhenNonExistingGamePassed()
         {
             _target.Add(new CommentDto
             {
@@ -76,22 +76,9 @@ namespace GameStore.Services.Tests
             });
         }
 
+        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void AddCommentToComment_CommentDto_AddsCommentToComment()
-        {
-            _target.Add(new CommentDto
-			{
-                Id = 4,
-                ParentCommentId = 1,
-                Name = "AngryUser",
-                Body = "Agree"
-            });
-            _mockOfUow.Verify(m => m.CommentRepository.Insert(It.IsAny<Comment>()), Times.Once);
-        }
-
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void AddCommentToComment_CommentDtoWithNonExistingParentComment_ThrowsArgumentException()
+        public void Add_ThrowsArgumentNullException_WhenNonExistingParentCommentPassed()
         {
             _target.Add(new CommentDto
 			{
@@ -103,22 +90,22 @@ namespace GameStore.Services.Tests
         }
 
         [TestMethod]
-        public void GetAllCommentsByGameKey_KeyOfExistingGameWithComments_ReturnsAllComments()
+        public void GetBy_ReturnsAllComments_WhenValidGameKeyPassed()
         {
             List<CommentDto> comments = _target.GetBy("Quakeiii").ToList();
             Assert.IsTrue(comments.Count == 1);
         }
 
         [TestMethod]
-        public void GetAllCommentsByGameKey_KeyOfExistingGameWithoutComments_ReturnsNoComments()
+        public void GetBy_ReturnsNoComments_WhenKeyOfGameWithoutCommentsPassed()
         {
             List<CommentDto> comments = _target.GetBy("Doombfg").ToList();
             Assert.IsTrue(comments.Count == 0);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void GetAllCommentsByGameKey_KeyOfNonExistingGame_ThrowsArgumentException()
+        public void GetBy_ThrowsArgumentNullException_WhenInvalid()
         {
             List<CommentDto> comments = _target.GetBy(string.Empty).ToList();
         }

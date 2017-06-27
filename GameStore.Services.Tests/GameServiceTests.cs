@@ -35,7 +35,7 @@ namespace GameStore.Services.Tests
         }
 
         [TestMethod]
-        public void Create_ValidGame_CreatesNewGame()
+        public void Create_CallsInsertOnce_WhenValidGamePassed()
         {
             _target.Create(new GameDto
             {
@@ -46,9 +46,9 @@ namespace GameStore.Services.Tests
             _mockOfUow.Verify(m => m.GameRepository.Insert(It.IsAny<Game>()), Times.Once);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void Create_GameWithAlreadyTakenKey_ThrowsException()
+        public void Create_ThrowsArgumentNullException_GameWithAlreadyTakenKeyPassed()
         {
             _target.Create(new GameDto
             {
@@ -59,7 +59,7 @@ namespace GameStore.Services.Tests
         }
 
         [TestMethod]
-        public void Edit_ExistingGame_UpdatesGame()
+        public void Edit_CallsUpdatedOnce_WhenValidGamePassed()
         {
             _target.Edit(new GameDto
             {
@@ -70,42 +70,40 @@ namespace GameStore.Services.Tests
             _mockOfUow.Verify(m => m.GameRepository.Update(It.IsAny<Game>()), Times.Once);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void Edit_NonExistingGame_ThrowsArgumentException()
+        public void Edit_ThrowsArgumentNullException_WhenGameWithInvalidIdPassed()
         {
             _target.Edit(new GameDto
             {
-                Id = 1516,
-                Key = "COD",
-                Name = "COD123"
+                Id = 1516
             });
         }
 
         [TestMethod]
-        public void Delete_IdOfExistingGame_DeletesGame()
+        public void Delete_CallsDeleteOnce_WhenValidIdPassed()
         {
             _target.Delete(1);
             _mockOfUow.Verify(m => m.GameRepository.Delete(1), Times.Once);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void Delete_IdOfNonExistingGame_ThrowsArgumentException()
+        public void Delete_ThrowsArgumentNullException_InvalidIdPassed()
         {
             _target.Delete(51561);
         }
 
         [TestMethod]
-        public void Get_IdOfExistingGame_ReturnsGame()
+        public void Get_ReturnsGame_WhenValidIdPassed()
         {
             GameDto game = _target.Get(1);
             Assert.IsNotNull(game);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void Get_IdOfNonExistingGame_ThrowsArgumentException()
+        public void Get_ThrowsArgumentNullException_WhenInvalidIdPassed()
         {
             GameDto game = _target.Get(default(Int32));
         }
