@@ -24,7 +24,7 @@ namespace GameStore.Services.Tests
             _target = new CommentService(_mockOfUow.Object);
 
             _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(
-                new List<Comment>()
+                new List<Comment>
                 {
                     new Comment() {Id = 1, GameId = 1, Name = "Jake", Body = "Hey, this game is good"},
                     new Comment() {Id = 2, GameId = 1, Name = "Susan", Body = "Wow, it is amazing"},
@@ -32,7 +32,7 @@ namespace GameStore.Services.Tests
                 });
 
             _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(
-                new List<Game>()
+                new List<Game>
                 {
                     new Game() {Id = 1, Name = "Quake", Key = "Quakeiii", Comments = new List<Comment>()
                     {
@@ -53,7 +53,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void AddCommentToGame_CommentDto_AddsCommentToGame()
         {
-            _target.AddCommentToGame(new CommentDto()
+            _target.Add(new CommentDto
             {
                 Id = 4,
                 GameId = 1,
@@ -67,7 +67,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void AddCommentToGame_CommentDtoWithNonExistingGame_ThrowsArgumentException()
         {
-            _target.AddCommentToGame(new CommentDto()
+            _target.Add(new CommentDto
             {
                 Id = 4,
                 GameId = 4125,
@@ -79,8 +79,8 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void AddCommentToComment_CommentDto_AddsCommentToComment()
         {
-            _target.AddCommentToComment(new CommentDto()
-            {
+            _target.Add(new CommentDto
+			{
                 Id = 4,
                 ParentCommentId = 1,
                 Name = "AngryUser",
@@ -93,8 +93,8 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void AddCommentToComment_CommentDtoWithNonExistingParentComment_ThrowsArgumentException()
         {
-            _target.AddCommentToComment(new CommentDto()
-            {
+            _target.Add(new CommentDto
+			{
                 Id = 4,
                 ParentCommentId = 213,
                 Name = "AngryUser",
@@ -105,14 +105,14 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetAllCommentsByGameKey_KeyOfExistingGameWithComments_ReturnsAllComments()
         {
-            List<CommentDto> comments = _target.GetAllCommentsByGameKey("Quakeiii").ToList();
+            List<CommentDto> comments = _target.GetBy("Quakeiii").ToList();
             Assert.IsTrue(comments.Count == 1);
         }
 
         [TestMethod]
         public void GetAllCommentsByGameKey_KeyOfExistingGameWithoutComments_ReturnsNoComments()
         {
-            List<CommentDto> comments = _target.GetAllCommentsByGameKey("Doombfg").ToList();
+            List<CommentDto> comments = _target.GetBy("Doombfg").ToList();
             Assert.IsTrue(comments.Count == 0);
         }
 
@@ -120,7 +120,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetAllCommentsByGameKey_KeyOfNonExistingGame_ThrowsArgumentException()
         {
-            List<CommentDto> comments = _target.GetAllCommentsByGameKey("gdashdash").ToList();
+            List<CommentDto> comments = _target.GetBy(string.Empty).ToList();
         }
     }
 }

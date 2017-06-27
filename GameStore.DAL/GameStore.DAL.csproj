@@ -50,12 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IGenericRepository.cs" />
-    <Compile Include="Abstract\ISoftDeletable.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="Concrete\GenericRepository.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />

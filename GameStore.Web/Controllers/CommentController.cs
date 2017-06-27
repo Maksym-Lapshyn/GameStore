@@ -16,24 +16,18 @@ namespace GameStore.Web.Controllers
             _commentService = service;
         }
 
-        [HttpPost]
+		[HttpPost]
         public ActionResult NewComment(CommentDto comment)
         {
-            if (comment.ParentCommentId != null)
-            {
-                _commentService.AddCommentToComment(comment);
-            }
-            else
-            {
-                _commentService.AddCommentToGame(comment);
-            }
+            _commentService.Add(comment);
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         public JsonResult ListAllComments(string gameKey)
         {
-            IEnumerable<CommentDto> comments = _commentService.GetAllCommentsByGameKey(gameKey);
+            IEnumerable<CommentDto> comments = _commentService.GetBy(gameKey);
+
             return Json(comments, JsonRequestBehavior.AllowGet);
         }
     }

@@ -7,6 +7,7 @@ namespace GameStore.Web.Infrastructure.Attributes
     public class LogEventsAndPerformanceAttribute : ActionFilterAttribute
     {
         private readonly ILogger _logger;
+
         private int _startTime;
 
         public LogEventsAndPerformanceAttribute()

@@ -5,8 +5,10 @@ namespace GameStore.Services.Abstract
 {
     public interface IGameService : IService<GameDto>
     {
-        IEnumerable<GameDto> GetGamesByGenre(string genreName);
-        IEnumerable<GameDto> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames);
-        GameDto GetGameByKey(string key);
-    }
+        IEnumerable<GameDto> GetBy(string genreName);
+
+		IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames);
+
+		GameDto GetSingleBy(string gameKey);
+	}
 }

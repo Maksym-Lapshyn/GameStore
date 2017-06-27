@@ -3,13 +3,13 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Entities
 {
-    public class Genre : ISoftDeletable
+	public class Genre : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Genre> ChildGenres { get; set; }
-        public virtual Genre ParentGenre { get; set; }
-        public bool IsDeleted { get; set; }
+
+        public ICollection<Genre> ChildGenres { get; set; }
+
+        public Genre ParentGenre { get; set; }
 
         public Genre()
         {

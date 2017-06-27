@@ -8,39 +8,25 @@ namespace GameStore.DAL.Concrete
     public class UnitOfWork : IUnitOfWork
     {
         private readonly GameStoreContext _context;
-
-        private IGenericRepository<Game> _gameRepository;
-        private IGenericRepository<Comment> _commentRepository;
+    
+        private readonly Lazy<IGenericRepository<Game>> _gameRepository = new Lazy<IGenericRepository<Game>>();
+        private readonly Lazy<IGenericRepository<Comment>> _commentRepository = new Lazy<IGenericRepository<Comment>>();
 
         public UnitOfWork(string connectionString)
         {
             _context = new GameStoreContext(connectionString);
         }
 
-        public IGenericRepository<Game> GameRepository
+		//TODO: Suggestion: Use Lazy<T> in getter
+		public IGenericRepository<Game> GameRepository
         {
-            get
-            {
-                if (_gameRepository == null)
-                {
-                    _gameRepository = new GenericRepository<Game>(_context);
-                }
-
-                return _gameRepository;
-            }
+            get { return _gameRepository.Value; }
         }
 
-        public IGenericRepository<Comment> CommentRepository
+		//TODO: Suggestion: Use Lazy<T> in getter
+		public IGenericRepository<Comment> CommentRepository
         {
-            get
-            {
-                if (_commentRepository == null)
-                {
-                    _commentRepository = new GenericRepository<Comment>(_context);
-                }
-
-                return _commentRepository;
-            }
+            get { return _commentRepository.Value; }
         }
 
         public void Save()
@@ -48,25 +34,9 @@ namespace GameStore.DAL.Concrete
             _context.SaveChanges();
         }
 
-        private bool _disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-
-            _disposed = true;
-        }
-
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _context.Dispose();
         }
     }
 }

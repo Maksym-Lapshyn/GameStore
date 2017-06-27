@@ -9,6 +9,8 @@ namespace GameStore.Services.Infrastructure
     {
         private readonly string _connectionString;
 
+		//TODO: Consider: make fields readonly Fixed in ML_2
+
         public ServiceModule(string connectionString)
         {
             _connectionString = connectionString;
