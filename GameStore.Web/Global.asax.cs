@@ -10,7 +10,8 @@ using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web
 {
-    public class MvcApplication : System.Web.HttpApplication
+	//TODO: Required: remove full name
+	public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
@@ -21,3 +22,10 @@ namespace GameStore.Web
         }
     }
 }
+
+
+//TODO: Required: blank line before return statement
+//TODO: Required: blank line before throw statement
+//TODO: Required: blank line before Assert statement
+//TODO: Required: meaningful names for tests
+//TODO: Consider: var for local variables

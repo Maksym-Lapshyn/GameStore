@@ -10,11 +10,20 @@ using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using AutoMapper;
 
+//TODO: Consider: Replace 
+//var entry = collection.FirstOrDefault() // collection.Find()
+//if (entry == null)
+//{
+//     throw new Exception()
+//}
+// with 'collection.First()'
+
 namespace GameStore.Services.Concrete
 {
     public class UowGameService : IGameService
     {
-        private IUnitOfWork _unitOfWork;
+		//TODO: Consider: make fields readonly
+		private IUnitOfWork _unitOfWork;
 
         public UowGameService(IUnitOfWork unitOfWork)
         {
@@ -24,8 +33,8 @@ namespace GameStore.Services.Concrete
         public void Create(GameDto gameDto)
         {
             Game game = Mapper.Map<GameDto, Game>(gameDto);
-            if (_unitOfWork.GameRepository.Get().All(g => g.Key != game.Key))
-            {
+            if (_unitOfWork.GameRepository.Get().All(g => g.Key != game.Key)) //TODO: Consider: move to variable
+			{
                 _unitOfWork.GameRepository.Insert(game);
                 _unitOfWork.Save();
             }
@@ -37,7 +46,7 @@ namespace GameStore.Services.Concrete
 
         public void Edit(GameDto gameDto)
         {
-            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == gameDto.Id);
+            Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == gameDto.Id); 
             if (game != null)
             {
                 game = Mapper.Map(gameDto, game);

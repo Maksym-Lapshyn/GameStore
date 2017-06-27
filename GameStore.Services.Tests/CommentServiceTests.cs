@@ -16,7 +16,8 @@ namespace GameStore.Services.Tests
     [TestClass]
     public class CommentServiceTests
     {
-        private Mock<IUnitOfWork> _mockOfUow;
+		//TODO: Consider: make fields readonly
+		private Mock<IUnitOfWork> _mockOfUow;
         private UowCommentService _target;
 
         public CommentServiceTests()
@@ -25,6 +26,7 @@ namespace GameStore.Services.Tests
             _mockOfUow = new Mock<IUnitOfWork>();
             _target = new UowCommentService(_mockOfUow.Object);
 
+			//TODO: Required: remove '()' below
             _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(
                 new List<Comment>()
                 {
@@ -81,8 +83,8 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void AddCommentToComment_CommentDto_AddsCommentToComment()
         {
-            _target.AddCommentToComment(new CommentDto()
-            {
+            _target.AddCommentToComment(new CommentDto() //TODO: Required: remove '()'
+			{
                 Id = 4,
                 ParentCommentId = 1,
                 Name = "AngryUser",
@@ -95,8 +97,8 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void AddCommentToComment_CommentDtoWithNonExistingParentComment_ThrowsArgumentException()
         {
-            _target.AddCommentToComment(new CommentDto()
-            {
+            _target.AddCommentToComment(new CommentDto() //TODO: Required: remove '()'
+			{
                 Id = 4,
                 ParentCommentId = 213,
                 Name = "AngryUser",
@@ -122,7 +124,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetAllCommentsByGameKey_KeyOfNonExistingGame_ThrowsArgumentException()
         {
-            List<CommentDto> comments = _target.GetAllCommentsByGameKey("gdashdash").ToList();
+            List<CommentDto> comments = _target.GetAllCommentsByGameKey("gdashdash").ToList(); // TODO: Required: remove useless variable
         }
     }
 }

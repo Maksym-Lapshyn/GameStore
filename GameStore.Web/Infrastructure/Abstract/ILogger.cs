@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameStore.Web.Infrastructure.Abstract
 {
-    public interface ILogger
+	//TODO: Required: Blank line after each method/property
+	public interface ILogger
     {
         void LogEvent();
         void LogIp();

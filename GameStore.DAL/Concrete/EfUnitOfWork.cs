@@ -9,9 +9,11 @@ using GameStore.DAL.Context;
 
 namespace GameStore.DAL.Concrete
 {
-    public class EfUnitOfWork : IUnitOfWork
+	//TODO: Required: Remove 'Ef' prefix
+	public class EfUnitOfWork : IUnitOfWork
     {
-        private GameStoreContext _context;
+		//TODO: Consider: make fields readonly
+		private GameStoreContext _context;
 
         private IGenericRepository<Game> _gameRepository;
         private IGenericRepository<Comment> _commentRepository;
@@ -21,11 +23,12 @@ namespace GameStore.DAL.Concrete
             _context = new GameStoreContext(connectionString);
         }
 
-        public IGenericRepository<Game> GameRepository
+		//TODO: Suggestion: Use Lazy<T> in getter
+		public IGenericRepository<Game> GameRepository
         {
             get
             {
-                if (_gameRepository == null)
+                if (_gameRepository == null) //TODO: Required: Convert to ?? expression
                 {
                     _gameRepository = new EFGenericRepository<Game>(_context);
                 }
@@ -34,12 +37,13 @@ namespace GameStore.DAL.Concrete
             }
         }
 
-        public IGenericRepository<Comment> CommentRepository
+		//TODO: Suggestion: Use Lazy<T> in getter
+		public IGenericRepository<Comment> CommentRepository
         {
             get
             {
-                if (_commentRepository == null)
-                {
+                if (_commentRepository == null) //TODO: Required: Convert to ?? expression
+				{
                     _commentRepository = new EFGenericRepository<Comment>(_context);
                 }
 
@@ -51,7 +55,7 @@ namespace GameStore.DAL.Concrete
         {
             _context.SaveChanges();
         }
-
+		//TODO: Required: Remove all code bleow
         private bool _disposed = false;
 
         protected virtual void Dispose(bool disposing)

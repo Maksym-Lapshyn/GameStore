@@ -7,7 +7,8 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-    public interface IService<TEntity>
+	//TODO: Required: Blank line after each method/property
+	public interface IService<TEntity>
     {
         void Create(TEntity entity);
         void Edit(TEntity entity);

@@ -7,16 +7,17 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {
-    public class GameDto
+	//TODO: Required: Blank line after each method/property
+	public class GameDto
     {
         public int Id { get; set; }
         public string Key { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<CommentDto> Comments { get; set; }
-        public virtual ICollection<GenreDto> Genres { get; set; }
-        public virtual ICollection<PlatformTypeDto> PlatformTypes { get; set; }
-        public bool IsDeleted { get; set; }
+        public virtual ICollection<CommentDto> Comments { get; set; } //TODO: Required: Remove 'virtual' and ICollection to IEnumerable
+		public virtual ICollection<GenreDto> Genres { get; set; } //TODO: Required: Remove 'virtual' and ICollection to IEnumerable
+		public virtual ICollection<PlatformTypeDto> PlatformTypes { get; set; } //TODO: Required: Remove 'virtual' and ICollection to IEnumerable
+		public bool IsDeleted { get; set; }
 
         public GameDto()
         {

@@ -7,11 +7,14 @@ using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Abstract
 {
-    public interface IUnitOfWork
+	//TODO: Required: Blank line after each method/property
+	public interface IUnitOfWork
     {
         IGenericRepository<Game> GameRepository { get; }
         IGenericRepository<Comment> CommentRepository { get; }
         void Save();
-        void Dispose();
+
+		//TODO: Required: Remove this method or inherit IDisposable
+		void Dispose();
     }
 }

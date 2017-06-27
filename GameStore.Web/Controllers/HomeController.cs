@@ -14,7 +14,8 @@ namespace GameStore.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IGameService _gameService;
+		//TODO: Consider: make fields readonly
+		private IGameService _gameService;
 
         public HomeController(IGameService service)
         {
@@ -23,10 +24,10 @@ namespace GameStore.Web.Controllers
 
         public ActionResult Index()
         {
-            if (_gameService.GetAll().Count() == 0)
-            {
-                GameDto game = new GameDto() { Name = "Test game" };
-                _gameService.Create(game);
+            if (_gameService.GetAll().Count() == 0) //TODO: Consider: simplify LINQ
+			{
+                GameDto game = new GameDto() { Name = "Test game" }; //TODO: Consider: remove '()'
+				_gameService.Create(game);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);

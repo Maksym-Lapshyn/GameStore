@@ -8,21 +8,22 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.Services.DTOs
 {
-    public class CommentDto
+	//TODO: Required: Blank line after each method/property
+	public class CommentDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Body { get; set; }
-        [ScriptIgnore]
-        public int? GameId { get; set; }
-        [ScriptIgnore]
-        public virtual GameDto Game { get; set; }
-        [ScriptIgnore]
-        public int? ParentCommentId { get; set; }
-        [ScriptIgnore]
-        public virtual CommentDto ParentComment { get; set; }
-        public virtual ICollection<CommentDto> ChildComments { get; set; }
-        public bool IsDeleted { get; set; }
+		[ScriptIgnore] //TODO: Required: Remove this attribute
+		public int? GameId { get; set; }
+        [ScriptIgnore] //TODO: Required: Remove this attribute
+		public virtual GameDto Game { get; set; }
+        [ScriptIgnore] //TODO: Required: Remove this attribute
+		public int? ParentCommentId { get; set; }
+        [ScriptIgnore] //TODO: Required: Remove this attribute
+		public virtual CommentDto ParentComment { get; set; } //TODO: Required: Remove 'virtual'
+		public virtual ICollection<CommentDto> ChildComments { get; set; } //TODO: Consider: Remove 'virtual' and ICollection to IEnumerable
+		public bool IsDeleted { get; set; }
 
         public CommentDto()
         {

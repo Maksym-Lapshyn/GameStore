@@ -7,7 +7,8 @@ using GameStore.Services.Infrastructure;
 
 namespace GameStore.Web.App_Start
 {
-    using System;
+	//TODO: Required: move usings out of here
+	using System;
     using System.Web;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;

@@ -10,7 +10,8 @@ namespace GameStore.Web.Infrastructure.Concrete
 {
     public class NLogger : ILogger
     {
-        private Logger _ipLogger;
+		//TODO: Consider: join all to one logger
+		private Logger _ipLogger;
         private Logger _eventLogger;
         private Logger _exceptionLogger;
         private Logger _performanceLogger;

@@ -8,7 +8,8 @@ using System.ComponentModel;
 
 namespace GameStore.DAL.Entities
 {
-    public class Comment : ISoftDeletable
+	//TODO: Required: Blank line after each method/property
+	public class Comment : ISoftDeletable
     {
         public int Id { get; set; }
         public string Name { get; set; }

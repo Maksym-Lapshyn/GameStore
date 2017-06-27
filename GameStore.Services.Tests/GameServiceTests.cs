@@ -15,7 +15,8 @@ namespace GameStore.Services.Tests
     [TestClass]
     public class GameServiceTests
     {
-        private Mock<IUnitOfWork> _mockOfUow;
+		//TODO: Consider: make fields readonly
+		private Mock<IUnitOfWork> _mockOfUow;
         private UowGameService _target;
         public GameServiceTests()
         {
@@ -105,8 +106,8 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Get_IdOfNonExistingGame_ThrowsArgumentException()
         {
-            GameDto game = _target.Get(5263216);
-        }
+            GameDto game = _target.Get(5263216); // TODO: Required: remove useless variable
+		}
 
         [TestMethod]
         public void Get_KeyOfExistingGame_ReturnsGame()
@@ -119,8 +120,8 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Get_KeyOfNonExistingGame_ThrowsArgumentException()
         {
-            GameDto game = _target.GetGameByKey("somerandomkey");
-        }
+            GameDto game = _target.GetGameByKey("somerandomkey"); // TODO: Required: remove useless variable
+		}
 
         [TestMethod]
         public void GetAll_ThreeGames_ReturnsAllGames()

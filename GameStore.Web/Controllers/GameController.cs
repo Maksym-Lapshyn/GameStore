@@ -14,7 +14,8 @@ namespace GameStore.Web.Controllers
     [OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class GameController : Controller
     {
-        private IGameService _gameService;
+		//TODO: Consider: make fields readonly
+		private IGameService _gameService;
 
         public GameController(IGameService service)
         {

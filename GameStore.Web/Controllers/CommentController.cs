@@ -13,15 +13,16 @@ namespace GameStore.Web.Controllers
     [OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class CommentController : Controller
     {
-        private ICommentService _commentService;
+		//TODO: Consider: make fields readonly
+		private ICommentService _commentService;
 
         public CommentController(ICommentService service)
         {
             _commentService = service;
         }
+		//TODO: Required: remove blank line
 
-
-        [HttpPost]
+		[HttpPost]
         public ActionResult NewComment(CommentDto comment)
         {
             if (comment.ParentCommentId != null)

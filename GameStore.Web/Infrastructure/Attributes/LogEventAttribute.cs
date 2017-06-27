@@ -9,7 +9,8 @@ namespace GameStore.Web.Infrastructure.Attributes
 {
     public class LogEventAttribute : ActionFilterAttribute
     {
-        private ILogger _logger;
+		//TODO: Consider: make fields readonly
+		private ILogger _logger;
 
         public LogEventAttribute()
         {

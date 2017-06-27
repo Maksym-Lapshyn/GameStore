@@ -10,7 +10,8 @@ namespace GameStore.Web.Infrastructure.Attributes
 {
     public class LogPerformanceAttribute : ActionFilterAttribute
     {
-        private ILogger _logger;
+		//TODO: Consider: make fields readonly
+		private ILogger _logger;
         private int _startTime;
 
         public LogPerformanceAttribute()

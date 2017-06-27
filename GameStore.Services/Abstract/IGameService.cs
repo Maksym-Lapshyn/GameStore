@@ -7,10 +7,11 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
+	//TODO: Required: Blank line after each method/property
     public interface IGameService : IService<GameDto>
     {
-        IEnumerable<GameDto> GetGamesByGenre(string genreName);
-        IEnumerable<GameDto> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames);
-        GameDto GetGameByKey(string key);
-    }
+        IEnumerable<GameDto> GetGamesByGenre(string genreName); //TODO: Consider: Rename to 'GetBy'
+		IEnumerable<GameDto> GetGamesByPlatformTypes(IEnumerable<string> platformTypeNames); //TODO: Consider: Rename to 'GetBy'
+		GameDto GetGameByKey(string key); //TODO: Consider: Rename to 'GetSingleBy'
+	}
 }

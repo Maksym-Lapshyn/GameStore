@@ -11,9 +11,11 @@ using GameStore.DAL.Entities;
 
 namespace GameStore.Services.Concrete
 {
-    public class UowCommentService : ICommentService
+	//TODO: Required: Remove 'Uow' prefix
+	public class UowCommentService : ICommentService
     {
-        private IUnitOfWork _unitOfWork;
+		//TODO: Consider: make fields readonly
+		private IUnitOfWork _unitOfWork;
 
         public UowCommentService(IUnitOfWork unitOfWork)
         {
@@ -47,12 +49,14 @@ namespace GameStore.Services.Concrete
             return commentDtos;
         }
 
+		//TODO: Required: Impelment Dispose() or remove it
         public void Dispose()
         {
             throw new NotImplementedException();
         }
 
-        public void AddCommentToGame(CommentDto newComment)
+		//TODO: Required: Rename to 'Add' and join logic of AddCommentToGame and AddCommentToComment
+		public void AddCommentToGame(CommentDto newComment)
         {
             Game game = _unitOfWork.GameRepository.Get().FirstOrDefault(g => g.Id == newComment.GameId);
             if (game != null)
@@ -68,7 +72,8 @@ namespace GameStore.Services.Concrete
             }
         }
 
-        public void AddCommentToComment(CommentDto newComment)
+		//TODO: Required: Rename to 'Add' and join logic of AddCommentToGame and AddCommentToComment
+		public void AddCommentToComment(CommentDto newComment)
         {
             Comment oldComment =
                 _unitOfWork.CommentRepository.Get().FirstOrDefault(c => c.Id == newComment.ParentCommentId);
@@ -96,13 +101,13 @@ namespace GameStore.Services.Concrete
                     IEnumerable<CommentDto> commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
                     return commentDtos;
                 }
-                else
+                else // TODO: Required: Remove redundant 'else'
                 {
                     return null;
                 }
             }
-            else
-            {
+			else // TODO: Required: Remove redundant 'else'
+			{
                 throw new ArgumentException("There is no game with such key");
             }
         }

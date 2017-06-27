@@ -7,7 +7,8 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Entities
 {
-    public class PlatformType : ISoftDeletable
+	//TODO: Required: Blank line after each method/property
+	public class PlatformType : ISoftDeletable
     {
         public int Id { get; set; }
         public string Type { get; set; }

@@ -11,8 +11,11 @@ using GameStore.DAL.Context;
 
 namespace GameStore.DAL.Concrete
 {
+	//TODO: Required: Remove 'Ef' prefix
+	//TODO: Consider: Remove 'class' restriction
     public class EFGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, ISoftDeletable
     {
+		//TODO: Consider: make fields readonly
         private GameStoreContext _context;
         private DbSet<TEntity> _dbSet;
 
@@ -31,8 +34,8 @@ namespace GameStore.DAL.Concrete
             {
                 query = query.Where(filter);
             }
-            if (orderBy != null)
-            {
+            if (orderBy != null)// TODO: Consider: Use ternary operator
+			{
                 return orderBy(query).ToList();
             }
             else
@@ -42,14 +45,16 @@ namespace GameStore.DAL.Concrete
 
         }
 
-        public TEntity GetById(int? id)
+		//TODO: Required: Use First() instead of Find(), null check and exception throw
+		//TODO: Consider: make parameter not nullable
+		public TEntity GetById(int? id)
         {
             TEntity entity = _dbSet.Find(id);
             if (entity != null)
             {
                 return _dbSet.Find(id);
             }
-            else
+            else //TODO: Required: Remove redundant 'else'
             {
                 throw new ArgumentNullException("There is no such entity");
             }
@@ -60,7 +65,8 @@ namespace GameStore.DAL.Concrete
             _dbSet.Add(entity);
         }
 
-        public void Delete(int id)
+		//TODO: Required: Use First() instead of Find(), null check and exception throw
+		public void Delete(int id)
         {
             TEntity entityToRemove = _dbSet.Find(id);
             if (entityToRemove != null)

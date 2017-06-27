@@ -7,7 +7,8 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Entities
 {
-    public class Game : ISoftDeletable
+	//TODO: Required: Blank line after each method/property
+	public class Game : ISoftDeletable
     {
         public int Id { get; set; }
         public string Key { get; set; }
