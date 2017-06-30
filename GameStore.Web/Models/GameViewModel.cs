@@ -34,7 +34,6 @@ namespace GameStore.Web.Models
 
         public PublisherViewModel Publisher { get; set; }
 
-
         public IEnumerable<CommentViewModel> Comments { get; set; }
 
         public IEnumerable<GenreViewModel> Genres { get; set; }

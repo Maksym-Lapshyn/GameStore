@@ -1,10 +1,10 @@
 ﻿@model GameStore.Web.Models.CommentViewModel
 
-<div id="commentForm">
+<div id="@System.DateTime.UtcNow.Millisecond">
     @using (Ajax.BeginForm("NewComment", new AjaxOptions
     {
         HttpMethod = "POST",
-        UpdateTargetId = "commentForm",
+        UpdateTargetId = (@System.DateTime.UtcNow.Millisecond).ToString(),
         InsertionMode = InsertionMode.Replace
     }))
     {

@@ -12,35 +12,35 @@ namespace GameStore.DAL.Context
     {
         protected override void Seed(GameStoreContext context)
         {
-            Genre rts = new Genre { Name = "RTS" };
-            Genre tbs = new Genre { Name = "TBS" };
-            Genre rally = new Genre { Name = "Rally" };
-            Genre arcade = new Genre { Name = "Arcade" };
-            Genre formula = new Genre { Name = "Formula" };
-            Genre offRoad = new Genre { Name = "Off-road" };
-            Genre fps = new Genre { Name = "FPS" };
-            Genre tps = new Genre { Name = "TPS" };
-            Genre subMisc = new Genre { Name = "Misc(Sub-genre)" };
+            var rts = new Genre { Name = "RTS" };
+            var tbs = new Genre { Name = "TBS" };
+            var rally = new Genre { Name = "Rally" };
+            var arcade = new Genre { Name = "Arcade" };
+            var formula = new Genre { Name = "Formula" };
+            var offRoad = new Genre { Name = "Off-road" };
+            var fps = new Genre { Name = "FPS" };
+            var tps = new Genre { Name = "TPS" };
+            var subMisc = new Genre { Name = "Misc(Sub-genre)" };
             context.Genres.AddRange(new List<Genre> { rts, tbs, rally, arcade, formula, offRoad, fps, tps, subMisc });
             context.SaveChanges();
-            Genre strategy = new Genre { Name = "Strategy", ChildGenres = new List<Genre> { rts, tbs } };
-            Genre rpg = new Genre { Name = "RPG" };
-            Genre races = new Genre { Name = "Races", ChildGenres = new List<Genre> { rally, arcade, formula, offRoad } };
-            Genre action = new Genre { Name = "Action", ChildGenres = new List<Genre> { fps, tps, subMisc } };
-            Genre adventure = new Genre { Name = "Adventure" };
-            Genre puzzleAndSkill = new Genre { Name = "Puzzle&Skill" };
-            Genre misc = new Genre { Name = "Misc" };
+            var strategy = new Genre { Name = "Strategy", ChildGenres = new List<Genre> { rts, tbs } };
+            var rpg = new Genre { Name = "RPG" };
+            var races = new Genre { Name = "Races", ChildGenres = new List<Genre> { rally, arcade, formula, offRoad } };
+            var action = new Genre { Name = "Action", ChildGenres = new List<Genre> { fps, tps, subMisc } };
+            var adventure = new Genre { Name = "Adventure" };
+            var puzzleAndSkill = new Genre { Name = "Puzzle&Skill" };
+            var misc = new Genre { Name = "Misc" };
             context.Genres.AddRange(new List<Genre> { strategy, rpg, races, action, adventure, puzzleAndSkill, misc });
             context.SaveChanges();
-            PlatformType mobile = new PlatformType { Type = "Mobile" };
-            PlatformType browser = new PlatformType { Type = "Browser" };
-            PlatformType desktop = new PlatformType { Type = "Desktop" };
-            PlatformType console = new PlatformType { Type = "Console" };
+            var mobile = new PlatformType { Type = "Mobile" };
+            var browser = new PlatformType { Type = "Browser" };
+            var desktop = new PlatformType { Type = "Desktop" };
+            var console = new PlatformType { Type = "Console" };
             context.PlatformTypes.AddRange(new List<PlatformType> { mobile, browser, desktop, console });
             context.SaveChanges();
-            Game callOfDuty = new Game { Name = "Call Of Duty", Description = "You can shoot some enemies", Key = "COD123" };
+            var callOfDuty = new Game { Name = "Call Of Duty", Description = "You can shoot some enemies", Key = "COD123" };
             callOfDuty.Genres.Add(action);
-            Game burnout = new Game
+            var burnout = new Game
             {
                 Name = "Burnout Paradise",
                 Key = "Burnout123",
@@ -50,9 +50,9 @@ namespace GameStore.DAL.Context
             burnout.Genres.Add(races);
             context.Games.AddRange(new List<Game> {callOfDuty, burnout});
             context.SaveChanges();
-            Comment firstComment = new Comment { Name = "Josh123", Game = callOfDuty, Body = "Cool game, I like it" };
-            Comment secondComment = new Comment { Name = "Drake321", Game = callOfDuty, Body = "Nice game, but not as good as Quake" };
-            Comment thirdComment = new Comment
+            var firstComment = new Comment { Name = "Josh123", Game = callOfDuty, Body = "Cool game, I like it" };
+            var secondComment = new Comment { Name = "Drake321", Game = callOfDuty, Body = "Nice game, but not as good as Quake" };
+            var thirdComment = new Comment
             {
                 Name = "Jake555",
                 Game = callOfDuty,
@@ -60,7 +60,7 @@ namespace GameStore.DAL.Context
                 ParentComment = firstComment
             };
 
-            Comment fourthComment = new Comment
+            var fourthComment = new Comment
             {
                 Name = "Josh213",
                 Game = callOfDuty,
