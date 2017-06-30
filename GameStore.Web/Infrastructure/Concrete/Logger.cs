@@ -4,11 +4,11 @@ using ILogger = GameStore.Web.Infrastructure.Abstract.ILogger;
 
 namespace GameStore.Web.Infrastructure.Concrete
 {
-    public class NLogger : ILogger
+    public class Logger : ILogger
     {
-        private readonly Logger _logger;
+        private readonly NLog.Logger _logger;
 
-        public NLogger()
+        public Logger()
         {
             _logger = LogManager.GetCurrentClassLogger();
         }

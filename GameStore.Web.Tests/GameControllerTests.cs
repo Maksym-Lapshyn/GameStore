@@ -13,19 +13,23 @@ namespace GameStore.Web.Tests
     public class GameControllerTests
     {
         private readonly Mock<IGameService> _mockOfGameService;
+        private readonly Mock<IGenreService> _mockOfGenreService;
+        private readonly Mock<IPlatformTypeService> _mockOfPlatformTypeService;
         private readonly GameController _target;
 
         public GameControllerTests()
         {
             WebAutoMapperConfig.RegisterMappings();
             _mockOfGameService = new Mock<IGameService>();
-            _target = new GameController(_mockOfGameService.Object);
+            _mockOfPlatformTypeService = new Mock<IPlatformTypeService>();
+            _mockOfGenreService = new Mock<IGenreService>();
+            _target = new GameController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object);
         }
 
         [TestMethod]
         public void NewGame_CallsCreateOnce_WhenValidGamePassed()
         {
-            var result = _target.NewGame(new GameViewModel());
+            _target.NewGame(new GameViewModel());
 
 			_mockOfGameService.Verify(m => m.Create(It.IsAny<GameDto>()), Times.Once);
         }
@@ -33,7 +37,7 @@ namespace GameStore.Web.Tests
         [TestMethod]
         public void UpdateGame_CallsEditOnce_WhenValidGamePassed()
         {
-            var result = _target.UpdateGame(new GameDto());
+            _target.UpdateGame(new GameDto());
 
 			_mockOfGameService.Verify(m => m.Edit(It.IsAny<GameDto>()), Times.Once);
         }

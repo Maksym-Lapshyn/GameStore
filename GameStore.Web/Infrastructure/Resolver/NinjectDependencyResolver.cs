@@ -34,7 +34,9 @@ namespace GameStore.Web.Infrastructure.Resolver
             _kernel.Bind<IGameService>().To<GameService>();
             _kernel.Bind<ICommentService>().To<CommentService>();
             _kernel.Bind<IPublisherService>().To<PublisherService>();
-            _kernel.Bind<ILogger>().To<NLogger>();
+            _kernel.Bind<IGenreService>().To<GenreService>();
+            _kernel.Bind<IPlatformTypeService>().To<PlatformTypeService>();
+            _kernel.Bind<ILogger>().To<Logger>();
         }
     }
 }

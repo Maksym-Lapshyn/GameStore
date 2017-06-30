@@ -33,7 +33,7 @@ namespace GameStore.Web.Tests
         [TestMethod]
         public void NewComment_CallsAddOnce_WhenNewCommentPassed()
         {
-            var result = _target.NewComment(new CommentViewModel());
+            _target.NewComment(new CommentViewModel());
 
 			_mockOfCommentService.Verify(m => m.Create(It.IsAny<CommentDto>()), Times.Once);
         }

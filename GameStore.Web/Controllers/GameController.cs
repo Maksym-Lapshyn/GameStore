@@ -13,10 +13,14 @@ namespace GameStore.Web.Controllers
     public class GameController : Controller
     {
 		private readonly IGameService _gameService;
+        private readonly IGenreService _genreService;
+        private readonly IPlatformTypeService _platformTypeService;
 
-        public GameController(IGameService service)
+        public GameController(IGameService gameService, IGenreService genreService, IPlatformTypeService platformTypeService)
         {
-            _gameService = service;
+            _gameService = gameService;
+            _genreService = genreService;
+            _platformTypeService = platformTypeService;
         }
 
         [HttpGet]
@@ -30,8 +34,12 @@ namespace GameStore.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                gameViewModel.PlatformTypes = Mapper.Map<IEnumerable<PlatformTypeDto>, IEnumerable<PlatformTypeViewModel>>(_platformTypeService.GetAll());
+                gameViewModel.Genres = Mapper.Map<IEnumerable<GenreDto>, IEnumerable<GenreViewModel>>(_genreService.GetAll());
+
                 return View(gameViewModel);
             }
+
             var gameDto = Mapper.Map<GameViewModel, GameDto>(gameViewModel);
             _gameService.Create(gameDto);
 

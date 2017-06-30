@@ -137,7 +137,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
-    <Compile Include="Infrastructure\Concrete\NLogger.cs" />
+    <Compile Include="Infrastructure\Concrete\Logger.cs" />
     <Compile Include="Infrastructure\Attributes\LogEventsAndPerformanceAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\LogExceptionAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\LogIpAttribute.cs" />

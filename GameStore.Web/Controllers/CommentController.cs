@@ -15,9 +15,9 @@ namespace GameStore.Web.Controllers
     {
         private readonly ICommentService _commentService;
 
-        public CommentController(ICommentService service)
+        public CommentController(ICommentService commentService)
         {
-            _commentService = service;
+            _commentService = commentService;
         }
 
         [HttpPost]

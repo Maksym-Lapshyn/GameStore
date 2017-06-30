@@ -38,7 +38,7 @@ namespace GameStore.Web.Tests
 
         private bool CompareValues(object first, object second)
         {
-            bool result = StringComparer.InvariantCultureIgnoreCase.Compare(first, second) == 0;
+            var result = StringComparer.InvariantCultureIgnoreCase.Compare(first, second) == 0;
 
             return result;
         }
