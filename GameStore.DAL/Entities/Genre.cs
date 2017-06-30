@@ -7,13 +7,14 @@ namespace GameStore.DAL.Entities
     {
         public string Name { get; set; }
 
-        public ICollection<Genre> ChildGenres { get; set; }
+        public virtual ICollection<Genre> ChildGenres { get; set; }
 
-        public Genre ParentGenre { get; set; }
+        public virtual ICollection<Game> Games { get; set; }
 
         public Genre()
         {
             ChildGenres = new List<Genre>();
+            Games = new List<Game>();
         }
     }
 }

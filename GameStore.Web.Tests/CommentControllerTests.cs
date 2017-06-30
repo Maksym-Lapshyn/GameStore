@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using Castle.Components.DictionaryAdapter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
+using GameStore.Web.App_Start;
 using GameStore.Web.Controllers;
+using GameStore.Web.Models;
 
 namespace GameStore.Web.Tests
 {
@@ -16,34 +19,40 @@ namespace GameStore.Web.Tests
 
         public CommentControllerTests()
         {
+            WebAutoMapperConfig.RegisterMappings();
             _mockOfCommentService = new Mock<ICommentService>();
 			_mockOfCommentService.Setup(m => m.GetBy("COD123")).Returns(new List<CommentDto>
             {
                 new CommentDto {Name = "Elma", Body = "Wow, it is amazing"},
                 new CommentDto {Name = "Supra", Body = "This game is so so"}
             });
+
             _target = new CommentController(_mockOfCommentService.Object);
         }
 
         [TestMethod]
-        public void NewComment_CommentWithParentCommentId_AddsCommentToComment()
+        public void NewComment_CallsAddOnce_WhenNewCommentPassed()
         {
-            ActionResult result = _target.NewComment(new CommentDto());
-			_mockOfCommentService.Verify(m => m.Add(It.IsAny<CommentDto>()), Times.Once);
+            var result = _target.NewComment(new CommentViewModel());
+
+			_mockOfCommentService.Verify(m => m.Create(It.IsAny<CommentDto>()), Times.Once);
         }
 
         [TestMethod]
-        public void NewComment_CommentWithoutParentCommentId_AddsCommentToGame()
+        public void ListAllComments_ReturnsViewResult_WhenValidGameKeyPassed()
         {
-            ActionResult result = _target.NewComment(new CommentDto());
-			_mockOfCommentService.Verify(m => m.Add(It.IsAny<CommentDto>()), Times.Once);
+            var result = _target.ListAllComments("COD123");
+
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
         [TestMethod]
-        public void ListAllComments_ValidGameKey_ReturnsJson()
+        public void ListAllComments_ReturnsAllComments_WhenValidGameKeyPassed()
         {
-            ActionResult result = _target.ListAllComments("COD123");
-            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var result = _target.ListAllComments("COD123");
+            var count = ((List<CommentViewModel>) result.Model).Count;
+
+            Assert.IsTrue(count == 2);
         }
     }
 }

@@ -11,8 +11,6 @@ namespace GameStore.Services.DTOs
 
 		public IEnumerable<GameDto> Games { get; set; }
 
-		public bool IsDeleted { get; set; }
-
         public PlatformTypeDto()
         {
             Games = new List<GameDto>();

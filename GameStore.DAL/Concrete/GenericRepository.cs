@@ -11,7 +11,6 @@ namespace GameStore.DAL.Concrete
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        //TODO: Consider: make fields readonly Fixed in ML_2
         private readonly GameStoreContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
@@ -33,7 +32,7 @@ namespace GameStore.DAL.Concrete
 
         public TEntity GetById(int id)
         {
-            TEntity entity = _dbSet.First(e => e.Id == id);
+            var entity = _dbSet.First(e => e.Id == id);
 
             return entity;
         }
@@ -45,7 +44,7 @@ namespace GameStore.DAL.Concrete
 
         public void Delete(int id)
         {
-            TEntity entityToRemove = _dbSet.First(e => e.Id == id);
+            var entityToRemove = _dbSet.First(e => e.Id == id);
             entityToRemove.IsDeleted = true;
         }
 

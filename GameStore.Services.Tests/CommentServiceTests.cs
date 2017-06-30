@@ -19,7 +19,7 @@ namespace GameStore.Services.Tests
 
         public CommentServiceTests()
         {
-            ServiceAutoMapperConfig.RegisterMappings();
+            ServicesAutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
             _target = new CommentService(_mockOfUow.Object);
 
@@ -34,7 +34,7 @@ namespace GameStore.Services.Tests
             _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(
                 new List<Game>
                 {
-                    new Game() {Id = 1, Name = "Quake", Key = "Quakeiii", Comments = new List<Comment>()
+                    new Game {Id = 1, Name = "Quake", Key = "Quakeiii", Comments = new List<Comment>()
                     {
                         new Comment(){Id = 5, Name = "Emily", Body = "Check it out"}
                     }},
@@ -46,68 +46,39 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetAll_ReturnsAllComments()
         {
-            List<CommentDto> result = _target.GetAll().ToList();
+            var result = _target.GetAll().ToList();
+
             Assert.IsTrue(result.Count == 3);
         }
 
         [TestMethod]
         public void Add_CallsInsertOnce_WhenValidCommentPassed()
         {
-            _target.Add(new CommentDto
+            _target.Create(new CommentDto
             {
                 Id = 4,
                 GameId = 1,
                 Name = "AngryUser",
                 Body = "This game is awesomeeeeee"
             });
+
             _mockOfUow.Verify(m => m.CommentRepository.Insert(It.IsAny<Comment>()), Times.Once);
-        }
-
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void Add_ThrowsArgumentNullException_WhenNonExistingGamePassed()
-        {
-            _target.Add(new CommentDto
-            {
-                Id = 4,
-                GameId = 4125,
-                Name = "AngryUser",
-                Body = "This game is awesomeeeeee"
-            });
-        }
-
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void Add_ThrowsArgumentNullException_WhenNonExistingParentCommentPassed()
-        {
-            _target.Add(new CommentDto
-			{
-                Id = 4,
-                ParentCommentId = 213,
-                Name = "AngryUser",
-                Body = "Agree"
-            });
         }
 
         [TestMethod]
         public void GetBy_ReturnsAllComments_WhenValidGameKeyPassed()
         {
-            List<CommentDto> comments = _target.GetBy("Quakeiii").ToList();
+            var comments = _target.GetBy("Quakeiii").ToList();
+
             Assert.IsTrue(comments.Count == 1);
         }
 
         [TestMethod]
         public void GetBy_ReturnsNoComments_WhenKeyOfGameWithoutCommentsPassed()
         {
-            List<CommentDto> comments = _target.GetBy("Doombfg").ToList();
-            Assert.IsTrue(comments.Count == 0);
-        }
+            var comments = _target.GetBy("Doombfg").ToList();
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void GetBy_ThrowsArgumentNullException_WhenInvalid()
-        {
-            List<CommentDto> comments = _target.GetBy(string.Empty).ToList();
+            Assert.IsTrue(comments.Count == 0);
         }
     }
 }

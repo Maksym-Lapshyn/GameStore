@@ -16,13 +16,12 @@ namespace GameStore.Web
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            ServiceAutoMapperConfig.RegisterMappings();
+            ServicesAutoMapperConfig.RegisterMappings();
             WebAutoMapperConfig.RegisterMappings();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
         }
     }
 }
-
 
 //TODO: Required: blank line before return statement
 //TODO: Required: blank line before throw statement

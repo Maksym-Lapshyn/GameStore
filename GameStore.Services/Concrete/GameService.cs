@@ -21,22 +21,14 @@ namespace GameStore.Services.Concrete
 
         public void Create(GameDto gameDto)
         {
-            Game game = Mapper.Map<GameDto, Game>(gameDto);
-            bool gameKeyIsReserved = _unitOfWork.GameRepository.Get().All(g => g.Key != game.Key);
-            if (gameKeyIsReserved)
-			{
-                _unitOfWork.GameRepository.Insert(game);
-                _unitOfWork.Save();
-            }
-            else
-            {
-                throw new ArgumentException("There is a game with such key already");
-            }
+            var game = Mapper.Map<GameDto, Game>(gameDto);
+            _unitOfWork.GameRepository.Insert(game);
+            _unitOfWork.Save();
         }
 
         public void Edit(GameDto gameDto)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == gameDto.Id);
+            var game = _unitOfWork.GameRepository.Get().First(g => g.Id == gameDto.Id);
             game = Mapper.Map(gameDto, game);
             _unitOfWork.GameRepository.Update(game);
             _unitOfWork.Save();
@@ -50,43 +42,43 @@ namespace GameStore.Services.Concrete
 
         public GameDto Get(int id)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
-            GameDto gameDto = Mapper.Map<Game, GameDto>(game);
+            var game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
+            var gameDto = Mapper.Map<Game, GameDto>(game);
 
             return gameDto;
         }
 
         public GameDto GetSingleBy(string gameKey)
         {
-            Game game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
-            GameDto gameDto = Mapper.Map<Game, GameDto>(game);
+            var game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
+            var gameDto = Mapper.Map<Game, GameDto>(game);
 
             return gameDto;
         }
 
         public IEnumerable<GameDto> GetAll()
         {
-            IEnumerable<Game> games = _unitOfWork.GameRepository.Get();
-            IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+            var games = _unitOfWork.GameRepository.Get();
+            var gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
             return gameDtOs;
         }
 
         public IEnumerable<GameDto> GetBy(string genreName)
         {
-            IEnumerable<Game> games = _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(genre => genre.Name == genreName));
-            IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+            var games = _unitOfWork.GameRepository.Get().Where(game => game.Genres.Any(genre => genre.Name == genreName));
+            var gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
             return gameDtOs;
         }
 
         public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
         {
-            IEnumerable<Game> allGames = _unitOfWork.GameRepository.Get();
-            List<Game> matchedGames = new List<Game>();
-            foreach (Game game in allGames)
+            var allGames = _unitOfWork.GameRepository.Get();
+            var matchedGames = new List<Game>();
+            foreach (var game in allGames)
             {
-                foreach (PlatformType type in game.PlatformTypes)
+                foreach (var type in game.PlatformTypes)
                 {
                     if (platformTypeNames.Contains(type.Type))
                     {
@@ -94,7 +86,8 @@ namespace GameStore.Services.Concrete
                     }
                 }
             }
-            IEnumerable<GameDto> gameDtOs = Mapper.Map<IEnumerable<Game>, List<GameDto>>(matchedGames);
+
+            var gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
 
             return gameDtOs;
         }

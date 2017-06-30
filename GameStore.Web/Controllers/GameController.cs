@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
@@ -8,10 +9,9 @@ using GameStore.Web.Models;
 
 namespace GameStore.Web.Controllers
 {
-    [OutputCache(Duration = 60, VaryByHeader = "get;post")]
+    //[OutputCache(Duration = 60, VaryByHeader = "get;post")]
     public class GameController : Controller
     {
-		//TODO: Consider: make fields readonly Fixed in ML_2
 		private readonly IGameService _gameService;
 
         public GameController(IGameService service)
@@ -26,13 +26,14 @@ namespace GameStore.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewGame(GameDto game)
+        public ActionResult NewGame(GameViewModel gameViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(game);
+                return View(gameViewModel);
             }
-            _gameService.Create(game);
+            var gameDto = Mapper.Map<GameViewModel, GameDto>(gameViewModel);
+            _gameService.Create(gameDto);
 
             return Redirect("/games");
         }
@@ -45,16 +46,18 @@ namespace GameStore.Web.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        public JsonResult ShowGame(string gameKey)
+        public ViewResult ShowGame(string gameKey)
         {
-            GameDto game = _gameService.GetSingleBy(gameKey);
+            var gameDto = _gameService.GetSingleBy(gameKey);
+            var gameViewModel = Mapper.Map<GameDto, GameViewModel>(gameDto);
 
-            return Json(game, JsonRequestBehavior.AllowGet);
+            return View(gameViewModel);
         }
 
         public JsonResult ListAllGames()
         {
-            IEnumerable<GameDto> games = _gameService.GetAll();
+            var gameDtos = _gameService.GetAll();
+            var games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(gameDtos);
 
             return Json(games, JsonRequestBehavior.AllowGet);
         }
@@ -69,8 +72,8 @@ namespace GameStore.Web.Controllers
 
         public FileResult DownloadGame(string gameKey)
         {
-            string path = Server.MapPath("~/file.pdf");
-            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            var path = Server.MapPath("~/file.pdf");
+            var fileBytes = System.IO.File.ReadAllBytes(path);
 
             return new FileContentResult(fileBytes, "application/pdf");
         }

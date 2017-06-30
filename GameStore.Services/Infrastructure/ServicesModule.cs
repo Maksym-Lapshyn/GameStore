@@ -1,17 +1,17 @@
 ﻿
+using System;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Concrete;
+using GameStore.DAL.Entities;
 using Ninject.Modules;
 
 namespace GameStore.Services.Infrastructure
 {
-    public class ServiceModule : NinjectModule
+    public class ServicesModule : NinjectModule
     {
         private readonly string _connectionString;
 
-		//TODO: Consider: make fields readonly Fixed in ML_2
-
-        public ServiceModule(string connectionString)
+        public ServicesModule(string connectionString)
         {
             _connectionString = connectionString;
         }

@@ -19,9 +19,7 @@ namespace GameStore.Services.DTOs
 
         public CommentDto ParentComment { get; set; }
 
-        public ICollection<CommentDto> ChildComments { get; set; }
-
-        public bool IsDeleted { get; set; }
+        public IEnumerable<CommentDto> ChildComments { get; set; }
 
         public CommentDto()
         {

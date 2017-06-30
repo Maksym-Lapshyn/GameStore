@@ -19,7 +19,7 @@ namespace GameStore.Services.Tests
 
         public GameServiceTests()
         {
-            ServiceAutoMapperConfig.RegisterMappings();
+            ServicesAutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
             _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(
             new List<Game>
@@ -31,6 +31,7 @@ namespace GameStore.Services.Tests
                     new Game {Id = 3, Name = "Diablo", Key = "Diabloiii",
                         Genres = new List<Genre>{new Genre{Name = "RPG"}}}
                 });
+
             _target = new GameService(_mockOfUow.Object);
         }
 
@@ -43,19 +44,8 @@ namespace GameStore.Services.Tests
                 Key = "somekey",
                 Name = "LOL"
             });
-            _mockOfUow.Verify(m => m.GameRepository.Insert(It.IsAny<Game>()), Times.Once);
-        }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void Create_ThrowsArgumentNullException_GameWithAlreadyTakenKeyPassed()
-        {
-            _target.Create(new GameDto
-            {
-                Id = 4,
-                Key = "Quakeiii",
-                Name = "LOL"
-            });
+            _mockOfUow.Verify(m => m.GameRepository.Insert(It.IsAny<Game>()), Times.Once);
         }
 
         [TestMethod]
@@ -67,79 +57,55 @@ namespace GameStore.Services.Tests
                 Key = "COD",
                 Name = "COD123"
             });
-            _mockOfUow.Verify(m => m.GameRepository.Update(It.IsAny<Game>()), Times.Once);
-        }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void Edit_ThrowsArgumentNullException_WhenGameWithInvalidIdPassed()
-        {
-            _target.Edit(new GameDto
-            {
-                Id = 1516
-            });
+            _mockOfUow.Verify(m => m.GameRepository.Update(It.IsAny<Game>()), Times.Once);
         }
 
         [TestMethod]
         public void Delete_CallsDeleteOnce_WhenValidIdPassed()
         {
             _target.Delete(1);
-            _mockOfUow.Verify(m => m.GameRepository.Delete(1), Times.Once);
-        }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void Delete_ThrowsArgumentNullException_InvalidIdPassed()
-        {
-            _target.Delete(51561);
+            _mockOfUow.Verify(m => m.GameRepository.Delete(1), Times.Once);
         }
 
         [TestMethod]
         public void Get_ReturnsGame_WhenValidIdPassed()
         {
-            GameDto game = _target.Get(1);
+            var game = _target.Get(1);
+
             Assert.IsNotNull(game);
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void Get_ThrowsArgumentNullException_WhenInvalidIdPassed()
+        public void ReturnsGame_WhenValidGameKeyPassed()
         {
-            GameDto game = _target.Get(default(Int32));
-        }
+            var game = _target.GetSingleBy("Quakeiii");
 
-        [TestMethod]
-        public void Get_KeyOfExistingGame_ReturnsGame()
-        {
-            GameDto game = _target.GetSingleBy("Quakeiii");
             Assert.IsNotNull(game);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void Get_KeyOfNonExistingGame_ThrowsArgumentException()
+        public void GetAll_ReturnsAllGames()
         {
-            GameDto game = _target.GetSingleBy(string.Empty);
-        }
+            var games = _target.GetAll().ToList();
 
-        [TestMethod]
-        public void GetAll_ThreeGames_ReturnsAllGames()
-        {
-            List<GameDto> games = _target.GetAll().ToList();
             Assert.IsTrue(games.Count == 3);
         }
 
         [TestMethod]
-        public void GetGamesByGenre_ExistingGenre_ReturnsMatches()
+        public void GetBy_ReturnsAllGames_WhenValidGenrePassed()
         {
-            List<GameDto> games = _target.GetBy("Action").ToList();
+            var games = _target.GetBy("Action").ToList();
+
             Assert.IsTrue(games.Count == 2);
         }
 
         [TestMethod]
-        public void GetGamesByGenre_NonExistingGenre_ReturnsNoMatches()
+        public void GetBy_ReturnsNoGames_WhenEmptyStringPassed()
         {
-            List<GameDto> games = _target.GetBy("gdasgdas").ToList();
+            var games = _target.GetBy(string.Empty).ToList();
+
             Assert.IsTrue(games.Count == 0);
         }
     }

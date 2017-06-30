@@ -49,16 +49,22 @@
   <ItemGroup>
     <Compile Include="Abstract\ICommentService.cs" />
     <Compile Include="Abstract\IGameService.cs" />
+    <Compile Include="Abstract\IGenreService.cs" />
+    <Compile Include="Abstract\IPlatformTypeService.cs" />
+    <Compile Include="Abstract\IPublisherService.cs" />
     <Compile Include="Abstract\IService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
     <Compile Include="Concrete\GameService.cs" />
+    <Compile Include="Concrete\GenreService.cs" />
+    <Compile Include="Concrete\PlatformTypeService.cs" />
+    <Compile Include="Concrete\PublisherService.cs" />
     <Compile Include="DTOs\CommentDto.cs" />
     <Compile Include="DTOs\GameDto.cs" />
     <Compile Include="DTOs\GenreDto.cs" />
     <Compile Include="DTOs\PlatformTypeDto.cs" />
     <Compile Include="DTOs\PublisherDto.cs" />
-    <Compile Include="Infrastructure\ServiceAutoMapperConfig.cs" />
-    <Compile Include="Infrastructure\ServiceModule.cs" />
+    <Compile Include="Infrastructure\ServicesAutoMapperConfig.cs" />
+    <Compile Include="Infrastructure\ServicesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

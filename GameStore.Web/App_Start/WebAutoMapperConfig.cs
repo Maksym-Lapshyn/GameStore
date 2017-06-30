@@ -12,6 +12,8 @@ namespace GameStore.Web.App_Start
             Mapper.Initialize(cfg => cfg.CreateMap<GameViewModel, GameDto>());
             Mapper.Initialize(cfg => cfg.CreateMap<CommentDto, CommentViewModel>());
             Mapper.Initialize(cfg => cfg.CreateMap<CommentViewModel, CommentDto>());
+            Mapper.Initialize(cfg => cfg.CreateMap<PublisherDto, PublisherViewModel>());
+            Mapper.Initialize(cfg => cfg.CreateMap<PublisherViewModel, PublisherDto>());
             Mapper.Initialize(cfg => cfg.CreateMap<PlatformTypeDto, PlatformTypeViewModel>());
             Mapper.Initialize(cfg => cfg.CreateMap<PlatformTypeViewModel, PlatformTypeDto>());
             Mapper.Initialize(cfg => cfg.CreateMap<GenreDto, GenreViewModel>());

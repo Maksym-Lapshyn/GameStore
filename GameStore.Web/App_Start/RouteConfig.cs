@@ -60,6 +60,18 @@ namespace GameStore.Web
             );
 
             routes.MapRoute(
+                name: "DisplayPublisher",
+                url: "publisher/{companyName}",
+                defaults: new { controller = "Publisher", action = "ShowPublisher" }
+            );
+
+            routes.MapRoute(
+                name: "CreatePublisher",
+                url: "publisher/new",
+                defaults: new { controller = "Publisher", action = "NewPublisher" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

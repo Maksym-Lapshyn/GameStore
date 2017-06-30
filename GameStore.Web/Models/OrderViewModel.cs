@@ -8,9 +8,12 @@ namespace GameStore.Web.Models
     public class OrderViewModel
     {
         public int Id { get; set; }
+
         public int CustomerId { get; set; }
+
         public DateTime Date { get; set; }
-        public ICollection<OrderDetailsViewModel> OrderDetails { get; set; }
+
+        public IEnumerable<OrderDetailsViewModel> OrderDetails { get; set; }
 
         public OrderViewModel()
         {

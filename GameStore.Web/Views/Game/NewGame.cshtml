@@ -1,0 +1,15 @@
+﻿@model GameStore.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "New Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>New Game</h1>
+
+@using (Html.BeginForm("NewGame", "Game", FormMethod.Post)) 
+{
+    @Html.ValidationSummary()
+    @Html.EditorForModel(Model)
+    <button type="submit">Create</button>
+}

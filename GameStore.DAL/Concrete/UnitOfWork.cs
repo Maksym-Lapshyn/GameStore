@@ -8,35 +8,35 @@ namespace GameStore.DAL.Concrete
     public class UnitOfWork : IUnitOfWork
     {
         private readonly GameStoreContext _context;
-    
-        private readonly Lazy<IGenericRepository<Game>> _gameRepository = new Lazy<IGenericRepository<Game>>();
-        private readonly Lazy<IGenericRepository<Comment>> _commentRepository = new Lazy<IGenericRepository<Comment>>();
+        private readonly Lazy<IGenericRepository<Game>> _gameRepository;
+        private readonly Lazy<IGenericRepository<Comment>> _commentRepository;
+        private readonly Lazy<IGenericRepository<Publisher>> _publisherRepository;
+        private readonly Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
+        private readonly Lazy<IGenericRepository<Genre>> _genreRepository;
+
+        public IGenericRepository<Game> GameRepository => _gameRepository.Value;
+
+        public IGenericRepository<Comment> CommentRepository => _commentRepository.Value;
+
+        public IGenericRepository<Publisher> PublisherRepository => _publisherRepository.Value;
+
+        public IGenericRepository<Genre> GenreRepository => _genreRepository.Value;
+
+        public IGenericRepository<PlatformType> PlatformTypeRepository => _platformTypeRepository.Value;
 
         public UnitOfWork(string connectionString)
         {
             _context = new GameStoreContext(connectionString);
-        }
-
-		//TODO: Suggestion: Use Lazy<T> in getter
-		public IGenericRepository<Game> GameRepository
-        {
-            get { return _gameRepository.Value; }
-        }
-
-		//TODO: Suggestion: Use Lazy<T> in getter
-		public IGenericRepository<Comment> CommentRepository
-        {
-            get { return _commentRepository.Value; }
+            _gameRepository = new Lazy<IGenericRepository<Game>>(() => new GenericRepository<Game>(_context));
+            _commentRepository = new Lazy<IGenericRepository<Comment>>(() => new GenericRepository<Comment>(_context));
+            _publisherRepository = new Lazy<IGenericRepository<Publisher>>(() => new GenericRepository<Publisher>(_context));
+            _platformTypeRepository = new Lazy<IGenericRepository<PlatformType>>(() => new GenericRepository<PlatformType>(_context));
+            _genreRepository = new Lazy<IGenericRepository<Genre>>(() => new GenericRepository<Genre>(_context));
         }
 
         public void Save()
         {
             _context.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
         }
     }
 }

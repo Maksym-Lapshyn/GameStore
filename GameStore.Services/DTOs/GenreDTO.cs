@@ -11,8 +11,6 @@ namespace GameStore.Services.DTOs
 
         public IEnumerable<GenreDto> ChildGenres { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         public GenreDto ParentGenre { get; set; }
 
 		public GenreDto()

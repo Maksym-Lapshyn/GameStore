@@ -1,0 +1,30 @@
+﻿@model GameStore.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Show Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Game</h1>
+
+@Html.DisplayNameFor(model => model.Key)<br />
+@Html.DisplayFor(model => model.Key)<br />
+
+@Html.DisplayNameFor(model => model.Name)<br />
+@Html.DisplayFor(model => model.Name)<br />
+
+@Html.DisplayNameFor(model => model.Description)<br />
+@Html.DisplayFor(model => model.Description)<br />
+
+@Html.DisplayNameFor(model => model.Price)<br />
+@Html.DisplayFor(model => model.Price)<br />
+
+@Html.DisplayNameFor(model => model.UnitsInStock)<br />
+@Html.DisplayFor(model => model.UnitsInStock)<br />
+
+@Html.DisplayNameFor(model => model.Discontinued)<br />
+@Html.DisplayFor(model => model.Discontinued)<br />
+
+
+<a href="/game/@Model.Key/download" target="_blank">Download</a>
+<a href="/game/@Model.Key/comments">Comments</a>

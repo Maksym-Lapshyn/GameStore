@@ -19,7 +19,7 @@ namespace GameStore.Web.Controllers
         {
             if (!_gameService.GetAll().Any())
             {
-                GameDto game = new GameDto { Name = "Test game" };
+                var game = new GameDto { Name = "Test game" };
                 _gameService.Create(game);
             }
 

@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Entities
 {
 	public class Game : BaseEntity
     {
+        [StringLength(450)]
+        [Index(IsUnique = true)]
         public string Key { get; set; }
 
         public string Name { get; set; }
