@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using GameStore.Web.Infrastructure.Abstract;
 
-namespace GameStore.Web.Infrastructure.Attributes
+namespace GameStore.Web.Infrastructure.Filters
 {
     public class LogEventsAndPerformanceAttribute : ActionFilterAttribute
     {

@@ -47,7 +47,10 @@ namespace GameStore.Services.Concrete
 
         public IEnumerable<PublisherDto> GetAll()
         {
-            throw new NotImplementedException();
+            var publishers = _unitOfWork.PublisherRepository.Get();
+            var publisherDtos = Mapper.Map<IEnumerable<Publisher>, IEnumerable< PublisherDto>>(publishers);
+
+            return publisherDtos;
         }
 
         public PublisherDto GetBy(string companyName)

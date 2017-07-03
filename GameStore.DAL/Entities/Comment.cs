@@ -18,10 +18,5 @@ namespace GameStore.DAL.Entities
         public virtual Comment ParentComment { get; set; }
 
         public virtual ICollection<Comment> ChildComments { get; set; }
-
-        public Comment()
-        {
-            ChildComments = new List<Comment>();
-        }
     }
 }

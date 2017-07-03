@@ -12,11 +12,6 @@ namespace GameStore.Web.Models
 
         public string Type { get; set; }
 
-        public IEnumerable<GameViewModel> Games { get; set; }
-
-        public PlatformTypeViewModel()
-        {
-            Games = new List<GameViewModel>();
-        }
+        public List<GameViewModel> Games { get; set; }
     }
 }

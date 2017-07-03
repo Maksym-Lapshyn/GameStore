@@ -14,11 +14,5 @@ namespace GameStore.DAL.Entities
         public virtual ICollection<Genre> ChildGenres { get; set; }
 
         public virtual ICollection<Game> Games { get; set; }
-
-        public Genre()
-        {
-            ChildGenres = new List<Genre>();
-            Games = new List<Game>();
-        }
     }
 }

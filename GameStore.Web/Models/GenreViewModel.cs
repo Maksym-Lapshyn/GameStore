@@ -17,10 +17,5 @@ namespace GameStore.Web.Models
 
         [ScriptIgnore]
         public GenreDto ParentGenre { get; set; }
-
-        public GenreViewModel()
-        {
-            ChildGenres = new List<GenreViewModel>();
-        }
     }
 }

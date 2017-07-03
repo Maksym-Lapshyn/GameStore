@@ -137,10 +137,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
+    <Compile Include="Infrastructure\Attributes\CannotBeEmptyAttribute.cs" />
     <Compile Include="Infrastructure\Concrete\Logger.cs" />
-    <Compile Include="Infrastructure\Attributes\LogEventsAndPerformanceAttribute.cs" />
-    <Compile Include="Infrastructure\Attributes\LogExceptionAttribute.cs" />
-    <Compile Include="Infrastructure\Attributes\LogIpAttribute.cs" />
+    <Compile Include="Infrastructure\Filters\LogEventsAndPerformanceAttribute.cs" />
+    <Compile Include="Infrastructure\Filters\LogExceptionAttribute.cs" />
+    <Compile Include="Infrastructure\Filters\LogIpAttribute.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />

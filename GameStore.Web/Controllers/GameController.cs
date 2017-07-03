@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
@@ -15,18 +16,24 @@ namespace GameStore.Web.Controllers
 		private readonly IGameService _gameService;
         private readonly IGenreService _genreService;
         private readonly IPlatformTypeService _platformTypeService;
+        private readonly IPublisherService _publisherService;
 
-        public GameController(IGameService gameService, IGenreService genreService, IPlatformTypeService platformTypeService)
+        public GameController(IGameService gameService, IGenreService genreService,
+            IPlatformTypeService platformTypeService, IPublisherService publisherService)
         {
             _gameService = gameService;
             _genreService = genreService;
             _platformTypeService = platformTypeService;
+            _publisherService = publisherService;
         }
 
         [HttpGet]
         public ActionResult NewGame()
         {
-            return View(new GameViewModel());
+            var gameViewModel = new GameViewModel();
+            FillProperties(gameViewModel);
+
+            return View(gameViewModel);
         }
 
         [HttpPost]
@@ -34,8 +41,7 @@ namespace GameStore.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                gameViewModel.PlatformTypes = Mapper.Map<IEnumerable<PlatformTypeDto>, IEnumerable<PlatformTypeViewModel>>(_platformTypeService.GetAll());
-                gameViewModel.Genres = Mapper.Map<IEnumerable<GenreDto>, IEnumerable<GenreViewModel>>(_genreService.GetAll());
+                FillProperties(gameViewModel);
 
                 return View(gameViewModel);
             }
@@ -65,7 +71,7 @@ namespace GameStore.Web.Controllers
         public JsonResult ListAllGames()
         {
             var gameDtos = _gameService.GetAll();
-            var games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(gameDtos);
+            var games = Mapper.Map<List<GameDto>, List<GameViewModel>>(gameDtos.ToList());
 
             return Json(games, JsonRequestBehavior.AllowGet);
         }
@@ -84,6 +90,13 @@ namespace GameStore.Web.Controllers
             var fileBytes = System.IO.File.ReadAllBytes(path);
 
             return new FileContentResult(fileBytes, "application/pdf");
+        }
+
+        private void FillProperties(GameViewModel gameViewModel)
+        {
+            gameViewModel.AllPlatforms = Mapper.Map<List<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll().ToList());
+            gameViewModel.AllGenres = Mapper.Map<List<GenreDto>, List<GenreViewModel>>(_genreService.GetAll().ToList());
+            gameViewModel.AllPublishers = Mapper.Map<List<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll().ToList());
         }
     }
 }

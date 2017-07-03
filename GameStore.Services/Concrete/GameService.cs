@@ -22,6 +22,11 @@ namespace GameStore.Services.Concrete
         public void Create(GameDto gameDto)
         {
             var game = Mapper.Map<GameDto, Game>(gameDto);
+            game.Publisher = _unitOfWork.PublisherRepository.GetById(gameDto.SelectedPublisherId);
+            var matchedPlatforms = gameDto.SelectedPlatformIds.Select(id => _unitOfWork.PlatformTypeRepository.GetById(id)).ToList();
+            game.PlatformTypes = matchedPlatforms;
+            var matchedGenres = gameDto.SelectedGenreIds.Select(id => _unitOfWork.GenreRepository.GetById(id)).ToList();
+            game.Genres = matchedGenres;
             _unitOfWork.GameRepository.Insert(game);
             _unitOfWork.Save();
         }
@@ -52,6 +57,9 @@ namespace GameStore.Services.Concrete
         {
             var game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
             var gameDto = Mapper.Map<Game, GameDto>(game);
+            gameDto.AllGenres = Mapper.Map<List<Genre>, List<GenreDto>>(game.Genres.ToList());
+            gameDto.AllPlatforms = Mapper.Map<List<PlatformType>, List<PlatformTypeDto>>(game.PlatformTypes.ToList());
+            gameDto.AllPublishers = new List<PublisherDto> { Mapper.Map<Publisher, PublisherDto>(game.Publisher) };
 
             return gameDto;
         }
@@ -75,18 +83,7 @@ namespace GameStore.Services.Concrete
         public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
         {
             var allGames = _unitOfWork.GameRepository.Get();
-            var matchedGames = new List<Game>();
-            foreach (var game in allGames)
-            {
-                foreach (var type in game.PlatformTypes)
-                {
-                    if (platformTypeNames.Contains(type.Type))
-                    {
-                        matchedGames.Add(game);
-                    }
-                }
-            }
-
+            var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game).ToList();
             var gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
 
             return gameDtOs;

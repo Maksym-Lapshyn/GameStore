@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Models
 {
     public class GameViewModel
     {
-        [HiddenInput]
+        [ScaffoldColumn(false)]
         public int Id { get; set; }
 
         [Required]
@@ -22,29 +25,36 @@ namespace GameStore.Web.Models
         public string Description { get; set; }
 
         [Required]
+        [Range(0.1, double.MaxValue)]
         public decimal Price { get; set; }
 
-        [Required]
+        [ScaffoldColumn(false)]
         public short UnitsInStock { get; set; }
 
-        [Required]
+        [ScaffoldColumn(false)]
         public bool Discontinued { get; set; }
 
-        public int? PublisherId { get; set; }
+        [DisplayName("Publisher")]
+        public List<PublisherViewModel> AllPublishers { get; set; }
 
-        public PublisherViewModel Publisher { get; set; }
+        [DisplayName("Genres")]
+        public List<GenreViewModel> AllGenres { get; set; }
 
-        public IEnumerable<CommentViewModel> Comments { get; set; }
+        [DisplayName("Platforms")]
+        public List<PlatformTypeViewModel> AllPlatforms { get; set; }
 
-        public IEnumerable<GenreViewModel> Genres { get; set; }
+        [DisplayName("Publisher")]
+        [Required]
+        [HiddenInput]
+        [ScaffoldColumn(false)]
+        public int SelectedPublisherId { get; set; }
 
-        public IEnumerable<PlatformTypeViewModel> PlatformTypes { get; set; }
+        [DisplayName("Genres")]
+        [CannotBeEmpty]
+        public List<int> SelectedGenreIds { get; set; }
 
-        public GameViewModel()
-        {
-            Comments = new List<CommentViewModel>();
-            Genres = new List<GenreViewModel>();
-            PlatformTypes = new List<PlatformTypeViewModel>();
-        }
+        [DisplayName("Platforms")]
+        [CannotBeEmpty]
+        public List<int> SelectedPlatformIds { get; set; }
     }
 }

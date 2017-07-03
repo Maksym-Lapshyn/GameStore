@@ -15,6 +15,7 @@ namespace GameStore.Web.Tests
         private readonly Mock<IGameService> _mockOfGameService;
         private readonly Mock<IGenreService> _mockOfGenreService;
         private readonly Mock<IPlatformTypeService> _mockOfPlatformTypeService;
+        private readonly Mock<IPublisherService> _mockOfPublisherService;
         private readonly GameController _target;
 
         public GameControllerTests()
@@ -23,7 +24,8 @@ namespace GameStore.Web.Tests
             _mockOfGameService = new Mock<IGameService>();
             _mockOfPlatformTypeService = new Mock<IPlatformTypeService>();
             _mockOfGenreService = new Mock<IGenreService>();
-            _target = new GameController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object);
+            _mockOfPublisherService = new Mock<IPublisherService>();
+            _target = new GameController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object);
         }
 
         [TestMethod]

@@ -31,10 +31,5 @@ namespace GameStore.Web.Models
         public CommentViewModel ParentComment { get; set; }
 
         public IEnumerable<CommentViewModel> ChildComments { get; set; }
-
-        public CommentViewModel()
-        {
-            ChildComments = new List<CommentViewModel>();
-        }
     }
 }

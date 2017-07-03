@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using GameStore.Web.App_Start;
 using GameStore.Services.Infrastructure;
-using GameStore.Web.Infrastructure.Attributes;
+using GameStore.Web.Infrastructure.Filters;
 
 namespace GameStore.Web
 {

@@ -61,7 +61,7 @@ namespace GameStore.Services.Concrete
 
         public IEnumerable<CommentDto> GetBy(string gameKey)
         {
-            var game = _unitOfWork.GameRepository.Get().First(g => String.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
+            var game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
             var comments = game.Comments.Where(c => c.ParentComment == null);
             var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 

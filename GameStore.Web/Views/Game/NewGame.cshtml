@@ -7,12 +7,21 @@
 
 <h1>New Game</h1>
 
-@using (Html.BeginForm("NewGame", "Game", FormMethod.Post)) 
+@using (Html.BeginForm("NewGame", "Game", FormMethod.Post))
 {
-    @Html.ValidationSummary()
     @Html.EditorForModel(Model)
 
-    
+    @Html.LabelFor(m => m.SelectedPlatformIds)<br />
+    @Html.ListBoxFor(m => m.SelectedPlatformIds, new SelectList(Model.AllPlatforms, "Id", "Type"))<br />
+    @Html.ValidationMessageFor(m => m.SelectedPlatformIds)<br />
+
+    @Html.LabelFor(m => m.SelectedGenreIds)<br />
+    @Html.ListBoxFor(m => m.SelectedGenreIds, new SelectList(Model.AllGenres, "Id", "Name"))<br />
+    @Html.ValidationMessageFor(m => m.SelectedGenreIds)<br />
+
+    @Html.LabelFor(m => m.SelectedPublisherId)<br />
+    @Html.DropDownListFor(m => m.SelectedPublisherId, new SelectList(Model.AllPublishers, "Id", "CompanyName"))<br />
+    @Html.ValidationMessageFor(m => m.SelectedPublisherId)<br />
 
     <button type="submit">Create</button>
 }

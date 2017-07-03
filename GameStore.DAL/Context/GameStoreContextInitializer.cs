@@ -68,6 +68,19 @@ namespace GameStore.DAL.Context
                 Body = "No, you know nothing. It is cool"
             };
 
+            var firstPublisher = new Publisher
+            {
+                CompanyName = "Namco",
+                HomePage = "bandainamco.com",
+            };
+
+            var secondPublisher = new Publisher
+            {
+                CompanyName = "Capcom",
+                HomePage = "capcom.com",
+            };
+
+            context.Publishers.AddRange(new List<Publisher> {firstPublisher, secondPublisher});
             context.Comments.AddRange(new List<Comment> {firstComment, secondComment, thirdComment, fourthComment});
             context.SaveChanges();
             base.Seed(context);

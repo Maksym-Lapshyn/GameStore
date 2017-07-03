@@ -13,11 +13,6 @@ namespace GameStore.Web.Models
 
         public DateTime Date { get; set; }
 
-        public IEnumerable<OrderDetailsViewModel> OrderDetails { get; set; }
-
-        public OrderViewModel()
-        {
-            OrderDetails = new List<OrderDetailsViewModel>();
-        }
+        public List<OrderDetailsViewModel> OrderDetails { get; set; }
     }
 }
