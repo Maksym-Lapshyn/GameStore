@@ -39,8 +39,6 @@ namespace GameStore.Web.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				FillProperties(gameViewModel);
-
 				return View(gameViewModel);
 			}
 
