@@ -20,7 +20,7 @@ namespace GameStore.Web.Tests
 		{
 			WebAutoMapperConfig.RegisterMappings();
 			_mockOfCommentService = new Mock<ICommentService>();
-			_mockOfCommentService.Setup(m => m.GetBy("COD123")).Returns(new List<CommentDto>
+			_mockOfCommentService.Setup(m => m.GetSingleBy("COD123")).Returns(new List<CommentDto>
 			{
 				new CommentDto {Name = "Elma", Body = "Wow, it is amazing"},
 				new CommentDto {Name = "Supra", Body = "This game is so so"}
@@ -30,25 +30,25 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void NewComment_CallsAddOnce_WhenNewCommentPassed()
+		public void New_CallsAddOnce_WhenNewCommentPassed()
 		{
-			_target.NewComment(new CommentViewModel());
+			_target.New(new CommentViewModel());
 
 			_mockOfCommentService.Verify(m => m.Create(It.IsAny<CommentDto>()), Times.Once);
 		}
 
 		[TestMethod]
-		public void ListAllComments_ReturnsViewResult_WhenValidGameKeyPassed()
+		public void ListAll_ReturnsViewResult_WhenValidGameKeyPassed()
 		{
-			var result = _target.ListAllComments("COD123");
+			var result = _target.ListAll("COD123");
 
 			Assert.IsInstanceOfType(result, typeof(ViewResult));
 		}
 
 		[TestMethod]
-		public void ListAllComments_ReturnsAllComments_WhenValidGameKeyPassed()
+		public void ListAll_ReturnsAllComments_WhenValidGameKeyPassed()
 		{
-			var result = _target.ListAllComments("COD123");
+			var result = _target.ListAll("COD123");
 			var count = ((List<CommentViewModel>) result.Model).Count;
 
 			Assert.IsTrue(count == 2);

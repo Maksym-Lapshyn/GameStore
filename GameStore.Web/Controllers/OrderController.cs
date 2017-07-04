@@ -6,14 +6,14 @@ namespace GameStore.Web.Controllers
 {
     public class OrderController : Controller
     {
-        public ActionResult ShowOrder()
+        public ActionResult Show()
         {
             var order = GetOrder();
 
             return View(order);
         }
 
-        public ActionResult EditOrder(int gameId)
+        public ActionResult Edit(int gameId)
         {
             var orderViewModel = GetOrder();
             if (orderViewModel.OrderDetails.Any(o => o.GameId == gameId))
@@ -25,7 +25,7 @@ namespace GameStore.Web.Controllers
                 orderViewModel.OrderDetails.Add(new OrderDetailsViewModel{GameId = gameId, Quantity = 1});
             }
 
-            return RedirectToAction("ShowOrder");
+            return RedirectToAction("Show");
         }
 
         private OrderViewModel GetOrder()

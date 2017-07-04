@@ -42,7 +42,7 @@ namespace GameStore.Services.Concrete
             _unitOfWork.Save();
         }
 
-        public GameDto Get(int id)
+        public GameDto GetSingleBy(int id)
         {
             var game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
             var gameDto = Mapper.Map<Game, GameDto>(game);

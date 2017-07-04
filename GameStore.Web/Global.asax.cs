@@ -11,20 +11,14 @@ using GameStore.Web.Infrastructure.Filters;
 namespace GameStore.Web
 {
 	public class MvcApplication : HttpApplication
-    {
-        protected void Application_Start()
-        {
-            AreaRegistration.RegisterAllAreas();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            ServicesAutoMapperConfig.RegisterMappings();
-            WebAutoMapperConfig.RegisterMappings();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-        }
-    }
+	{
+		protected void Application_Start()
+		{
+			AreaRegistration.RegisterAllAreas();
+			RouteConfig.RegisterRoutes(RouteTable.Routes);
+			ServicesAutoMapperConfig.RegisterMappings();
+			WebAutoMapperConfig.RegisterMappings();
+			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+		}
+	}
 }
-
-//TODO: Required: blank line before return statement
-//TODO: Required: blank line before throw statement
-//TODO: Required: blank line before Assert statement
-//TODO: Required: meaningful names for tests
-//TODO: Consider: var for local variables

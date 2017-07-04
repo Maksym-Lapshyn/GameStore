@@ -22,6 +22,7 @@ namespace GameStore.Web.Tests
 		{
 			WebAutoMapperConfig.RegisterMappings();
 			_mockOfGameService = new Mock<IGameService>();
+		    _mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>()));
 			_mockOfPlatformTypeService = new Mock<IPlatformTypeService>();
 			_mockOfGenreService = new Mock<IGenreService>();
 			_mockOfPublisherService = new Mock<IPublisherService>();
@@ -29,58 +30,58 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void NewGame_CallsCreateOnce_WhenValidGamePassed()
+		public void New_CallsCreateOnce_WhenValidGamePassed()
 		{
-			_target.NewGame(new GameViewModel());
+			_target.New(new GameViewModel());
 
 			_mockOfGameService.Verify(m => m.Create(It.IsAny<GameDto>()), Times.Once);
 		}
 
 		[TestMethod]
-		public void UpdateGame_CallsEditOnce_WhenValidGamePassed()
+		public void Update_CallsEditOnce_WhenValidGamePassed()
 		{
-			_target.UpdateGame(new GameDto());
+			_target.Update(new GameDto());
 
 			_mockOfGameService.Verify(m => m.Edit(It.IsAny<GameDto>()), Times.Once);
 		}
 
 		[TestMethod]
-		public void ShowGame_RetrunsViewResult_WhenValidGameKeyPassed()
+		public void Show_RetrunsViewResult_WhenValidGameKeyPassed()
 		{
-			var result = _target.ShowGame("somegame");
+			var result = _target.Show("somegame");
 
 			Assert.IsInstanceOfType(result, typeof(ViewResult));
 		}
 
 		[TestMethod]
-		public void ListAllGames_ReturnsJson()
+		public void ListAll_ReturnsJson()
 		{
-			var result = _target.ListAllGames();
+			var result = _target.ListAll();
 
 			Assert.IsInstanceOfType(result, typeof(JsonResult));
 		}
 
 		[TestMethod]
-		public void NewGame_ReturnsViewResult()
+		public void New_ReturnsViewResult()
 		{
-			var result = _target.NewGame();
+			var result = _target.New();
 
 			Assert.IsInstanceOfType(result, typeof(ViewResult));
 		}
 
 		[TestMethod]
-		public void NewGame_ReturnsRedirectResult_WhenValidGamePassed()
+		public void New_ReturnsRedirectResult_WhenValidGamePassed()
 		{
-			var result = _target.NewGame(new GameViewModel());
+			var result = _target.New(new GameViewModel());
 
 			Assert.IsInstanceOfType(result, typeof(RedirectResult));
 		}
 
 		[TestMethod]
-		public void NewGame_ReturnsViewResult_WhenModelStateIsInvalid()
+		public void New_ReturnsViewResult_WhenModelStateIsInvalid()
 		{
 			_target.ModelState.AddModelError("testError", "testError");
-			var result = _target.NewGame(new GameViewModel());
+			var result = _target.New(new GameViewModel());
 
 			Assert.IsInstanceOfType(result, typeof(ViewResult));
 		}

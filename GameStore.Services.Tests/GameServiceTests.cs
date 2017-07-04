@@ -69,15 +69,15 @@ namespace GameStore.Services.Tests
         }
 
         [TestMethod]
-        public void Get_ReturnsGame_WhenValidIdPassed()
+        public void GetSingleBy_ReturnsGame_WhenValidIdPassed()
         {
-            var game = _target.Get(1);
+            var game = _target.GetSingleBy(1);
 
             Assert.IsNotNull(game);
         }
 
         [TestMethod]
-        public void ReturnsGame_WhenValidGameKeyPassed()
+        public void GetSingleBy_ReturnsGame_WhenValidGameKeyPassed()
         {
             var game = _target.GetSingleBy("Quakeiii");
 

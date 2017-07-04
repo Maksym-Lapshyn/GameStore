@@ -1,9 +1,16 @@
-﻿using GameStore.Services.DTOs;
+﻿using System.Collections.Generic;
+using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-    public interface IPublisherService : IService<PublisherDto>
+    public interface IPublisherService
     {
-        PublisherDto GetBy(string companyName);
+        PublisherDto GetSingleBy(string companyName);
+
+        void Create(PublisherDto entity);
+
+        PublisherDto GetSingleBy(int publisherId);
+
+        IEnumerable<PublisherDto> GetAll();
     }
 }

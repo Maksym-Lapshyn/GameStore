@@ -17,13 +17,13 @@ namespace GameStore.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult NewPublisher()
+        public ActionResult New()
         {
             return View(new PublisherViewModel());
         }
 
         [HttpPost]
-        public ActionResult NewPublisher(PublisherViewModel publisherViewModel)
+        public ActionResult New(PublisherViewModel publisherViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -36,9 +36,9 @@ namespace GameStore.Web.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        public ActionResult ShowPublisher(string companyName)
+        public ActionResult Show(string companyName)
         {
-            var publisherViewModel = Mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetBy(companyName));
+            var publisherViewModel = Mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingleBy(companyName));
 
             return View(publisherViewModel);
         }

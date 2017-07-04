@@ -19,7 +19,7 @@ namespace GameStore.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewComment(CommentViewModel commentViewModel)
+        public ActionResult New(CommentViewModel commentViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -29,13 +29,13 @@ namespace GameStore.Web.Controllers
             var commentDto = Mapper.Map<CommentViewModel, CommentDto>(commentViewModel);
             _commentService.Create(commentDto);
 
-            return RedirectToAction("ListAllComments", new { gameKey = commentViewModel.GameKey });
+            return RedirectToAction("ListAll", new { gameKey = commentViewModel.GameKey });
         }
 
         [HttpGet]
-        public ViewResult ListAllComments(string gameKey)
+        public ViewResult ListAll(string gameKey)
         {
-            var commentDtos = _commentService.GetBy(gameKey);
+            var commentDtos = _commentService.GetSingleBy(gameKey);
             var commentViewModels = Mapper.Map<List<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
 
             return View(commentViewModels.ToList());

@@ -25,17 +25,7 @@ namespace GameStore.Services.Concrete
             _unitOfWork.Save();
         }
 
-        public void Edit(PublisherDto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PublisherDto Get(int id)
+        public PublisherDto GetSingleBy(int id)
         {
             var publisher = _unitOfWork.PublisherRepository.GetById(id);
             var publisherDto = Mapper.Map<Publisher, PublisherDto>(publisher);
@@ -51,7 +41,7 @@ namespace GameStore.Services.Concrete
             return publisherDtos;
         }
 
-        public PublisherDto GetBy(string companyName)
+        public PublisherDto GetSingleBy(string companyName)
         {
             var publisher = _unitOfWork.PublisherRepository.Get()
                 .First(p => string.Equals(p.CompanyName, companyName, StringComparison.CurrentCultureIgnoreCase));

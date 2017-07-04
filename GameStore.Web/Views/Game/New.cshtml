@@ -7,7 +7,7 @@
 
 <h1>New Game</h1>
 
-@using (Html.BeginForm("NewGame", "Game", FormMethod.Post))
+@using (Html.BeginForm("New", "Game", FormMethod.Post))
 {
     @Html.LabelFor(m => m.Key)<br/>
     @Html.EditorFor(m => m.Key)<br />

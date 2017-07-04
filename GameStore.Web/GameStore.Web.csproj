@@ -163,16 +163,16 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Game\NewGame.cshtml" />
-    <Content Include="Views\Game\ShowGame.cshtml" />
-    <Content Include="Views\Comment\ListAllComments.cshtml" />
-    <Content Include="Views\Comment\NewComment.cshtml" />
+    <Content Include="Views\Game\New.cshtml" />
+    <Content Include="Views\Game\Show.cshtml" />
+    <Content Include="Views\Comment\ListAll.cshtml" />
+    <Content Include="Views\Comment\New.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Game\ShowNumberOfGames.cshtml" />
-    <Content Include="Views\Publisher\ShowPublisher.cshtml" />
-    <Content Include="Views\Publisher\NewPublisher.cshtml" />
-    <Content Include="Views\Order\ShowOrder.cshtml" />
+    <Content Include="Views\Publisher\Show.cshtml" />
+    <Content Include="Views\Publisher\New.cshtml" />
+    <Content Include="Views\Order\Show.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -17,26 +17,6 @@ namespace GameStore.Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        public void Create(GenreDto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Edit(GenreDto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GenreDto Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<GenreDto> GetAll()
         {
             var genres = _unitOfWork.GenreRepository.Get();

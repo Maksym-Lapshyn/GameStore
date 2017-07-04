@@ -17,26 +17,6 @@ namespace GameStore.Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        public void Create(PlatformTypeDto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Edit(PlatformTypeDto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PlatformTypeDto Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<PlatformTypeDto> GetAll()
         {
             var platforms = _unitOfWork.PlatformTypeRepository.Get();

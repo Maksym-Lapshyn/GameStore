@@ -41,9 +41,9 @@
 {
     var name = Model.PublishersData.First().CompanyName;
     @Html.LabelFor(model => model.PublishersData)<br />
-    <p>@Html.ActionLink(name, "ShowPublisher", "Publisher", new { companyName = name }, null)</p>
+    <p>@Html.ActionLink(name, "Show", "Publisher", new { companyName = name }, null)</p>
 }
 
-@Html.ActionLink("Download", "DownloadGame", "Game", null, new { target = "_blank" })
-@Html.ActionLink("Comments", "ListAllComments", "Comment", new { gameKey = Model.Key }, null)
-@Html.ActionLink("Buy", "EditOrder", "Order", new { gameId = Model.Id }, null)
+@Html.ActionLink("Download", "Download", "Game", null, new { target = "_blank" })
+@Html.ActionLink("Comments", "ListAll", "Comment", new { gameKey = Model.Key }, null)
+@Html.ActionLink("Buy", "Edit", "Order", new { gameId = Model.Id }, null)

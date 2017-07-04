@@ -67,7 +67,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetBy_ReturnsAllComments_WhenValidGameKeyPassed()
         {
-            var comments = _target.GetBy("Quakeiii").ToList();
+            var comments = _target.GetSingleBy("Quakeiii").ToList();
 
             Assert.IsTrue(comments.Count == 1);
         }
@@ -75,7 +75,7 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetBy_ReturnsNoComments_WhenKeyOfGameWithoutCommentsPassed()
         {
-            var comments = _target.GetBy("Doombfg").ToList();
+            var comments = _target.GetSingleBy("Doombfg").ToList();
 
             Assert.IsTrue(comments.Count == 0);
         }

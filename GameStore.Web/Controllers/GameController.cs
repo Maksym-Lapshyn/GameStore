@@ -26,7 +26,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult NewGame()
+		public ActionResult New()
 		{
 			var gameViewModel = new GameViewModel();
 			FillProperties(gameViewModel);
@@ -35,7 +35,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult NewGame(GameViewModel gameViewModel)
+		public ActionResult New(GameViewModel gameViewModel)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -47,18 +47,18 @@ namespace GameStore.Web.Controllers
 			var gameDto = Mapper.Map<GameViewModel, GameDto>(gameViewModel);
 			_gameService.Create(gameDto);
 
-			return Redirect("/games");
+			return RedirectToAction("ListAll");
 		}
 
 		[HttpPost]
-		public ActionResult UpdateGame(GameDto game)
+		public ActionResult Update(GameDto game)
 		{
 			_gameService.Edit(game);
 
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
-		public ViewResult ShowGame(string gameKey)
+		public ViewResult Show(string gameKey)
 		{
 			var gameDto = _gameService.GetSingleBy(gameKey);
 			var gameViewModel = Mapper.Map<GameDto, GameViewModel>(gameDto);
@@ -66,7 +66,7 @@ namespace GameStore.Web.Controllers
 			return View(gameViewModel);
 		}
 
-		public JsonResult ListAllGames()
+		public JsonResult ListAll()
 		{
 			var gameDtos = _gameService.GetAll();
 			var games = Mapper.Map<List<GameDto>, List<GameViewModel>>(gameDtos.ToList());
@@ -75,14 +75,14 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult DeleteGame(int id)
+		public ActionResult Delete(int gameId)
 		{
-			_gameService.Delete(id);
+			_gameService.Delete(gameId);
 
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
-		public FileResult DownloadGame(string gameKey)
+		public FileResult Download(string gameKey)
 		{
 			var path = Server.MapPath("~/file.pdf");
 			var fileBytes = System.IO.File.ReadAllBytes(path);

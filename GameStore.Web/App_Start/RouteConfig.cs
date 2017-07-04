@@ -14,67 +14,67 @@ namespace GameStore.Web
             routes.MapRoute(
                 "CreateGame",
                 "games/new",
-                new {controller = "Game", action = "NewGame"}
+                new {controller = "Game", action = "New"}
             );
 
             routes.MapRoute(
                 "EditGame",
                 "games/update",
-                new {controller = "Game", action = "UpdateGame"}
+                new {controller = "Game", action = "Update"}
             );
 
             routes.MapRoute(
                 "GetGameDetailsByKey",
                 "game/{gameKey}",
-                new {controller = "Game", action = "ShowGame"}
+                new {controller = "Game", action = "Show"}
             );
 
             routes.MapRoute(
                 "GetAllGames",
                 "games",
-                new {controller = "Game", action = "ListAllGames"}
+                new {controller = "Game", action = "ListAll"}
             );
 
             routes.MapRoute(
                 "DeleteGame",
                 "games/remove",
-                new {controller = "Game", action = "DeleteGame"}
+                new {controller = "Game", action = "Delete"}
             );
 
             routes.MapRoute(
                 "LeaveComment",
                 "game/{gameKey}/newcomment",
-                new {controller = "Comment", action = "NewComment"}
+                new {controller = "Comment", action = "New"}
             );
 
             routes.MapRoute(
                 "GetAllComments",
                 "game/{gameKey}/comments",
-                new {controller = "Comment", action = "ListAllComments"}
+                new {controller = "Comment", action = "ListAll"}
             );
 
             routes.MapRoute(
                 "DownloadGame",
                 "game/{gameKey}/download",
-                new {controller = "Game", action = "DownloadGame"}
+                new {controller = "Game", action = "Download"}
             );
 
             routes.MapRoute(
                 "CreatePublisher",
                 "publisher/new",
-                new {controller = "Publisher", action = "NewPublisher"}
+                new {controller = "Publisher", action = "New"}
             );
 
             routes.MapRoute(
                 "DisplayPublisher",
                 "publisher/{companyName}",
-                new {controller = "Publisher", action = "ShowPublisher"}
+                new {controller = "Publisher", action = "Show"}
             );
 
             routes.MapRoute(
                 "DisplayBasket",
                 "basket",
-                new { controller = "Order", action = "ShowOrder" }
+                new { controller = "Order", action = "Show" }
             );
 
             routes.MapRoute(

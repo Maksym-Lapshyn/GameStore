@@ -33,21 +33,6 @@ namespace GameStore.Services.Concrete
             _unitOfWork.Save();
         }
 
-        public void Edit(CommentDto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CommentDto Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<CommentDto> GetAll()
         {
             var comments = _unitOfWork.CommentRepository.Get();
@@ -56,7 +41,7 @@ namespace GameStore.Services.Concrete
             return commentDtos;
         }
 
-        public IEnumerable<CommentDto> GetBy(string gameKey)
+        public IEnumerable<CommentDto> GetSingleBy(string gameKey)
         {
             var game = _unitOfWork.GameRepository.Get()
                 .First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
