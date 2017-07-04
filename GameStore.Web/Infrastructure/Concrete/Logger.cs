@@ -1,5 +1,5 @@
-﻿using System;
-using NLog;
+﻿using NLog;
+using System;
 using ILogger = GameStore.Web.Infrastructure.Abstract.ILogger;
 
 namespace GameStore.Web.Infrastructure.Concrete

@@ -1,12 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using GameStore.Services.Abstract;
+using GameStore.Services.DTOs;
+using GameStore.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
-using AutoMapper;
-using GameStore.Services.DTOs;
-using GameStore.Services.Abstract;
-using GameStore.Web.Models;
 
 namespace GameStore.Web.Controllers
 {
@@ -38,7 +36,7 @@ namespace GameStore.Web.Controllers
         public ViewResult ListAllComments(string gameKey)
         {
             var commentDtos = _commentService.GetBy(gameKey);
-            var commentViewModels = Mapper.Map<IEnumerable<CommentDto>, IEnumerable<CommentViewModel>>(commentDtos);
+            var commentViewModels = Mapper.Map<List<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
 
             return View(commentViewModels.ToList());
         }

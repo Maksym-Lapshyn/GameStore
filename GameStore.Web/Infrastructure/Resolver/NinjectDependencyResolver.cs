@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using Ninject;
-using GameStore.Services.Abstract;
+﻿using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Web.Infrastructure.Abstract;
 using GameStore.Web.Infrastructure.Concrete;
+using Ninject;
+using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace GameStore.Web.Infrastructure.Resolver
 {

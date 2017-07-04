@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Entities
 {
-	public class Game : BaseEntity
+    public class Game : BaseEntity
     {
         [StringLength(450)]
         [Index(IsUnique = true)]
@@ -16,13 +14,11 @@ namespace GameStore.DAL.Entities
 
         public string Description { get; set; }
 
-        //[Column(TypeName = "money")]
+        [Column(TypeName = "MONEY")]
         public decimal Price { get; set; }
 
-        //[Column(TypeName = "smallint")]
         public short UnitsInStock { get; set; }
 
-        //[Column(TypeName = "bit")]
         public bool Discontinued { get; set; }
 
         public int? PublisherId { get; set; }

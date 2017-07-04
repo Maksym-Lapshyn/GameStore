@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Script.Serialization;
-
-namespace GameStore.Web.Models
+﻿namespace GameStore.Web.Models
 {
     public class OrderDetailsViewModel
     {
@@ -20,9 +14,8 @@ namespace GameStore.Web.Models
 
         public float Discount { get; set; }
 
-        public int? OrderId { get; set; }
+        public int OrderId { get; set; }
 
-        [ScriptIgnore]
         public OrderViewModel Order { get; set; }
     }
 }

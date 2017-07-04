@@ -1,5 +1,4 @@
-﻿@using GameStore.Web.Models
-@model GameStore.Web.Models.GameViewModel
+﻿@model GameStore.Web.Models.GameViewModel
 
 @{
     ViewBag.Title = "Show Game";
@@ -8,41 +7,43 @@
 
 <h1>Show Game</h1>
 
-@Html.DisplayNameFor(model => model.Key)<br />
+@Html.LabelFor(model => model.Key)<br />
 @Html.DisplayFor(model => model.Key)<br />
-
-@Html.DisplayNameFor(model => model.Name)<br />
+<br />
+@Html.LabelFor(model => model.Name)<br />
 @Html.DisplayFor(model => model.Name)<br />
-
-@Html.DisplayNameFor(model => model.Description)<br />
+<br />
+@Html.LabelFor(model => model.Description)<br />
 @Html.DisplayFor(model => model.Description)<br />
-
-@Html.DisplayNameFor(model => model.Price)<br />
+<br />
+@Html.LabelFor(model => model.Price)<br />
 @Html.DisplayFor(model => model.Price)<br />
-
-@Html.DisplayNameFor(model => model.UnitsInStock)<br />
+<br />
+@Html.LabelFor(model => model.UnitsInStock)<br />
 @Html.DisplayFor(model => model.UnitsInStock)<br />
-
-@Html.DisplayNameFor(model => model.Discontinued)<br />
+<br />
+@Html.LabelFor(model => model.Discontinued)<br />
 @Html.DisplayFor(model => model.Discontinued)<br />
-
-@Html.DisplayNameFor(model => model.AllPlatforms)<br />
-@foreach (var platform in Model.AllPlatforms)
+<br />
+@Html.LabelFor(model => model.PlatformTypesData)<br />
+@foreach (var platform in Model.PlatformTypesData)
 {
     <p>@platform.Type</p>
 }
 
-@Html.DisplayNameFor(model => model.AllGenres)<br />
-@foreach (var genre in Model.AllGenres)
+@Html.LabelFor(model => model.GenresData)<br />
+@foreach (var genre in Model.GenresData)
 {
     <p>@genre.Name</p>
 }
 
-@if (Model.AllPublishers.Count > 0)
+@if (Model.PublishersData != null)
 {
-    @Html.DisplayNameFor(model => model.AllPublishers)<br />
-    <p>@Model.AllPublishers.FirstOrDefault().CompanyName</p>
+    var name = Model.PublishersData.First().CompanyName;
+    @Html.LabelFor(model => model.PublishersData)<br />
+    <p>@Html.ActionLink(name, "ShowPublisher", "Publisher", new { companyName = name }, null)</p>
 }
 
-<a href="/game/@Model.Key/download" target="_blank">Download</a>
-<a href="/game/@Model.Key/comments">Comments</a>
+@Html.ActionLink("Download", "DownloadGame", "Game", null, new { target = "_blank" })
+@Html.ActionLink("Comments", "ListAllComments", "Comment", new { gameKey = Model.Key }, null)
+@Html.ActionLink("Buy", "EditOrder", "Order", new { gameId = Model.Id }, null)

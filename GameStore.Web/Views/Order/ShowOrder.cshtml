@@ -1,0 +1,21 @@
+﻿@model GameStore.Web.Models.OrderViewModel
+
+@{
+    ViewBag.Title = "Show Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Order</h1>
+
+@if (Model.OrderDetails.Count != 0)
+{
+    foreach (var detail in Model.OrderDetails)
+    {
+        @Html.Label("Game Id")<br />
+        <p>@detail.GameId</p>
+        @Html.Label("Price")<br />
+        <p>@detail.Price</p>
+        @Html.Label("Quantity")<br />
+        <p>@detail.Quantity</p>
+    }
+}

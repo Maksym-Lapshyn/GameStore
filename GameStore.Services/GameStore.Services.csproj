@@ -61,6 +61,8 @@
     <Compile Include="DTOs\CommentDto.cs" />
     <Compile Include="DTOs\GameDto.cs" />
     <Compile Include="DTOs\GenreDto.cs" />
+    <Compile Include="DTOs\OrderDetailsDto.cs" />
+    <Compile Include="DTOs\OrderDto.cs" />
     <Compile Include="DTOs\PlatformTypeDto.cs" />
     <Compile Include="DTOs\PublisherDto.cs" />
     <Compile Include="Infrastructure\ServicesAutoMapperConfig.cs" />

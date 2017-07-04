@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using GameStore.Web.Models;
-using System.Web.Mvc;
-using Ninject;
-using System.Linq;
-using System.Web;
 
 namespace GameStore.Web.Infrastructure.Attributes
 {

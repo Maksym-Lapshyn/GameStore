@@ -1,10 +1,6 @@
-﻿using System;
+﻿using GameStore.DAL.Entities;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Context
 {
@@ -38,17 +34,36 @@ namespace GameStore.DAL.Context
             var console = new PlatformType { Type = "Console" };
             context.PlatformTypes.AddRange(new List<PlatformType> { mobile, browser, desktop, console });
             context.SaveChanges();
-            var callOfDuty = new Game { Name = "Call Of Duty", Description = "You can shoot some enemies", Key = "COD123" };
+            var callOfDuty = new Game
+            {
+                Name = "Call Of Duty",
+                Description = "You can shoot some enemies",
+                Key = "COD123",
+                Genres = new List<Genre>(),
+                Publisher = new Publisher
+                {
+                    CompanyName = "Namco",
+                    Description = "Famous publisher from Japan",
+                    HomePage = "bandainamco.com",
+                }
+            };
             callOfDuty.Genres.Add(action);
             var burnout = new Game
             {
                 Name = "Burnout Paradise",
                 Key = "Burnout123",
-                Description = "Drive a car and wreck it"
+                Description = "Drive a car and wreck it",
+                Genres = new List<Genre>(),
+                Publisher = new Publisher
+                {
+                    CompanyName = "Capcom",
+                    Description = "Another cool publisher from Japan",
+                    HomePage = "capcom.com",
+                }
             };
 
             burnout.Genres.Add(races);
-            context.Games.AddRange(new List<Game> {callOfDuty, burnout});
+            context.Games.AddRange(new List<Game> { callOfDuty, burnout });
             context.SaveChanges();
             var firstComment = new Comment { Name = "Josh123", Game = callOfDuty, Body = "Cool game, I like it" };
             var secondComment = new Comment { Name = "Drake321", Game = callOfDuty, Body = "Nice game, but not as good as Quake" };
@@ -68,20 +83,7 @@ namespace GameStore.DAL.Context
                 Body = "No, you know nothing. It is cool"
             };
 
-            var firstPublisher = new Publisher
-            {
-                CompanyName = "Namco",
-                HomePage = "bandainamco.com",
-            };
-
-            var secondPublisher = new Publisher
-            {
-                CompanyName = "Capcom",
-                HomePage = "capcom.com",
-            };
-
-            context.Publishers.AddRange(new List<Publisher> {firstPublisher, secondPublisher});
-            context.Comments.AddRange(new List<Comment> {firstComment, secondComment, thirdComment, fourthComment});
+            context.Comments.AddRange(new List<Comment> { firstComment, secondComment, thirdComment, fourthComment });
             context.SaveChanges();
             base.Seed(context);
         }

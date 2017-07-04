@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
+using System;
+using System.Collections.Generic;
 
 namespace GameStore.Services.Concrete
 {
@@ -59,10 +56,10 @@ namespace GameStore.Services.Concrete
                     if (game.Id == gameId)
                     {
                         matchedGenres.Add(genre);
-                    }
+                    }  
                 }
             }
-
+            
             var genreDtos = Mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDto>>(matchedGenres);
 
             return genreDtos;

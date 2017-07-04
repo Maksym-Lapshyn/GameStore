@@ -9,19 +9,26 @@
 
 @using (Html.BeginForm("NewGame", "Game", FormMethod.Post))
 {
-    @Html.EditorForModel(Model)
-
-    @Html.LabelFor(m => m.SelectedPlatformIds)<br />
-    @Html.ListBoxFor(m => m.SelectedPlatformIds, new SelectList(Model.AllPlatforms, "Id", "Type"))<br />
-    @Html.ValidationMessageFor(m => m.SelectedPlatformIds)<br />
-
-    @Html.LabelFor(m => m.SelectedGenreIds)<br />
-    @Html.ListBoxFor(m => m.SelectedGenreIds, new SelectList(Model.AllGenres, "Id", "Name"))<br />
-    @Html.ValidationMessageFor(m => m.SelectedGenreIds)<br />
-
-    @Html.LabelFor(m => m.SelectedPublisherId)<br />
-    @Html.DropDownListFor(m => m.SelectedPublisherId, new SelectList(Model.AllPublishers, "Id", "CompanyName"))<br />
-    @Html.ValidationMessageFor(m => m.SelectedPublisherId)<br />
-
+    @Html.LabelFor(m => m.Key)<br/>
+    @Html.EditorFor(m => m.Key)<br />
+    @Html.ValidationMessageFor(m => m.Key)<br />
+    @Html.LabelFor(m => m.Name)<br />
+    @Html.EditorFor(m => m.Name)<br />
+    @Html.ValidationMessageFor(m => m.Name)<br />
+    @Html.LabelFor(m => m.Description)<br />
+    @Html.EditorFor(m => m.Description)<br />
+    @Html.ValidationMessageFor(m => m.Description)<br />
+    @Html.LabelFor(m => m.Price)<br />
+    @Html.EditorFor(m => m.Price)<br />
+    @Html.ValidationMessageFor(m => m.Price)<br />
+    @Html.LabelFor(m => m.PlatformTypesInput)<br />
+    @Html.ListBoxFor(m => m.PlatformTypesInput, new SelectList(Model.PlatformTypesData, "Id", "Type"))<br />
+    @Html.ValidationMessageFor(m => m.PlatformTypesInput)<br />
+    @Html.LabelFor(m => m.GenresInput)<br />
+    @Html.ListBoxFor(m => m.GenresInput, new SelectList(Model.GenresData, "Id", "Name"))<br />
+    @Html.ValidationMessageFor(m => m.GenresInput)<br />
+    @Html.LabelFor(m => m.PublisherInput)<br />
+    @Html.DropDownListFor(m => m.PublisherInput, new SelectList(Model.PublishersData, "Id", "CompanyName"))<br />
+    @Html.ValidationMessageFor(m => m.PublisherInput)<br />
     <button type="submit">Create</button>
 }

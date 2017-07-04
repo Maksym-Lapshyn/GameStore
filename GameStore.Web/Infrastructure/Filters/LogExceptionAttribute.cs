@@ -1,5 +1,5 @@
-﻿using System.Web.Mvc;
-using GameStore.Web.Infrastructure.Abstract;
+﻿using GameStore.Web.Infrastructure.Abstract;
+using System.Web.Mvc;
 
 namespace GameStore.Web.Infrastructure.Filters
 {

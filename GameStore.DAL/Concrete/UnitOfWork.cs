@@ -1,7 +1,7 @@
-﻿using System;
-using GameStore.DAL.Abstract;
-using GameStore.DAL.Entities;
+﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Context;
+using GameStore.DAL.Entities;
+using System;
 
 namespace GameStore.DAL.Concrete
 {

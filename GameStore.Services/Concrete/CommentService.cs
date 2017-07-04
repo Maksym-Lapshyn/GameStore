@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.DAL.Abstract;
+using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using GameStore.DAL.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -23,15 +23,12 @@ namespace GameStore.Services.Concrete
             var comment = Mapper.Map<CommentDto, Comment>(commentDto);
             if (comment.ParentCommentId != null)
             {
-                comment.ParentComment = comment;
+                var oldComment = _unitOfWork.CommentRepository.GetById(comment.ParentCommentId.Value);
+                comment.ParentComment = oldComment;
             }
 
-            else
-            {
-                var game = _unitOfWork.GameRepository.Get().First(g => g.Id == commentDto.GameId);
-                comment.Game = game;
-            }
-
+            var game = _unitOfWork.GameRepository.Get().First(g => g.Id == commentDto.GameId);
+            comment.Game = game;
             _unitOfWork.CommentRepository.Insert(comment);
             _unitOfWork.Save();
         }
@@ -61,7 +58,8 @@ namespace GameStore.Services.Concrete
 
         public IEnumerable<CommentDto> GetBy(string gameKey)
         {
-            var game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
+            var game = _unitOfWork.GameRepository.Get()
+                .First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
             var comments = game.Comments.Where(c => c.ParentComment == null);
             var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 

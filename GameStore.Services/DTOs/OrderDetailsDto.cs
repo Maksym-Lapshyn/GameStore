@@ -1,10 +1,12 @@
-﻿namespace GameStore.DAL.Entities
+﻿namespace GameStore.Services.DTOs
 {
-    public class OrderDetails : BaseEntity
+    public class OrderDetailsDto
     {
+        public int Id { get; set; }
+
         public int GameId { get; set; }
 
-        public virtual Game Game { get; set; }
+        public GameDto Game { get; set; }
 
         public decimal Price { get; set; }
 
@@ -14,6 +16,6 @@
 
         public int OrderId { get; set; }
 
-        public virtual Order Order { get; set; }
+        public OrderDto Order { get; set; }
     }
 }

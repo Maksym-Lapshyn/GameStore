@@ -1,0 +1,31 @@
+﻿@model GameStore.Web.Models.PublisherViewModel
+
+@{
+    ViewBag.Title = "Show Publisher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Publisher</h1>
+
+@Html.LabelFor(m => m.CompanyName)<br />
+@Html.DisplayFor(model => model.CompanyName)<br />
+<br />
+@Html.LabelFor(m => m.Description)<br />
+@Html.DisplayFor(m => m.Description)<br />
+<br />
+@Html.LabelFor(m => m.HomePage)<br />
+@Html.DisplayFor(m => m.HomePage)<br />
+@if (Model.Games != null)
+{
+    @Html.LabelFor(m => m.Games)
+    <br />
+    foreach (var game in Model.Games)
+    {
+        @Html.Label(game.Name)<br />
+        @Html.Display(game.Name)<br />
+        <br />
+        @Html.Label(game.Description)<br />
+        @Html.Display(game.Description)<br />
+        <br />
+    }
+}

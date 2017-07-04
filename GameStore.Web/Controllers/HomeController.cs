@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using GameStore.Services.Abstract;
+using GameStore.Services.DTOs;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using GameStore.Services.DTOs;
-using GameStore.Services.Abstract;
 
 namespace GameStore.Web.Controllers
 {

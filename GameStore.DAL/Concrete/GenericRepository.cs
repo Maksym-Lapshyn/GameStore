@@ -1,11 +1,11 @@
 ﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Context;
+using GameStore.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Concrete
 {

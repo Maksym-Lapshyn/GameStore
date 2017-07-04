@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GameStore.Web.Infrastructure.Abstract;
+using System;
 using System.Web.Mvc;
-using GameStore.Web.Infrastructure.Abstract;
 
 namespace GameStore.Web.Infrastructure.Filters
 {
@@ -22,8 +22,8 @@ namespace GameStore.Web.Infrastructure.Filters
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            int endTime = DateTime.UtcNow.Millisecond;
-            string message = (endTime - _startTime).ToString();
+            var endTime = DateTime.UtcNow.Millisecond;
+            var message = (endTime - _startTime).ToString();
             _logger.LogEventsAndPerformance(message);
         }
     }

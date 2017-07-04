@@ -1,26 +1,30 @@
 ﻿@model GameStore.Web.Models.CommentViewModel
 
-<div id="@System.DateTime.UtcNow.Millisecond">
+<div id="commentForm">
     @using (Ajax.BeginForm("NewComment", new AjaxOptions
     {
         HttpMethod = "POST",
-        UpdateTargetId = (@System.DateTime.UtcNow.Millisecond).ToString(),
-        InsertionMode = InsertionMode.Replace
+        UpdateTargetId = "commentForm",
+        InsertionMode = InsertionMode.Replace,
+        OnSuccess = "reloadPage"
     }))
     {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary()
         @Html.HiddenFor(m => m.GameId)
-        @Html.HiddenFor(m => m.Id)
-        @Html.HiddenFor(m => m.GameKey)
-        @Html.HiddenFor(m => m.ParentCommentId)
-
         @Html.LabelFor(model => model.Name)<br />
         @Html.EditorFor(model => model.Name)<br />
-
+        @Html.ValidationMessageFor(m => m.Name)<br />
         @Html.LabelFor(model => model.Body)<br />
         @Html.EditorFor(model => model.Body)<br />
-
+        @Html.ValidationMessageFor(m => m.Body)<br />
         <button id="button" type="submit">Create</button>
     }
 </div>
+
+<script type="text/javascript">
+    function reloadPage(data) {
+        var isValid = '@Html.Raw(Json.Encode(ViewData.ModelState.IsValid))';
+        if (isValid === 'true') {
+            location.reload();
+        }
+    }
+</script>

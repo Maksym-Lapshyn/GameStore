@@ -1,8 +1,5 @@
-﻿
-using System;
-using GameStore.DAL.Abstract;
+﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Concrete;
-using GameStore.DAL.Entities;
 using Ninject.Modules;
 
 namespace GameStore.Services.Infrastructure

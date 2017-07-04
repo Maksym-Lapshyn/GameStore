@@ -1,10 +1,9 @@
-﻿using System;
-using GameStore.DAL.Entities;
+﻿using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Abstract
 {
 
-	public interface IUnitOfWork
+    public interface IUnitOfWork
     {
         IGenericRepository<Game> GameRepository { get; }
 

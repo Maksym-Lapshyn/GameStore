@@ -1,13 +1,12 @@
-using System;
-using System.Runtime.Remoting.Messaging;
-using System.Web;
-using System.Web.Mvc;
+using GameStore.Services.Infrastructure;
 using GameStore.Web.Infrastructure.Resolver;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
-using Ninject.Web.Common;
-using GameStore.Services.Infrastructure;
 using Ninject.Modules;
+using Ninject.Web.Common;
+using System;
+using System.Web;
+using System.Web.Mvc;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(GameStore.Web.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(GameStore.Web.App_Start.NinjectWebCommon), "Stop")]

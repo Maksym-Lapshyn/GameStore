@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
+using System;
+using System.Collections.Generic;
 
 namespace GameStore.Services.Concrete
 {

@@ -132,6 +132,7 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PublisherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -168,6 +169,10 @@
     <Content Include="Views\Comment\NewComment.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Game\ShowNumberOfGames.cshtml" />
+    <Content Include="Views\Publisher\ShowPublisher.cshtml" />
+    <Content Include="Views\Publisher\NewPublisher.cshtml" />
+    <Content Include="Views\Order\ShowOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -178,7 +183,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Home\" />
-    <Folder Include="Views\Publisher\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStore.Services\GameStore.Services.csproj">

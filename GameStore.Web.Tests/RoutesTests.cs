@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 using System.Web;
 using System.Web.Routing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace GameStore.Web.Tests
 {
@@ -95,6 +95,18 @@ namespace GameStore.Web.Tests
         public void DisplayPublisher_CallsRightControllerAndAction_WhenValidRoutePassed()
         {
             TestRouteMatch("~/publisher/{companyName}", "Publisher", "ShowPublisher");
+        }
+
+        [TestMethod]
+        public void CreatePublisher_CallsRightControllerAndAction_WhenValidRoutePassed()
+        {
+            TestRouteMatch("~/publisher/new", "Publisher", "NewPublisher");
+        }
+
+        [TestMethod]
+        public void DisplayBasket_CallsRightControllerAndAction_WhenValidRoutePassed()
+        {
+            TestRouteMatch("~/basket", "Order", "ShowOrder");
         }
     }
 }

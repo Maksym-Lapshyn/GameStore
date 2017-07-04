@@ -12,8 +12,10 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
+<div>
+    @{Html.RenderAction("ShowNumberOfGames", "Game");}
+    @Html.ActionLink("To basket", "ShowOrder", "Order")
+    @RenderBody()
+</div>
 </body>
 </html>

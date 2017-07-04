@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -22,11 +21,9 @@ namespace GameStore.Services.Concrete
         public void Create(GameDto gameDto)
         {
             var game = Mapper.Map<GameDto, Game>(gameDto);
-            game.Publisher = _unitOfWork.PublisherRepository.GetById(gameDto.SelectedPublisherId);
-            var matchedPlatforms = gameDto.SelectedPlatformIds.Select(id => _unitOfWork.PlatformTypeRepository.GetById(id)).ToList();
-            game.PlatformTypes = matchedPlatforms;
-            var matchedGenres = gameDto.SelectedGenreIds.Select(id => _unitOfWork.GenreRepository.GetById(id)).ToList();
-            game.Genres = matchedGenres;
+            game.Publisher = _unitOfWork.PublisherRepository.GetById(gameDto.PublisherInput);
+            game.PlatformTypes = gameDto.PlatformTypesInput.Select(id => _unitOfWork.PlatformTypeRepository.GetById(id)).ToList();
+            game.Genres = gameDto.GenresInput.Select(id => _unitOfWork.GenreRepository.GetById(id)).ToList();
             _unitOfWork.GameRepository.Insert(game);
             _unitOfWork.Save();
         }
@@ -57,9 +54,9 @@ namespace GameStore.Services.Concrete
         {
             var game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
             var gameDto = Mapper.Map<Game, GameDto>(game);
-            gameDto.AllGenres = Mapper.Map<List<Genre>, List<GenreDto>>(game.Genres.ToList());
-            gameDto.AllPlatforms = Mapper.Map<List<PlatformType>, List<PlatformTypeDto>>(game.PlatformTypes.ToList());
-            gameDto.AllPublishers = new List<PublisherDto> { Mapper.Map<Publisher, PublisherDto>(game.Publisher) };
+            gameDto.GenresData = Mapper.Map<List<Genre>, List<GenreDto>>(game.Genres.ToList());
+            gameDto.PlatformTypesData = Mapper.Map<List<PlatformType>, List<PlatformTypeDto>>(game.PlatformTypes.ToList());
+            gameDto.PublishersData = new List<PublisherDto> { Mapper.Map<Publisher, PublisherDto>(game.Publisher) };
 
             return gameDto;
         }

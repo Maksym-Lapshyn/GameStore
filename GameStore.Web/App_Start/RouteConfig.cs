@@ -12,69 +12,75 @@ namespace GameStore.Web
             routes.LowercaseUrls = true;
 
             routes.MapRoute(
-                name: "CreateGame",
-                url: "games/new",
-                defaults: new { controller = "Game", action = "NewGame" }
+                "CreateGame",
+                "games/new",
+                new {controller = "Game", action = "NewGame"}
             );
 
             routes.MapRoute(
-                name: "EditGame",
-                url: "games/update",
-                defaults: new { controller = "Game", action = "UpdateGame" }
+                "EditGame",
+                "games/update",
+                new {controller = "Game", action = "UpdateGame"}
             );
 
             routes.MapRoute(
-                name: "GetGameDetailsByKey",
-                url: "game/{gameKey}",
-                defaults: new { controller = "Game", action = "ShowGame" }
+                "GetGameDetailsByKey",
+                "game/{gameKey}",
+                new {controller = "Game", action = "ShowGame"}
             );
 
             routes.MapRoute(
-                name: "GetAllGames",
-                url: "games",
-                defaults: new { controller = "Game", action = "ListAllGames" }
+                "GetAllGames",
+                "games",
+                new {controller = "Game", action = "ListAllGames"}
             );
 
             routes.MapRoute(
-                name: "DeleteGame",
-                url: "games/remove",
-                defaults: new { controller = "Game", action = "DeleteGame" }
+                "DeleteGame",
+                "games/remove",
+                new {controller = "Game", action = "DeleteGame"}
             );
 
             routes.MapRoute(
-                name: "LeaveComment",
-                url: "game/{gameKey}/newcomment",
-                defaults: new { controller = "Comment", action = "NewComment" }
+                "LeaveComment",
+                "game/{gameKey}/newcomment",
+                new {controller = "Comment", action = "NewComment"}
             );
 
             routes.MapRoute(
-                name: "GetAllComments",
-                url: "game/{gameKey}/comments",
-                defaults: new { controller = "Comment", action = "ListAllComments" }
+                "GetAllComments",
+                "game/{gameKey}/comments",
+                new {controller = "Comment", action = "ListAllComments"}
             );
 
             routes.MapRoute(
-                name: "DownloadGame",
-                url: "game/{gameKey}/download",
-                defaults: new { controller = "Game", action = "DownloadGame" }
+                "DownloadGame",
+                "game/{gameKey}/download",
+                new {controller = "Game", action = "DownloadGame"}
             );
 
             routes.MapRoute(
-                name: "DisplayPublisher",
-                url: "publisher/{companyName}",
-                defaults: new { controller = "Publisher", action = "ShowPublisher" }
+                "CreatePublisher",
+                "publisher/new",
+                new {controller = "Publisher", action = "NewPublisher"}
             );
 
             routes.MapRoute(
-                name: "CreatePublisher",
-                url: "publisher/new",
-                defaults: new { controller = "Publisher", action = "NewPublisher" }
+                "DisplayPublisher",
+                "publisher/{companyName}",
+                new {controller = "Publisher", action = "ShowPublisher"}
             );
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                "DisplayBasket",
+                "basket",
+                new { controller = "Order", action = "ShowOrder" }
+            );
+
+            routes.MapRoute(
+                "Default",
+                "{controller}/{action}/{id}",
+                new {controller = "Home", action = "Index", id = UrlParameter.Optional}
             );
         }
     }

@@ -1,9 +1,6 @@
-﻿using System;
+﻿using GameStore.Services.DTOs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Script.Serialization;
-using GameStore.Services.DTOs;
 
 namespace GameStore.Web.Models
 {

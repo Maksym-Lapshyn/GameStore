@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Entities
 {
-	public class Comment : BaseEntity
+    public class Comment : BaseEntity
     {
         public string Name { get; set; }
 

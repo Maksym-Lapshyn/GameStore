@@ -3,11 +3,11 @@
 namespace GameStore.Web.Infrastructure.Abstract
 {
 	public interface ILogger
-    {
-        void LogIp();
+	{
+		void LogIp();
 
-        void LogException(Exception exception);
+		void LogException(Exception exception);
 
-        void LogEventsAndPerformance(string message);
-    }
+		void LogEventsAndPerformance(string message);
+	}
 }

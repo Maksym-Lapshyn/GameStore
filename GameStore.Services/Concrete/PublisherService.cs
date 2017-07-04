@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -55,7 +53,8 @@ namespace GameStore.Services.Concrete
 
         public PublisherDto GetBy(string companyName)
         {
-            var publisher = _unitOfWork.PublisherRepository.Get(p => p.CompanyName == companyName).First();
+            var publisher = _unitOfWork.PublisherRepository.Get()
+                .First(p => string.Equals(p.CompanyName, companyName, StringComparison.CurrentCultureIgnoreCase));
             var publisherDto = Mapper.Map<Publisher, PublisherDto>(publisher);
 
             return publisherDto;
