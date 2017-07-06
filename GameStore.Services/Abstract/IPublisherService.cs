@@ -7,7 +7,7 @@ namespace GameStore.Services.Abstract
     {
         PublisherDto GetSingleBy(string companyName);
 
-        void Create(PublisherDto entity);
+        void Create(PublisherDto publisherDto);
 
         PublisherDto GetSingleBy(int publisherId);
 

@@ -12,7 +12,6 @@ namespace GameStore.Web.Models
 
         public IEnumerable<GenreViewModel> ChildGenres { get; set; }
 
-        [ScriptIgnore]
         public GenreDto ParentGenre { get; set; }
     }
 }

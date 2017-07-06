@@ -70,11 +70,11 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void New_ReturnsRedirectResult_WhenValidGamePassed()
+		public void New_ReturnsRedirectToRouteResult_WhenValidGamePassed()
 		{
 			var result = _target.New(new GameViewModel());
 
-			Assert.IsInstanceOfType(result, typeof(RedirectResult));
+			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
 		}
 
 		[TestMethod]

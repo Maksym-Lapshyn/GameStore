@@ -46,6 +46,8 @@
     {
         @Html.HiddenFor(m => m.PublishersData[i].Id)
         @Html.HiddenFor(m => m.PublishersData[i].CompanyName)
+        @Html.HiddenFor(m => m.PublishersData[i].Description)
+        @Html.HiddenFor(m => m.PublishersData[i].HomePage)
     }
 
     <button type="submit">Create</button>

@@ -5,7 +5,7 @@ namespace GameStore.Services.Abstract
 {
 	public interface ICommentService
 	{
-		IEnumerable<CommentDto> GetSingleBy(string gameKey);
+		IEnumerable<CommentDto> GetBy(string gameKey);
 
 		void Create(CommentDto entity);
 

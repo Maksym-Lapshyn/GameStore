@@ -12,10 +12,12 @@ namespace GameStore.Web.Controllers
     public class CommentController : Controller
     {
         private readonly ICommentService _commentService;
+        private readonly IGameService _gameService;
 
-        public CommentController(ICommentService commentService)
+        public CommentController(ICommentService commentService, IGameService gameService)
         {
             _commentService = commentService;
+            _gameService = gameService;
         }
 
         [HttpPost]
@@ -35,8 +37,10 @@ namespace GameStore.Web.Controllers
         [HttpGet]
         public ViewResult ListAll(string gameKey)
         {
-            var commentDtos = _commentService.GetSingleBy(gameKey);
+            var commentDtos = _commentService.GetBy(gameKey);
             var commentViewModels = Mapper.Map<List<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
+            ViewBag.GameId = _gameService.GetIdBy(gameKey);
+            ViewBag.GameKey = gameKey;
 
             return View(commentViewModels.ToList());
         }

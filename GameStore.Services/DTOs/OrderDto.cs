@@ -7,11 +7,13 @@ namespace GameStore.Services.DTOs
     {
         public int Id { get; set; }
 
-        public int CustomerId { get; set; }
+        public bool IsDeleted { get; set; }
+
+        public string CustomerId { get; set; }
 
         public DateTime Date { get; set; }
 
-        public List<OrderDetailsDto> OrderDetails { get; set; }
+        public IEnumerable<OrderDetailsDto> OrderDetails { get; set; }
 
         public OrderDto()
         {

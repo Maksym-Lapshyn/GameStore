@@ -21,9 +21,7 @@ namespace GameStore.Services.Concrete
         public void Create(GameDto gameDto)
         {
             var game = Mapper.Map<GameDto, Game>(gameDto);
-            game.Publisher = _unitOfWork.PublisherRepository.GetById(gameDto.PublisherInput);
-            game.PlatformTypes = gameDto.PlatformTypesInput.Select(id => _unitOfWork.PlatformTypeRepository.GetById(id)).ToList();
-            game.Genres = gameDto.GenresInput.Select(id => _unitOfWork.GenreRepository.GetById(id)).ToList();
+            MergeToEntity(gameDto, game);
             _unitOfWork.GameRepository.Insert(game);
             _unitOfWork.Save();
         }
@@ -32,6 +30,7 @@ namespace GameStore.Services.Concrete
         {
             var game = _unitOfWork.GameRepository.Get().First(g => g.Id == gameDto.Id);
             game = Mapper.Map(gameDto, game);
+            MergeToEntity(gameDto, game);
             _unitOfWork.GameRepository.Update(game);
             _unitOfWork.Save();
         }
@@ -54,9 +53,6 @@ namespace GameStore.Services.Concrete
         {
             var game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
             var gameDto = Mapper.Map<Game, GameDto>(game);
-            gameDto.GenresData = Mapper.Map<List<Genre>, List<GenreDto>>(game.Genres.ToList());
-            gameDto.PlatformTypesData = Mapper.Map<List<PlatformType>, List<PlatformTypeDto>>(game.PlatformTypes.ToList());
-            gameDto.PublishersData = new List<PublisherDto> { Mapper.Map<Publisher, PublisherDto>(game.Publisher) };
 
             return gameDto;
         }
@@ -64,9 +60,10 @@ namespace GameStore.Services.Concrete
         public IEnumerable<GameDto> GetAll()
         {
             var games = _unitOfWork.GameRepository.Get();
-            var gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+            var gameDtos = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games).ToList();
+           
 
-            return gameDtOs;
+            return gameDtos;
         }
 
         public IEnumerable<GameDto> GetBy(string genreName)
@@ -84,6 +81,21 @@ namespace GameStore.Services.Concrete
             var gameDtOs = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
 
             return gameDtOs;
+        }
+
+        public int GetIdBy(string gameKey)
+        {
+            var game = _unitOfWork.GameRepository.Get()
+                    .First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
+
+            return game.Id;
+        }
+
+        private void MergeToEntity(GameDto input, Game result)
+        {
+            result.Publisher = _unitOfWork.PublisherRepository.GetById(input.PublisherInput);
+            result.PlatformTypes = input.PlatformTypesInput.Select(id => _unitOfWork.PlatformTypeRepository.GetById(id)).ToList();
+            result.Genres = input.GenresInput.Select(id => _unitOfWork.GenreRepository.GetById(id)).ToList();
         }
     }
 }

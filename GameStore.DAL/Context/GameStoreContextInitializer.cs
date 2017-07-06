@@ -26,14 +26,12 @@ namespace GameStore.DAL.Context
             var adventure = new Genre { Name = "Adventure" };
             var puzzleAndSkill = new Genre { Name = "Puzzle&Skill" };
             var misc = new Genre { Name = "Misc" };
-            context.Genres.AddRange(new List<Genre> { strategy, rpg, races, action, adventure, puzzleAndSkill, misc });
+            context.Genres.AddRange(new List<Genre> { strategy, rpg, adventure, puzzleAndSkill, misc });
             context.SaveChanges();
             var mobile = new PlatformType { Type = "Mobile" };
             var browser = new PlatformType { Type = "Browser" };
             var desktop = new PlatformType { Type = "Desktop" };
             var console = new PlatformType { Type = "Console" };
-            context.PlatformTypes.AddRange(new List<PlatformType> { mobile, browser, desktop, console });
-            context.SaveChanges();
             var callOfDuty = new Game
             {
                 Name = "Call Of Duty",
@@ -45,8 +43,14 @@ namespace GameStore.DAL.Context
                     CompanyName = "Namco",
                     Description = "Famous publisher from Japan",
                     HomePage = "bandainamco.com",
+                },
+                PlatformTypes = new List<PlatformType>
+                {
+                    mobile,
+                    browser
                 }
             };
+
             callOfDuty.Genres.Add(action);
             var burnout = new Game
             {
@@ -59,6 +63,11 @@ namespace GameStore.DAL.Context
                     CompanyName = "Capcom",
                     Description = "Another cool publisher from Japan",
                     HomePage = "capcom.com",
+                },
+                PlatformTypes = new List<PlatformType>
+                {
+                    desktop,
+                    console
                 }
             };
 

@@ -18,6 +18,10 @@ namespace GameStore.Web.App_Start
             Mapper.Initialize(cfg => cfg.CreateMap<PlatformTypeViewModel, PlatformTypeDto>());
             Mapper.Initialize(cfg => cfg.CreateMap<GenreDto, GenreViewModel>());
             Mapper.Initialize(cfg => cfg.CreateMap<GenreViewModel, GenreDto>());
+            Mapper.Initialize(cfg => cfg.CreateMap<OrderDto, OrderViewModel>());
+            Mapper.Initialize(cfg => cfg.CreateMap<OrderViewModel, OrderDto>());
+            Mapper.Initialize(cfg => cfg.CreateMap<OrderDetailsDto, OrderDetailsViewModel>());
+            Mapper.Initialize(cfg => cfg.CreateMap<OrderDetailsViewModel, OrderDetailsDto>());
             Mapper.Initialize(cfg => cfg.CreateMissingTypeMaps = true);
             Mapper.AssertConfigurationIsValid();
         }

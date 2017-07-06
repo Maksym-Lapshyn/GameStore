@@ -11,8 +11,8 @@
 {
     foreach (var detail in Model.OrderDetails)
     {
-        @Html.Label("Game Id")<br />
-        <p>@detail.GameId</p>
+        @Html.Label("Game")<br />
+        <p>@detail.Game.Name</p>
         @Html.Label("Price")<br />
         <p>@detail.Price</p>
         @Html.Label("Quantity")<br />

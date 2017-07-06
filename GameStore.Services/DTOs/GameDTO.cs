@@ -18,17 +18,17 @@ namespace GameStore.Services.DTOs
 
 		public bool Discontinued { get; set; }
 
-		public List<GenreDto> GenresData { get; set; }
+		public IEnumerable<GenreDto> GenresData { get; set; }
 
-		public List<PlatformTypeDto> PlatformTypesData { get; set; }
+		public IEnumerable<PlatformTypeDto> PlatformTypesData { get; set; }
 
-		public List<PublisherDto> PublishersData { get; set; }
+		public IEnumerable<PublisherDto> PublishersData { get; set; }
 
 		public int PublisherInput { get; set; }
 
-		public List<int> GenresInput { get; set; }
+		public IEnumerable<int> GenresInput { get; set; }
 
-		public List<int> PlatformTypesInput { get; set; }
+		public IEnumerable<int> PlatformTypesInput { get; set; }
 
 		public GameDto()
 		{

@@ -41,7 +41,7 @@ namespace GameStore.Services.Concrete
             return commentDtos;
         }
 
-        public IEnumerable<CommentDto> GetSingleBy(string gameKey)
+        public IEnumerable<CommentDto> GetBy(string gameKey)
         {
             var game = _unitOfWork.GameRepository.Get()
                 .First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));

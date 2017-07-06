@@ -15,6 +15,8 @@ namespace GameStore.DAL.Abstract
 
         IGenericRepository<Genre> GenreRepository { get; }
 
+        IGenericRepository<Order> OrderRepository { get; }
+
         void Save();
     }
 }

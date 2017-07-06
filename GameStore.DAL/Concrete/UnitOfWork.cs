@@ -13,6 +13,7 @@ namespace GameStore.DAL.Concrete
         private readonly Lazy<IGenericRepository<Publisher>> _publisherRepository;
         private readonly Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
         private readonly Lazy<IGenericRepository<Genre>> _genreRepository;
+        private readonly Lazy<IGenericRepository<Order>> _orderRepository;
 
         public IGenericRepository<Game> GameRepository => _gameRepository.Value;
 
@@ -24,6 +25,8 @@ namespace GameStore.DAL.Concrete
 
         public IGenericRepository<PlatformType> PlatformTypeRepository => _platformTypeRepository.Value;
 
+        public IGenericRepository<Order> OrderRepository => _orderRepository.Value;
+
         public UnitOfWork(string connectionString)
         {
             _context = new GameStoreContext(connectionString);
@@ -32,6 +35,7 @@ namespace GameStore.DAL.Concrete
             _publisherRepository = new Lazy<IGenericRepository<Publisher>>(() => new GenericRepository<Publisher>(_context));
             _platformTypeRepository = new Lazy<IGenericRepository<PlatformType>>(() => new GenericRepository<PlatformType>(_context));
             _genreRepository = new Lazy<IGenericRepository<Genre>>(() => new GenericRepository<Genre>(_context));
+            _orderRepository = new Lazy<IGenericRepository<Order>>(() => new GenericRepository<Order>(_context));
         }
 
         public void Save()

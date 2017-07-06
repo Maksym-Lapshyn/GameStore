@@ -32,4 +32,4 @@
     }
 }
 
-@{Html.RenderPartial("New", new CommentViewModel { GameId = Model.First().GameId });}
+@{Html.RenderPartial("New", new CommentViewModel { GameKey = ViewBag.GameKey, GameId = ViewBag.GameId });}
