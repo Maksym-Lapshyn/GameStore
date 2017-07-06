@@ -53,6 +53,10 @@ namespace GameStore.Services.Concrete
         {
             var game = _unitOfWork.GameRepository.Get().First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
             var gameDto = Mapper.Map<Game, GameDto>(game);
+            gameDto.PublishersData = new List<PublisherDto>
+            {
+                Mapper.Map<Publisher, PublisherDto>(game.Publisher)
+            };
 
             return gameDto;
         }

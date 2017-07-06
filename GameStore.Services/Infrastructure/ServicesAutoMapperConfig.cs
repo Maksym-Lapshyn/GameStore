@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.DAL.Entities;
 using GameStore.Services.DTOs;
+using System.Collections.Generic;
 
 namespace GameStore.Services.Infrastructure
 {
@@ -13,8 +12,7 @@ namespace GameStore.Services.Infrastructure
             Mapper.Initialize(cfg => cfg.CreateMap<GameDto, Game>());
             Mapper.Initialize(cfg => cfg.CreateMap<Game, GameDto>()
                 .ForMember(e => e.PlatformTypesData, o => o.MapFrom(d => d.PlatformTypes))
-                .ForMember(e => e.GenresData, o => o.MapFrom(d => d.Genres))
-                .ForMember(e => e.PublishersData, o => o.MapFrom(d => new List<Publisher>{ d.Publisher })));
+                .ForMember(e => e.GenresData, o => o.MapFrom(d => d.Genres)));
             Mapper.Initialize(cfg => cfg.CreateMap<CommentDto, Comment>());
             Mapper.Initialize(cfg => cfg.CreateMap<Comment, CommentDto>());
             Mapper.Initialize(cfg => cfg.CreateMap<PublisherDto, Publisher>());
