@@ -32,11 +32,20 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void New_CallsAddOnce_WhenNewCommentPassed()
+		public void New_SendsCommentViewModelToView_WhenModelStateIsInvalid()
 		{
-			_target.New(new CommentViewModel());
+			_target.ModelState.AddModelError("test", "test");
+			var result = ((PartialViewResult)_target.New(new CommentViewModel())).Model;
 
-			_mockOfCommentService.Verify(m => m.Create(It.IsAny<CommentDto>()), Times.Once);
+			Assert.IsInstanceOfType(result, typeof(CommentViewModel));
+		}
+
+		[TestMethod]
+		public void New_ReturnsRedirect_WhenModelStateIsValid()
+		{
+			var result = _target.New(new CommentViewModel());
+
+			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
 		}
 
 		[TestMethod]

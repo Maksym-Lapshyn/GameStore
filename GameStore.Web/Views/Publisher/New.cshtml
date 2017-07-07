@@ -8,14 +8,20 @@
 <h1>New Publisher</h1>
 @using (Html.BeginForm("New", "Publisher", FormMethod.Post))
 {
-    @Html.LabelFor(m => m.CompanyName)<br />
-    @Html.EditorFor(m => m.CompanyName)<br />
-    @Html.ValidationMessageFor(m => m.CompanyName)<br />
-    @Html.LabelFor(m => m.Description)<br />
-    @Html.EditorFor(m => m.Description)<br />
-    @Html.ValidationMessageFor(m => m.Description)<br />
-    @Html.LabelFor(m => m.HomePage)<br />
-    @Html.EditorFor(m => m.HomePage)<br />
-    @Html.ValidationMessageFor(m => m.HomePage)<br />
-    <button type="submit">Create</button>
+    <b>@Html.LabelFor(m => m.CompanyName)</b>
+    <p>
+        @Html.EditorFor(m => m.CompanyName)
+        @Html.ValidationMessageFor(m => m.CompanyName)
+    </p>
+    <b>@Html.LabelFor(m => m.Description)</b>
+    <p>
+        @Html.EditorFor(m => m.Description)
+        @Html.ValidationMessageFor(m => m.Description)
+    </p>
+    <b>@Html.LabelFor(m => m.HomePage)</b>
+    <p>
+        @Html.EditorFor(m => m.HomePage)<br />
+        @Html.ValidationMessageFor(m => m.HomePage)
+    </p>
+    <p><button type="submit">Create</button></p>
 }

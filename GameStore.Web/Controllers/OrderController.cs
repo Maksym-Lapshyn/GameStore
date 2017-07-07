@@ -29,17 +29,8 @@ namespace GameStore.Web.Controllers
         public ActionResult Edit(int gameId)
         {
             var orderViewModel = GetOrder();
-            if (orderViewModel.OrderDetails.Any(d => d.GameId == gameId))
-            {
-                orderViewModel.OrderDetails.First(d => d.GameId == gameId).Quantity++;
-            }
-            else
-            {
-                orderViewModel.OrderDetails.Add(new OrderDetailsViewModel{GameId = gameId, Quantity = 1});
-            }
-
             var orderDto = Mapper.Map<OrderViewModel, OrderDto>(orderViewModel);
-            _orderService.Edit(orderDto);
+            _orderService.Edit(orderDto, gameId);
 
             return RedirectToAction("Show");
         }
@@ -54,7 +45,7 @@ namespace GameStore.Web.Controllers
 
                 return orderViewModel;
             }
-                
+
             var customerId = Guid.NewGuid().ToString();
             Response.Cookies.Add(new HttpCookie(CookieKey, customerId));
             orderViewModel = new OrderViewModel

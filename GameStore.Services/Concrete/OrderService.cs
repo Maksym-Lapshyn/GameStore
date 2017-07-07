@@ -21,7 +21,7 @@ namespace GameStore.Services.Concrete
         {
             var order = Mapper.Map<OrderDto, Order>(orderDto);
             order.Date = DateTime.UtcNow;
-            MergeToEntity(order);
+            Map(order);
             _unitOfWork.OrderRepository.Insert(order);
             _unitOfWork.Save();
         }
@@ -34,16 +34,26 @@ namespace GameStore.Services.Concrete
             return orderDto;
         }
 
-        public void Edit(OrderDto orderDto)
+        public void Edit(OrderDto orderDto, int gameId)
         {
-            var order = _unitOfWork.OrderRepository.Get(o => o.Id == orderDto.Id).First();
-            order = Mapper.Map(orderDto, order);
-            MergeToEntity(order);
+            var order = _unitOfWork.OrderRepository.GetById(orderDto.Id);
+            var details = order.OrderDetails.FirstOrDefault(o => o.GameId == gameId);
+            if (details == null)
+            {
+                var game = _unitOfWork.GameRepository.GetById(gameId);
+                order.OrderDetails.Add(new OrderDetails{GameId = gameId, Game = game, Price = game.Price, Quantity = 1});
+            }
+            else
+            {
+                details.Quantity++;
+                details.Price = details.Quantity * details.Game.Price;
+            }
+
             _unitOfWork.OrderRepository.Update(order);
             _unitOfWork.Save();
         }
 
-        private void MergeToEntity(Order output)
+        private void Map(Order output)
         {
             output.OrderDetails.ToList().ForEach(o =>
             {

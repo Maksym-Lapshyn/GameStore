@@ -5,6 +5,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -28,18 +29,7 @@ namespace GameStore.Services.Concrete
         public IEnumerable<GenreDto> GetBy(int gameId)
         {
             var allGenres = _unitOfWork.GenreRepository.Get();
-            var matchedGenres = new List<Genre>();
-            foreach (var genre in allGenres)
-            {
-                foreach (var game in genre.Games)
-                {
-                    if (game.Id == gameId)
-                    {
-                        matchedGenres.Add(genre);
-                    }  
-                }
-            }
-            
+            var matchedGenres = (from genre in allGenres from game in genre.Games where game.Id == gameId select genre).ToList();
             var genreDtos = Mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDto>>(matchedGenres);
 
             return genreDtos;

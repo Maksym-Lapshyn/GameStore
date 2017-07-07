@@ -4,8 +4,6 @@
     {
         public int Id { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         public int GameId { get; set; }
 
         public GameDto Game { get; set; }

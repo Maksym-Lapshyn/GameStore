@@ -1,6 +1,5 @@
 ﻿using GameStore.Services.DTOs;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 
 namespace GameStore.Web.Models
 {

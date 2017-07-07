@@ -144,6 +144,7 @@
     <Compile Include="Infrastructure\Filters\LogExceptionAttribute.cs" />
     <Compile Include="Infrastructure\Filters\LogIpAttribute.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\AllCommentsViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
@@ -173,6 +174,7 @@
     <Content Include="Views\Publisher\Show.cshtml" />
     <Content Include="Views\Publisher\New.cshtml" />
     <Content Include="Views\Order\Show.cshtml" />
+    <Content Include="Views\Comment\ListAllChilds.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

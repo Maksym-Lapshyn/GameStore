@@ -7,15 +7,22 @@
 
 <h1>Show Order</h1>
 
-@if (Model.OrderDetails.Count != 0)
+<b>@Html.LabelFor(m => m.CustomerId)</b>
+<p>
+    @Html.DisplayFor(m => m.CustomerId)
+</p>
+@foreach (var detail in Model.OrderDetails)
 {
-    foreach (var detail in Model.OrderDetails)
-    {
-        @Html.Label("Game")<br />
-        <p>@detail.Game.Name</p>
-        @Html.Label("Price")<br />
-        <p>@detail.Price</p>
-        @Html.Label("Quantity")<br />
-        <p>@detail.Quantity</p>
-    }
+    <b>@Html.LabelFor(m => detail.Game.Name)</b>
+    <p>
+        @Html.DisplayFor(m => detail.Game.Name)
+    </p>
+    <b>@Html.LabelFor(m => detail.Price)</b>
+    <p>
+        @Html.DisplayFor(m => detail.Price)
+    </p>
+    <b>@Html.LabelFor(m => detail.Quantity)</b>
+    <p>
+        @Html.DisplayFor(m => detail.Quantity)
+    </p>
 }

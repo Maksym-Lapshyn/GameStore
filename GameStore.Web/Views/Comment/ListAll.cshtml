@@ -1,35 +1,26 @@
-﻿@using System.Collections
-@using GameStore.Web.Models
-@model List<CommentViewModel>
+﻿@using GameStore.Web.Models
+@model AllCommentsViewModel
 
 @{
     ViewBag.Title = "List All Comments";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var stack = new Stack<CommentViewModel>();
-    Model.ForEach(c => stack.Push(c));
 }
 
 <h1>List All Comments</h1>
 
-@while (stack.Count > 0)
+@foreach (var comment in Model.Comments)
 {
-    var comment = stack.Pop();
-
-    <p><b>@comment.Name</b></p>
-
-    if (comment.ParentComment != null)
+    <b>@Html.LabelFor(m => comment.Name):</b>
+    <p>@Html.DisplayFor(m => comment.Name)</p>
+    <b>@Html.LabelFor(m => comment.Body):</b>
+    <p>@Html.DisplayFor(m => comment.Body)</p>
+    <p>
+        <button id=@comment.Id data-name=@comment.Name onclick="return addReply(this)">Reply</button><br />
+    </p>
+    if (comment.ChildComments.Count != 0)
     {
-        <p>@comment.ParentComment.Name, @comment.Body</p>
-    }
-    else
-    {
-        <p>@comment.Body</p>
-    }
-
-    foreach (var childComment in comment.ChildComments)
-    {
-        stack.Push(childComment);
+        { Html.RenderPartial("ListAllChilds", comment.ChildComments); };
     }
 }
 
-@{Html.RenderPartial("New", new CommentViewModel { GameKey = ViewBag.GameKey, GameId = ViewBag.GameId });}
+@{Html.RenderPartial("New", new CommentViewModel { GameKey = Model.GameKey, GameId = Model.GameId });}

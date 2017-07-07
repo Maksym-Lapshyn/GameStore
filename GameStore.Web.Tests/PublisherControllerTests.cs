@@ -29,7 +29,7 @@ namespace GameStore.Web.Tests
         }
 
         [TestMethod]
-        public void New_SendsViewModelToView()
+        public void New_SendsPublisherToView()
         {
             var result = ((ViewResult)_target.New()).Model;
 
@@ -45,7 +45,7 @@ namespace GameStore.Web.Tests
         }
 
         [TestMethod]
-        public void New_SendsViewModelToView_WhenModelStateIsInvalid()
+        public void New_SendsPublisherToView_WhenModelStateIsInvalid()
         {
             _target.ModelState.AddModelError("test", "test");
             var result = ((ViewResult)_target.New(new PublisherViewModel())).Model;
@@ -62,7 +62,7 @@ namespace GameStore.Web.Tests
         }
 
         [TestMethod]
-        public void Show_SendsViewModelToView_WhenAnyCompanyNamePassed()
+        public void Show_SendsPublisherToView_WhenAnyCompanyNameIsPassed()
         {
             var result = ((ViewResult)_target.Show(string.Empty)).Model;
 

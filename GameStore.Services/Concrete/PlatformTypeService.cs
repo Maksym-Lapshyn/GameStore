@@ -5,6 +5,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -28,18 +29,7 @@ namespace GameStore.Services.Concrete
         public IEnumerable<PlatformTypeDto> GetBy(int gameId)
         {
             var allPlatformTypes= _unitOfWork.PlatformTypeRepository.Get();
-            var matchedPlatformTypes = new List<PlatformType>();
-            foreach (var type in allPlatformTypes)
-            {
-                foreach (var game in type.Games)
-                {
-                    if (game.Id == gameId)
-                    {
-                        matchedPlatformTypes.Add(type);
-                    }
-                }
-            }
-
+            var matchedPlatformTypes = (from type in allPlatformTypes from game in type.Games where game.Id == gameId select type).ToList();
             var platformTypeDtos = Mapper.Map<IEnumerable<PlatformType>, IEnumerable<PlatformTypeDto>>(matchedPlatformTypes);
 
             return platformTypeDtos;

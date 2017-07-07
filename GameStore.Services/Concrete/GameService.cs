@@ -21,7 +21,7 @@ namespace GameStore.Services.Concrete
         public void Create(GameDto gameDto)
         {
             var game = Mapper.Map<GameDto, Game>(gameDto);
-            MergeToEntity(gameDto, game);
+            Map(gameDto, game);
             _unitOfWork.GameRepository.Insert(game);
             _unitOfWork.Save();
         }
@@ -30,7 +30,7 @@ namespace GameStore.Services.Concrete
         {
             var game = _unitOfWork.GameRepository.Get().First(g => g.Id == gameDto.Id);
             game = Mapper.Map(gameDto, game);
-            MergeToEntity(gameDto, game);
+            Map(gameDto, game);
             _unitOfWork.GameRepository.Update(game);
             _unitOfWork.Save();
         }
@@ -66,7 +66,6 @@ namespace GameStore.Services.Concrete
             var games = _unitOfWork.GameRepository.Get();
             var gameDtos = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games).ToList();
            
-
             return gameDtos;
         }
 
@@ -95,7 +94,7 @@ namespace GameStore.Services.Concrete
             return game.Id;
         }
 
-        private void MergeToEntity(GameDto input, Game result)
+        private void Map(GameDto input, Game result)
         {
             result.Publisher = _unitOfWork.PublisherRepository.GetById(input.PublisherInput);
             result.PlatformTypes = input.PlatformTypesInput.Select(id => _unitOfWork.PlatformTypeRepository.GetById(id)).ToList();

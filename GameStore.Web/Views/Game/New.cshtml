@@ -9,27 +9,38 @@
 
 @using (Html.BeginForm("New", "Game", FormMethod.Post))
 {
-    @Html.LabelFor(m => m.Key)<br/>
-    @Html.EditorFor(m => m.Key)<br />
-    @Html.ValidationMessageFor(m => m.Key)<br />
-    @Html.LabelFor(m => m.Name)<br />
-    @Html.EditorFor(m => m.Name)<br />
-    @Html.ValidationMessageFor(m => m.Name)<br />
-    @Html.LabelFor(m => m.Description)<br />
-    @Html.EditorFor(m => m.Description)<br />
-    @Html.ValidationMessageFor(m => m.Description)<br />
-    @Html.LabelFor(m => m.Price)<br />
-    @Html.EditorFor(m => m.Price)<br />
-    @Html.ValidationMessageFor(m => m.Price)<br />
-    @Html.LabelFor(m => m.PlatformTypesInput)<br />
-    @Html.ListBoxFor(m => m.PlatformTypesInput, new SelectList(Model.PlatformTypesData, "Id", "Type"))<br />
-    @Html.ValidationMessageFor(m => m.PlatformTypesInput)<br />
-    @Html.LabelFor(m => m.GenresInput)<br />
-    @Html.ListBoxFor(m => m.GenresInput, new SelectList(Model.GenresData, "Id", "Name"))<br />
-    @Html.ValidationMessageFor(m => m.GenresInput)<br />
-    @Html.LabelFor(m => m.PublisherInput)<br />
-    @Html.DropDownListFor(m => m.PublisherInput, new SelectList(Model.PublishersData, "Id", "CompanyName"))<br />
-    @Html.ValidationMessageFor(m => m.PublisherInput)<br />
+    <b>@Html.LabelFor(m => m.Key)</b>
+    <p>@Html.EditorFor(m => m.Key)</p>
+    <b>@Html.LabelFor(m => m.Name)</b>
+    <p>
+        @Html.EditorFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </p>
+    <b>@Html.LabelFor(m => m.Description)</b>
+    <p>
+        @Html.EditorFor(m => m.Description)
+        @Html.ValidationMessageFor(m => m.Description)
+    </p>
+    <b>@Html.LabelFor(m => m.Price)</b>
+    <p>
+        @Html.EditorFor(m => m.Price)
+        @Html.ValidationMessageFor(m => m.Price)
+    </p>
+    <b>@Html.LabelFor(m => m.PlatformTypesInput)</b>
+    <p>
+        @Html.ListBoxFor(m => m.PlatformTypesInput, new SelectList(Model.PlatformTypesData, "Id", "Type"))
+        @Html.ValidationMessageFor(m => m.PlatformTypesInput)
+    </p>
+    <b>@Html.LabelFor(m => m.GenresInput)</b>
+    <p>
+        @Html.ListBoxFor(m => m.GenresInput, new SelectList(Model.GenresData, "Id", "Name"))
+        @Html.ValidationMessageFor(m => m.GenresInput)
+    </p>
+    <b>@Html.LabelFor(m => m.PublisherInput)</b>
+    <p>
+        @Html.DropDownListFor(m => m.PublisherInput, new SelectList(Model.PublishersData, "Id", "CompanyName"))
+        @Html.ValidationMessageFor(m => m.PublisherInput)
+    </p>
     for (var i = 0; i < Model.PlatformTypesData.Count; i++)
     {
         @Html.HiddenFor(m => m.PlatformTypesData[i].Id)
@@ -50,5 +61,5 @@
         @Html.HiddenFor(m => m.PublishersData[i].HomePage)
     }
 
-    <button type="submit">Create</button>
+    <p><button type="submit">Create</button></p>
 }

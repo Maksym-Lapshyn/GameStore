@@ -3,6 +3,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -56,7 +57,7 @@ namespace GameStore.Web.Controllers
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
-		public ViewResult Show(string gameKey)
+		public ActionResult Show(string gameKey)
 		{
 			var gameDto = _gameService.GetSingleBy(gameKey);
 			var gameViewModel = Mapper.Map<GameDto, GameViewModel>(gameDto);
@@ -64,7 +65,7 @@ namespace GameStore.Web.Controllers
 			return View(gameViewModel);
 		}
 
-		public JsonResult ListAll()
+		public ActionResult ListAll()
 		{
 			var gameDtos = _gameService.GetAll();
 			var games = Mapper.Map<List<GameDto>, List<GameViewModel>>(gameDtos.ToList());
@@ -83,7 +84,11 @@ namespace GameStore.Web.Controllers
 		public FileResult Download(string gameKey)
 		{
 			var path = Server.MapPath("~/file.pdf");
-			var fileBytes = System.IO.File.ReadAllBytes(path);
+		    var fileBytes = new byte[0];
+		    if (System.IO.File.Exists(path))
+		    {
+		        fileBytes = System.IO.File.ReadAllBytes(path);
+		    }
 
 			return new FileContentResult(fileBytes, "application/pdf");
 		}

@@ -44,67 +44,67 @@ namespace GameStore.Web.Tests
         }
 
         [TestMethod]
-        public void CreateGame_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void CreateGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/games/new", "Game", "New", "POST");
         }
 
         [TestMethod]
-        public void EditGame_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void EditGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/games/update", "Game", "Update", "POST");
         }
 
         [TestMethod]
-        public void GetGameDetailsByKey_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void GetGameDetailsByKey_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/game/{gameKey}", "Game", "Show");
         }
 
         [TestMethod]
-        public void GetAllGames_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void GetAllGames_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/games", "Game", "ListAll");
         }
 
         [TestMethod]
-        public void DeleteGame_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void DeleteGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/games/remove", "Game", "Delete", "POST");
         }
 
         [TestMethod]
-        public void LeaveComment_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void LeaveComment_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/game/{gameKey}/newcomment", "Comment", "New", "POST");
         }
 
         [TestMethod]
-        public void GetAllComments_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void GetAllComments_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/game/{gameKey}/comments", "Comment", "ListAll");
         }
 
         [TestMethod]
-        public void DownloadGame_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void DownloadGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/game/{gameKey}/download", "Game", "Download");
         }
 
         [TestMethod]
-        public void DisplayPublisher_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void DisplayPublisher_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/publisher/{companyName}", "Publisher", "Show");
         }
 
         [TestMethod]
-        public void CreatePublisher_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void CreatePublisher_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/publisher/new", "Publisher", "New");
         }
 
         [TestMethod]
-        public void DisplayBasket_CallsRightControllerAndAction_WhenValidRoutePassed()
+        public void DisplayBasket_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
             TestRouteMatch("~/basket", "Order", "Show");
         }
