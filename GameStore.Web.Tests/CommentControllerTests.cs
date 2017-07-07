@@ -60,7 +60,7 @@ namespace GameStore.Web.Tests
 		public void ListAll_ReturnsAllComments_WhenValidGameKeyPassed()
 		{
 			var result = _target.ListAll("COD123");
-			var count = ((List<CommentViewModel>) result.Model).Count;
+			var count = ((AllCommentsViewModel) result.Model).Comments.Count;
 
 			Assert.IsTrue(count == 2);
 		}

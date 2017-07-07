@@ -32,22 +32,6 @@ namespace GameStore.Web.Tests
             context.Setup(m => m.Response).Returns(response.Object);
             _target.ControllerContext = new ControllerContext(context.Object, new RouteData(), _target);
         }
-
-        [TestMethod]
-        public void Show_ReturnsViewModel()
-        {
-            var result = _target.Show();
-
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
-        }
-
-        [TestMethod]
-        public void Show_SendsCookieToClient_WhenRequestDoesNotContainIt()
-        {
-            _target.Show();
-
-            Assert.IsTrue(_cookies.Count == 1);
-        }
     }
 }
 
