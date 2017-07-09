@@ -13,35 +13,33 @@ namespace GameStore.Web.Tests
 	[TestClass]
 	public class CommentControllerTests
 	{
-		private readonly Mock<ICommentService> _mockOfCommentService;
-		private readonly Mock<IGameService> _mockOfGameService;
-		private readonly CommentController _target;
+		private Mock<ICommentService> _mockOfCommentService;
+		private Mock<IGameService> _mockOfGameService;
+		private CommentController _target;
+        private List<CommentDto> _comments;
+        private const string ValidGameKey = "test";
 
-		public CommentControllerTests()
+        [TestInitialize]
+		public void Initialize()
 		{
 			WebAutoMapperConfig.RegisterMappings();
 			_mockOfCommentService = new Mock<ICommentService>();
 			_mockOfGameService = new Mock<IGameService>();
-			_mockOfCommentService.Setup(m => m.GetBy("COD123")).Returns(new List<CommentDto>
-			{
-				new CommentDto {Name = "Elma", Body = "Wow, it is amazing"},
-				new CommentDto {Name = "Supra", Body = "This game is so so"}
-			});
-
 			_target = new CommentController(_mockOfCommentService.Object, _mockOfGameService.Object);
 		}
 
 		[TestMethod]
-		public void New_SendsCommentViewModelToView_WhenModelStateIsInvalid()
+		public void New_SendsCommentToView_WhenModelStateIsInvalid()
 		{
 			_target.ModelState.AddModelError("test", "test");
+
 			var result = ((PartialViewResult)_target.New(new CommentViewModel())).Model;
 
 			Assert.IsInstanceOfType(result, typeof(CommentViewModel));
 		}
 
 		[TestMethod]
-		public void New_ReturnsRedirect_WhenModelStateIsValid()
+		public void New_ReturnsRedirectToRouteResult_WhenModelStateIsValid()
 		{
 			var result = _target.New(new CommentViewModel());
 
@@ -49,20 +47,28 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void ListAll_ReturnsViewResult_WhenValidGameKeyPassed()
+		public void ListAll_ReturnsViewResult_WhenAnyGameKeyIsPassed()
 		{
-			var result = _target.ListAll("COD123");
+            var result = _target.ListAll(string.Empty);
 
 			Assert.IsInstanceOfType(result, typeof(ViewResult));
 		}
 
 		[TestMethod]
-		public void ListAll_ReturnsAllComments_WhenValidGameKeyPassed()
+		public void ListAll_SendsAllCommentsToView_WhenValidGameKeyIsPassed()
 		{
-			var result = _target.ListAll("COD123");
-			var count = ((AllCommentsViewModel) result.Model).Comments.Count;
+            _comments = new List<CommentDto>
+            {
+                new CommentDto(),
+                new CommentDto()
+            };
 
-			Assert.IsTrue(count == 2);
+            _mockOfCommentService.Setup(m => m.GetBy(ValidGameKey)).Returns(_comments);
+
+            var model = ((ViewResult)_target.ListAll(ValidGameKey)).Model;
+            var result =  ((AllCommentsViewModel)model).Comments.Count;
+
+			Assert.IsTrue(result == 2);
 		}
 	}
 }

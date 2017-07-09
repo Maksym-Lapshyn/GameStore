@@ -5,7 +5,6 @@ using GameStore.Web.Controllers;
 using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -19,6 +18,7 @@ namespace GameStore.Web.Tests
         private Mock<IPlatformTypeService> _mockOfPlatformTypeService;
         private Mock<IPublisherService> _mockOfPublisherService;
         private const string ValidGameKey = "test";
+        private const int ValidGameId = 10;
         private List<GameDto> _games;
         private GameController _target;
 
@@ -34,7 +34,7 @@ namespace GameStore.Web.Tests
             _games = new List<GameDto>();
             _mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>())).Callback<GameDto>(g => _games.Add(g));
             _mockOfGameService.Setup(m => m.GetSingleBy(ValidGameKey)).Returns(new GameDto());
-            _mockOfGameService.Setup(m => m.GetAll()).Returns(_games);
+            _mockOfGameService.Setup(m => m.Delete(ValidGameId)).Callback<int>(i => _games.RemoveAll(g => g.Id == i));
         }
 
         [TestMethod]
@@ -57,6 +57,7 @@ namespace GameStore.Web.Tests
         public void New_DoesNotCraeteGame_WhenModelStateIsInvalid()
         {
             _target.ModelState.AddModelError("test", "test");
+
             _target.New(new GameViewModel());
 
             Assert.IsTrue(_games.Count == 0);
@@ -71,7 +72,7 @@ namespace GameStore.Web.Tests
         }
 
         [TestMethod]
-        public void Update_CallsEditOnce_WhenAnyGamePassed()
+        public void Update_CallsEditOnce_WhenAnyGameIsPassed()
         {
             _target.Update(new GameDto());
 
@@ -87,7 +88,7 @@ namespace GameStore.Web.Tests
         }
 
         [TestMethod]
-        public void Show_SendsGameToView_WhenValidGameKeyPassed()
+        public void Show_SendsGameToView_WhenValidGameKeyIsPassed()
         {
             var result = ((ViewResult)_target.Show(ValidGameKey)).Model;
 
@@ -95,44 +96,54 @@ namespace GameStore.Web.Tests
         }
 
         [TestMethod]
-        public void ListAll_ReturnsJson()
+        public void ListAll_SendsListOfGamesToView()
         {
             _games = new List<GameDto>
             {
-                new GameDto{Name = "firstGame"},
-                new GameDto{Name = "secondGame"}
+                new GameDto(),
+                new GameDto()
             };
 
-            var result = _target.ListAll() as JsonResult;
+            var result = ((JsonResult)_target.ListAll()).Data;
 
-            var list = (List<GameViewModel>)result.Data;
-
-            Assert.IsTrue(list.Count == 2);
+            Assert.IsInstanceOfType(result, typeof(List<GameViewModel>));
         }
 
         [TestMethod]
-        public void New_ReturnsRedirectToRouteResult_WhenValidGamePassed()
+        public void ListAll_ReturnsJson()
         {
-            var result = _target.New(new GameViewModel());
+            var result = _target.ListAll();
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
         }
 
         [TestMethod]
-        public void New_ReturnsViewResult_WhenModelStateIsInvalid()
+        public void Delete_DeletesGame_WhenValidGameIdIsPassed()
         {
-            _target.ModelState.AddModelError("testError", "testError");
-            var result = _target.New(new GameViewModel());
+            _games = new List<GameDto>
+            {
+                new GameDto {Id = ValidGameId }
+            };
 
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            _target.Delete(ValidGameId);
+
+            Assert.IsTrue(_games.Count == 0);
         }
 
         [TestMethod]
-        public void Dowload_ReturnsFileResult_WhenValidGameKeyIsPassed()
+        public void ShowCount_SendsNumberOfGamesToView()
         {
-            var result = _target.Download(ValidGameKey);
+            _games = new List<GameDto>
+            {
+                new GameDto(),
+                new GameDto()
+            };
 
-            Assert.IsInstanceOfType(result, typeof(FileResult));
+            _mockOfGameService.Setup(m => m.GetAll()).Returns(_games);
+
+            var result = (int)((PartialViewResult)_target.ShowCount()).Model;
+
+            Assert.IsTrue(result == 2);
         }
     }
 }

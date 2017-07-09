@@ -3,7 +3,6 @@ using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -30,7 +29,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult New()
 		{
 			var gameViewModel = new GameViewModel();
-			FillProperties(gameViewModel);
+			Map(gameViewModel);
 
 			return View(gameViewModel);
 		}
@@ -94,14 +93,15 @@ namespace GameStore.Web.Controllers
 		}
 
 		[OutputCache(Duration = 60)]
-		public PartialViewResult ShowNumberOfGames()
+		public ActionResult ShowCount()
 		{
-			var gamesCount = _gameService.GetAll().Count();
+            var games = _gameService.GetAll();
+            var count = games.Count();
 
-			return PartialView(gamesCount);
+			return PartialView(count);
 		}
 
-		private void FillProperties(GameViewModel gameViewModel)
+		private void Map(GameViewModel gameViewModel)
 		{
 			gameViewModel.PlatformTypesData = 
 				Mapper.Map<List<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll().ToList());

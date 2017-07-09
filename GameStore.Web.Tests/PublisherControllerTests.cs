@@ -48,6 +48,7 @@ namespace GameStore.Web.Tests
         public void New_SendsPublisherToView_WhenModelStateIsInvalid()
         {
             _target.ModelState.AddModelError("test", "test");
+
             var result = ((ViewResult)_target.New(new PublisherViewModel())).Model;
 
             Assert.IsInstanceOfType(result, typeof(PublisherViewModel));

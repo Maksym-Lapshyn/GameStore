@@ -35,7 +35,7 @@ namespace GameStore.Web.Controllers
         }
 
         [HttpGet]
-        public ViewResult ListAll(string gameKey)
+        public ActionResult ListAll(string gameKey)
         {
             var commentDtos = _commentService.GetBy(gameKey);
             var commentViewModels = Mapper.Map<List<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
