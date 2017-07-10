@@ -28,7 +28,7 @@ namespace GameStore.Services.Concrete
 
         public OrderDto GetSingleBy(string customerId)
         {
-            var order = _unitOfWork.OrderRepository.Get(o => o.CustomerId == customerId).First();
+            var order = _unitOfWork.OrderRepository.Get().First(o => o.CustomerId == customerId);
             var orderDto = Mapper.Map<Order, OrderDto>(order);
 
             return orderDto;

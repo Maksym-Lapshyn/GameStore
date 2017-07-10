@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Abstract;
+﻿using System;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.DTOs;
@@ -18,7 +19,8 @@ namespace GameStore.Services.Tests
         private List<Comment> _comments;
         private List<Game> _games;
         private const int TestInt = 10;
-        private const string TestString = "test";
+        private const string ValidString = "test";
+        private const string InValidString = "testtest";
 
         [TestInitialize]
         public void Initialize()
@@ -26,34 +28,16 @@ namespace GameStore.Services.Tests
             ServicesAutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
             _target = new CommentService(_mockOfUow.Object);
-            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(
-                new List<Comment>
-                {
-                    new Comment() {Id = 1, GameId = 1, Name = "Jake", Body = "Hey, this game is good"},
-                    new Comment() {Id = 2, GameId = 1, Name = "Susan", Body = "Wow, it is amazing"},
-                    new Comment() {Id = 3, GameId = 2, Name = "Emmy", Body = "Fuuuu, this game is crappy"}
-                });
-
             _mockOfUow.Setup(m => m.CommentRepository.Insert(It.IsAny<Comment>())).Callback<Comment>(c => _comments.Add(c));
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(
-                new List<Game>
-                {
-                    new Game {Id = 1, Name = "Quake", Key = "Quakeiii", Comments = new List<Comment>()
-                    {
-                        new Comment(){Id = 5, Name = "Emily", Body = "Check it out"}
-                    }},
-                    new Game() {Id = 2, Name = "Doom", Key = "Doombfg"},
-                    new Game() {Id = 3, Name = "Diablo", Key = "Diabloiii"}
-                });
         }
 
         [TestMethod]
         public void Create_CreatesGame_WhenAnyCommentIsPassed()
         {
-            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
             _comments = new List<Comment>();
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
             _games = new List<Game> { new Game { Id = TestInt } };
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
 
             _target.Create(new CommentDto { GameId = TestInt });
 
@@ -63,10 +47,10 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void Create_CallsSaveOnce_WhenAnyCommentIsPassed()
         {
-            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
             _comments = new List<Comment>();
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
             _games = new List<Game> { new Game { Id = TestInt } };
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
 
             _target.Create(new CommentDto { GameId = TestInt });
 
@@ -76,25 +60,93 @@ namespace GameStore.Services.Tests
         [TestMethod]
         public void GetAll_ReturnsAllComments()
         {
-            var result = _target.GetAll().ToList();
+            _comments = new List<Comment>
+            {
+                new Comment(),
+                new Comment(),
+                new Comment()
+            };
 
-            Assert.IsTrue(result.Count == 3);
+            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
+
+            var result = _target.GetAll().ToList().Count;
+
+            Assert.IsTrue(result == 3);
         }
 
         [TestMethod]
-        public void GetBy_ReturnsAllComments_WhenValidGameKeyPassed()
+        public void GetBy_ReturnsAllComments_WhenValidGameKeyIsPassed()
         {
-            var comments = _target.GetBy("Quakeiii").ToList();
+            _games = new List<Game>
+            {
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                }
+            };
 
-            Assert.IsTrue(comments.Count == 1);
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+
+            var comments = _target.GetBy(ValidString).ToList().Count;
+
+            Assert.IsTrue(comments == 1);
         }
 
+        [ExpectedException(typeof(InvalidOperationException))]
         [TestMethod]
-        public void GetBy_ReturnsNoComments_WhenKeyOfGameWithoutCommentsPassed()
+        public void GetBy_ThrowsException_WhenInValidGameKeyIsPassed()
         {
-            var comments = _target.GetBy("Doombfg").ToList();
+            _games = new List<Game>
+            {
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                }
+            };
 
-            Assert.IsTrue(comments.Count == 0);
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+
+            _target.GetBy(InValidString);
         }
     }
 }

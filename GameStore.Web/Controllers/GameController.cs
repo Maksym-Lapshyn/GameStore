@@ -83,11 +83,11 @@ namespace GameStore.Web.Controllers
 		public FileResult Download(string gameKey)
 		{
 			var path = Server.MapPath("~/file.pdf");
-		    var fileBytes = new byte[0];
-		    if (System.IO.File.Exists(path))
-		    {
-		        fileBytes = System.IO.File.ReadAllBytes(path);
-		    }
+			var fileBytes = new byte[0];
+			if (System.IO.File.Exists(path))
+			{
+				fileBytes = System.IO.File.ReadAllBytes(path);
+			}
 
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
@@ -95,8 +95,8 @@ namespace GameStore.Web.Controllers
 		[OutputCache(Duration = 60)]
 		public ActionResult ShowCount()
 		{
-            var games = _gameService.GetAll();
-            var count = games.Count();
+			var games = _gameService.GetAll();
+			var count = games.Count();
 
 			return PartialView(count);
 		}

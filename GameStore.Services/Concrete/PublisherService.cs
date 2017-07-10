@@ -25,9 +25,9 @@ namespace GameStore.Services.Concrete
             _unitOfWork.Save();
         }
 
-        public PublisherDto GetSingleBy(int id)
+        public PublisherDto GetSingleBy(int publisherId)
         {
-            var publisher = _unitOfWork.PublisherRepository.GetById(id);
+            var publisher = _unitOfWork.PublisherRepository.GetById(publisherId);
             var publisherDto = Mapper.Map<Publisher, PublisherDto>(publisher);
 
             return publisherDto;
