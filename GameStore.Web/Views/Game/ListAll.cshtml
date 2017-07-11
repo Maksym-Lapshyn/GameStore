@@ -1,0 +1,65 @@
+﻿@model GameStore.Web.Models.GamesAndFilterViewModel
+
+@{
+    ViewBag.Title = "List All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>List All</h1>
+
+@using (Html.BeginForm("ListAll", "Game", FormMethod.Post))
+{
+    <h2>Filter</h2>
+    <b>@Html.LabelFor(m => m.Filter.GenresInput)</b>
+    <p>
+        @Html.ListBoxFor(m => m.Filter.GenresInput, new SelectList(Model.Filter.GenresData, "Id", "Name"))
+    </p>
+    <b>@Html.LabelFor(m => m.Filter.PlatformTypesInput)</b>
+    <p>
+        @Html.ListBoxFor(m => m.Filter.PlatformTypesInput, new SelectList(Model.Filter.PlatformTypesData, "Id", "Type"))
+    </p>
+    <b>@Html.LabelFor(m => m.Filter.PublishersInput)</b>
+    <p>
+        @Html.ListBoxFor(m => m.Filter.PublishersInput, new SelectList(Model.Filter.PublishersData, "Id", "CompanyName"))
+    </p>
+    <b>@Html.LabelFor(m => m.Filter.SortData)</b>
+    <p>
+        @Html.EnumDropDownListFor(m => m.Filter.SortData)
+    </p>
+    <b>@Html.LabelFor(m => m.Filter.MinPrice)</b>
+    <p>
+        @Html.EditorFor(m => m.Filter.MinPrice)
+        @Html.ValidationMessageFor(m => m.Filter.MinPrice)
+    </p>
+    <b>@Html.LabelFor(m => m.Filter.MaxPrice)</b>
+    <p>
+        @Html.EditorFor(m => m.Filter.MaxPrice)
+        @Html.ValidationMessageFor(m => m.Filter.MaxPrice)
+    </p>
+    <b>@Html.LabelFor(m => m.Filter.PublishedDate)</b>
+    <p>
+        @Html.EnumDropDownListFor(m => m.Filter.PublishedDate)
+    </p>
+    <b>@Html.LabelFor(m => m.Filter.GameName)</b>
+    <p>
+        @Html.EditorFor(m => m.Filter.GameName)
+        @Html.ValidationMessageFor(m => m.Filter.GameName)
+    </p>
+    for (var i = 0; i < Model.Filter.PlatformTypesData.Count; i++)
+    {
+        @Html.HiddenFor(m => m.Filter.PlatformTypesData[i].Id)
+        @Html.HiddenFor(m => m.Filter.PlatformTypesData[i].Type)
+    }
+    for (var i = 0; i < Model.Filter.GenresData.Count; i++)
+    {
+        @Html.HiddenFor(m => m.Filter.GenresData[i].Id)
+        @Html.HiddenFor(m => m.Filter.GenresData[i].Name)
+    }
+    for (var i = 0; i < Model.Filter.PublishersData.Count; i++)
+    {
+        @Html.HiddenFor(m => m.Filter.PublishersData[i].Id)
+        @Html.HiddenFor(m => m.Filter.PublishersData[i].CompanyName)
+    }
+    <button type="submit">Apply</button>
+}
+

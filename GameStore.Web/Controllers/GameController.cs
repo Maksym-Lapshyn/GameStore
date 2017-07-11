@@ -16,8 +16,10 @@ namespace GameStore.Web.Controllers
 		private readonly IPlatformTypeService _platformTypeService;
 		private readonly IPublisherService _publisherService;
 
-		public GameController(IGameService gameService, IGenreService genreService,
-			IPlatformTypeService platformTypeService, IPublisherService publisherService)
+		public GameController(IGameService gameService,
+			IGenreService genreService,
+			IPlatformTypeService platformTypeService,
+			IPublisherService publisherService)
 		{
 			_gameService = gameService;
 			_genreService = genreService;
@@ -64,12 +66,34 @@ namespace GameStore.Web.Controllers
 			return View(gameViewModel);
 		}
 
+		[HttpGet]
 		public ActionResult ListAll()
 		{
 			var gameDtos = _gameService.GetAll();
 			var games = Mapper.Map<List<GameDto>, List<GameViewModel>>(gameDtos.ToList());
+			var gamesAndFilter = new GamesAndFilterViewModel
+			{
+				Games = games,
+				Filter = new FilterViewModel
+				{
+					PublishersData = Mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll()),
+					GenresData = Mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll()),
+					PlatformTypesData = Mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll())
+				}
+			};
 
-			return Json(games, JsonRequestBehavior.AllowGet);
+			return View(gamesAndFilter);
+		}
+
+		[HttpPost]
+		public ActionResult ListAll(GamesAndFilterViewModel gamesAndFilter)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(gamesAndFilter);
+			}
+
+			return View(gamesAndFilter);
 		}
 
 		[HttpPost]

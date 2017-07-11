@@ -52,7 +52,7 @@ namespace GameStore.Services.Tests
         }
 
         [TestMethod]
-        public void Edit_CallsUpdatedOnce_WhenValidGamePassed()
+        public void Edit_UpdatesGame_WhenValidGamePassed()
         {
             _games = new List<Game>
             {
