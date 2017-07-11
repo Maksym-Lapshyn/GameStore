@@ -1,35 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.DAL.Abstract;
+﻿using System.Collections.Generic;
 
 namespace GameStore.Services.DTOs
 {
 	public class GameDto
-    {
-        public int Id { get; set; }
+	{
+		public int Id { get; set; }
 
-        public string Key { get; set; }
+		public string Key { get; set; }
 
-        public string Name { get; set; }
+		public string Name { get; set; }
 
-        public string Description { get; set; }
+		public string Description { get; set; }
 
-        public IEnumerable<CommentDto> Comments { get; set; }
+		public decimal Price { get; set; }
 
-		public IEnumerable<GenreDto> Genres { get; set; }
+		public short UnitsInStock { get; set; }
 
-		public IEnumerable<PlatformTypeDto> PlatformTypes { get; set; }
+		public bool Discontinued { get; set; }
 
-		public bool IsDeleted { get; set; }
+		public IEnumerable<GenreDto> GenresData { get; set; }
 
-        public GameDto()
-        {
-            Comments = new List<CommentDto>();
-            Genres = new List<GenreDto>();
-            PlatformTypes = new List<PlatformTypeDto>();
-        }
-    }
+		public IEnumerable<PlatformTypeDto> PlatformTypesData { get; set; }
+
+		public IEnumerable<PublisherDto> PublishersData { get; set; }
+
+		public int PublisherInput { get; set; }
+
+		public IEnumerable<int> GenresInput { get; set; }
+
+		public IEnumerable<int> PlatformTypesInput { get; set; }
+
+		public GameDto()
+		{
+			GenresData = new List<GenreDto>();
+			PlatformTypesData = new List<PlatformTypeDto>();
+			PublishersData = new List<PublisherDto>();
+			GenresInput = new List<int>();
+			PlatformTypesInput = new List<int>();
+		}
+	}
 }

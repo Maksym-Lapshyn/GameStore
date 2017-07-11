@@ -1,0 +1,28 @@
+﻿@model GameStore.Web.Models.OrderViewModel
+
+@{
+	ViewBag.Title = "Show Order";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Order</h1>
+
+<b>@Html.LabelFor(m => m.CustomerId)</b>
+<p>
+	@Html.DisplayFor(m => m.CustomerId)
+</p>
+@foreach (var detail in Model.OrderDetails)
+{
+	<b>@Html.LabelFor(m => detail.Game.Name)</b>
+	<p>
+		@Html.DisplayFor(m => detail.Game.Name)
+	</p>
+	<b>@Html.LabelFor(m => detail.Price)</b>
+	<p>
+		@Html.DisplayFor(m => detail.Price)
+	</p>
+	<b>@Html.LabelFor(m => detail.Quantity)</b>
+	<p>
+		@Html.DisplayFor(m => detail.Quantity)
+	</p>
+}

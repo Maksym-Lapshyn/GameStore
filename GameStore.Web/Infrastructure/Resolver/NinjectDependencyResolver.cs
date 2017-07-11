@@ -1,43 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Ninject;
-using GameStore.Services.Abstract;
+﻿using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Web.Infrastructure.Abstract;
 using GameStore.Web.Infrastructure.Concrete;
-using Ninject.Web.Common;
+using Ninject;
+using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace GameStore.Web.Infrastructure.Resolver
 {
-    public class NinjectDependencyResolver : IDependencyResolver
-    {
-		//TODO: Consider: make fields readonly Fixed in ML_2
-		private IKernel _kernel;
+	public class NinjectDependencyResolver : IDependencyResolver
+	{
+		private readonly IKernel _kernel;
 
-        public NinjectDependencyResolver(IKernel kernel)
-        {
-            _kernel = kernel;
-            AddBindings();
-        }
+		public NinjectDependencyResolver(IKernel kernel)
+		{
+			_kernel = kernel;
+			AddBindings();
+		}
 
-        public object GetService(Type serviceType)
-        {
-            return _kernel.TryGet(serviceType);
-        }
+		public object GetService(Type serviceType)
+		{
+			return _kernel.TryGet(serviceType);
+		}
 
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            return _kernel.GetAll(serviceType);
-        }
+		public IEnumerable<object> GetServices(Type serviceType)
+		{
+			return _kernel.GetAll(serviceType);
+		}
 
-        private void AddBindings()
-        {
-            _kernel.Bind<IGameService>().To<UowGameService>();
-            _kernel.Bind<ICommentService>().To<UowCommentService>();
-            _kernel.Bind<ILogger>().To<NLogger>();
-        }
-    }
+		private void AddBindings()
+		{
+			_kernel.Bind<IGameService>().To<GameService>();
+			_kernel.Bind<ICommentService>().To<CommentService>();
+			_kernel.Bind<IPublisherService>().To<PublisherService>();
+			_kernel.Bind<IGenreService>().To<GenreService>();
+			_kernel.Bind<IPlatformTypeService>().To<PlatformTypeService>();
+			_kernel.Bind<IOrderService>().To<OrderService>();
+			_kernel.Bind<ILogger>().To<Logger>();
+		}
+	}
 }

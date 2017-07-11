@@ -1,129 +1,152 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using GameStore.DAL.Abstract;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using GameStore.Services.Abstract;
-using AutoMapper;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.DTOs;
 using GameStore.Services.Infrastructure;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Tests
 {
     [TestClass]
     public class CommentServiceTests
     {
-		//TODO: Consider: make fields readonly Fixed in ML_2
-		private Mock<IUnitOfWork> _mockOfUow;
-        private UowCommentService _target;
+        private Mock<IUnitOfWork> _mockOfUow;
+        private CommentService _target;
+        private List<Comment> _comments;
+        private List<Game> _games;
+        private const int TestInt = 10;
+        private const string ValidString = "test";
+        private const string InValidString = "testtest";
 
-        public CommentServiceTests()
+        [TestInitialize]
+        public void Initialize()
         {
-            AutoMapperConfig.RegisterMappings();
+            ServicesAutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
-            _target = new UowCommentService(_mockOfUow.Object);
+            _target = new CommentService(_mockOfUow.Object);
+            _mockOfUow.Setup(m => m.CommentRepository.Insert(It.IsAny<Comment>())).Callback<Comment>(c => _comments.Add(c));
+        }
 
-            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(
-                new List<Comment>
-                {
-                    new Comment() {Id = 1, GameId = 1, Name = "Jake", Body = "Hey, this game is good"},
-                    new Comment() {Id = 2, GameId = 1, Name = "Susan", Body = "Wow, it is amazing"},
-                    new Comment() {Id = 3, GameId = 2, Name = "Emmy", Body = "Fuuuu, this game is crappy"}
-                });
+        [TestMethod]
+        public void Create_CreatesGame_WhenAnyCommentIsPassed()
+        {
+            _comments = new List<Comment>();
+            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
+            _games = new List<Game> { new Game { Id = TestInt } };
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
 
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(
-                new List<Game>
+            _target.Create(new CommentDto { GameId = TestInt });
+
+            Assert.IsTrue(_comments.Count == 1);
+        }
+
+        [TestMethod]
+        public void Create_CallsSaveOnce_WhenAnyCommentIsPassed()
+        {
+            _comments = new List<Comment>();
+            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
+            _games = new List<Game> { new Game { Id = TestInt } };
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+
+            _target.Create(new CommentDto { GameId = TestInt });
+
+            _mockOfUow.Verify(m => m.Save(), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetAll_ReturnsAllComments()
+        {
+            _comments = new List<Comment>
+            {
+                new Comment(),
+                new Comment(),
+                new Comment()
+            };
+
+            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
+
+            var result = _target.GetAll().ToList().Count;
+
+            Assert.IsTrue(result == 3);
+        }
+
+        [TestMethod]
+        public void GetBy_ReturnsAllComments_WhenValidGameKeyIsPassed()
+        {
+            _games = new List<Game>
+            {
+                new Game
                 {
-                    new Game() {Id = 1, Name = "Quake", Key = "Quakeiii", Comments = new List<Comment>()
+                    Key = ValidString,
+                    Comments = new List<Comment>()
                     {
-                        new Comment(){Id = 5, Name = "Emily", Body = "Check it out"}
-                    }},
-                    new Game() {Id = 2, Name = "Doom", Key = "Doombfg"},
-                    new Game() {Id = 3, Name = "Diablo", Key = "Diabloiii"}
-                });
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                }
+            };
+
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+
+            var comments = _target.GetBy(ValidString).ToList().Count;
+
+            Assert.IsTrue(comments == 1);
         }
 
+        [ExpectedException(typeof(InvalidOperationException))]
         [TestMethod]
-        public void GetAll_Nothing_ReturnsAllComments()
+        public void GetBy_ThrowsException_WhenInValidGameKeyIsPassed()
         {
-            List<CommentDto> result = _target.GetAll().ToList();
-            Assert.IsTrue(result.Count == 3);
-        }
-
-        [TestMethod]
-        public void AddCommentToGame_CommentDto_AddsCommentToGame()
-        {
-            _target.Add(new CommentDto
+            _games = new List<Game>
             {
-                Id = 4,
-                GameId = 1,
-                Name = "AngryUser",
-                Body = "This game is awesomeeeeee"
-            });
-            _mockOfUow.Verify(m => m.CommentRepository.Insert(It.IsAny<Comment>()), Times.Once);
-        }
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                },
+                new Game
+                {
+                    Key = ValidString,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                    }
+                }
+            };
 
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void AddCommentToGame_CommentDtoWithNonExistingGame_ThrowsArgumentException()
-        {
-            _target.Add(new CommentDto
-            {
-                Id = 4,
-                GameId = 4125,
-                Name = "AngryUser",
-                Body = "This game is awesomeeeeee"
-            });
-        }
+            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
 
-        [TestMethod]
-        public void AddCommentToComment_CommentDto_AddsCommentToComment()
-        {
-            _target.Add(new CommentDto
-			{
-                Id = 4,
-                ParentCommentId = 1,
-                Name = "AngryUser",
-                Body = "Agree"
-            });
-            _mockOfUow.Verify(m => m.CommentRepository.Insert(It.IsAny<Comment>()), Times.Once);
-        }
-
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void AddCommentToComment_CommentDtoWithNonExistingParentComment_ThrowsArgumentException()
-        {
-            _target.Add(new CommentDto
-			{
-                Id = 4,
-                ParentCommentId = 213,
-                Name = "AngryUser",
-                Body = "Agree"
-            });
-        }
-
-        [TestMethod]
-        public void GetAllCommentsByGameKey_KeyOfExistingGameWithComments_ReturnsAllComments()
-        {
-            List<CommentDto> comments = _target.GetBy("Quakeiii").ToList();
-            Assert.IsTrue(comments.Count == 1);
-        }
-
-        [TestMethod]
-        public void GetAllCommentsByGameKey_KeyOfExistingGameWithoutComments_ReturnsNoComments()
-        {
-            List<CommentDto> comments = _target.GetBy("Doombfg").ToList();
-            Assert.IsTrue(comments.Count == 0);
-        }
-
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void GetAllCommentsByGameKey_KeyOfNonExistingGame_ThrowsArgumentException()
-        {
-            List<CommentDto> comments = _target.GetBy(string.Empty).ToList();
+            _target.GetBy(InValidString);
         }
     }
 }

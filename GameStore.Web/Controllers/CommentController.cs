@@ -1,39 +1,52 @@
-﻿using System;
+﻿using AutoMapper;
+using GameStore.Services.Abstract;
+using GameStore.Services.DTOs;
+using GameStore.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using GameStore.Services.DTOs;
-using GameStore.Services.Abstract;
-using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Controllers
 {
-    [OutputCache(Duration = 60, VaryByHeader = "get;post")]
-    public class CommentController : Controller
-    {
-		//TODO: Consider: make fields readonly Fixed in ML_2
-		private ICommentService _commentService;
+	//[OutputCache(Duration = 60, VaryByHeader = "get;post")]
+	public class CommentController : Controller
+	{
+		private readonly ICommentService _commentService;
+		private readonly IGameService _gameService;
 
-        public CommentController(ICommentService service)
-        {
-            _commentService = service;
-        }
+		public CommentController(ICommentService commentService, IGameService gameService)
+		{
+			_commentService = commentService;
+			_gameService = gameService;
+		}
 
 		[HttpPost]
-        public ActionResult NewComment(CommentDto comment)
-        {
-            _commentService.Add(comment);
+		public ActionResult New(CommentViewModel commentViewModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				return PartialView(commentViewModel);
+			}
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
+			var commentDto = Mapper.Map<CommentViewModel, CommentDto>(commentViewModel);
+			_commentService.Create(commentDto);
 
-        public JsonResult ListAllComments(string gameKey)
-        {
-            IEnumerable<CommentDto> comments = _commentService.GetBy(gameKey);
+			return RedirectToAction("ListAll", new { gameKey = commentViewModel.GameKey });
+		}
 
-            return Json(comments, JsonRequestBehavior.AllowGet);
-        }
-    }
+		[HttpGet]
+		public ActionResult ListAll(string gameKey)
+		{
+			var commentDtos = _commentService.GetBy(gameKey);
+			var commentViewModels = Mapper.Map<List<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
+			var commentListViewModel = new AllCommentsViewModel
+			{
+				GameId = commentViewModels.First().GameId,
+				GameKey = gameKey,
+				Comments = commentViewModels
+			};
+
+			return View(commentListViewModel);
+		}
+	}
 }

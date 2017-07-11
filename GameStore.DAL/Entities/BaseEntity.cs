@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameStore.DAL.Entities
+﻿namespace GameStore.DAL.Entities
 {
-    public class BaseEntity
-    {
-        public int Id { get; set; }
+	public abstract class BaseEntity
+	{
+		public int Id { get; set; }
 
-        public bool IsDeleted { get; set; }
-    }
+		public bool IsDeleted { get; set; }
+	}
 }

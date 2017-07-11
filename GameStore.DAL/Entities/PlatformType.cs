@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.DAL.Abstract;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.DAL.Entities
 {
 	public class PlatformType : BaseEntity
-    {
-        public string Type { get; set; }
+	{
+		[StringLength(450)]
+		[Index(IsUnique = true)]
+		public string Type { get; set; }
 
-        public virtual ICollection<Game> Games { get; set; }
-
-        public PlatformType()
-        {
-            Games = new List<Game>();
-        }
-    }
+		public virtual ICollection<Game> Games { get; set; }
+	}
 }

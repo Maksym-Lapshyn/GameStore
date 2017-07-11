@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using GameStore.Web.Filters;
 using System.Web.Mvc;
-using GameStore.Web.Infrastructure.Attributes;
 
-namespace GameStore.Web.App_Start
+namespace GameStore.Web
 {
-    public class FilterConfig
-    {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
-        {
-            filters.Add(new LogEventAttribute());
-            filters.Add(new LogExceptionAttribute());
-            filters.Add(new LogIpAttribute());
-            filters.Add(new LogPerformanceAttribute());
-        }
-    }
+	public class FilterConfig
+	{
+		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+		{
+			filters.Add(new LogEventsAndPerformanceAttribute());
+			filters.Add(new LogExceptionAttribute());
+			filters.Add(new LogIpAttribute());
+		}
+	}
 }

@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.DAL.Entities;
+﻿using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Abstract
 {
-	public interface IUnitOfWork : IDisposable
-    {
-        IGenericRepository<Game> GameRepository { get; }
 
-        IGenericRepository<Comment> CommentRepository { get; }
+	public interface IUnitOfWork
+	{
+		IGenericRepository<Game> GameRepository { get; }
 
-        void Save();
-    }
+		IGenericRepository<Comment> CommentRepository { get; }
+
+		IGenericRepository<Publisher> PublisherRepository { get; }
+
+		IGenericRepository<PlatformType> PlatformTypeRepository { get; }
+
+		IGenericRepository<Genre> GenreRepository { get; }
+
+		IGenericRepository<Order> OrderRepository { get; }
+
+		void Save();
+	}
 }

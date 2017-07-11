@@ -1,10 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 using System.Web;
 using System.Web.Routing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Moq.Protected;
 
 namespace GameStore.Web.Tests
 {
@@ -13,110 +11,102 @@ namespace GameStore.Web.Tests
     {
         private HttpContextBase CreateHttpContext(string targetUrl = null, string httpMethod = "GET")
         {
-            Mock<HttpRequestBase> mockOfRequest = new Mock<HttpRequestBase>();
+            var mockOfRequest = new Mock<HttpRequestBase>();
             mockOfRequest.Setup(m => m.AppRelativeCurrentExecutionFilePath).Returns(targetUrl);
             mockOfRequest.Setup(m => m.HttpMethod).Returns(httpMethod);
-
-            Mock<HttpResponseBase> mockOfResponse = new Mock<HttpResponseBase>();
-            mockOfResponse = new Mock<HttpResponseBase>();
+            var mockOfResponse = new Mock<HttpResponseBase>();
             mockOfResponse.Setup(m => m.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
-
-            Mock<HttpContextBase> mockOfContext = new Mock<HttpContextBase>();
+            var mockOfContext = new Mock<HttpContextBase>();
             mockOfContext.Setup(m => m.Request).Returns(mockOfRequest.Object);
             mockOfContext.Setup(m => m.Response).Returns(mockOfResponse.Object);
 
             return mockOfContext.Object;
         }
 
-        private void TestRouteMatch(string url, string controller, string action, object routeProperties = null,
-            string httpMethod = "GET")
+        private void TestRouteMatch(string url, string controller, string action, string httpMethod = "GET")
         {
-            RouteCollection routes = new RouteCollection();
+            var routes = new RouteCollection();
             RouteConfig.RegisterRoutes(routes);
-            RouteData result = routes.GetRouteData(CreateHttpContext(url, httpMethod));
+            var result = routes.GetRouteData(CreateHttpContext(url, httpMethod));
+
+            var controllerAndActionMatched = result != null && (CompareValues(result.Values["controller"], controller) &&
+                                                                 CompareValues(result.Values["action"], action));
+
             Assert.IsNotNull(result);
-            Assert.IsTrue(TestIncomingRouteResult(result, controller, action, routeProperties));
+            Assert.IsTrue(controllerAndActionMatched);
         }
 
-        private bool TestIncomingRouteResult(RouteData routeResult, string controller, string action,
-            object propertySet = null)
+        private bool CompareValues(object first, object second)
         {
-            Func<object, object, bool> valCompare =
-                (v1, v2) => StringComparer.InvariantCultureIgnoreCase.Compare(v1, v2) == 0;
-            bool result = valCompare(routeResult.Values["controller"], controller) &&
-                          valCompare(routeResult.Values["action"], action);
-            if (propertySet != null)
-            {
-                PropertyInfo[] propInfo = propertySet.GetType().GetProperties();
-                foreach (PropertyInfo pi in propInfo)
-                {
-                    if (
-                        !(routeResult.Values.ContainsKey(pi.Name) &&
-                          valCompare(routeResult.Values[pi.Name], pi.GetValue(propertySet, null))))
-                    {
-                        result = false;
-                        break;
-                    }
-                }
-            }
+            var result = StringComparer.InvariantCultureIgnoreCase.Compare(first, second) == 0;
 
             return result;
         }
 
-        private void TestRouteFail(string url)
+        [TestMethod]
+        public void CreateGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            RouteCollection routes = new RouteCollection();
-            RouteConfig.RegisterRoutes(routes);
-            RouteData result = routes.GetRouteData(CreateHttpContext(url));
-            Assert.IsTrue(result == null || result.Route == null);
+            TestRouteMatch("~/games/new", "Game", "New", "POST");
         }
 
         [TestMethod]
-        public void CreateGame_ValidRoute_BindsToControllerAndAction()
+        public void EditGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/games/new", "Game", "NewGame", null, "POST");
+            TestRouteMatch("~/games/update", "Game", "Update", "POST");
         }
 
         [TestMethod]
-        public void EditGame_ValidRoute_BindsToControllerAndAction()
+        public void GetGameDetailsByKey_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/games/update", "Game", "UpdateGame", null, "POST");
+            TestRouteMatch("~/game/{gameKey}", "Game", "Show");
         }
 
         [TestMethod]
-        public void GetGameDetailsByKey_ValidRoute_BindsToControllerAndAction()
+        public void GetAllGames_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/game/{gameKey}", "Game", "ShowGame");
+            TestRouteMatch("~/games", "Game", "ListAll");
         }
 
         [TestMethod]
-        public void GetAllGames_ValidRoute_BindsToControllerAndAction()
+        public void DeleteGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/games", "Game", "ListAllGames");
+            TestRouteMatch("~/games/remove", "Game", "Delete", "POST");
         }
 
         [TestMethod]
-        public void DeleteGame_ValidRoute_BindsToControllerAndAction()
+        public void LeaveComment_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/games/remove", "Game", "DeleteGame", null, "POST");
+            TestRouteMatch("~/game/{gameKey}/newcomment", "Comment", "New", "POST");
         }
 
         [TestMethod]
-        public void LeaveComment_ValidRoute_BindsToControllerAndAction()
+        public void GetAllComments_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/game/{gameKey}/newcomment", "Comment", "NewComment", null, "POST");
+            TestRouteMatch("~/game/{gameKey}/comments", "Comment", "ListAll");
         }
 
         [TestMethod]
-        public void GetAllComments_ValidRoute_BindsToControllerAndAction()
+        public void DownloadGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/game/{gameKey}/comments", "Comment", "ListAllComments");
+            TestRouteMatch("~/game/{gameKey}/download", "Game", "Download");
         }
 
         [TestMethod]
-        public void DownloadGame_ValidRoute_BindsToControllerAndAction()
+        public void DisplayPublisher_CallsRightControllerAndAction_WhenValidRouteIsPassed()
         {
-            TestRouteMatch("~/game/{gameKey}/download", "Game", "DownloadGame");
+            TestRouteMatch("~/publisher/{companyName}", "Publisher", "Show");
+        }
+
+        [TestMethod]
+        public void CreatePublisher_CallsRightControllerAndAction_WhenValidRouteIsPassed()
+        {
+            TestRouteMatch("~/publisher/new", "Publisher", "New");
+        }
+
+        [TestMethod]
+        public void DisplayBasket_CallsRightControllerAndAction_WhenValidRouteIsPassed()
+        {
+            TestRouteMatch("~/basket", "Order", "Show");
         }
     }
 }

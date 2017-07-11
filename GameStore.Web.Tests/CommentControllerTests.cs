@@ -1,51 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using GameStore.Services.Abstract;
+using GameStore.Services.DTOs;
+using GameStore.Web.App_Start;
+using GameStore.Web.Controllers;
+using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
-using GameStore.Web.Controllers;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace GameStore.Web.Tests
 {
-    [TestClass]
-    public class CommentControllerTests
-    {
-		//TODO: Consider: make fields readonly
+	[TestClass]
+	public class CommentControllerTests
+	{
 		private Mock<ICommentService> _mockOfCommentService;
-        private CommentController _target;
+		private Mock<IGameService> _mockOfGameService;
+		private CommentController _target;
+        private List<CommentDto> _comments;
+        private const string ValidGameKey = "test";
 
-        public CommentControllerTests()
-        {
-            _mockOfCommentService = new Mock<ICommentService>();
-			_mockOfCommentService.Setup(m => m.GetBy("COD123")).Returns(new List<CommentDto>
+        [TestInitialize]
+		public void Initialize()
+		{
+			WebAutoMapperConfig.RegisterMappings();
+			_mockOfCommentService = new Mock<ICommentService>();
+			_mockOfGameService = new Mock<IGameService>();
+			_target = new CommentController(_mockOfCommentService.Object, _mockOfGameService.Object);
+		}
+
+		[TestMethod]
+		public void New_SendsCommentToView_WhenModelStateIsInvalid()
+		{
+			_target.ModelState.AddModelError("test", "test");
+
+			var result = ((PartialViewResult)_target.New(new CommentViewModel())).Model;
+
+			Assert.IsInstanceOfType(result, typeof(CommentViewModel));
+		}
+
+		[TestMethod]
+		public void New_ReturnsRedirectToRouteResult_WhenModelStateIsValid()
+		{
+			var result = _target.New(new CommentViewModel());
+
+			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+		}
+
+		[TestMethod]
+		public void ListAll_ReturnsViewResult_WhenAnyGameKeyIsPassed()
+		{
+            var result = _target.ListAll(string.Empty);
+
+			Assert.IsInstanceOfType(result, typeof(ViewResult));
+		}
+
+		[TestMethod]
+		public void ListAll_SendsAllCommentsToView_WhenValidGameKeyIsPassed()
+		{
+            _comments = new List<CommentDto>
             {
-                new CommentDto {Name = "Elma", Body = "Wow, it is amazing"},
-                new CommentDto {Name = "Supra", Body = "This game is so so"}
-            });
-            _target = new CommentController(_mockOfCommentService.Object);
-        }
+                new CommentDto(),
+                new CommentDto()
+            };
 
-        [TestMethod]
-        public void NewComment_CommentWithParentCommentId_AddsCommentToComment()
-        {
-            ActionResult result = _target.NewComment(new CommentDto());
-			_mockOfCommentService.Verify(m => m.Add(It.IsAny<CommentDto>()), Times.Once);
-        }
+            _mockOfCommentService.Setup(m => m.GetBy(ValidGameKey)).Returns(_comments);
 
-        [TestMethod]
-        public void NewComment_CommentWithoutParentCommentId_AddsCommentToGame()
-        {
-            ActionResult result = _target.NewComment(new CommentDto());
-			_mockOfCommentService.Verify(m => m.Add(It.IsAny<CommentDto>()), Times.Once);
-        }
+            var model = ((ViewResult)_target.ListAll(ValidGameKey)).Model;
+            var result =  ((AllCommentsViewModel)model).Comments.Count;
 
-        [TestMethod]
-        public void ListAllComments_ValidGameKey_ReturnsJson()
-        {
-            ActionResult result = _target.ListAllComments("COD123");
-            Assert.IsInstanceOfType(result, typeof(JsonResult));
-        }
-    }
+			Assert.IsTrue(result == 2);
+		}
+	}
 }
