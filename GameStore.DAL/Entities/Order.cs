@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Entities
 {
-    public class Order : BaseEntity
-    {
-        public string CustomerId { get; set; }
+	public class Order : BaseEntity
+	{
+		public string CustomerId { get; set; }
 
-        public DateTime Date { get; set; }
+		public DateTime Date { get; set; }
 
-        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
-    }
+		public virtual ICollection<OrderDetails> OrderDetails { get; set; }
+	}
 }

@@ -1,0 +1,56 @@
+﻿using GameStore.DAL.Abstract;
+using GameStore.DAL.Context;
+using GameStore.DAL.Entities;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
+
+namespace GameStore.DAL.Concrete
+{
+	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
+	{
+		private readonly GameStoreContext _context;
+		private readonly DbSet<TEntity> _dbSet;
+
+		public GenericRepository(GameStoreContext context)
+		{
+			_context = context;
+			_dbSet = _context.Set<TEntity>();
+		}
+
+		public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
+			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
+		{
+			IQueryable<TEntity> query = _dbSet;
+			query = filter != null ? query.Where(filter) : query;
+			query = orderBy != null ? orderBy(query) : query;
+
+			return query.Where(e => !e.IsDeleted).ToList();
+		}
+
+		public TEntity Get(int id)
+		{
+			var entity = _dbSet.Find(id);
+
+			return entity;
+		}
+
+		public void Insert(TEntity entity)
+		{
+			_dbSet.Add(entity);
+		}
+
+		public void Delete(int id)
+		{
+			var entityToRemove = _dbSet.Find(id);
+			entityToRemove.IsDeleted = true;
+		}
+
+		public void Update(TEntity entityToUpdate)
+		{
+			_context.Entry(entityToUpdate).State = EntityState.Modified;
+		}
+	}
+}

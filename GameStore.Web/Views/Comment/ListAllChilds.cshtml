@@ -2,15 +2,15 @@
 
 @foreach (var comment in @Model)
 {
-    <b>@Html.LabelFor(m => comment.Name):</b>
-    <p>@Html.DisplayFor(m => comment.Name)</p>
-    <b>@Html.LabelFor(m => comment.Body):</b>
-    <p>@Html.DisplayFor(m => comment.Body)</p>
-    <p>
-        <button id=@comment.Id data-name=@comment.Name onclick="return addReply(this)">Reply</button><br />
-    </p>
-    if (comment.ChildComments.Count != 0)
-    {
-        { Html.RenderPartial("ListAllChilds", comment.ChildComments);};
-    }
+	<b>@Html.LabelFor(m => comment.Name):</b>
+	<p>@Html.DisplayFor(m => comment.Name)</p>
+	<b>@Html.LabelFor(m => comment.Body):</b>
+	<p>@Html.DisplayFor(m => comment.Body)</p>
+	<p>
+		<button id=@comment.Id data-name=@comment.Name onclick="return addReply(this)">Reply</button><br />
+	</p>
+	if (comment.ChildComments.Count != 0)
+	{
+		{ Html.RenderPartial("ListAllChilds", comment.ChildComments);};
+	}
 }

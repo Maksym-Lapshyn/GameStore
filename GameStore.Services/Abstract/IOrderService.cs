@@ -2,12 +2,12 @@
 
 namespace GameStore.Services.Abstract
 {
-    public interface IOrderService
-    {
-        void Create(OrderDto orderDto);
+	public interface IOrderService
+	{
+		void Create(OrderDto orderDto);
 
-        void Edit(OrderDto orderDto, int gameId);
+		void Edit(OrderDto orderDto, int gameId);
 
-        OrderDto GetSingleBy(string customerId);
-    }
+		OrderDto GetSingleBy(string customerId);
+	}
 }

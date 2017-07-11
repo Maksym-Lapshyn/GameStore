@@ -1,27 +1,27 @@
 ﻿@model GameStore.Web.Models.PublisherViewModel
 
 @{
-    ViewBag.Title = "New Publisher";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "New Publisher";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>New Publisher</h1>
 @using (Html.BeginForm("New", "Publisher", FormMethod.Post))
 {
-    <b>@Html.LabelFor(m => m.CompanyName)</b>
-    <p>
-        @Html.EditorFor(m => m.CompanyName)
-        @Html.ValidationMessageFor(m => m.CompanyName)
-    </p>
-    <b>@Html.LabelFor(m => m.Description)</b>
-    <p>
-        @Html.EditorFor(m => m.Description)
-        @Html.ValidationMessageFor(m => m.Description)
-    </p>
-    <b>@Html.LabelFor(m => m.HomePage)</b>
-    <p>
-        @Html.EditorFor(m => m.HomePage)<br />
-        @Html.ValidationMessageFor(m => m.HomePage)
-    </p>
-    <p><button type="submit">Create</button></p>
+	<b>@Html.LabelFor(m => m.CompanyName)</b>
+	<p>
+		@Html.EditorFor(m => m.CompanyName)
+		@Html.ValidationMessageFor(m => m.CompanyName)
+	</p>
+	<b>@Html.LabelFor(m => m.Description)</b>
+	<p>
+		@Html.EditorFor(m => m.Description)
+		@Html.ValidationMessageFor(m => m.Description)
+	</p>
+	<b>@Html.LabelFor(m => m.HomePage)</b>
+	<p>
+		@Html.EditorFor(m => m.HomePage)<br />
+		@Html.ValidationMessageFor(m => m.HomePage)
+	</p>
+	<p><button type="submit">Create</button></p>
 }

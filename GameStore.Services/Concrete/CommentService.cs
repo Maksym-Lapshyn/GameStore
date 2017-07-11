@@ -3,52 +3,49 @@ using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
     public class CommentService : ICommentService
-    {
-        private readonly IUnitOfWork _unitOfWork;
+	{
+		private readonly IUnitOfWork _unitOfWork;
 
-        public CommentService(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+		public CommentService(IUnitOfWork unitOfWork)
+		{
+			_unitOfWork = unitOfWork;
+		}
 
-        public void Create(CommentDto commentDto)
-        {
-            var comment = Mapper.Map<CommentDto, Comment>(commentDto);
-            if (comment.ParentCommentId != null)
-            {
-                var oldComment = _unitOfWork.CommentRepository.GetById(comment.ParentCommentId.Value);
-                comment.ParentComment = oldComment;
-            }
+		public void Create(CommentDto commentDto)
+		{
+			var comment = Mapper.Map<CommentDto, Comment>(commentDto);
 
-            var game = _unitOfWork.GameRepository.Get().First(g => g.Id == commentDto.GameId);
-            comment.Game = game;
-            _unitOfWork.CommentRepository.Insert(comment);
-            _unitOfWork.Save();
-        }
+			if (comment.ParentCommentId != null)
+			{
+				var parentComment = _unitOfWork.CommentRepository.Get(comment.ParentCommentId.Value);
+				comment.ParentComment = parentComment;
+			}
 
-        public IEnumerable<CommentDto> GetAll()
-        {
-            var comments = _unitOfWork.CommentRepository.Get();
-            var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+			var game = _unitOfWork.GameRepository.Get(comment.Id);
+			comment.Game = game;
+			_unitOfWork.CommentRepository.Insert(comment);
+			_unitOfWork.Save();
+		}
 
-            return commentDtos;
-        }
+		public IEnumerable<CommentDto> GetAll()
+		{
+			var comments = _unitOfWork.CommentRepository.Get();
+			var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
-        public IEnumerable<CommentDto> GetBy(string gameKey)
-        {
-            var game = _unitOfWork.GameRepository.Get()
-                .First(g => string.Equals(g.Key, gameKey, StringComparison.CurrentCultureIgnoreCase));
-            var comments = game.Comments.Where(c => c.ParentComment == null);
-            var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+			return commentDtos;
+		}
 
-            return commentDtos;
-        }
-    }
+		public IEnumerable<CommentDto> GetBy(string gameKey)
+		{
+			var comments = _unitOfWork.CommentRepository.Get(c => c.Game.Key == gameKey && c.ParentComment == null);
+			var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+
+			return commentDtos;
+		}
+	}
 }

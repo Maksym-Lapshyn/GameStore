@@ -2,25 +2,25 @@
 @model AllCommentsViewModel
 
 @{
-    ViewBag.Title = "List All Comments";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "List All Comments";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>List All Comments</h1>
 
 @foreach (var comment in Model.Comments)
 {
-    <b>@Html.LabelFor(m => comment.Name):</b>
-    <p>@Html.DisplayFor(m => comment.Name)</p>
-    <b>@Html.LabelFor(m => comment.Body):</b>
-    <p>@Html.DisplayFor(m => comment.Body)</p>
-    <p>
-        <button id=@comment.Id data-name=@comment.Name onclick="return addReply(this)">Reply</button><br />
-    </p>
-    if (comment.ChildComments.Count != 0)
-    {
-        { Html.RenderPartial("ListAllChilds", comment.ChildComments); };
-    }
+	<b>@Html.LabelFor(m => comment.Name):</b>
+	<p>@Html.DisplayFor(m => comment.Name)</p>
+	<b>@Html.LabelFor(m => comment.Body):</b>
+	<p>@Html.DisplayFor(m => comment.Body)</p>
+	<p>
+		<button id=@comment.Id data-name=@comment.Name onclick="return addReply(this)">Reply</button><br />
+	</p>
+	if (comment.ChildComments.Count != 0)
+	{
+		{ Html.RenderPartial("ListAllChilds", comment.ChildComments); };
+	}
 }
 
 @{Html.RenderPartial("New", new CommentViewModel { GameKey = Model.GameKey, GameId = Model.GameId });}

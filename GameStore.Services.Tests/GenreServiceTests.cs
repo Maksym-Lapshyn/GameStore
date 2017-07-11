@@ -40,39 +40,5 @@ namespace GameStore.Services.Tests
 
             Assert.IsTrue(result == 3);
         }
-
-        [TestMethod]
-        public void GetBy_ReturnsAllGenres_WhenValidGameIdIsPassed()
-        {
-            _genres = new List<Genre>
-            {
-                new Genre{Games = new List<Game>{new Game{Id = ValidInt}}},
-                new Genre{Games = new List<Game>{new Game{Id = ValidInt}}},
-                new Genre{Games = new List<Game>{new Game{Id = ValidInt}}}
-            };
-
-            _unitOfUow.Setup(m => m.GenreRepository.Get(null, null)).Returns(_genres);
-
-            var result = _target.GetBy(ValidInt).ToList().Count;
-
-            Assert.IsTrue(result == 3);
-        }
-
-        [TestMethod]
-        public void GetBy_ReturnsAllGenres_WhenInValidGameIdIsPassed()
-        {
-            _genres = new List<Genre>
-            {
-                new Genre{Games = new List<Game>{new Game{Id = ValidInt}}},
-                new Genre{Games = new List<Game>{new Game{Id = ValidInt}}},
-                new Genre{Games = new List<Game>{new Game{Id = ValidInt}}}
-            };
-
-            _unitOfUow.Setup(m => m.GenreRepository.Get(null, null)).Returns(_genres);
-
-            var result = _target.GetBy(InvalidInt).ToList().Count;
-
-            Assert.IsTrue(result == 0);
-        }
     }
 }

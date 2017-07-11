@@ -140,9 +140,9 @@
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
     <Compile Include="Infrastructure\Attributes\CannotBeEmptyAttribute.cs" />
     <Compile Include="Infrastructure\Concrete\Logger.cs" />
-    <Compile Include="Infrastructure\Filters\LogEventsAndPerformanceAttribute.cs" />
-    <Compile Include="Infrastructure\Filters\LogExceptionAttribute.cs" />
-    <Compile Include="Infrastructure\Filters\LogIpAttribute.cs" />
+    <Compile Include="Filters\LogEventsAndPerformanceAttribute.cs" />
+    <Compile Include="Filters\LogExceptionAttribute.cs" />
+    <Compile Include="Filters\LogIpAttribute.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />

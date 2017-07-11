@@ -20,7 +20,5 @@ namespace GameStore.Services.Abstract
 		GameDto GetSingleBy(int gameId);
 
 		IEnumerable<GameDto> GetAll();
-
-		int GetIdBy(string gameKey);
 	}
 }

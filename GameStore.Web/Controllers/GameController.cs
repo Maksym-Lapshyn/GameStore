@@ -84,6 +84,7 @@ namespace GameStore.Web.Controllers
 		{
 			var path = Server.MapPath("~/file.pdf");
 			var fileBytes = new byte[0];
+
 			if (System.IO.File.Exists(path))
 			{
 				fileBytes = System.IO.File.ReadAllBytes(path);

@@ -58,7 +58,7 @@ namespace GameStore.Services.Tests
                 Id = TestInt
             };
 
-            _mockOfUow.Setup(m => m.PublisherRepository.GetById(TestInt)).Returns(publisher);
+            _mockOfUow.Setup(m => m.PublisherRepository.Get(TestInt)).Returns(publisher);
 
             var result = _target.GetSingleBy(TestInt).Id;
 

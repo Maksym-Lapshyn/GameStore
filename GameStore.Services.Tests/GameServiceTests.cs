@@ -25,9 +25,9 @@ namespace GameStore.Services.Tests
             ServicesAutoMapperConfig.RegisterMappings();
             _mockOfUow = new Mock<IUnitOfWork>();
             _mockOfUow.Setup(m => m.GameRepository.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
-            _mockOfUow.Setup(m => m.PublisherRepository.GetById(It.IsAny<int>())).Returns(new Publisher());
-            _mockOfUow.Setup(m => m.PlatformTypeRepository.GetById(It.IsAny<int>())).Returns(new PlatformType());
-            _mockOfUow.Setup(m => m.GenreRepository.GetById(It.IsAny<int>())).Returns(new Genre());
+            _mockOfUow.Setup(m => m.PublisherRepository.Get(It.IsAny<int>())).Returns(new Publisher());
+            _mockOfUow.Setup(m => m.PlatformTypeRepository.Get(It.IsAny<int>())).Returns(new PlatformType());
+            _mockOfUow.Setup(m => m.GenreRepository.Get(It.IsAny<int>())).Returns(new Genre());
             _target = new GameService(_mockOfUow.Object);
         }
 
@@ -185,21 +185,6 @@ namespace GameStore.Services.Tests
             var result = _target.GetBy(new List<string> { TestString }).ToList().Count;
 
             Assert.IsTrue(result == 3);
-        }
-
-        [TestMethod]
-        public void GetIdBy_ReturnsGameId_WhenValidGameKeyIsPassed()
-        {
-            _games = new List<Game>
-            {
-                new Game {Id = TestInt, Key = TestString }
-            };
-
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
-
-            var result = _target.GetIdBy(TestString);
-
-            Assert.IsTrue(result == TestInt);
         }
     }
 }
