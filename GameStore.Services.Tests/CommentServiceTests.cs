@@ -35,9 +35,9 @@ namespace GameStore.Services.Tests
         public void Create_CreatesGame_WhenAnyCommentIsPassed()
         {
             _comments = new List<Comment>();
-            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
+            _mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments);
             _games = new List<Game> { new Game { Id = TestInt } };
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+            _mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games);
 
             _target.Create(new CommentDto { GameId = TestInt });
 
@@ -48,9 +48,9 @@ namespace GameStore.Services.Tests
         public void Create_CallsSaveOnce_WhenAnyCommentIsPassed()
         {
             _comments = new List<Comment>();
-            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
+            _mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments);
             _games = new List<Game> { new Game { Id = TestInt } };
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+            _mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games);
 
             _target.Create(new CommentDto { GameId = TestInt });
 
@@ -67,7 +67,7 @@ namespace GameStore.Services.Tests
                 new Comment()
             };
 
-            _mockOfUow.Setup(m => m.CommentRepository.Get(null, null)).Returns(_comments);
+            _mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments);
 
             var result = _target.GetAll().ToList().Count;
 
@@ -82,7 +82,7 @@ namespace GameStore.Services.Tests
                 new Game
                 {
                     Key = ValidString,
-                    Comments = new List<Comment>()
+                    Comments = new List<Comment>
                     {
                         new Comment()
                     }
@@ -90,7 +90,7 @@ namespace GameStore.Services.Tests
                 new Game
                 {
                     Key = ValidString,
-                    Comments = new List<Comment>()
+                    Comments = new List<Comment>
                     {
                         new Comment()
                     }
@@ -98,14 +98,14 @@ namespace GameStore.Services.Tests
                 new Game
                 {
                     Key = ValidString,
-                    Comments = new List<Comment>()
+                    Comments = new List<Comment>
                     {
                         new Comment()
                     }
                 }
             };
 
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+            _mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games);
 
             var comments = _target.GetBy(ValidString).ToList().Count;
 
@@ -121,7 +121,7 @@ namespace GameStore.Services.Tests
                 new Game
                 {
                     Key = ValidString,
-                    Comments = new List<Comment>()
+                    Comments = new List<Comment>
                     {
                         new Comment()
                     }
@@ -129,7 +129,7 @@ namespace GameStore.Services.Tests
                 new Game
                 {
                     Key = ValidString,
-                    Comments = new List<Comment>()
+                    Comments = new List<Comment>
                     {
                         new Comment()
                     }
@@ -137,14 +137,14 @@ namespace GameStore.Services.Tests
                 new Game
                 {
                     Key = ValidString,
-                    Comments = new List<Comment>()
+                    Comments = new List<Comment>
                     {
                         new Comment()
                     }
                 }
             };
 
-            _mockOfUow.Setup(m => m.GameRepository.Get(null, null)).Returns(_games);
+            _mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games);
 
             _target.GetBy(InValidString);
         }

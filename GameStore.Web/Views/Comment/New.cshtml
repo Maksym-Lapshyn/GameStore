@@ -1,57 +1,56 @@
 ﻿@model GameStore.Web.Models.CommentViewModel
 
 <div id="commentForm">
-    @using (Ajax.BeginForm("New", null, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "commentForm",
-        InsertionMode = InsertionMode.Replace,
-        OnSuccess = "reloadPage"
-    }, new { id = "form" }))
-    {
-        @Html.HiddenFor(m => m.GameId)
-        @Html.HiddenFor(m => m.GameKey)
-        <div id="replyTo"></div>
-        <b>@Html.LabelFor(m => m.Name)</b>
-        <p>
-            @Html.EditorFor(m => m.Name)
-            @Html.ValidationMessageFor(m => m.Name)
-        </p>
-        <b>@Html.LabelFor(m => m.Body)</b>
-        <p>
-            @Html.EditorFor(m => m.Body)
-            @Html.ValidationMessageFor(m => m.Body)
-        </p>
-        <p>
-            <button id="button" type="submit">Create</button>
-        </p>
-    }
+	@using (Ajax.BeginForm("New", null, new AjaxOptions
+	{
+		HttpMethod = "POST",
+		UpdateTargetId = "commentForm",
+		InsertionMode = InsertionMode.Replace,
+		OnSuccess = "reloadPage"
+	}, new { id = "form" }))
+	{
+		@Html.HiddenFor(m => m.GameId)
+		@Html.HiddenFor(m => m.GameKey)
+		<div id="replyTo"></div>
+		<b>@Html.LabelFor(m => m.Name)</b>
+		<p>
+			@Html.EditorFor(m => m.Name)
+			@Html.ValidationMessageFor(m => m.Name)
+		</p>
+		<b>@Html.LabelFor(m => m.Body)</b>
+		<p>
+			@Html.EditorFor(m => m.Body)
+			@Html.ValidationMessageFor(m => m.Body)
+		</p>
+		<p>
+			<button id="button" type="submit">Create</button>
+		</p>
+	}
 </div>
 
 <script type="text/javascript">
-    function reloadPage() {
-        var isValid = '@Html.Raw(Json.Encode(ViewData.ModelState.IsValid))';
-        if (isValid === 'true') {
-            location.reload();
-        }
-    }
+	function reloadPage() {
+		var isValid = '@Html.Raw(Json.Encode(ViewData.ModelState.IsValid))';
+		if (isValid === 'true') {
+			location.reload();
+		}
+	}
 
-    function addReply(input) {
-        var parentName = $(input).data('name');
-        var replyContent = '<p><b>Reply to:<b/>' + parentName + '</p>';
-        var reply = $('#replyTo');
-        reply.empty();
-        reply.append(replyContent);
-        var parentId = $(input).attr('id');
-        $('#ParentCommentId').remove();
-        var hiddenInput = $('<input>').attr({
-            type: 'hidden',
-            id: 'ParentCommentId',
-            name: 'ParentCommentId'
-        });
+	function addReply(input) {
+		var parentName = $(input).data('name');
+		var replyContent = '<p><b>Reply to:<b/>' + parentName + '</p>';
+		var reply = $('#replyTo');
+		reply.empty();
+		reply.append(replyContent);
+		var parentId = $(input).attr('id');
+		$('#ParentCommentId').remove();
+		var hiddenInput = $('<input>').attr({
+			type: 'hidden',
+			id: 'ParentCommentId',
+			name: 'ParentCommentId'
+		});
 
-        hiddenInput.val(parentId);
-        hiddenInput.appendTo('#form');
-        alert(hiddenInput);
-    }
+		hiddenInput.val(parentId);
+		hiddenInput.appendTo('#form');
+	}
 </script>

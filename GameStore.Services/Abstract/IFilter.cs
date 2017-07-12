@@ -1,4 +1,4 @@
-﻿namespace GameStore.Web.Infrastructure.Abstract
+﻿namespace GameStore.Services.Abstract
 {
     public interface IFilter<T>
     {

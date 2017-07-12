@@ -10,7 +10,7 @@ namespace GameStore.Services.DTOs
 
 		public string Body { get; set; }
 
-		public int? GameId { get; set; }
+		public int GameId { get; set; }
 
 		public GameDto Game { get; set; }
 
@@ -18,7 +18,7 @@ namespace GameStore.Services.DTOs
 
 		public CommentDto ParentComment { get; set; }
 
-		public IEnumerable<CommentDto> ChildComments { get; set; }
+		public List<CommentDto> ChildComments { get; set; }
 
 		public CommentDto()
 		{

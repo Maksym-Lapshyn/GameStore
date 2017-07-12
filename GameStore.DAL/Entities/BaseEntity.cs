@@ -1,9 +1,9 @@
 ﻿namespace GameStore.DAL.Entities
 {
-    public class BaseEntity
-    {
-        public int Id { get; set; }
+	public abstract class BaseEntity
+	{
+		public int Id { get; set; }
 
-        public bool IsDeleted { get; set; }
-    }
+		public bool IsDeleted { get; set; }
+	}
 }

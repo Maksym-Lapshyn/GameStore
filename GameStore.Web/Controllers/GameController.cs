@@ -61,6 +61,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult Show(string gameKey)
 		{
 			var gameDto = _gameService.GetSingleBy(gameKey);
+			_gameService.SaveView(gameDto.Id);
 			var gameViewModel = Mapper.Map<GameDto, GameViewModel>(gameDto);
 
 			return View(gameViewModel);
@@ -69,11 +70,10 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult ListAll()
 		{
-			var gameDtos = _gameService.GetAll();
-			var games = Mapper.Map<List<GameDto>, List<GameViewModel>>(gameDtos.ToList());
+			var games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(_gameService.GetAll());
 			var gamesAndFilter = new GamesAndFilterViewModel
 			{
-				Games = games,
+				Games = games.ToList(),
 				Filter = new FilterViewModel
 				{
 					PublishersData = Mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll()),
@@ -88,10 +88,19 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult ListAll(GamesAndFilterViewModel gamesAndFilter)
 		{
+			IEnumerable<GameViewModel> games;
+
 			if (!ModelState.IsValid)
 			{
+				games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(_gameService.GetAll());
+				gamesAndFilter.Games = games.ToList();
+
 				return View(gamesAndFilter);
 			}
+
+			var filter = Mapper.Map<FilterViewModel, FilterDto>(gamesAndFilter.Filter);
+			games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(_gameService.GetAll(filter));
+			gamesAndFilter.Games = games.ToList();
 
 			return View(gamesAndFilter);
 		}
@@ -108,6 +117,7 @@ namespace GameStore.Web.Controllers
 		{
 			var path = Server.MapPath("~/file.pdf");
 			var fileBytes = new byte[0];
+
 			if (System.IO.File.Exists(path))
 			{
 				fileBytes = System.IO.File.ReadAllBytes(path);

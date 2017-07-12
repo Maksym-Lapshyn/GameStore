@@ -131,26 +131,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PublisherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Abstract\IFilter.cs" />
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
-    <Compile Include="Infrastructure\Abstract\IPipeline.cs" />
     <Compile Include="Infrastructure\Attributes\CannotBeEmptyAttribute.cs" />
-    <Compile Include="Infrastructure\Concrete\GenreFilter.cs" />
     <Compile Include="Infrastructure\Concrete\Logger.cs" />
-    <Compile Include="Infrastructure\Concrete\GamePipeline.cs" />
-    <Compile Include="Infrastructure\Enums\DateOptions.cs" />
-    <Compile Include="Infrastructure\Enums\SortOptions.cs" />
-    <Compile Include="Infrastructure\LogAttributes\LogEventsAndPerformanceAttribute.cs" />
-    <Compile Include="Infrastructure\LogAttributes\LogExceptionAttribute.cs" />
-    <Compile Include="Infrastructure\LogAttributes\LogIpAttribute.cs" />
+    <Compile Include="Filters\LogEventsAndPerformanceAttribute.cs" />
+    <Compile Include="Filters\LogExceptionAttribute.cs" />
+    <Compile Include="Filters\LogIpAttribute.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
+    <Compile Include="Models\Enums\DateOptions.cs" />
+    <Compile Include="Models\Enums\SortOptions.cs" />
     <Compile Include="Models\GamesAndFilterViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FilterViewModel.cs" />

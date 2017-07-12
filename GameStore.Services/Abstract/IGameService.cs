@@ -11,16 +11,16 @@ namespace GameStore.Services.Abstract
 
 		GameDto GetSingleBy(string gameKey);
 
+		void SaveView(int gameId);
+
 		void Create(GameDto gameDto);
 
 		void Edit(GameDto gameDto);
 
-		void Delete(int id);
+		void Delete(int gameId);
 
 		GameDto GetSingleBy(int gameId);
 
-		IEnumerable<GameDto> GetAll();
-
-		int GetIdBy(string gameKey);
+		IEnumerable<GameDto> GetAll(FilterDto filter = null);
 	}
 }

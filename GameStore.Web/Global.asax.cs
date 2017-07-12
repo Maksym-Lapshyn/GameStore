@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AutoMapper;
+using GameStore.Services.Infrastructure;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using GameStore.Web.App_Start;
-using GameStore.Services.Infrastructure;
-using GameStore.Web.Infrastructure.Filters;
 
 namespace GameStore.Web
 {
@@ -16,8 +12,8 @@ namespace GameStore.Web
 		{
 			AreaRegistration.RegisterAllAreas();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			ServicesAutoMapperConfig.RegisterMappings();
-			WebAutoMapperConfig.RegisterMappings();
+			Mapper.Initialize(cfg => cfg.AddProfile(new ServiceProfile()));
+			Mapper.Initialize(cfg => cfg.AddProfile(new WebProfile()));
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 		}
 	}

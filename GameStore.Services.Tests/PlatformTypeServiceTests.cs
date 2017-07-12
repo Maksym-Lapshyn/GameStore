@@ -33,53 +33,9 @@ namespace GameStore.Services.Tests
                 new PlatformType()
             };
 
-            _mockOfUow.Setup(m => m.PlatformTypeRepository.Get(null, null)).Returns(_platformTypes);
+            _mockOfUow.Setup(m => m.PlatformTypeRepository.Get()).Returns(_platformTypes);
 
             var result = _target.GetAll().ToList().Count;
-
-            Assert.IsTrue(result == 3);
-        }
-
-        [TestMethod]
-        public void GetBy_ReturnsAllPlatformTypes_WhenValidGameIdPassed()
-        {
-            _platformTypes = new List<PlatformType>
-            {
-                new PlatformType
-                {
-                    Games = new List<Game>
-                    {
-                        new Game
-                        {
-                            Id = TestInt
-                        }
-                    }
-                },
-                new PlatformType
-                {
-                    Games = new List<Game>
-                    {
-                        new Game
-                        {
-                            Id = TestInt
-                        }
-                    }
-                },
-                new PlatformType
-                {
-                    Games = new List<Game>
-                    {
-                        new Game
-                        {
-                            Id = TestInt
-                        }
-                    }
-                }
-            };
-
-            _mockOfUow.Setup(m => m.PlatformTypeRepository.Get(null, null)).Returns(_platformTypes);
-
-            var result = _target.GetBy(TestInt).ToList().Count;
 
             Assert.IsTrue(result == 3);
         }

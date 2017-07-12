@@ -1,6 +1,5 @@
 ﻿using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using GameStore.Web.App_Start;
 using GameStore.Web.Controllers;
 using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,7 +9,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Tests
 {
-    [TestClass]
+	[TestClass]
     public class GameControllerTests
     {
         private Mock<IGameService> _mockOfGameService;
@@ -139,7 +138,7 @@ namespace GameStore.Web.Tests
                 new GameDto()
             };
 
-            _mockOfGameService.Setup(m => m.GetAll()).Returns(_games);
+            _mockOfGameService.Setup(m => m.GetAll(null)).Returns(_games);
 
             var result = (int)((PartialViewResult)_target.ShowCount()).Model;
 

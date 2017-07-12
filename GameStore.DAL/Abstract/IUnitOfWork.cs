@@ -3,20 +3,20 @@
 namespace GameStore.DAL.Abstract
 {
 
-    public interface IUnitOfWork
-    {
-        IGenericRepository<Game> GameRepository { get; }
+	public interface IUnitOfWork
+	{
+		IRepository<Game> GameRepository { get; }
 
-        IGenericRepository<Comment> CommentRepository { get; }
+		IRepository<Comment> CommentRepository { get; }
 
-        IGenericRepository<Publisher> PublisherRepository { get; }
+		IRepository<Publisher> PublisherRepository { get; }
 
-        IGenericRepository<PlatformType> PlatformTypeRepository { get; }
+		IRepository<PlatformType> PlatformTypeRepository { get; }
 
-        IGenericRepository<Genre> GenreRepository { get; }
+		IRepository<Genre> GenreRepository { get; }
 
-        IGenericRepository<Order> OrderRepository { get; }
+		IRepository<Order> OrderRepository { get; }
 
-        void Save();
-    }
+		void Save();
+	}
 }

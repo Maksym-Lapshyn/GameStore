@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GameStore.Services.DTOs
 {
@@ -14,21 +15,29 @@ namespace GameStore.Services.DTOs
 
 		public decimal Price { get; set; }
 
+		public DateTime DateAdded { get; set; }
+
+		public DateTime DatePublished { get; set; }
+
+		public int ViewsCount { get; set; }
+
 		public short UnitsInStock { get; set; }
 
 		public bool Discontinued { get; set; }
 
-		public IEnumerable<GenreDto> GenresData { get; set; }
+		public int CommentsCount { get; set; }
+
+		public List<GenreDto> GenresData { get; set; }
 
 		public IEnumerable<PlatformTypeDto> PlatformTypesData { get; set; }
 
-		public IEnumerable<PublisherDto> PublishersData { get; set; }
+		public List<PublisherDto> PublishersData { get; set; }
 
 		public int PublisherInput { get; set; }
 
-		public IEnumerable<int> GenresInput { get; set; }
+		public List<int> GenresInput { get; set; }
 
-		public IEnumerable<int> PlatformTypesInput { get; set; }
+		public List<int> PlatformTypesInput { get; set; }
 
 		public GameDto()
 		{
