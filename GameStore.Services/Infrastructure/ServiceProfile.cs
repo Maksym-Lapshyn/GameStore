@@ -43,8 +43,6 @@ namespace GameStore.Services.Infrastructure
 			CreateMap<OrderDetailsDto, OrderDetails>();
 
 			CreateMap<OrderDetails, OrderDetailsDto>();
-
-			CreateMissingTypeMaps = true;
 		}
 	}
 }

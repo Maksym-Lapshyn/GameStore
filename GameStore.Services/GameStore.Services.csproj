@@ -56,7 +56,7 @@
     <Compile Include="Abstract\IPlatformTypeService.cs" />
     <Compile Include="Abstract\IPublisherService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
-    <Compile Include="Infrastructure\GamePipeline.cs" />
+    <Compile Include="Concrete\GamePipeline.cs" />
     <Compile Include="Concrete\GameService.cs" />
     <Compile Include="Filters\DateOptionsFilter.cs" />
     <Compile Include="Filters\GameNameFilter.cs" />

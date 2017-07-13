@@ -3,7 +3,6 @@ using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using GameStore.Services.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +12,12 @@ namespace GameStore.Services.Concrete
 	public class GameService : IGameService
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
 
-		public GameService(IUnitOfWork unitOfWork)
+		public GameService(IUnitOfWork unitOfWork, IMapper mapper)
 		{
 			_unitOfWork = unitOfWork;
+			_mapper = mapper;
 		}
 
 		public void Create(GameDto gameDto)
@@ -77,7 +78,7 @@ namespace GameStore.Services.Concrete
 				games = new GamePipeline().Process(games);
 			}
 
-			var gameDtos = Mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
 			return gameDtos;
 		}

@@ -6,6 +6,8 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using AutoMapper;
+using GameStore.Services.Infrastructure;
 
 namespace GameStore.Web.Infrastructure.Resolver
 {
@@ -31,6 +33,14 @@ namespace GameStore.Web.Infrastructure.Resolver
 
 		private void AddBindings()
 		{
+			Mapper.Initialize(cfg =>
+			{
+				cfg.AddProfile(new ServiceProfile());
+				cfg.AddProfile(new WebProfile());
+
+			});
+
+			_kernel.Bind<IMapper>().ToConstant(Mapper.Instance);
 			_kernel.Bind<IGameService>().To<GameService>();
 			_kernel.Bind<ICommentService>().To<CommentService>();
 			_kernel.Bind<IPublisherService>().To<PublisherService>();

@@ -1,12 +1,12 @@
-﻿using GameStore.DAL.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Services.Enums;
-using System.Collections.Generic;
-using System.Linq;
 using GameStore.Services.Filters;
 
-namespace GameStore.Services.Infrastructure
+namespace GameStore.Services.Concrete
 {
 	public class GamePipeline : IPipeline<IQueryable<Game>>
 	{
