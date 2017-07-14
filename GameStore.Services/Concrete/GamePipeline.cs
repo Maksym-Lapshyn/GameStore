@@ -24,14 +24,9 @@ namespace GameStore.Services.Concrete
 				Register(new PlatformTypeFilter(model.PlatformTypesInput));
 			}
 
-			if (model.PublishersData.Count != 0)
+			if (model.PublishersInput.Count != 0)
 			{
 				Register(new PublisherFilter(model.PublishersInput));
-			}
-
-			if (model.SortOptions != SortOptions.None)
-			{
-				Register(new SortOptionsFilter(model.SortOptions));
 			}
 
 			if (model.MinPrice != default(decimal))
@@ -49,10 +44,17 @@ namespace GameStore.Services.Concrete
 				Register(new DateOptionsFilter(model.DateOptions));
 			}
 
-			if (model.GameName != string.Empty)
+			if (model.GameName != null)
 			{
 				Register(new GameNameFilter(model.GameName));
 			}
+
+			Register(new SortOptionsFilter(model.SortOptions));
+
+			/*if (model.Paginator.PageSize != 0)
+			{
+				Register(new PaginationFilter(model.Paginator));
+			}*/
 		}
 
 		public IPipeline<IQueryable<Game>> Register(IFilter<IQueryable<Game>> filter)

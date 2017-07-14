@@ -8,7 +8,7 @@ namespace GameStore.Services.DTOs
 
 		public string Type { get; set; }
 
-		public List<GameDto> Games { get; set; }
+		public IEnumerable<GameDto> Games { get; set; }
 
 		public PlatformTypeDto()
 		{

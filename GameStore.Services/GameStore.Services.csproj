@@ -58,6 +58,7 @@
     <Compile Include="Concrete\CommentService.cs" />
     <Compile Include="Concrete\GamePipeline.cs" />
     <Compile Include="Concrete\GameService.cs" />
+    <Compile Include="DTOs\PaginatorDto.cs" />
     <Compile Include="Filters\DateOptionsFilter.cs" />
     <Compile Include="Filters\GameNameFilter.cs" />
     <Compile Include="Filters\GenreFilter.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Filters\MaxPriceFilter.cs" />
     <Compile Include="Filters\MinPriceFilter.cs" />
+    <Compile Include="Filters\PaginationFilter.cs" />
     <Compile Include="Filters\PlatformTypeFilter.cs" />
     <Compile Include="Filters\PublisherFilter.cs" />
     <Compile Include="Filters\SortOptionsFilter.cs" />

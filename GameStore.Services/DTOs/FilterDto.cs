@@ -35,5 +35,15 @@ namespace GameStore.Services.DTOs
 
 		[DisplayName("Name")]
 		public string GameName { get; set; }
+
+		public FilterDto()
+		{
+			GenresData = new List<GenreDto>();
+			GenresInput = new List<int>();
+			PlatformTypesData = new List<PlatformTypeDto>();
+			PlatformTypesInput = new List<int>();
+			PublishersData = new List<PublisherDto>();
+			PublishersInput = new List<int>();
+		}
 	}
 }

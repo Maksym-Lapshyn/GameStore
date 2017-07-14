@@ -11,15 +11,17 @@ namespace GameStore.Services.Concrete
 	public class OrderService : IOrderService
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
 
-		public OrderService(IUnitOfWork unitOfWork)
+		public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
 		{
 			_unitOfWork = unitOfWork;
+			_mapper = mapper;
 		}
 
 		public void Create(OrderDto orderDto)
 		{
-			var order = Mapper.Map<OrderDto, Order>(orderDto);
+			var order = _mapper.Map<OrderDto, Order>(orderDto);
 			order.Date = DateTime.UtcNow;
 			Map(order);
 			_unitOfWork.OrderRepository.Insert(order);
@@ -29,7 +31,7 @@ namespace GameStore.Services.Concrete
 		public OrderDto GetSingleBy(string customerId)
 		{
 			var order = _unitOfWork.OrderRepository.Get().First(o => o.CustomerId == customerId);
-			var orderDto = Mapper.Map<Order, OrderDto>(order);
+			var orderDto = _mapper.Map<Order, OrderDto>(order);
 
 			return orderDto;
 		}

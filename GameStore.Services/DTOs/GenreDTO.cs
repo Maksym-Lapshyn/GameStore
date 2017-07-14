@@ -8,7 +8,7 @@ namespace GameStore.Services.DTOs
 
 		public string Name { get; set; }
 
-		public List<GenreDto> ChildGenres { get; set; }
+		public IEnumerable<GenreDto> ChildGenres { get; set; }
 
 		public GenreDto ParentGenre { get; set; }
 

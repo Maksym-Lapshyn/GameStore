@@ -35,5 +35,15 @@ namespace GameStore.Web.Models
 
 		[DisplayName("Name")]
 		public string GameName { get; set; }
+
+		public FilterViewModel()
+		{
+			GenresData = new List<GenreViewModel>();
+			GenresInput = new List<int>();
+			PlatformTypesData = new List<PlatformTypeViewModel>();
+			PlatformTypesInput = new List<int>();
+			PublishersData = new List<PublisherViewModel>();
+			PublishersInput = new List<int>();
+		}
 	}
 }

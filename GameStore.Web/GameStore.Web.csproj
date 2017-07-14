@@ -125,7 +125,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\WebAutoMapperConfig.cs" />
+    <Compile Include="App_Start\WebProfile.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -146,13 +146,14 @@
     <Compile Include="Models\AllCommentsViewModel.cs" />
     <Compile Include="Models\Enums\DateOptions.cs" />
     <Compile Include="Models\Enums\SortOptions.cs" />
-    <Compile Include="Models\GamesAndFilterViewModel.cs" />
+    <Compile Include="Models\AllGamesViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FilterViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
+    <Compile Include="Models\PaginatorViewModel.cs" />
     <Compile Include="Models\PlatformTypeViewModel.cs" />
     <Compile Include="Models\PublisherViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +180,7 @@
     <Content Include="Views\Order\Show.cshtml" />
     <Content Include="Views\Comment\ListAllChilds.cshtml" />
     <Content Include="Views\Game\ListAll.cshtml" />
+    <Content Include="Views\Game\Filter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

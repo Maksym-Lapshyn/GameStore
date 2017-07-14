@@ -37,7 +37,6 @@ namespace GameStore.Web.Infrastructure.Resolver
 			{
 				cfg.AddProfile(new ServiceProfile());
 				cfg.AddProfile(new WebProfile());
-
 			});
 
 			_kernel.Bind<IMapper>().ToConstant(Mapper.Instance);

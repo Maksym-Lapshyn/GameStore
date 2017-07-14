@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
@@ -15,23 +16,31 @@ namespace GameStore.Web.Controllers
 		private readonly IGenreService _genreService;
 		private readonly IPlatformTypeService _platformTypeService;
 		private readonly IPublisherService _publisherService;
+		private readonly IMapper _mapper;
+		private const int DefaultPageSize = 10;
 
 		public GameController(IGameService gameService,
 			IGenreService genreService,
 			IPlatformTypeService platformTypeService,
-			IPublisherService publisherService)
+			IPublisherService publisherService,
+			IMapper mapper)
 		{
 			_gameService = gameService;
 			_genreService = genreService;
 			_platformTypeService = platformTypeService;
 			_publisherService = publisherService;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
 		public ActionResult New()
 		{
-			var gameViewModel = new GameViewModel();
-			Map(gameViewModel);
+			var gameViewModel = new GameViewModel
+			{
+				GenresData = MapGenres(),
+				PlatformTypesData = MapPlatformTypes(),
+				PublishersData = MapPublishers()
+			};
 
 			return View(gameViewModel);
 		}
@@ -44,7 +53,7 @@ namespace GameStore.Web.Controllers
 				return View(gameViewModel);
 			}
 
-			var gameDto = Mapper.Map<GameViewModel, GameDto>(gameViewModel);
+			var gameDto = _mapper.Map<GameViewModel, GameDto>(gameViewModel);
 			_gameService.Create(gameDto);
 
 			return RedirectToAction("ListAll");
@@ -62,47 +71,45 @@ namespace GameStore.Web.Controllers
 		{
 			var gameDto = _gameService.GetSingleBy(gameKey);
 			_gameService.SaveView(gameDto.Id);
-			var gameViewModel = Mapper.Map<GameDto, GameViewModel>(gameDto);
+			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
 			return View(gameViewModel);
 		}
 
 		[HttpGet]
-		public ActionResult ListAll()
+		public ActionResult ListAll(AllGamesViewModel model)
 		{
-			var games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(_gameService.GetAll());
-			var gamesAndFilter = new GamesAndFilterViewModel
+			if (model.Filter == null && model.Paginator == null)
 			{
-				Games = games.ToList(),
-				Filter = new FilterViewModel
+				model.Filter = new FilterViewModel
 				{
-					PublishersData = Mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll()),
-					GenresData = Mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll()),
-					PlatformTypesData = Mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll())
-				}
-			};
+					GenresData = MapGenres(),
+					PlatformTypesData = MapPlatformTypes(),
+					PublishersData = MapPublishers()
+				};
 
-			return View(gamesAndFilter);
-		}
-
-		[HttpPost]
-		public ActionResult ListAll(GamesAndFilterViewModel gamesAndFilter)
-		{
-			IEnumerable<GameViewModel> games;
-
-			if (!ModelState.IsValid)
-			{
-				games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(_gameService.GetAll());
-				gamesAndFilter.Games = games.ToList();
-
-				return View(gamesAndFilter);
+				var totalItems =
+					_gameService.GetAll(_mapper.Map<FilterViewModel, FilterDto>(model.Filter)).ToList().Count;
+				model.Paginator = new PaginatorViewModel().Initialize(totalItems, 1, DefaultPageSize);
+				var gameDtos = _gameService.GetAll(_mapper.Map<FilterViewModel, FilterDto>(model.Filter), 0, DefaultPageSize).ToList();
+				model.Games = _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(gameDtos);
 			}
 
-			var filter = Mapper.Map<FilterViewModel, FilterDto>(gamesAndFilter.Filter);
-			games = Mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(_gameService.GetAll(filter));
-			gamesAndFilter.Games = games.ToList();
+			else
+			{
+				//Reinitialize paginator
+				var pageSize = model.Paginator.PageSize;
+				var pag = model.Paginator.CurrentPage;
+				var skip = model.Paginator.PageSize * (model.Paginator.CurrentPage - 1);
+				var take = model.Paginator.PageSize;
+				var totalItems =
+					_gameService.GetAll(_mapper.Map<FilterViewModel, FilterDto>(model.Filter)).ToList().Count;
+				model.Paginator.TotalItems = totalItems;
+				var gameDtos = _gameService.GetAll(_mapper.Map<FilterViewModel, FilterDto>(model.Filter), skip, take).ToList();
+				model.Games = _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(gameDtos);
+			}
 
-			return View(gamesAndFilter);
+			return View(model);
 		}
 
 		[HttpPost]
@@ -111,6 +118,15 @@ namespace GameStore.Web.Controllers
 			_gameService.Delete(gameId);
 
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
+		}
+
+		[OutputCache(Duration = 60)]
+		public ActionResult ShowCount()
+		{
+			var games = _gameService.GetAll();
+			var count = games.Count();
+
+			return PartialView(count);
 		}
 
 		public FileResult Download(string gameKey)
@@ -126,23 +142,25 @@ namespace GameStore.Web.Controllers
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
 
-		[OutputCache(Duration = 60)]
-		public ActionResult ShowCount()
+		private List<PlatformTypeViewModel> MapPlatformTypes()
 		{
-			var games = _gameService.GetAll();
-			var count = games.Count();
+			var platformTypes = Mapper.Map<List<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll().ToList());
 
-			return PartialView(count);
+			return platformTypes;
 		}
 
-		private void Map(GameViewModel gameViewModel)
+		private List<GenreViewModel> MapGenres()
 		{
-			gameViewModel.PlatformTypesData = 
-				Mapper.Map<List<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll().ToList());
-			gameViewModel.GenresData = 
-				Mapper.Map<List<GenreDto>, List<GenreViewModel>>(_genreService.GetAll().ToList());
-			gameViewModel.PublishersData = 
-				Mapper.Map<List<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll().ToList());
+			var genres = Mapper.Map<List<GenreDto>, List<GenreViewModel>>(_genreService.GetAll().ToList());
+
+			return genres;
+		}
+
+		private List<PublisherViewModel> MapPublishers()
+		{
+			var publishers = Mapper.Map<List<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll().ToList());
+
+			return publishers;
 		}
 	}
 }

@@ -33,6 +33,9 @@ namespace GameStore.Services.Filters
 				case SortOptions.MostViewed:
 					input = input.OrderByDescending(g => g.ViewsCount);
 					break;
+				case SortOptions.None:
+					input = input.OrderBy(g => g.DateAdded);
+					break;
 			}
 
 			return input;

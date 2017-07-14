@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Entities;
+﻿
+using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.Enums;
 using System;

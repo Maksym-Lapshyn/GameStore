@@ -11,15 +11,17 @@ namespace GameStore.Services.Concrete
 	public class CommentService : ICommentService
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
 
-		public CommentService(IUnitOfWork unitOfWork)
+		public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
 		{
 			_unitOfWork = unitOfWork;
+			_mapper = mapper;
 		}
 
 		public void Create(CommentDto commentDto)
 		{
-			var comment = Mapper.Map<CommentDto, Comment>(commentDto);
+			var comment = _mapper.Map<CommentDto, Comment>(commentDto);
 
 			if (comment.ParentCommentId != null)
 			{
@@ -36,7 +38,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<CommentDto> GetAll()
 		{
 			var comments = _unitOfWork.CommentRepository.Get();
-			var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}
@@ -44,7 +46,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<CommentDto> GetBy(string gameKey)
 		{
 			var comments = _unitOfWork.CommentRepository.Get().Where(c => c.Game.Key == gameKey && c.ParentComment == null);
-			var commentDtos = Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}

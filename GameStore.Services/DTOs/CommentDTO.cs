@@ -18,7 +18,7 @@ namespace GameStore.Services.DTOs
 
 		public CommentDto ParentComment { get; set; }
 
-		public List<CommentDto> ChildComments { get; set; }
+		public IEnumerable<CommentDto> ChildComments { get; set; }
 
 		public CommentDto()
 		{

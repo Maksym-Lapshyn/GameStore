@@ -13,7 +13,7 @@ namespace GameStore.Services.DTOs
 
 		public DateTime Date { get; set; }
 
-		public List<OrderDetailsDto> OrderDetails { get; set; }
+		public IEnumerable<OrderDetailsDto> OrderDetails { get; set; }
 
 		public OrderDto()
 		{

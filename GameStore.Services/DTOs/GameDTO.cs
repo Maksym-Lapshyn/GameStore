@@ -29,7 +29,7 @@ namespace GameStore.Services.DTOs
 
 		public List<GenreDto> GenresData { get; set; }
 
-		public IEnumerable<PlatformTypeDto> PlatformTypesData { get; set; }
+		public List<PlatformTypeDto> PlatformTypesData { get; set; }
 
 		public List<PublisherDto> PublishersData { get; set; }
 

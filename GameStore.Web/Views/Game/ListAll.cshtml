@@ -1,4 +1,4 @@
-﻿@model GameStore.Web.Models.GamesAndFilterViewModel
+﻿@model GameStore.Web.Models.AllGamesViewModel
 
 @{
 	ViewBag.Title = "List All";
@@ -6,7 +6,8 @@
 }
 
 <h1>List All</h1>
-@using (Html.BeginForm("ListAll", "Game", FormMethod.Post))
+
+@using (Html.BeginForm("ListAll", "Game", FormMethod.Get, new { id = "listAll" }))
 {
 	<h2>Filter</h2>
 	<b>@Html.LabelFor(m => m.Filter.GenresInput)</b>
@@ -61,11 +62,31 @@
 	{
 		@Html.HiddenFor(m => m.Filter.PublishersData[i].Id)
 		@Html.HiddenFor(m => m.Filter.PublishersData[i].CompanyName)
+		@Html.HiddenFor(m => m.Filter.PublishersData[i].Description)
+		@Html.HiddenFor(m => m.Filter.PublishersData[i].HomePage)
 	}
 
-	<button type="submit">Filter</button>
+	<b>@Html.LabelFor(m => m.Paginator.PageSize)</b>
+	<p>
+		@Html.DropDownListFor(m => m.Paginator.PageSize, new List<SelectListItem>
+		{
+			new SelectListItem {Selected = true, Text = "10", Value = "10"},
+			new SelectListItem {Text = "20", Value = "20"},
+			new SelectListItem {Text = "50", Value = "50"},
+			new SelectListItem {Text = "100", Value = "100"},
+			new SelectListItem {Text = "All", Value = "0"}
+		})
+	</p>
+
+	@Html.HiddenFor(m => m.Paginator.CurrentPage)
+	@Html.HiddenFor(m => m.Paginator.TotalPages)
+	@Html.HiddenFor(m => m.Paginator.TotalItems)
+	<p>
+		<button type="submit">Filter</button>
+	</p>
+
 	<h2>Games</h2>
-	<hr />
+	<hr/>
 
 	foreach (var game in Model.Games)
 	{
@@ -85,18 +106,20 @@
 		if (game.PlatformTypesData.Count != 0)
 		{
 			<b>@Html.LabelFor(m => game.PlatformTypesData)</b>
-			foreach (var platform in game.PlatformTypesData)
+
+			for (var i = 0; i < game.PlatformTypesData.Count; i++)
 			{
-				<p>@platform.Type</p>
+				<p>@game.PlatformTypesData[i].Type</p>
 			}
 		}
 
 		if (game.GenresData.Count != 0)
 		{
 			<b>@Html.LabelFor(m => game.GenresData)</b>
-			foreach (var genre in game.GenresData)
+
+			for (var i = 0; i < game.GenresData.Count; i++)
 			{
-				<p>@genre.Name</p>
+				<p>@game.GenresData[i].Name</p>
 			}
 		}
 
@@ -107,6 +130,33 @@
 			<p>@Html.ActionLink(name, "Show", "Publisher", new { companyName = name }, null)</p>
 		}
 
-		<hr/>
+		<hr />
+	}
+
+	if (Model.Paginator.TotalItems > Model.Paginator.PageSize)
+	{
+		if (Model.Paginator.CurrentPage > 1)
+		{
+			<button type="submit" onclick="previousPage(); submit();">Previous</button>
+		}
+
+		if (Model.Paginator.CurrentPage < Model.Paginator.TotalPages)
+		{
+			<button type="submit" onclick="nextPage(); submit();">Next</button>
+		}
 	}
 }
+
+<script>
+	function previousPage() {
+		document.getElementById('Paginator_CurrentPage').value--;
+	}
+
+	function nextPage() {
+		document.getElementById('Paginator_CurrentPage').value++;
+	}
+
+	function submit() {
+		document.getElementById('listAll').submit();
+	}
+</script>

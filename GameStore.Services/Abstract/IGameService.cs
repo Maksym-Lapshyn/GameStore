@@ -21,6 +21,6 @@ namespace GameStore.Services.Abstract
 
 		GameDto GetSingleBy(int gameId);
 
-		IEnumerable<GameDto> GetAll(FilterDto filter = null);
+		IEnumerable<GameDto> GetAll(FilterDto filter = null, int? skip = null, int? take = null);
 	}
 }

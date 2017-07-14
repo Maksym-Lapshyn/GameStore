@@ -24,6 +24,8 @@ namespace GameStore.Web
 
 			CreateMap<FilterDto, FilterViewModel>().ReverseMap();
 
+			CreateMap<PaginatorDto, PaginatorViewModel>().ReverseMap();
+
 			CreateMap<Services.Enums.DateOptions, Models.Enums.DateOptions>().ReverseMap();
 
 			CreateMap<Services.Enums.SortOptions, Models.Enums.SortOptions>().ReverseMap();
