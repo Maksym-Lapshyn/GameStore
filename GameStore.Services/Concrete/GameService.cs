@@ -6,6 +6,8 @@ using GameStore.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.Services.Enums;
+using GameStore.Services.Filters;
 
 namespace GameStore.Services.Concrete
 {
@@ -13,11 +15,13 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
+		private readonly IPipeline<IQueryable<Game>> _pipeline;
 
-		public GameService(IUnitOfWork unitOfWork, IMapper mapper)
+		public GameService(IUnitOfWork unitOfWork, IMapper mapper, IPipeline<IQueryable<Game>> pipeline)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_pipeline = pipeline;
 		}
 
 		public void Create(GameDto gameDto)
@@ -75,9 +79,8 @@ namespace GameStore.Services.Concrete
 
 			if (filter != null)
 			{
-				var pipeLine = new GamePipeline();
-				pipeLine.ApplyFilter(filter);
-				games = pipeLine.Process(games);
+				ApplyFilter(filter);
+				games = _pipeline.Process(games);
 			}
 
 			if (skip != null && take != null)
@@ -85,7 +88,7 @@ namespace GameStore.Services.Concrete
 				games = games.Skip(skip.Value).Take(take.Value);
 			}
 
-			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+			var gameDtos = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(games);
 
 			return gameDtos;
 		}
@@ -94,7 +97,7 @@ namespace GameStore.Services.Concrete
 		{
 			var games = _unitOfWork.GameRepository
 				.Get().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
-			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+			var gameDtOs = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(games);
 
 			return gameDtOs;
 		}
@@ -102,10 +105,50 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
 		{
 			var allGames = _unitOfWork.GameRepository.Get();
-			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game).ToList();
-			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
+			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game);
+			var gameDtOs = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(matchedGames);
 
 			return gameDtOs;
+		}
+
+		private void ApplyFilter(FilterDto model)
+		{
+			if (model.GenresInput.Count != 0)
+			{
+				_pipeline.Register(new GenreFilter(model.GenresInput));
+			}
+
+			if (model.PlatformTypesInput.Count != 0)
+			{
+				_pipeline.Register(new PlatformTypeFilter(model.PlatformTypesInput));
+			}
+
+			if (model.PublishersInput.Count != 0)
+			{
+				_pipeline.Register(new PublisherFilter(model.PublishersInput));
+			}
+
+			if (model.MinPrice != default(decimal))
+			{
+				_pipeline.Register(new MinPriceFilter(model.MinPrice));
+			}
+
+			if (model.MaxPrice != default(decimal))
+			{
+				_pipeline.Register(new MaxPriceFilter(model.MaxPrice));
+			}
+
+			if (model.DateOptions != DateOptions.None)
+			{
+				_pipeline.Register(new DateOptionsFilter(model.DateOptions));
+			}
+
+			if (model.GameName != null)
+			{
+				_pipeline.Register(new GameNameFilter(model.GameName));
+			}
+
+			_pipeline.Register(new SortOptionsFilter(model.SortOptions));
 		}
 
 		private void Map(GameDto input, Game result)

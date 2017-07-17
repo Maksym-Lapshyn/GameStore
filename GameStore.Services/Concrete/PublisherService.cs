@@ -37,7 +37,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<PublisherDto> GetAll()
 		{
 			var publishers = _unitOfWork.PublisherRepository.Get();
-			var publisherDtos = _mapper.Map<IEnumerable<Publisher>, IEnumerable<PublisherDto>>(publishers);
+			var publisherDtos = _mapper.Map<IQueryable<Publisher>, IEnumerable<PublisherDto>>(publishers);
 
 			return publisherDtos;
 		}

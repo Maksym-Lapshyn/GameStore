@@ -81,7 +81,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult ListAll(AllGamesViewModel model)
 		{
-			int skip, take;
+			int itemsToSkip, itemsToTake;
 
 			if (!ModelState.IsValidField("Filter.GameName") && model.FilterIsChanged)
 			{
@@ -89,9 +89,9 @@ namespace GameStore.Web.Controllers
 				model.Filter.PlatformTypesData = MapPlatformTypes();
 				model.Filter.GenresData = MapGenres();
 				model.Filter.PublishersData = MapPublishers();
-				skip = (model.PageSize * (model.CurrentPage - 1));
-				take = model.PageSize;
-				model.Games = MapGames(_filterState, skip, take);
+				itemsToSkip = (model.PageSize * (model.CurrentPage - 1));
+				itemsToTake = model.PageSize;
+				model.Games = MapGames(_filterState, itemsToSkip, itemsToTake);
 
 				return View(model);
 			}
@@ -121,9 +121,9 @@ namespace GameStore.Web.Controllers
 			}
 
 			model.TotalPages = (int)Math.Ceiling((decimal)model.TotalItems / model.PageSize);
-			skip = (model.PageSize * (model.CurrentPage - 1));
-			take = model.PageSize;
-			model.Games = MapGames(_filterState, skip, take);
+			itemsToSkip = (model.PageSize * (model.CurrentPage - 1));
+			itemsToTake = model.PageSize;
+			model.Games = MapGames(_filterState, itemsToSkip, itemsToTake);
 			model.Filter.PlatformTypesData = MapPlatformTypes();
 			model.Filter.GenresData = MapGenres();
 			model.Filter.PublishersData = MapPublishers();
@@ -161,15 +161,15 @@ namespace GameStore.Web.Controllers
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
 
-		private List<GameViewModel> MapGames(FilterViewModel filter = null, int? skip = null, int? take = null)
+		private List<GameViewModel> MapGames(FilterViewModel filter = null, int? itemsToSkip = null, int? itemsToTake = null)
 		{
 			if (filter != null)
 			{
 				var filterDto = _mapper.Map<FilterViewModel, FilterDto>(filter);
 
-				if (skip != null && take != null)
+				if (itemsToSkip != null && itemsToTake != null)
 				{
-					return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto, skip, take));
+					return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto, itemsToSkip, itemsToTake));
 				}
 
 				return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto));

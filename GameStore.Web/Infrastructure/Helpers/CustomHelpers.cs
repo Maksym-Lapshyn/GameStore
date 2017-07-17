@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Infrastructure.Helpers
@@ -20,6 +21,26 @@ namespace GameStore.Web.Infrastructure.Helpers
 			}
 
 			return new MvcHtmlString(div.InnerHtml);
+		}
+
+		public static MvcHtmlString CreateRadioButtonGroup(this HtmlHelper helper, string propertyName, Enum dateOptions)
+		{
+			var div = new TagBuilder("div");
+
+			foreach (var option in Enum.GetNames(dateOptions.GetType()))
+			{
+				div.InnerHtml += $"<label for={option}>" + option + "</label>";
+				if (option == dateOptions.ToString())
+				{
+					div.InnerHtml += $"<input type='radio' name={propertyName} value={option} checked />";
+				}
+				else
+				{
+					div.InnerHtml += $"<input type='radio' name={propertyName} value={option} />";
+				}
+			}
+
+			return new MvcHtmlString(div.ToString());
 		}
 	}
 }

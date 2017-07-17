@@ -52,7 +52,7 @@
     <Compile Include="Abstract\IGameService.cs" />
     <Compile Include="Abstract\IGenreService.cs" />
     <Compile Include="Abstract\IOrderService.cs" />
-    <Compile Include="Abstract\IPipeLine.cs" />
+    <Compile Include="Abstract\IPipeline.cs" />
     <Compile Include="Abstract\IPlatformTypeService.cs" />
     <Compile Include="Abstract\IPublisherService.cs" />
     <Compile Include="Concrete\CommentService.cs" />

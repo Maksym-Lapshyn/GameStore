@@ -4,6 +4,7 @@ using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -21,7 +22,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<GenreDto> GetAll()
 		{
 			var genres = _unitOfWork.GenreRepository.Get();
-			var genreDtos = _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDto>>(genres);
+			var genreDtos = _mapper.Map<IQueryable<Genre>, IEnumerable<GenreDto>>(genres);
 
 			return genreDtos;
 		}

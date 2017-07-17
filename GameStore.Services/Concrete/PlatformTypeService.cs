@@ -4,6 +4,7 @@ using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -21,7 +22,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<PlatformTypeDto> GetAll()
 		{
 			var platforms = _unitOfWork.PlatformTypeRepository.Get();
-			var platformDtos = _mapper.Map<IEnumerable<PlatformType>, IEnumerable<PlatformTypeDto>>(platforms);
+			var platformDtos = _mapper.Map<IQueryable<PlatformType>, IEnumerable<PlatformTypeDto>>(platforms);
 
 			return platformDtos;
 		}

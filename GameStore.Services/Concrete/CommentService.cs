@@ -38,7 +38,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<CommentDto> GetAll()
 		{
 			var comments = _unitOfWork.CommentRepository.Get();
-			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}
@@ -46,7 +46,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<CommentDto> GetBy(string gameKey)
 		{
 			var comments = _unitOfWork.CommentRepository.Get().Where(c => c.Game.Key == gameKey && c.ParentComment == null);
-			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
+			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}
