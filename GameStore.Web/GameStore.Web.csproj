@@ -143,6 +143,7 @@
     <Compile Include="Filters\LogEventsAndPerformanceAttribute.cs" />
     <Compile Include="Filters\LogExceptionAttribute.cs" />
     <Compile Include="Filters\LogIpAttribute.cs" />
+    <Compile Include="Infrastructure\Helpers\CustomHelpers.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
     <Compile Include="Models\CheckBoxListItem.cs" />

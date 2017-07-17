@@ -41,16 +41,16 @@ namespace GameStore.Web.Models
 
 		public bool Discontinued { get; set; }
 
-		[DisplayName("Publisher")]
+		[DisplayName("Publishers")]
 		public List<PublisherViewModel> PublishersData { get; set; }
 
 		[DisplayName("Genres")]
 		public List<GenreViewModel> GenresData { get; set; }
 
-		[DisplayName("Platforms")]
+		[DisplayName("PlatformTypes")]
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
-		[DisplayName("Publisher")]
+		[DisplayName("Publishers")]
 		[Required]
 		[HiddenInput]
 		public int PublisherInput { get; set; }
@@ -59,7 +59,7 @@ namespace GameStore.Web.Models
 		[CannotBeEmpty]
 		public List<int> GenresInput { get; set; }
 
-		[DisplayName("Platforms")]
+		[DisplayName("PlatformTypes")]
 		[CannotBeEmpty]
 		public List<int> PlatformTypesInput { get; set; }
 	}

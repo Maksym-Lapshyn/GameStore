@@ -7,14 +7,20 @@ namespace GameStore.Web.Models
 {
 	public class FilterViewModel
 	{
-		[DisplayName("Platform type")]
-		public List<CheckBoxListItem> Platforms { get; set; }
+		[DisplayName("Genres")]
+		public List<GenreViewModel> GenresData { get; set; }
 
-		[DisplayName("Genre")]
-		public List<CheckBoxListItem> Genres { get; set; }
+		public List<int> GenresInput { get; set; }
 
-		[DisplayName("Publisher")]
-		public List<CheckBoxListItem> Publisher { get; set; }
+		[DisplayName("Platform types")]
+		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
+
+		public List<int> PlatformTypesInput { get; set; }
+
+		[DisplayName("Publishers")]
+		public List<PublisherViewModel> PublishersData { get; set; }
+
+		public List<int> PublishersInput { get; set; }
 
 		[DisplayName("Sort by")]
 		public SortOptions SortOptions { get; set; }
@@ -34,9 +40,12 @@ namespace GameStore.Web.Models
 
 		public FilterViewModel()
 		{
-			Platforms = new List<CheckBoxListItem>();
-			Genres = new List<CheckBoxListItem>();
-			Publisher = new List<CheckBoxListItem>();
+			GenresData = new List<GenreViewModel>();
+			GenresInput = new List<int>();
+			PlatformTypesData = new List<PlatformTypeViewModel>();
+			PlatformTypesInput = new List<int>();
+			PublishersData = new List<PublisherViewModel>();
+			PublishersInput = new List<int>();
 		}
 	}
 }

@@ -62,13 +62,13 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"CreatePublisher",
 				"publisher/new",
-				new {controller = "Publisher", action = "New"}
+				new {controller = "Publishers", action = "New"}
 			);
 
 			routes.MapRoute(
 				"DisplayPublisher",
 				"publisher/{companyName}",
-				new {controller = "Publisher", action = "Show"}
+				new {controller = "Publishers", action = "Show"}
 			);
 
 			routes.MapRoute(
