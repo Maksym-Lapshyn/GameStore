@@ -50,11 +50,6 @@ namespace GameStore.Services.Concrete
 			}
 
 			Register(new SortOptionsFilter(model.SortOptions));
-
-			/*if (model.Paginator.PageSize != 0)
-			{
-				Register(new PaginationFilter(model.Paginator));
-			}*/
 		}
 
 		public IPipeline<IQueryable<Game>> Register(IFilter<IQueryable<Game>> filter)

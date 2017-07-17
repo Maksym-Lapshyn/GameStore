@@ -138,12 +138,14 @@
     </Compile>
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
     <Compile Include="Infrastructure\Attributes\CannotBeEmptyAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\RequiredLengthIfNotNullAttribute.cs" />
     <Compile Include="Infrastructure\Concrete\Logger.cs" />
     <Compile Include="Filters\LogEventsAndPerformanceAttribute.cs" />
     <Compile Include="Filters\LogExceptionAttribute.cs" />
     <Compile Include="Filters\LogIpAttribute.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
+    <Compile Include="Models\CheckBoxListItem.cs" />
     <Compile Include="Models\Enums\DateOptions.cs" />
     <Compile Include="Models\Enums\SortOptions.cs" />
     <Compile Include="Models\AllGamesViewModel.cs" />
@@ -153,7 +155,6 @@
     <Compile Include="Models\GenreViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
-    <Compile Include="Models\PaginatorViewModel.cs" />
     <Compile Include="Models\PlatformTypeViewModel.cs" />
     <Compile Include="Models\PublisherViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +182,7 @@
     <Content Include="Views\Comment\ListAllChilds.cshtml" />
     <Content Include="Views\Game\ListAll.cshtml" />
     <Content Include="Views\Game\Filter.cshtml" />
+    <Content Include="Views\Shared\Folder\CheckBoxListItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,25 +1,20 @@
 ﻿using GameStore.Web.Models.Enums;
 using System.Collections.Generic;
 using System.ComponentModel;
+using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Models
 {
 	public class FilterViewModel
 	{
-		public List<GenreViewModel> GenresData { get; set; }
+		[DisplayName("Platform type")]
+		public List<CheckBoxListItem> Platforms { get; set; }
 
 		[DisplayName("Genre")]
-		public List<int> GenresInput { get; set; }
-
-		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
-
-		[DisplayName("Platform")]
-		public List<int> PlatformTypesInput { get; set; }
-
-		public List<PublisherViewModel> PublishersData { get; set; }
+		public List<CheckBoxListItem> Genres { get; set; }
 
 		[DisplayName("Publisher")]
-		public List<int> PublishersInput { get; set; }
+		public List<CheckBoxListItem> Publisher { get; set; }
 
 		[DisplayName("Sort by")]
 		public SortOptions SortOptions { get; set; }
@@ -33,17 +28,15 @@ namespace GameStore.Web.Models
 		[DisplayName("Published date")]
 		public DateOptions DateOptions { get; set; }
 
+		[RequiredLengthIfNotNull(3)]
 		[DisplayName("Name")]
 		public string GameName { get; set; }
 
 		public FilterViewModel()
 		{
-			GenresData = new List<GenreViewModel>();
-			GenresInput = new List<int>();
-			PlatformTypesData = new List<PlatformTypeViewModel>();
-			PlatformTypesInput = new List<int>();
-			PublishersData = new List<PublisherViewModel>();
-			PublishersInput = new List<int>();
+			Platforms = new List<CheckBoxListItem>();
+			Genres = new List<CheckBoxListItem>();
+			Publisher = new List<CheckBoxListItem>();
 		}
 	}
 }
