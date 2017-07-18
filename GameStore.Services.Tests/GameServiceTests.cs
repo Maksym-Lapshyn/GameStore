@@ -50,6 +50,7 @@ namespace GameStore.Services.Tests
 		public void Create_CallsSaveOnce_WhenAnyGameIsPassed()
 		{
 			_games = new List<Game>();
+
 			_target.Create(new GameDto());
 
 			_mockOfUow.Verify(m => m.Save(), Times.Once);
@@ -86,6 +87,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
 			_mockOfUow.Setup(m => m.GameRepository.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
+
 			_target.Edit(new GameDto
 			{
 				Id = TestInt

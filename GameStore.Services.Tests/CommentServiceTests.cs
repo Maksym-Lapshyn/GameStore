@@ -3,12 +3,11 @@ using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.DTOs;
+using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.Services.Infrastructure;
 
 namespace GameStore.Services.Tests
 {

@@ -17,8 +17,6 @@ namespace GameStore.Services.Tests
 		private GenreService _target;
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
-		private const int ValidInt = 10;
-		private const int InvalidInt = 20;
 		private List<Genre> _genres;
 
 		[TestInitialize]

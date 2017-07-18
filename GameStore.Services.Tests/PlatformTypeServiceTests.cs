@@ -18,7 +18,6 @@ namespace GameStore.Services.Tests
 		private List<PlatformType> _platformTypes;
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
-		private const int TestInt = 10;
 
 		[TestInitialize]
 		public void Initialize()

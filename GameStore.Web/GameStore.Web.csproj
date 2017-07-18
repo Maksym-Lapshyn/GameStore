@@ -146,7 +146,6 @@
     <Compile Include="Infrastructure\Helpers\CustomHelpers.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
-    <Compile Include="Models\CheckBoxListItem.cs" />
     <Compile Include="Models\Enums\DateOptions.cs" />
     <Compile Include="Models\Enums\SortOptions.cs" />
     <Compile Include="Models\AllGamesViewModel.cs" />

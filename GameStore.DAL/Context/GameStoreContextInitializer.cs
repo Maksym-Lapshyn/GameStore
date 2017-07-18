@@ -1,5 +1,5 @@
-﻿using System;
-using GameStore.DAL.Entities;
+﻿using GameStore.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,6 +14,7 @@ namespace GameStore.DAL.Context
 			var platforms = context.PlatformTypes.ToList();
 			var publishers = context.Publishers.ToList();
 			var rnd = new Random();
+
 			for (var i = 0; i < 89; i++)
 			{
 				var game = new Game
