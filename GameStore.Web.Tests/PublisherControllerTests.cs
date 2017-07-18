@@ -16,6 +16,7 @@ namespace GameStore.Web.Tests
 		private Mock<IPublisherService> _mockOfPublisherService;
 		private PublisherController _target;
 		private List<PublisherDto> _publishers;
+		private const string InvalidString = "testtest";
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
 
@@ -48,7 +49,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void New_SendsPublisherToView_WhenModelStateIsInvalid()
 		{
-			_target.ModelState.AddModelError("test", "test");
+			_target.ModelState.AddModelError(InvalidString, InvalidString);
 
 			var result = ((ViewResult)_target.New(new PublisherViewModel())).Model;
 
@@ -66,7 +67,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void Show_SendsPublisherToView_WhenAnyCompanyNameIsPassed()
 		{
-			var result = ((ViewResult)_target.Show(string.Empty)).Model;
+			var result = ((ViewResult)_target.Show(InvalidString)).Model;
 
 			Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
 		}

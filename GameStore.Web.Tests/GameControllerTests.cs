@@ -19,8 +19,9 @@ namespace GameStore.Web.Tests
 		private Mock<IPublisherService> _mockOfPublisherService;
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
-		private const string ValidGameKey = "test";
-		private const int ValidGameId = 10;
+		private const string ValidString = "test";
+		private const string InvalidString = "testtest";
+		private const int ValidInt = 10;
 		private List<GameDto> _games;
 		private GameController _target;
 
@@ -34,8 +35,8 @@ namespace GameStore.Web.Tests
 			_target = new GameController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper);
 			_games = new List<GameDto>();
 			_mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>())).Callback<GameDto>(g => _games.Add(g));
-			_mockOfGameService.Setup(m => m.GetSingleBy(ValidGameKey)).Returns(new GameDto());
-			_mockOfGameService.Setup(m => m.Delete(ValidGameId)).Callback<int>(i => _games.RemoveAll(g => g.Id == i));
+			_mockOfGameService.Setup(m => m.GetSingleBy(ValidString)).Returns(new GameDto());
+			_mockOfGameService.Setup(m => m.Delete(ValidInt)).Callback<int>(i => _games.RemoveAll(g => g.Id == i));
 		}
 
 		[TestMethod]
@@ -57,7 +58,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void New_DoesNotCraeteGame_WhenModelStateIsInvalid()
 		{
-			_target.ModelState.AddModelError("test", "test");
+			_target.ModelState.AddModelError(InvalidString, InvalidString);
 
 			_target.New(new GameViewModel());
 
@@ -91,7 +92,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void Show_SendsGameToView_WhenValidGameKeyIsPassed()
 		{
-			var result = ((ViewResult)_target.Show(ValidGameKey)).Model;
+			var result = ((ViewResult)_target.Show(ValidString)).Model;
 
 			Assert.IsInstanceOfType(result, typeof(GameViewModel));
 		}
@@ -111,10 +112,10 @@ namespace GameStore.Web.Tests
 		{
 			_games = new List<GameDto>
 			{
-				new GameDto {Id = ValidGameId }
+				new GameDto {Id = ValidInt }
 			};
 
-			_target.Delete(ValidGameId);
+			_target.Delete(ValidInt);
 
 			Assert.IsTrue(_games.Count == 0);
 		}

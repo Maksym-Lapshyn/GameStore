@@ -28,6 +28,7 @@ namespace GameStore.Services.Tests
 		[TestInitialize]
 		public void Initialize()
 		{
+			Mapper.Initialize(cfg => cfg.CreateMap<IQueryable<Game>, IEnumerable<GameDto>>());
 			_mockOfUow = new Mock<IUnitOfWork>();
 			_target = new CommentService(_mockOfUow.Object, _mapper);
 			_mockOfUow.Setup(m => m.CommentRepository.Insert(It.IsAny<Comment>())).Callback<Comment>(c => _comments.Add(c));
@@ -113,9 +114,8 @@ namespace GameStore.Services.Tests
 			Assert.IsTrue(result == 3);
 		}
 
-		[ExpectedException(typeof(InvalidOperationException))]
 		[TestMethod]
-		public void GetBy_ThrowsException_WhenInValidGameKeyIsPassed()
+		public void GetBy_ReturnsNoComments_WhenInValidGameKeyIsPassed()
 		{
 			_comments = new List<Comment>
 			{
@@ -146,7 +146,9 @@ namespace GameStore.Services.Tests
 
 			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
 
-			_target.GetBy(InValidString);
+			var result = _target.GetBy(InValidString).ToList().Count;
+
+			Assert.IsTrue(result == 0);
 		}
 	}
 }

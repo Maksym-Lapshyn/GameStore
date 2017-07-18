@@ -9,7 +9,6 @@ namespace GameStore.Web.Infrastructure.Helpers
 		public static MvcHtmlString CreateCheckbox(this HtmlHelper helper, string propertyName, string name, int id, List<int> selectedItems)
 		{
 			var div = new TagBuilder("div");
-			div.InnerHtml += $"<label for={id}>" + name + "</label>";
 
 			if (selectedItems.Contains(id))
 			{
@@ -20,6 +19,8 @@ namespace GameStore.Web.Infrastructure.Helpers
 				div.InnerHtml += $"<input type='checkbox' id={id} name={propertyName} value={id} />";
 			}
 
+			div.InnerHtml += $"<label for={id}>" + name + "</label>";
+
 			return new MvcHtmlString(div.InnerHtml);
 		}
 
@@ -29,7 +30,6 @@ namespace GameStore.Web.Infrastructure.Helpers
 
 			foreach (var option in Enum.GetNames(dateOptions.GetType()))
 			{
-				div.InnerHtml += $"<label for={option}>" + option + "</label>";
 				if (option == dateOptions.ToString())
 				{
 					div.InnerHtml += $"<input type='radio' name={propertyName} value={option} checked />";
@@ -38,6 +38,8 @@ namespace GameStore.Web.Infrastructure.Helpers
 				{
 					div.InnerHtml += $"<input type='radio' name={propertyName} value={option} />";
 				}
+
+				div.InnerHtml += $"<label for={option}>" + option + "</label>";
 			}
 
 			return new MvcHtmlString(div.ToString());
