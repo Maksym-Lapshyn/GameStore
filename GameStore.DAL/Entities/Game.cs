@@ -18,8 +18,10 @@ namespace GameStore.DAL.Entities
 		[Column(TypeName = "MONEY")]
 		public decimal Price { get; set; }
 
+		[Column(TypeName="datetime2")]
 		public DateTime DateAdded { get; set; }
 
+		[Column(TypeName = "datetime2")]
 		public DateTime DatePublished { get; set; }
 
 		public int ViewsCount { get; set; }

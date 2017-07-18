@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.DTOs;
+using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Tests
 {
@@ -15,6 +17,8 @@ namespace GameStore.Services.Tests
 		private Mock<IUnitOfWork> _mockOfUow;
 		private PublisherService _target;
 		private List<Publisher> _publishers;
+		private readonly IMapper _mapper = new Mapper(
+			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private const int TestInt = 10;
 		private const string TestString = "test";
 
@@ -22,7 +26,7 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new PublisherService(_mockOfUow.Object);
+			_target = new PublisherService(_mockOfUow.Object, _mapper);
 		}
 
 		[TestMethod]
@@ -75,7 +79,7 @@ namespace GameStore.Services.Tests
 				new Publisher()
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(_publishers);
+			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(_publishers.AsQueryable);
 
 			var result = _target.GetAll().ToList().Count;
 
@@ -90,7 +94,7 @@ namespace GameStore.Services.Tests
 				CompanyName = TestString
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(new List<Publisher>{publisher});
+			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(new List<Publisher>{publisher}.AsQueryable);
 
 			var result = _target.GetSingleBy(TestString).CompanyName;
 

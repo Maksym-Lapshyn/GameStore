@@ -18,24 +18,28 @@ namespace GameStore.Services.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
+			var date = default(DateTime);
+
 			switch(_dateOption)
 			{
 				case DateOptions.LastWeek:
-					input = input.Where(g => (DateTime.UtcNow - g.DatePublished).Days < 7);
+					date = DateTime.UtcNow.AddDays(-7);
 					break;
 				case DateOptions.LastMonth:
-					input = input.Where(g => (DateTime.UtcNow - g.DatePublished).Days < 30);
+					date = DateTime.UtcNow.AddDays(-30);
 					break;
 				case DateOptions.LastYear:
-					input = input.Where(g => (DateTime.UtcNow - g.DatePublished).Days < 365);
+					date = DateTime.UtcNow.AddDays(-365);
 					break;
 				case DateOptions.TwoYears:
-					input = input.Where(g => (DateTime.UtcNow - g.DatePublished).Days < 730);
+					date = DateTime.UtcNow.AddDays(-730);
 					break;
 				case DateOptions.ThreeYears:
-					input = input.Where(g => (DateTime.UtcNow - g.DatePublished).Days < 1095);
+					date = DateTime.UtcNow.AddDays(-1095);
 					break;
 			}
+
+			input = input.Where(g => date <= g.DatePublished);
 
 			return input;
 		}

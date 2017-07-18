@@ -1,6 +1,6 @@
-﻿using GameStore.Services.Abstract;
+﻿using AutoMapper;
+using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using GameStore.Web.App_Start;
 using GameStore.Web.Controllers;
 using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,18 +14,17 @@ namespace GameStore.Web.Tests
 	public class CommentControllerTests
 	{
 		private Mock<ICommentService> _mockOfCommentService;
-		private Mock<IGameService> _mockOfGameService;
 		private CommentController _target;
-        private List<CommentDto> _comments;
-        private const string ValidGameKey = "test";
+		private List<CommentDto> _comments;
+		private readonly IMapper _mapper = new Mapper(
+			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+		private const string ValidGameKey = "test";
 
-        [TestInitialize]
+		[TestInitialize]
 		public void Initialize()
 		{
-			WebAutoMapperConfig.RegisterMappings();
 			_mockOfCommentService = new Mock<ICommentService>();
-			_mockOfGameService = new Mock<IGameService>();
-			_target = new CommentController(_mockOfCommentService.Object, _mockOfGameService.Object);
+			_target = new CommentController(_mockOfCommentService.Object, _mapper);
 		}
 
 		[TestMethod]
@@ -49,7 +48,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void ListAll_ReturnsViewResult_WhenAnyGameKeyIsPassed()
 		{
-            var result = _target.ListAll(string.Empty);
+			var result = _target.ListAll(string.Empty);
 
 			Assert.IsInstanceOfType(result, typeof(ViewResult));
 		}
@@ -57,16 +56,16 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void ListAll_SendsAllCommentsToView_WhenValidGameKeyIsPassed()
 		{
-            _comments = new List<CommentDto>
-            {
-                new CommentDto(),
-                new CommentDto()
-            };
+			_comments = new List<CommentDto>
+			{
+				new CommentDto(),
+				new CommentDto()
+			};
 
-            _mockOfCommentService.Setup(m => m.GetBy(ValidGameKey)).Returns(_comments);
+			_mockOfCommentService.Setup(m => m.GetBy(ValidGameKey)).Returns(_comments);
 
-            var model = ((ViewResult)_target.ListAll(ValidGameKey)).Model;
-            var result =  ((AllCommentsViewModel)model).Comments.Count;
+			var model = ((ViewResult)_target.ListAll(ValidGameKey)).Model;
+			var result = ((AllCommentsViewModel)model).Comments.Count;
 
 			Assert.IsTrue(result == 2);
 		}

@@ -6,8 +6,6 @@ using GameStore.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.Services.Enums;
-using GameStore.Services.Filters;
 
 namespace GameStore.Services.Concrete
 {
@@ -79,7 +77,8 @@ namespace GameStore.Services.Concrete
 
 			if (filter != null)
 			{
-				ApplyFilter(filter);
+				var filterMapper = new FilterMapper();
+				filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				games = _pipeline.Process(games);
 			}
 
@@ -109,46 +108,6 @@ namespace GameStore.Services.Concrete
 			var gameDtOs = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(matchedGames);
 
 			return gameDtOs;
-		}
-
-		private void ApplyFilter(FilterDto model)
-		{
-			if (model.GenresInput.Count != 0)
-			{
-				_pipeline.Register(new GenreFilter(model.GenresInput));
-			}
-
-			if (model.PlatformTypesInput.Count != 0)
-			{
-				_pipeline.Register(new PlatformTypeFilter(model.PlatformTypesInput));
-			}
-
-			if (model.PublishersInput.Count != 0)
-			{
-				_pipeline.Register(new PublisherFilter(model.PublishersInput));
-			}
-
-			if (model.MinPrice != default(decimal))
-			{
-				_pipeline.Register(new MinPriceFilter(model.MinPrice));
-			}
-
-			if (model.MaxPrice != default(decimal))
-			{
-				_pipeline.Register(new MaxPriceFilter(model.MaxPrice));
-			}
-
-			if (model.DateOptions != DateOptions.None)
-			{
-				_pipeline.Register(new DateOptionsFilter(model.DateOptions));
-			}
-
-			if (model.GameName != null)
-			{
-				_pipeline.Register(new GameNameFilter(model.GameName));
-			}
-
-			_pipeline.Register(new SortOptionsFilter(model.SortOptions));
 		}
 
 		private void Map(GameDto input, Game result)
