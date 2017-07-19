@@ -3,7 +3,7 @@ using System.Web.Routing;
 
 namespace GameStore.Web
 {
-	public class RouteConfig
+	public class RouteConfig //TODO Consider: Add Default route, //TODO Consider: reduce routes amount
 	{
 		public static void RegisterRoutes(RouteCollection routes)
 		{

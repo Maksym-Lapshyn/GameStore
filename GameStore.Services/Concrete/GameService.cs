@@ -77,7 +77,7 @@ namespace GameStore.Services.Concrete
 
 			if (filter != null)
 			{
-				var filterMapper = new FilterMapper();
+				var filterMapper = new FilterMapper(); //TODO Required: Use DI
 				filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				games = _pipeline.Process(games);
 			}

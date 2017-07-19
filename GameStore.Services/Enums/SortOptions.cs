@@ -5,8 +5,8 @@
 		None,
 		MostViewed,
 		MostCommented,
-		PriceAsc,
-		PriceDesc,
+		PriceAsc, //TODO Consider: use full name (ascending)
+		PriceDesc, //TODO Consider: //TODO: use full name (descending)
 		DateAdded
 	}
 }

@@ -20,7 +20,7 @@
 
 	if (comment.ChildComments.Count != 0)
 	{
-		{ Html.RenderPartial("ListAllChilds", comment.ChildComments); };
+		{ Html.RenderPartial("ListAllChilds", comment.ChildComments); }; //TODO Required: Redundant '{};'
 	}
 }
 

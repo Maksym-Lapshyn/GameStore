@@ -18,7 +18,7 @@ namespace GameStore.Web.Models
 
 		public int TotalPages { get; set; }
 
-		public AllGamesViewModel()
+		public AllGamesViewModel() //TODO Required: Move to top
 		{
 			Games = new List<GameViewModel>();
 		}

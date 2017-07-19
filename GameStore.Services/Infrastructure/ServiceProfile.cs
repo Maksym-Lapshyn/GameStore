@@ -12,7 +12,7 @@ namespace GameStore.Services.Infrastructure
 		{
 			CreateMap<GameDto, Game>();
 
-			CreateMap<Game, GameDto>()
+			CreateMap<Game, GameDto>() //TODO Suggestion: use more meaningful variables instead of d,o,e
 				.ForMember(d => d.PlatformTypesData, o => o.MapFrom(e => e.PlatformTypes))
 				.ForMember(d => d.GenresData, o => o.MapFrom(e => e.Genres))
 				.ForMember(d => d.CommentsCount, o => o.MapFrom(e => e.Comments.Count))

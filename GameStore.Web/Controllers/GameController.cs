@@ -17,8 +17,8 @@ namespace GameStore.Web.Controllers
 		private readonly IPlatformTypeService _platformTypeService;
 		private readonly IPublisherService _publisherService;
 		private readonly IMapper _mapper;
-		private static FilterViewModel _filterState;
-		private const int DefaultPageSize = 10;
+		private static FilterViewModel _filterState;  // TODO Required: Move static after constants
+		private const int DefaultPageSize = 10; //TODO Required: Move constants to top
 		private const int DefaultPage = 1;
 
 		public GameController(IGameService gameService,
@@ -83,22 +83,22 @@ namespace GameStore.Web.Controllers
 		{
 			int itemsToSkip, itemsToTake;
 
-			if (!ModelState.IsValidField("Filter.GameName") && model.FilterIsChanged)
+			if (!ModelState.IsValidField("Filter.GameName") && model.FilterIsChanged) //TODO Required: Don't validate fields separately. You should validate all model
 			{
 				model.FilterIsChanged = false;
 				model.Filter.PlatformTypesData = MapPlatformTypes();
 				model.Filter.GenresData = MapGenres();
 				model.Filter.PublishersData = MapPublishers();
-				itemsToSkip = (model.PageSize * (model.CurrentPage - 1));
+				itemsToSkip = (model.PageSize * (model.CurrentPage - 1)); //TODO Required: Remove useless '()'
 				itemsToTake = model.PageSize;
 				model.Games = MapGames(_filterState, itemsToSkip, itemsToTake);
 
 				return View(model);
 			}
 
-			if (!ModelState.IsValidField("Filter.GameName") && !model.FilterIsChanged)
+			if (!ModelState.IsValidField("Filter.GameName") && !model.FilterIsChanged) //TODO Required: Don't validate fields separately. You should validate all model
 			{
-				ModelState.Clear();
+				ModelState.Clear(); //TODO: Why do you need clear ModelState if you don't use it below?
 			}
 
 			if (model.Filter == null)
@@ -115,7 +115,7 @@ namespace GameStore.Web.Controllers
 				{
 					_filterState = model.Filter;
 					model.CurrentPage = DefaultPage;
-					model.TotalItems = MapGames(_filterState).Count;
+					model.TotalItems = MapGames(_filterState).Count; // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
 					model.FilterIsChanged = false;
 				}
 			}
@@ -142,7 +142,7 @@ namespace GameStore.Web.Controllers
 		[OutputCache(Duration = 60)]
 		public ActionResult ShowCount()
 		{
-			var games = _gameService.GetAll();
+			var games = _gameService.GetAll(); // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
 			var count = games.Count();
 
 			return PartialView(count);
@@ -160,7 +160,8 @@ namespace GameStore.Web.Controllers
 
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
-
+		//TODO Consider: Move private methods to separate Mapper class.
+		//TODO: Required: You can't give a method name 'Map....' and invoke service method inside. (stick to this signatures: Type1 Map(Type2), Type1 Get(params/no params))
 		private List<GameViewModel> MapGames(FilterViewModel filter = null, int? itemsToSkip = null, int? itemsToTake = null)
 		{
 			if (filter != null)

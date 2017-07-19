@@ -15,7 +15,7 @@ namespace GameStore.Services.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
-			input = input.Where(g => g.Price < _maxPrice);
+			input = input.Where(g => g.Price < _maxPrice); //TODO Consider: simplify to 'return input.Where....'
 
 			return input;
 		}

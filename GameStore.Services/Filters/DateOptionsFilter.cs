@@ -18,9 +18,9 @@ namespace GameStore.Services.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
-			var date = default(DateTime);
+			var date = default(DateTime); //TODO Consider: Initialize with DateTime.UtcNow and change code below to date = date.AddDays(val);
 
-			switch(_dateOption)
+			switch (_dateOption)
 			{
 				case DateOptions.LastWeek:
 					date = DateTime.UtcNow.AddDays(-7);
@@ -39,7 +39,7 @@ namespace GameStore.Services.Filters
 					break;
 			}
 
-			input = input.Where(g => date <= g.DatePublished);
+			input = input.Where(g => date <= g.DatePublished); //TODO Consider: simplify to 'return input.Where....'
 
 			return input;
 		}

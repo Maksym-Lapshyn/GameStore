@@ -38,7 +38,7 @@ namespace GameStore.Web.Models
 		[DisplayName("Name")]
 		public string GameName { get; set; }
 
-		public FilterViewModel()
+		public FilterViewModel() //TODO Required: Move to top
 		{
 			GenresData = new List<GenreViewModel>();
 			GenresInput = new List<int>();

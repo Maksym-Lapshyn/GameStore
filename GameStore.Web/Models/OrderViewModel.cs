@@ -13,7 +13,7 @@ namespace GameStore.Web.Models
 
 		public List<OrderDetailsViewModel> OrderDetails { get; set; }
 
-		public OrderViewModel()
+		public OrderViewModel() //TODO Required: Move to top
 		{
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}

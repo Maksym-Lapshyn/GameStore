@@ -27,7 +27,7 @@ namespace GameStore.DAL.Concrete
 
 		public IRepository<Order> OrderRepository => _orderRepository.Value;
 
-		public UnitOfWork(GameStoreContext context)
+		public UnitOfWork(GameStoreContext context) //TODO Required: Move to top
 		{
 	        _context = context;
 			_gameRepository = new Lazy<IRepository<Game>>(() => new GenericRepository<Game>(_context));

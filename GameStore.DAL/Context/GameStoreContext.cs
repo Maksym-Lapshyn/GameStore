@@ -19,7 +19,7 @@ namespace GameStore.DAL.Context
 
 		public DbSet<OrderDetails> OrderDetails { get; set; }
 
-		public GameStoreContext(string connectionString)
+		public GameStoreContext(string connectionString) //TODO Required: Move to top
 			: base(connectionString)
 		{
 		}

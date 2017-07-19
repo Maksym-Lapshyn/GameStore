@@ -16,7 +16,7 @@ namespace GameStore.Services.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
-			input = input.Where(g => g.PlatformTypes.Select(p => p.Id).Intersect(_platformTypeIds).Any());
+			input = input.Where(g => g.PlatformTypes.Select(p => p.Id).Intersect(_platformTypeIds).Any()); //TODO Consider: simplify to 'return input.Where....'
 
 			return input;
 		}

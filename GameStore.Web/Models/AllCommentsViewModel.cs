@@ -10,7 +10,7 @@ namespace GameStore.Web.Models
 
 		public List<CommentViewModel> Comments { get; set; }
 
-		public AllCommentsViewModel()
+		public AllCommentsViewModel() //TODO Required: Move to top
 		{
 			Comments = new List<CommentViewModel>();
 		}
