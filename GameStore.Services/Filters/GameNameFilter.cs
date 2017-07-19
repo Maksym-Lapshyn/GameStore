@@ -15,9 +15,7 @@ namespace GameStore.Services.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
-			input = input.Where(g => g.Name.Contains(_gameName)); //TODO Consider: simplify to 'return input.Where....'
-
-			return input;
+			return input.Where(g => g.Name.Contains(_gameName)); //TODO Consider: simplify to 'return input.Where....'
 		}
 	}
 }

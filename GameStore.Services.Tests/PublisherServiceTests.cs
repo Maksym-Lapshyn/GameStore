@@ -14,13 +14,13 @@ namespace GameStore.Services.Tests
 	[TestClass]
 	public class PublisherServiceTests
 	{
+		private const int TestInt = 10;
+		private const string TestString = "test";
+		private readonly IMapper _mapper = new Mapper(
+			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private Mock<IUnitOfWork> _mockOfUow;
 		private PublisherService _target;
 		private List<Publisher> _publishers;
-		private readonly IMapper _mapper = new Mapper(
-			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
-		private const int TestInt = 10;
-		private const string TestString = "test";
 
 		[TestInitialize]
 		public void Initialize()
@@ -39,7 +39,7 @@ namespace GameStore.Services.Tests
 			_target.Create(new PublisherDto());
 			var result = _publishers.Count;
 
-			Assert.IsTrue(result == 1);
+			Assert.Equals(result, 1);
 		}
 
 		[TestMethod]
@@ -66,7 +66,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetSingleBy(TestInt).Id;
 
-			Assert.IsTrue(result == TestInt);
+			Assert.Equals(result, TestInt);
 		}
 
 		[TestMethod]
@@ -83,7 +83,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetAll().ToList().Count;
 
-			Assert.IsTrue(result == 3);
+			Assert.Equals(result, 3);
 		}
 
 		[TestMethod]
@@ -98,7 +98,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetSingleBy(TestString).CompanyName;
 
-			Assert.IsTrue(result == TestString);
+			Assert.Equals(result, TestString);
 		}
 	}
 }

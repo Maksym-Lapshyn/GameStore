@@ -14,12 +14,17 @@ namespace GameStore.Services.Concrete
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IPipeline<IQueryable<Game>> _pipeline;
+		private readonly IFilterMapper _filterMapper;
 
-		public GameService(IUnitOfWork unitOfWork, IMapper mapper, IPipeline<IQueryable<Game>> pipeline)
+		public GameService(IUnitOfWork unitOfWork,
+			IMapper mapper,
+			IPipeline<IQueryable<Game>> pipeline,
+			IFilterMapper filterMapper)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_pipeline = pipeline;
+			_filterMapper = filterMapper;
 		}
 
 		public void Create(GameDto gameDto)
@@ -77,8 +82,8 @@ namespace GameStore.Services.Concrete
 
 			if (filter != null)
 			{
-				var filterMapper = new FilterMapper(); //TODO Required: Use DI
-				filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
+				//TODO Required: Use DI
+				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				games = _pipeline.Process(games);
 			}
 

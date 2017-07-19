@@ -1,12 +1,22 @@
-﻿using GameStore.Web.Models.Enums;
+﻿using GameStore.Services.Enums;
+using GameStore.Web.Infrastructure.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
-using GameStore.Web.Infrastructure.Attributes;
 
 namespace GameStore.Web.Models
 {
 	public class FilterViewModel
 	{
+		public FilterViewModel() //TODO Required: Move to top
+		{
+			GenresData = new List<GenreViewModel>();
+			GenresInput = new List<int>();
+			PlatformTypesData = new List<PlatformTypeViewModel>();
+			PlatformTypesInput = new List<int>();
+			PublishersData = new List<PublisherViewModel>();
+			PublishersInput = new List<int>();
+		}
+
 		[DisplayName("Genres")]
 		public List<GenreViewModel> GenresData { get; set; }
 
@@ -37,15 +47,5 @@ namespace GameStore.Web.Models
 		[RequiredLengthIfNotNull(3)]
 		[DisplayName("Name")]
 		public string GameName { get; set; }
-
-		public FilterViewModel() //TODO Required: Move to top
-		{
-			GenresData = new List<GenreViewModel>();
-			GenresInput = new List<int>();
-			PlatformTypesData = new List<PlatformTypeViewModel>();
-			PlatformTypesInput = new List<int>();
-			PublishersData = new List<PublisherViewModel>();
-			PublishersInput = new List<int>();
-		}
 	}
 }

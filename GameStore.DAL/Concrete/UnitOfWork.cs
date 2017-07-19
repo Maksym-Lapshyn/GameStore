@@ -15,6 +15,17 @@ namespace GameStore.DAL.Concrete
 		private readonly Lazy<IRepository<Genre>> _genreRepository;
 		private readonly Lazy<IRepository<Order>> _orderRepository;
 
+		public UnitOfWork(GameStoreContext context) //TODO Required: Move to top
+		{
+			_context = context;
+			_gameRepository = new Lazy<IRepository<Game>>(() => new GenericRepository<Game>(_context));
+			_commentRepository = new Lazy<IRepository<Comment>>(() => new GenericRepository<Comment>(_context));
+			_publisherRepository = new Lazy<IRepository<Publisher>>(() => new GenericRepository<Publisher>(_context));
+			_platformTypeRepository = new Lazy<IRepository<PlatformType>>(() => new GenericRepository<PlatformType>(_context));
+			_genreRepository = new Lazy<IRepository<Genre>>(() => new GenericRepository<Genre>(_context));
+			_orderRepository = new Lazy<IRepository<Order>>(() => new GenericRepository<Order>(_context));
+		}
+
 		public IRepository<Game> GameRepository => _gameRepository.Value;
 
 		public IRepository<Comment> CommentRepository => _commentRepository.Value;
@@ -26,17 +37,6 @@ namespace GameStore.DAL.Concrete
 		public IRepository<PlatformType> PlatformTypeRepository => _platformTypeRepository.Value;
 
 		public IRepository<Order> OrderRepository => _orderRepository.Value;
-
-		public UnitOfWork(GameStoreContext context) //TODO Required: Move to top
-		{
-	        _context = context;
-			_gameRepository = new Lazy<IRepository<Game>>(() => new GenericRepository<Game>(_context));
-			_commentRepository = new Lazy<IRepository<Comment>>(() => new GenericRepository<Comment>(_context));
-			_publisherRepository = new Lazy<IRepository<Publisher>>(() => new GenericRepository<Publisher>(_context));
-			_platformTypeRepository = new Lazy<IRepository<PlatformType>>(() => new GenericRepository<PlatformType>(_context));
-			_genreRepository = new Lazy<IRepository<Genre>>(() => new GenericRepository<Genre>(_context));
-			_orderRepository = new Lazy<IRepository<Order>>(() => new GenericRepository<Order>(_context));
-		}
 
 		public void Save()
 		{

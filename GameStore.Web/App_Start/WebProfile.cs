@@ -23,10 +23,6 @@ namespace GameStore.Web
 			CreateMap<OrderDetailsDto, OrderDetailsViewModel>().ReverseMap();
 
 			CreateMap<FilterDto, FilterViewModel>().ReverseMap();
-
-			CreateMap<Services.Enums.DateOptions, Models.Enums.DateOptions>().ReverseMap();
-
-			CreateMap<Services.Enums.SortOptions, Models.Enums.SortOptions>().ReverseMap();
 		}
 	}
 }

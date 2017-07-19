@@ -15,13 +15,15 @@ namespace GameStore.Services.Tests
 	[TestClass]
 	public class GameServiceTests
 	{
-		private Mock<IUnitOfWork> _mockOfUow;
+		private const int TestInt = 10;
+		private const string ValidString = "test";
+		private const string InvalidString = "testtest";
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private readonly IPipeline<IQueryable<Game>> _pipeline = new GamePipeline();
+		private Mock<IUnitOfWork> _mockOfUow;
+		private readonly IFilterMapper _filterMapper = new GameFilterMapper();
 		private GameService _target;
-		private const int TestInt = 10;
-		private const string TestString = "test";
 		private List<Game> _games;
 
 		[TestInitialize]
@@ -32,7 +34,7 @@ namespace GameStore.Services.Tests
 			_mockOfUow.Setup(m => m.PublisherRepository.Get(It.IsAny<int>())).Returns(new Publisher());
 			_mockOfUow.Setup(m => m.PlatformTypeRepository.Get(It.IsAny<int>())).Returns(new PlatformType());
 			_mockOfUow.Setup(m => m.GenreRepository.Get(It.IsAny<int>())).Returns(new Genre());
-			_target = new GameService(_mockOfUow.Object, _mapper, _pipeline);
+			_target = new GameService(_mockOfUow.Object, _mapper, _pipeline, _filterMapper);
 		}
 
 		[TestMethod]
@@ -43,7 +45,7 @@ namespace GameStore.Services.Tests
 
 			_target.Create(new GameDto());
 
-			Assert.IsTrue(_games.Count == 1);
+			Assert.Equals(_games.Count, 1);
 		}
 
 		[TestMethod]
@@ -61,7 +63,7 @@ namespace GameStore.Services.Tests
 		{
 			_games = new List<Game>
 			{
-				new Game { Id = TestInt, Name = TestString }
+				new Game { Id = TestInt, Name = ValidString }
 			};
 
 			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
@@ -69,12 +71,12 @@ namespace GameStore.Services.Tests
 			_target.Edit(new GameDto
 			{
 				Id = TestInt,
-				Name = "testtest"
+				Name = InvalidString
 			});
 
 			var result = _games.First().Name;
 
-			Assert.IsTrue(result == "testtest");
+			Assert.Equals(result, InvalidString);
 		}
 
 		[TestMethod]
@@ -117,14 +119,14 @@ namespace GameStore.Services.Tests
 		{
 			_games = new List<Game>
 			{
-				new Game {Id = TestInt, Name = TestString }
+				new Game {Id = TestInt, Name = ValidString }
 			};
 
 			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
 
 			var result = _target.GetSingleBy(TestInt).Name;
 
-			Assert.IsTrue(result == TestString);
+			Assert.Equals(result, ValidString);
 		}
 
 		[TestMethod]
@@ -132,14 +134,14 @@ namespace GameStore.Services.Tests
 		{
 			_games = new List<Game>
 			{
-				new Game {Id = TestInt, Key = TestString }
+				new Game {Id = TestInt, Key = ValidString }
 			};
 
 			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
 
-			var result = _target.GetSingleBy(TestString).Key;
+			var result = _target.GetSingleBy(ValidString).Key;
 
-			Assert.IsTrue(result == TestString);
+			Assert.Equals(result, ValidString);
 		}
 
 		[TestMethod]
@@ -156,7 +158,7 @@ namespace GameStore.Services.Tests
 
 			var games = _target.GetAll().ToList();
 
-			Assert.IsTrue(games.Count == 3);
+			Assert.Equals(games.Count, 3);
 		}
 
 		[TestMethod]
@@ -164,16 +166,16 @@ namespace GameStore.Services.Tests
 		{
 			_games = new List<Game>
 			{
-				new Game {Genres = new List<Genre> {new Genre {Name = TestString } } },
-				new Game {Genres = new List<Genre> {new Genre {Name = TestString } } },
-				new Game {Genres = new List<Genre> {new Genre {Name = TestString } } }
+				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } },
+				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } },
+				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } }
 			};
 
 			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
 
-			var result = _target.GetBy(TestString).ToList().Count;
+			var result = _target.GetBy(ValidString).ToList().Count;
 
-			Assert.IsTrue(result == 3);
+			Assert.Equals(result, 3);
 		}
 
 		[TestMethod]
@@ -181,16 +183,16 @@ namespace GameStore.Services.Tests
 		{
 			_games = new List<Game>
 			{
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = TestString } } },
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = TestString } } },
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = TestString } } }
+				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } },
+				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } },
+				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } }
 			};
 
 			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
 
-			var result = _target.GetBy(new List<string> { TestString }).ToList().Count;
+			var result = _target.GetBy(new List<string> { ValidString }).ToList().Count;
 
-			Assert.IsTrue(result == 3);
+			Assert.Equals(result, 3);
 		}
 	}
 }

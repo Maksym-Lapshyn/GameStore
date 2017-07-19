@@ -13,10 +13,10 @@ namespace GameStore.Services.Infrastructure
 			CreateMap<GameDto, Game>();
 
 			CreateMap<Game, GameDto>() //TODO Suggestion: use more meaningful variables instead of d,o,e
-				.ForMember(d => d.PlatformTypesData, o => o.MapFrom(e => e.PlatformTypes))
-				.ForMember(d => d.GenresData, o => o.MapFrom(e => e.Genres))
-				.ForMember(d => d.CommentsCount, o => o.MapFrom(e => e.Comments.Count))
-				.ForMember(d => d.PublishersData, o => o.MapFrom(e => new List<PublisherDto> { Mapper.Map<Publisher, PublisherDto>(e.Publisher) }));
+				.ForMember(dto => dto.PlatformTypesData, options => options.MapFrom(entity => entity.PlatformTypes))
+				.ForMember(dto => dto.GenresData, options => options.MapFrom(entity => entity.Genres))
+				.ForMember(dto => dto.CommentsCount, options => options.MapFrom(entity => entity.Comments.Count))
+				.ForMember(dto => dto.PublishersData, option => option.MapFrom(entity => new List<PublisherDto> { Mapper.Map<Publisher, PublisherDto>(entity.Publisher) }));
 
 			CreateMap<CommentDto, Comment>();
 

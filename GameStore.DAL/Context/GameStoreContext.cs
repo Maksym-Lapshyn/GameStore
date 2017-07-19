@@ -5,6 +5,11 @@ namespace GameStore.DAL.Context
 {
 	public class GameStoreContext : DbContext
 	{
+		public GameStoreContext(string connectionString) //TODO Required: Move to top
+		: base(connectionString)
+		{
+		}
+
 		public DbSet<Game> Games { get; set; }
 
 		public DbSet<Comment> Comments { get; set; }
@@ -18,11 +23,6 @@ namespace GameStore.DAL.Context
 		public DbSet<Order> Orders { get; set; }
 
 		public DbSet<OrderDetails> OrderDetails { get; set; }
-
-		public GameStoreContext(string connectionString) //TODO Required: Move to top
-			: base(connectionString)
-		{
-		}
 
 		static GameStoreContext()
 		{

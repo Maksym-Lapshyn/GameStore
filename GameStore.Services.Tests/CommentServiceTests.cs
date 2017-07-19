@@ -14,16 +14,16 @@ namespace GameStore.Services.Tests
 	[TestClass]
 	public class CommentServiceTests
 	{
+		private const int TestInt = 10;
+		private const string ValidString = "test";
+		private const string InValidString = "testtest";
+		private readonly IMapper _mapper = new Mapper(
+			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private Mock<IUnitOfWork> _mockOfUow;
 		private CommentService _target;
 		private List<Comment> _comments;
 		private List<Game> _games;
-		private readonly IMapper _mapper = new Mapper(
-			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
-		private const int TestInt = 10;
-		private const string ValidString = "test";
-		private const string InValidString = "testtest";
-
+		
 		[TestInitialize]
 		public void Initialize()
 		{
@@ -43,7 +43,7 @@ namespace GameStore.Services.Tests
 
 			_target.Create(new CommentDto { GameId = TestInt });
 
-			Assert.IsTrue(_comments.Count == 1);
+			Assert.Equals(_comments.Count, 1);
 		}
 
 		[TestMethod]
@@ -73,7 +73,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetAll().ToList().Count;
 
-			Assert.IsTrue(result == 3);
+			Assert.Equals(result, 3);
 		}
 
 		[TestMethod]
@@ -110,7 +110,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetBy(ValidString).ToList().Count;
 
-			Assert.IsTrue(result == 3);
+			Assert.Equals(result, 3);
 		}
 
 		[TestMethod]
@@ -147,7 +147,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetBy(InValidString).ToList().Count;
 
-			Assert.IsTrue(result == 0);
+			Assert.Equals(result, 0);
 		}
 	}
 }

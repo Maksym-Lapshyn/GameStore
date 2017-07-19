@@ -1,7 +1,7 @@
-﻿using GameStore.Services.Abstract;
+﻿using GameStore.DAL.Entities;
+using GameStore.Services.Abstract;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Entities;
 
 namespace GameStore.Services.Filters
 {
@@ -16,9 +16,7 @@ namespace GameStore.Services.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
-			input = input.Where(g => _publisherIds.Contains(g.PublisherId.Value)); //TODO Consider: simplify to 'return input.Where....'
-
-			return input;
+			return input.Where(g => _publisherIds.Contains(g.PublisherId.Value)); //TODO Consider: simplify to 'return input.Where....'
 		}
 	}
 }

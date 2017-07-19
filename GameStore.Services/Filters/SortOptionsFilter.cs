@@ -18,10 +18,10 @@ namespace GameStore.Services.Filters
 		{
 			switch (_sortOption)
 			{
-				case SortOptions.PriceAsc:
+				case SortOptions.PriceAscending:
 					input = input.OrderBy(g => g.Price);
 					break;
-				case SortOptions.PriceDesc:
+				case SortOptions.PriceDescending:
 					input = input.OrderByDescending(g => g.Price);
 					break;
 				case SortOptions.DateAdded:

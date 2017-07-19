@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
-	public class FilterMapper
+	public class GameFilterMapper : IFilterMapper
 	{
 		private readonly List<IFilter<IQueryable<Game>>> _filters = new List<IFilter<IQueryable<Game>>>();
 

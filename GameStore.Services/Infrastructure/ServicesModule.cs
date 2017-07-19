@@ -23,6 +23,7 @@ namespace GameStore.Services.Infrastructure
 			Bind<GameStoreContext>().ToSelf().WithConstructorArgument(_connectionString);
 			Bind<IUnitOfWork>().To<UnitOfWork>();
 			Bind<IPipeline<IQueryable<Game>>>().To<GamePipeline>();
+			Bind<IFilterMapper>().To<GameFilterMapper>();
 		}
 	}
 }

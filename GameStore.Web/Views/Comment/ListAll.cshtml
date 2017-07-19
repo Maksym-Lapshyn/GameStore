@@ -20,8 +20,11 @@
 
 	if (comment.ChildComments.Count != 0)
 	{
-		{ Html.RenderPartial("ListAllChilds", comment.ChildComments); }; //TODO Required: Redundant '{};'
+		Html.RenderPartial("ListAllChilds", comment.ChildComments); //TODO Required: Redundant '{};'
 	}
 }
 
 @{Html.RenderPartial("New", new CommentViewModel { GameKey = Model.GameKey, GameId = Model.GameId });}
+
+@section Scripts
+{<script src="~/Scripts/scripts.js"></script>}

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Abstract\ICommentService.cs" />
     <Compile Include="Abstract\IFilter.cs" />
+    <Compile Include="Abstract\IFilterMapper.cs" />
     <Compile Include="Abstract\IGameService.cs" />
     <Compile Include="Abstract\IGenreService.cs" />
     <Compile Include="Abstract\IOrderService.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="Abstract\IPublisherService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
     <Compile Include="Concrete\GamePipeline.cs" />
-    <Compile Include="Concrete\FilterMapper.cs" />
+    <Compile Include="Concrete\GameFilterMapper.cs" />
     <Compile Include="Concrete\GameService.cs" />
     <Compile Include="Filters\DateOptionsFilter.cs" />
     <Compile Include="Filters\GameNameFilter.cs" />

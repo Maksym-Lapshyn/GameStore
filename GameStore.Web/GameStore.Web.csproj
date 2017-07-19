@@ -120,6 +120,7 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\scripts.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -146,8 +147,6 @@
     <Compile Include="Infrastructure\Helpers\CustomHelpers.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
-    <Compile Include="Models\Enums\DateOptions.cs" />
-    <Compile Include="Models\Enums\SortOptions.cs" />
     <Compile Include="Models\AllGamesViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FilterViewModel.cs" />
@@ -182,7 +181,6 @@
     <Content Include="Views\Comment\ListAllChilds.cshtml" />
     <Content Include="Views\Game\ListAll.cshtml" />
     <Content Include="Views\Game\Filter.cshtml" />
-    <Content Include="Views\Shared\Folder\CheckBoxListItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

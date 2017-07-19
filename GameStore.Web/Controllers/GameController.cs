@@ -12,14 +12,14 @@ namespace GameStore.Web.Controllers
 {
 	public class GameController : Controller
 	{
+		private const int DefaultPageSize = 10; //TODO Required: Move constants to top
+		private const int DefaultPage = 1;
+		private static FilterViewModel _filterState;  // TODO Required: Move static after constants
 		private readonly IGameService _gameService;
 		private readonly IGenreService _genreService;
 		private readonly IPlatformTypeService _platformTypeService;
 		private readonly IPublisherService _publisherService;
 		private readonly IMapper _mapper;
-		private static FilterViewModel _filterState;  // TODO Required: Move static after constants
-		private const int DefaultPageSize = 10; //TODO Required: Move constants to top
-		private const int DefaultPage = 1;
 
 		public GameController(IGameService gameService,
 			IGenreService genreService,
@@ -89,7 +89,7 @@ namespace GameStore.Web.Controllers
 				model.Filter.PlatformTypesData = MapPlatformTypes();
 				model.Filter.GenresData = MapGenres();
 				model.Filter.PublishersData = MapPublishers();
-				itemsToSkip = (model.PageSize * (model.CurrentPage - 1)); //TODO Required: Remove useless '()'
+				itemsToSkip = model.PageSize * (model.CurrentPage - 1); //TODO Required: Remove useless '()'
 				itemsToTake = model.PageSize;
 				model.Games = MapGames(_filterState, itemsToSkip, itemsToTake);
 

@@ -1,22 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Tests
 {
 	[TestClass]
 	public class GenreServiceTests
 	{
-		private Mock<IUnitOfWork> _unitOfUow;
-		private GenreService _target;
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+		private Mock<IUnitOfWork> _unitOfUow;
+		private GenreService _target;
 		private List<Genre> _genres;
 
 		[TestInitialize]
@@ -40,7 +40,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetAll().ToList().Count;
 
-			Assert.IsTrue(result == 3);
+			Assert.Equals(result, 3);
 		}
 	}
 }
