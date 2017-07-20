@@ -1,10 +1,9 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -39,9 +38,9 @@ namespace GameStore.Web.Controllers
 		{
 			var gameViewModel = new GameViewModel
 			{
-				GenresData = MapGenres(),
-				PlatformTypesData = MapPlatformTypes(),
-				PublishersData = MapPublishers()
+				GenresData = GetGenres(),
+				PlatformTypesData = GetPlatformTypes(),
+				PublishersData = GetPublishers()
 			};
 
 			return View(gameViewModel);
@@ -82,31 +81,33 @@ namespace GameStore.Web.Controllers
 		public ActionResult ListAll(AllGamesViewModel model)
 		{
 			int itemsToSkip, itemsToTake;
-
-			if (!ModelState.IsValidField("Filter.GameName") && model.FilterIsChanged) //TODO Required: Don't validate fields separately. You should validate all model
+ 
+			if(!ModelState.IsValid && model.FilterIsChanged)//TODO Required: Don't validate fields separately. You should validate all model
 			{
 				model.FilterIsChanged = false;
-				model.Filter.PlatformTypesData = MapPlatformTypes();
-				model.Filter.GenresData = MapGenres();
-				model.Filter.PublishersData = MapPublishers();
+				model.Filter.PlatformTypesData = GetPlatformTypes();
+				model.Filter.GenresData = GetGenres();
+				model.Filter.PublishersData = GetPublishers();
 				itemsToSkip = model.PageSize * (model.CurrentPage - 1); //TODO Required: Remove useless '()'
 				itemsToTake = model.PageSize;
-				model.Games = MapGames(_filterState, itemsToSkip, itemsToTake);
+				model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
 
 				return View(model);
 			}
 
-			if (!ModelState.IsValidField("Filter.GameName") && !model.FilterIsChanged) //TODO Required: Don't validate fields separately. You should validate all model
+			if (!ModelState.IsValid && !model.FilterIsChanged) //TODO Required: Don't validate fields separately. You should validate all model
 			{
 				ModelState.Clear(); //TODO: Why do you need clear ModelState if you don't use it below?
-			}
+			}   //If I remove this line, I will see validation error for GameName every time I change it,
+				//do do not apply filter and move to another changePage, which is not a very user-friendly behaviour
 
 			if (model.Filter == null)
 			{
 				model.Filter = new FilterViewModel();
 				model.CurrentPage = DefaultPage;
 				model.PageSize = DefaultPageSize;
-				model.TotalItems = MapGames().Count;
+				model.TotalItems = _gameService.GetCount();
+				model = UpdatePagination(model);
 				_filterState = model.Filter;
 			}
 			else
@@ -115,18 +116,20 @@ namespace GameStore.Web.Controllers
 				{
 					_filterState = model.Filter;
 					model.CurrentPage = DefaultPage;
-					model.TotalItems = MapGames(_filterState).Count; // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
+					model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(_filterState)); // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
+					model = UpdatePagination(model);
 					model.FilterIsChanged = false;
 				}
 			}
 
 			model.TotalPages = (int)Math.Ceiling((decimal)model.TotalItems / model.PageSize);
-			itemsToSkip = (model.PageSize * (model.CurrentPage - 1));
+			model = UpdatePagination(model);
+			itemsToSkip = model.PageSize * (model.CurrentPage - 1);
 			itemsToTake = model.PageSize;
-			model.Games = MapGames(_filterState, itemsToSkip, itemsToTake);
-			model.Filter.PlatformTypesData = MapPlatformTypes();
-			model.Filter.GenresData = MapGenres();
-			model.Filter.PublishersData = MapPublishers();
+			model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
+			model.Filter.PlatformTypesData = GetPlatformTypes();
+			model.Filter.GenresData = GetGenres();
+			model.Filter.PublishersData = GetPublishers();
 
 			return View(model);
 		}
@@ -142,8 +145,7 @@ namespace GameStore.Web.Controllers
 		[OutputCache(Duration = 60)]
 		public ActionResult ShowCount()
 		{
-			var games = _gameService.GetAll(); // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
-			var count = games.Count();
+			var count = _gameService.GetCount(); // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
 
 			return PartialView(count);
 		}
@@ -160,44 +162,53 @@ namespace GameStore.Web.Controllers
 
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
-		//TODO Consider: Move private methods to separate Mapper class.
-		//TODO: Required: You can't give a method name 'Map....' and invoke service method inside. (stick to this signatures: Type1 Map(Type2), Type1 Get(params/no params))
-		private List<GameViewModel> MapGames(FilterViewModel filter = null, int? itemsToSkip = null, int? itemsToTake = null)
+
+		private AllGamesViewModel UpdatePagination(AllGamesViewModel model)
 		{
-			if (filter != null)
+			model.StartPage = model.CurrentPage - 5;
+			model.EndPage = model.CurrentPage + 4;
+
+			if (model.StartPage <= 0)
 			{
-				var filterDto = _mapper.Map<FilterViewModel, FilterDto>(filter);
-
-				if (itemsToSkip != null && itemsToTake != null)
-				{
-					return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto, itemsToSkip, itemsToTake));
-				}
-
-				return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto));
+				model.EndPage -= model.StartPage - 1;
+				model.StartPage = 1;
 			}
 
-			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll());
+			if (model.EndPage > model.TotalPages)
+			{
+				model.EndPage = model.TotalPages;
+
+				if (model.EndPage > 10)
+				{
+					model.StartPage = model.EndPage - 9;
+				}
+			}
+
+			return model;
 		}
 
-		private List<PlatformTypeViewModel> MapPlatformTypes()
+		//TODO Consider: Move private methods to separate Mapper class.
+		//TODO: Required: You can't give a method name 'Map....' and invoke service method inside. (stick to this signatures: Type1 Map(Type2), Type1 Get(params/no params))
+		private List<GameViewModel> GetGames(FilterViewModel filter, int itemsToSkip, int itemsToTake)
 		{
-			var platformTypes = Mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll());
+			var filterDto = _mapper.Map<FilterViewModel, FilterDto>(filter);
 
-			return platformTypes;
+			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto, itemsToSkip, itemsToTake));
 		}
 
-		private List<GenreViewModel> MapGenres()
+		private List<PlatformTypeViewModel> GetPlatformTypes()
 		{
-			var genres = Mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
-
-			return genres;
+			return Mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll());
 		}
 
-		private List<PublisherViewModel> MapPublishers()
+		private List<GenreViewModel> GetGenres()
 		{
-			var publishers = Mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
+			return Mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
+		}
 
-			return publishers;
+		private List<PublisherViewModel> GetPublishers()
+		{
+			return Mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
 		}
 	}
 }

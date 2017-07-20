@@ -5,6 +5,16 @@ namespace GameStore.Services.DTOs
 {
 	public class FilterDto
 	{
+		public FilterDto()
+		{
+			GenresData = new List<GenreDto>();
+			GenresInput = new List<int>();
+			PlatformTypesData = new List<PlatformTypeDto>();
+			PlatformTypesInput = new List<int>();
+			PublishersData = new List<PublisherDto>();
+			PublishersInput = new List<int>();
+		}
+
 		public List<GenreDto> GenresData { get; set; }
 
 		public List<int> GenresInput { get; set; }
@@ -26,15 +36,5 @@ namespace GameStore.Services.DTOs
 		public DateOptions DateOptions { get; set; }
 
 		public string GameName { get; set; }
-
-		public FilterDto()
-		{
-			GenresData = new List<GenreDto>();
-			GenresInput = new List<int>();
-			PlatformTypesData = new List<PlatformTypeDto>();
-			PlatformTypesInput = new List<int>();
-			PublishersData = new List<PublisherDto>();
-			PublishersInput = new List<int>();
-		}
 	}
 }

@@ -18,8 +18,7 @@ namespace GameStore.Services.Tests
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
 		private const int ValidInt = 10;
-		private readonly IMapper _mapper = new Mapper(
-			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+		private readonly IMapper _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private Mock<IUnitOfWork> _mockOfUow;
 		private OrderService _target;
 		private List<Order> _orders;
@@ -41,7 +40,7 @@ namespace GameStore.Services.Tests
 
 			var result = _orders.Count;
 
-			Assert.Equals(result, 1);
+			Assert.AreEqual(result, 1);
 		}
 
 		[TestMethod]
@@ -66,7 +65,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetSingleBy(ValidString);
 
-			Assert.Equals(result.CustomerId, ValidString);
+			Assert.AreEqual(result.CustomerId, ValidString);
 		}
 
 		[ExpectedException(typeof(InvalidOperationException))]
@@ -100,7 +99,7 @@ namespace GameStore.Services.Tests
 			_target.Edit(orderDto, ValidInt);
 			var result = order.OrderDetails.Count;
 
-			Assert.Equals(result, 1);
+			Assert.AreEqual(result, 1);
 		}
 
 		[TestMethod]
@@ -131,7 +130,7 @@ namespace GameStore.Services.Tests
 			_target.Edit(orderDto, ValidInt);
 			var result = order.OrderDetails.First().Quantity;
 
-			Assert.Equals(result, ValidInt + 1); // TODO Required: Remove useless '()'
+			Assert.AreEqual(result, ValidInt + 1); // TODO Required: Remove useless '()'
 		}
 
 		[TestMethod]

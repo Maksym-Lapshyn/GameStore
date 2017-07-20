@@ -51,8 +51,9 @@ namespace GameStore.Web.Tests
 		public void New_CreatesGame_WhenModelStateIsValid()
 		{
 			_target.New(new GameViewModel());
+			var result = _games.Count;
 
-			Assert.IsTrue(_games.Count == 1);
+			Assert.AreEqual(result, 1);
 		}
 
 		[TestMethod]
@@ -61,8 +62,9 @@ namespace GameStore.Web.Tests
 			_target.ModelState.AddModelError(InvalidString, InvalidString);
 
 			_target.New(new GameViewModel());
+			var result = _games.Count;
 
-			Assert.IsTrue(_games.Count == 0);
+			Assert.AreEqual(result, 0);
 		}
 
 		[TestMethod]
@@ -116,8 +118,9 @@ namespace GameStore.Web.Tests
 			};
 
 			_target.Delete(ValidInt);
+			var result = _games.Count;
 
-			Assert.IsTrue(_games.Count == 0);
+			Assert.AreEqual(result, 0);
 		}
 
 		[TestMethod]
@@ -129,11 +132,11 @@ namespace GameStore.Web.Tests
 				new GameDto()
 			};
 
-			_mockOfGameService.Setup(m => m.GetAll(null, null, null)).Returns(_games);
+			_mockOfGameService.Setup(m => m.GetCount(null)).Returns(_games.Count);
 
 			var result = (int)((PartialViewResult)_target.ShowCount()).Model;
 
-			Assert.IsTrue(result == 2);
+			Assert.AreEqual(result, 2);
 		}
 	}
 }

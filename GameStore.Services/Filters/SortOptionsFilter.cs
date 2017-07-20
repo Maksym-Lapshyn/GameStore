@@ -25,7 +25,7 @@ namespace GameStore.Services.Filters
 					input = input.OrderByDescending(g => g.Price);
 					break;
 				case SortOptions.DateAdded:
-					input = input.OrderBy(g => g.Price);
+					input = input.OrderBy(g => g.DateAdded);
 					break;
 				case SortOptions.MostCommented:
 					input = input.OrderByDescending(g => g.Comments.Count);

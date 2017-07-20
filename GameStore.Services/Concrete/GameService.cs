@@ -97,6 +97,20 @@ namespace GameStore.Services.Concrete
 			return gameDtos;
 		}
 
+		public int GetCount(FilterDto filter = null)
+		{
+			var games = _unitOfWork.GameRepository.Get();
+
+			if (filter != null)
+			{
+				//TODO Required: Use DI
+				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
+				games = _pipeline.Process(games);
+			}
+
+			return games.Count();
+		}
+
 		public IEnumerable<GameDto> GetBy(string genreName)
 		{
 			var games = _unitOfWork.GameRepository

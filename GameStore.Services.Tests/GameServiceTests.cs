@@ -45,7 +45,7 @@ namespace GameStore.Services.Tests
 
 			_target.Create(new GameDto());
 
-			Assert.Equals(_games.Count, 1);
+			Assert.AreEqual(_games.Count, 1);
 		}
 
 		[TestMethod]
@@ -76,7 +76,7 @@ namespace GameStore.Services.Tests
 
 			var result = _games.First().Name;
 
-			Assert.Equals(result, InvalidString);
+			Assert.AreEqual(result, InvalidString);
 		}
 
 		[TestMethod]
@@ -126,7 +126,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetSingleBy(TestInt).Name;
 
-			Assert.Equals(result, ValidString);
+			Assert.AreEqual(result, ValidString);
 		}
 
 		[TestMethod]
@@ -141,7 +141,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetSingleBy(ValidString).Key;
 
-			Assert.Equals(result, ValidString);
+			Assert.AreEqual(result, ValidString);
 		}
 
 		[TestMethod]
@@ -158,7 +158,7 @@ namespace GameStore.Services.Tests
 
 			var games = _target.GetAll().ToList();
 
-			Assert.Equals(games.Count, 3);
+			Assert.AreEqual(games.Count, 3);
 		}
 
 		[TestMethod]
@@ -175,7 +175,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetBy(ValidString).ToList().Count;
 
-			Assert.Equals(result, 3);
+			Assert.AreEqual(result, 3);
 		}
 
 		[TestMethod]
@@ -192,7 +192,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetBy(new List<string> { ValidString }).ToList().Count;
 
-			Assert.Equals(result, 3);
+			Assert.AreEqual(result, 3);
 		}
 	}
 }

@@ -15,7 +15,7 @@
 	<b>@Html.LabelFor(m => comment.Body):</b>
 	<p>@Html.DisplayFor(m => comment.Body)</p>
 	<p>
-		<button id=@comment.Id data-name=@comment.Name onclick="return addReply(this)">Reply</button><br />
+		<button data-id=@comment.Id data-name=@comment.Name class="reply">Reply</button>
 	</p>
 
 	if (comment.ChildComments.Count != 0)
@@ -27,4 +27,6 @@
 @{Html.RenderPartial("New", new CommentViewModel { GameKey = Model.GameKey, GameId = Model.GameId });}
 
 @section Scripts
-{<script src="~/Scripts/scripts.js"></script>}
+{
+	<script src="~/Scripts/commentScripts.js"></script>
+}

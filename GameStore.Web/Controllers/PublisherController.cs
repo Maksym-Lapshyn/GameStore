@@ -39,6 +39,7 @@ namespace GameStore.Web.Controllers
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
+		[ActionName("GetDetails")]
 		public ActionResult Show(string companyName)
 		{
 			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingleBy(companyName));

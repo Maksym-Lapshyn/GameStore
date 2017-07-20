@@ -40,7 +40,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetAll().ToList().Count;
 
-			Assert.Equals(result, 3);
+			Assert.AreEqual(result, 3);
 		}
 	}
 }

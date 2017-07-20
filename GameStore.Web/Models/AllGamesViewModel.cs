@@ -22,5 +22,9 @@ namespace GameStore.Web.Models
 		public int PageSize { get; set; }
 
 		public int TotalPages { get; set; }
+
+		public int StartPage { get; set; }
+
+		public int EndPage { get; set; }
 	}
 }

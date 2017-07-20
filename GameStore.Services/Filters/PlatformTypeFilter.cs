@@ -11,7 +11,7 @@ namespace GameStore.Services.Filters
 
 		public PlatformTypeFilter(IEnumerable<int> platformTypeIds)
 		{
-		    _platformTypeIds = platformTypeIds;
+			_platformTypeIds = platformTypeIds;
 		}
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)

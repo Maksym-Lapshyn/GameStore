@@ -26,7 +26,7 @@ namespace GameStore.DAL.Context
 
 		static GameStoreContext()
 		{
-			Database.SetInitializer<GameStoreContext>(new GameStoreContextInitializer());
+			Database.SetInitializer(new GameStoreContextInitializer());
 		}
 	}
 }

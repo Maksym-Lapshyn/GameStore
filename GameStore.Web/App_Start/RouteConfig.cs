@@ -11,7 +11,7 @@ namespace GameStore.Web
 
 			routes.LowercaseUrls = true;
 
-			routes.MapRoute(
+			/*routes.MapRoute(
 				"CreateGame",
 				"games/new",
 				new {controller = "Game", action = "New"}
@@ -78,9 +78,57 @@ namespace GameStore.Web
 			);
 
 			routes.MapRoute(
-				"Empty",
+				"Default",
 				"{controller}/{action}",
 				new {controller = "Game", action = "ListAll"}
+			);*/
+
+			routes.MapRoute(
+				name: "basket",
+				url: "basket",
+				defaults: new { controller = "Order", action = "Show" }
+			);
+
+			routes.MapRoute(
+				name: "buy",
+				url: "game/{gameKey}/buy",
+				defaults: new { controller = "Order", action = "Edit" }
+			);
+
+			routes.MapRoute(
+				name: "gamekey",
+				url: "game/{gameKey}",
+				defaults: new { controller = "Game", action = "GetDetails", gamekey = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
+				name: "publisherName",
+				url: "publisher/{companyName}",
+				defaults: new { controller = "Publisher", action = "GetDetails", companyName = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
+				name: "Comments",
+				url: "games/{gameKey}/comments",
+				defaults: new { controller = "Comment", action = "Comments" }
+			);
+
+			routes.MapRoute(
+				name: "addComment",
+				url: "games/{gameKey}/newcomment",
+				defaults: new { controller = "Comments", action = "NewComment" }
+			);
+
+			routes.MapRoute(
+				name: "Download",
+				url: "games/{gameKey}/{action}",
+				defaults: new { controller = "Games", gamekey = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
+				name: "default",
+				url: "{controller}/{action}",
+				defaults: new { controller = "Games", action = "GetAll" }
 			);
 		}
 	}

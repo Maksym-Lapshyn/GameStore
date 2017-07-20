@@ -12,14 +12,12 @@ namespace GameStore.Web.Infrastructure.Helpers
 
 			if (selectedItems.Contains(id))
 			{
-				div.InnerHtml += $"<input type='checkbox' id={id} name={propertyName} value={id} checked />";
+				div.InnerHtml += $"<p><label for={name}><input type='checkbox' id={name} name={propertyName} value={id} checked /> " + name + "</label></p>";
 			}
 			else
 			{
-				div.InnerHtml += $"<input type='checkbox' id={id} name={propertyName} value={id} />";
+				div.InnerHtml += $"<p><label for={name}><input type='checkbox' id={name} name={propertyName} value={id} /> " + name + "</label></p>";
 			}
-
-			div.InnerHtml += $"<label for={id}>" + name + "</label>";
 
 			return new MvcHtmlString(div.InnerHtml);
 		}
@@ -32,14 +30,12 @@ namespace GameStore.Web.Infrastructure.Helpers
 			{
 				if (option == dateOptions.ToString())
 				{
-					div.InnerHtml += $"<input type='radio' name={propertyName} value={option} checked />";
+					div.InnerHtml += $"<p><label for={option}><input type='radio' id={option} name={propertyName} value={option} checked /> " + option + "</label></p>";
 				}
 				else
 				{
-					div.InnerHtml += $"<input type='radio' name={propertyName} value={option} />";
+					div.InnerHtml += $"<p><label for={option}><input type='radio' id={option} name={propertyName} value={option} /> " + option + "</label></p>";
 				}
-
-				div.InnerHtml += $"<label for={option}>" + option + "</label>";
 			}
 
 			return new MvcHtmlString(div.ToString());

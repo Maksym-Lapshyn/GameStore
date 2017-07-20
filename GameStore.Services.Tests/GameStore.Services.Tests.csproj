@@ -68,6 +68,7 @@
     <Compile Include="OrderServiceTests.cs" />
     <Compile Include="PlatformTypeServiceTests.cs" />
     <Compile Include="PublisherServiceTests.cs" />
+    <Compile Include="GamePipelineTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,25 +1,25 @@
 ﻿@model GameStore.Web.Models.CommentViewModel
 
-<div id="commentForm">
+<div id="newComment">
 	@using (Ajax.BeginForm("New", null, new AjaxOptions
 	{
 		HttpMethod = "POST",
-		UpdateTargetId = "commentForm",
+		UpdateTargetId = "newComment",
 		InsertionMode = InsertionMode.Replace,
 		OnSuccess = "reloadPage"
-	}, new { id = "form" }))
+	}, new { id = "CommentForm" }))
 	{
 		@Html.HiddenFor(m => m.GameId)
 		@Html.HiddenFor(m => m.GameKey)
 		<div id="replyTo"></div>
 		<b>@Html.LabelFor(m => m.Name)</b>
 		<p>
-			@Html.EditorFor(m => m.Name)
+			@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 			@Html.ValidationMessageFor(m => m.Name)
 		</p>
 		<b>@Html.LabelFor(m => m.Body)</b>
 		<p>
-			@Html.EditorFor(m => m.Body)
+			@Html.TextBoxFor(m => m.Body, new { @class = "form-control" })
 			@Html.ValidationMessageFor(m => m.Body)
 		</p>
 		<p>
@@ -28,31 +28,3 @@
 	}
 </div>
 @* TODO Required: Move to file and include it*@
-@section Scripts {}
-
-<script type="text/javascript">
-	function reloadPage() {
-		var isValid = '@Html.Raw(Json.Encode(ViewData.ModelState.IsValid))';
-		if (isValid === 'true') {
-			location.reload();
-		}
-	}
-
-	function addReply(input) {
-		var parentName = $(input).data('name');
-		var replyContent = '<p><b>Reply to:<b/>' + parentName + '</p>';
-		var reply = $('#replyTo');
-		reply.empty();
-		reply.append(replyContent);
-		var parentId = $(input).attr('id');
-		$('#ParentCommentId').remove();
-		var hiddenInput = $('<input>').attr({
-			type: 'hidden',
-			id: 'ParentCommentId',
-			name: 'ParentCommentId'
-		});
-
-		hiddenInput.val(parentId);
-		hiddenInput.appendTo('#form');
-	}
-</script>

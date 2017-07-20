@@ -9,6 +9,8 @@ namespace GameStore.Services.Abstract
 
 		IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames);
 
+		int GetCount(FilterDto filter = null);
+
 		GameDto GetSingleBy(string gameKey);
 
 		void SaveView(int gameId);

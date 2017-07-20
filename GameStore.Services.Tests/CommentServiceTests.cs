@@ -43,7 +43,7 @@ namespace GameStore.Services.Tests
 
 			_target.Create(new CommentDto { GameId = TestInt });
 
-			Assert.Equals(_comments.Count, 1);
+			Assert.AreEqual(_comments.Count, 1);
 		}
 
 		[TestMethod]
@@ -73,7 +73,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetAll().ToList().Count;
 
-			Assert.Equals(result, 3);
+			Assert.AreEqual(result, 3);
 		}
 
 		[TestMethod]
@@ -110,7 +110,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetBy(ValidString).ToList().Count;
 
-			Assert.Equals(result, 3);
+			Assert.AreEqual(result, 3);
 		}
 
 		[TestMethod]
@@ -147,7 +147,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetBy(InValidString).ToList().Count;
 
-			Assert.Equals(result, 0);
+			Assert.AreEqual(result, 0);
 		}
 	}
 }

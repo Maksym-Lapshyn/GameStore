@@ -39,7 +39,7 @@ namespace GameStore.Services.Tests
 			_target.Create(new PublisherDto());
 			var result = _publishers.Count;
 
-			Assert.Equals(result, 1);
+			Assert.AreEqual(result, 1);
 		}
 
 		[TestMethod]
@@ -66,7 +66,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetSingleBy(TestInt).Id;
 
-			Assert.Equals(result, TestInt);
+			Assert.AreEqual(result, TestInt);
 		}
 
 		[TestMethod]
@@ -83,7 +83,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetAll().ToList().Count;
 
-			Assert.Equals(result, 3);
+			Assert.AreEqual(result, 3);
 		}
 
 		[TestMethod]
@@ -98,7 +98,7 @@ namespace GameStore.Services.Tests
 
 			var result = _target.GetSingleBy(TestString).CompanyName;
 
-			Assert.Equals(result, TestString);
+			Assert.AreEqual(result, TestString);
 		}
 	}
 }

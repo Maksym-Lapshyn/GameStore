@@ -33,7 +33,7 @@ intellisense.annotate(jQuery, {
     /// </signature>
   },
   'boxModel': function() {
-    /// <summary>Deprecated in jQuery 1.3 (see jQuery.support). States if the current page, in the user's browser, is being rendered using the W3C CSS Box Model.</summary>
+    /// <summary>Deprecated in jQuery 1.3 (see jQuery.support). States if the current changePage, in the user's browser, is being rendered using the W3C CSS Box Model.</summary>
     /// <returns type="Boolean" />
   },
   'browser': function() {
@@ -387,7 +387,7 @@ intellisense.annotate(jQuery, {
     /// <returns type="jQuery" />
   },
   'support': function() {
-    /// <summary>A collection of properties that represent the presence of different browser features or bugs. Primarily intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally to improve page startup performance.</summary>
+    /// <summary>A collection of properties that represent the presence of different browser features or bugs. Primarily intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally to improve changePage startup performance.</summary>
     /// <returns type="Object" />
   },
   'trim': function() {

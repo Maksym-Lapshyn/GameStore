@@ -18,29 +18,17 @@ namespace GameStore.Services.Infrastructure
 				.ForMember(dto => dto.CommentsCount, options => options.MapFrom(entity => entity.Comments.Count))
 				.ForMember(dto => dto.PublishersData, option => option.MapFrom(entity => new List<PublisherDto> { Mapper.Map<Publisher, PublisherDto>(entity.Publisher) }));
 
-			CreateMap<CommentDto, Comment>();
+			CreateMap<CommentDto, Comment>().ReverseMap();
 
-			CreateMap<Comment, CommentDto>();
+			CreateMap<PublisherDto, Publisher>().ReverseMap();
 
-			CreateMap<PublisherDto, Publisher>();
+			CreateMap<PlatformTypeDto, PlatformType>().ReverseMap();
 
-			CreateMap<Publisher, PublisherDto>();
+			CreateMap<GenreDto, Genre>().ReverseMap();
 
-			CreateMap<PlatformTypeDto, PlatformType>();
+			CreateMap<OrderDto, Order>().ReverseMap();
 
-			CreateMap<PlatformType, PlatformTypeDto>();
-
-			CreateMap<GenreDto, Genre>();
-
-			CreateMap<Genre, GenreDto>();
-
-			CreateMap<OrderDto, Order>();
-
-			CreateMap<Order, OrderDto>();
-
-			CreateMap<OrderDetailsDto, OrderDetails>();
-
-			CreateMap<OrderDetails, OrderDetailsDto>();
+			CreateMap<OrderDetailsDto, OrderDetails>().ReverseMap();
 		}
 	}
 }
