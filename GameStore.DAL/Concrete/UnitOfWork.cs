@@ -18,12 +18,12 @@ namespace GameStore.DAL.Concrete
 		public UnitOfWork(GameStoreContext context)
 		{
 			_context = context;
-			_gameRepository = new Lazy<IRepository<Game>>(() => new GenericRepository<Game>(_context));
-			_commentRepository = new Lazy<IRepository<Comment>>(() => new GenericRepository<Comment>(_context));
-			_publisherRepository = new Lazy<IRepository<Publisher>>(() => new GenericRepository<Publisher>(_context));
-			_platformTypeRepository = new Lazy<IRepository<PlatformType>>(() => new GenericRepository<PlatformType>(_context));
-			_genreRepository = new Lazy<IRepository<Genre>>(() => new GenericRepository<Genre>(_context));
-			_orderRepository = new Lazy<IRepository<Order>>(() => new GenericRepository<Order>(_context));
+			_gameRepository = new Lazy<IRepository<Game>>(() => new EfRepository<Game>(_context));
+			_commentRepository = new Lazy<IRepository<Comment>>(() => new EfRepository<Comment>(_context));
+			_publisherRepository = new Lazy<IRepository<Publisher>>(() => new EfRepository<Publisher>(_context));
+			_platformTypeRepository = new Lazy<IRepository<PlatformType>>(() => new EfRepository<PlatformType>(_context));
+			_genreRepository = new Lazy<IRepository<Genre>>(() => new EfRepository<Genre>(_context));
+			_orderRepository = new Lazy<IRepository<Order>>(() => new EfRepository<Order>(_context));
 		}
 
 		public IRepository<Game> GameRepository => _gameRepository.Value;

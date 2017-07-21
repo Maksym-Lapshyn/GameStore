@@ -15,12 +15,12 @@
 	@RenderSection("Scripts", false)
 </head>
 <body>
-<div>
-	<div class="container">
-		@{Html.RenderAction("ShowCount", "Game");}
-		<a class="btn btn-default" href=@Url.Action("Show", "Order")><span class="glyphicon glyphicon-shopping-cart"></span> To basket</a>
-		@RenderBody()
+	<div>
+		<div class="container">
+			@{Html.RenderAction("ShowCount", "Game");}
+			<a class="btn btn-default" href=@Url.Action("Show", "Order")><span class="glyphicon glyphicon-shopping-cart"></span> To basket</a>
+			@RenderBody()
+		</div>
 	</div>
-</div>
 </body>
 </html>
