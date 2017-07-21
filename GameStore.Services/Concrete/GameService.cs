@@ -82,7 +82,6 @@ namespace GameStore.Services.Concrete
 
 			if (filter != null)
 			{
-				//TODO Required: Use DI
 				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				games = _pipeline.Process(games);
 			}
@@ -103,7 +102,6 @@ namespace GameStore.Services.Concrete
 
 			if (filter != null)
 			{
-				//TODO Required: Use DI
 				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				games = _pipeline.Process(games);
 			}

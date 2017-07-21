@@ -1,21 +1,22 @@
-﻿$(document).ready(function() {
-	$(".changePage").on("click",
-		function() {
-			$("#CurrentPage").val($(this).data("page"));
-			submitForm();
-		});
+﻿$(document).ready(function () {
+	var defaultForm = $("#gameForm").serialize();
 
-	$("#applyFilter").on("click",
-		function() {
-			changeFilter();
+	$(".changePage").on("click", function () {
+		$("#FilterIsChanged").val("false");
+		$("#CurrentPage").val($(this).data("page"));
+		submitForm();
+	});
+
+	$("#applyFilter").on("click", function () {
+		var currentForm = $("#gameForm").serialize();
+
+		if (currentForm !== defaultForm) {
+			$("#FilterIsChanged").val("true");
 			submitForm();
-		});
+		}
+	});
 
 	function submitForm() {
 		$("#gameForm").submit();
-	}
-
-	function changeFilter() {
-		$("#FilterIsChanged").val("true");
 	}
 });

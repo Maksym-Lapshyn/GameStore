@@ -18,7 +18,7 @@
 <div>
 	<div class="container">
 		@{Html.RenderAction("ShowCount", "Game");}
-		@Html.ActionLink("To basket", "Show", "Order")
+		<a class="btn btn-default" href=@Url.Action("Show", "Order")><span class="glyphicon glyphicon-shopping-cart"></span> To basket</a>
 		@RenderBody()
 	</div>
 </div>

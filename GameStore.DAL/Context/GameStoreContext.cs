@@ -5,7 +5,7 @@ namespace GameStore.DAL.Context
 {
 	public class GameStoreContext : DbContext
 	{
-		public GameStoreContext(string connectionString) //TODO Required: Move to top
+		public GameStoreContext(string connectionString)
 		: base(connectionString)
 		{
 		}

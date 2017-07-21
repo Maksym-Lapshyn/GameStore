@@ -7,7 +7,7 @@ namespace GameStore.Web.Models
 {
 	public class FilterViewModel
 	{
-		public FilterViewModel() //TODO Required: Move to top
+		public FilterViewModel()
 		{
 			GenresData = new List<GenreViewModel>();
 			GenresInput = new List<int>();

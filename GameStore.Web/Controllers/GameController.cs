@@ -11,9 +11,9 @@ namespace GameStore.Web.Controllers
 {
 	public class GameController : Controller
 	{
-		private const int DefaultPageSize = 10; //TODO Required: Move constants to top
+		private const int DefaultPageSize = 10;
 		private const int DefaultPage = 1;
-		private static FilterViewModel _filterState;  // TODO Required: Move static after constants
+		private static FilterViewModel _filterState;
 		private readonly IGameService _gameService;
 		private readonly IGenreService _genreService;
 		private readonly IPlatformTypeService _platformTypeService;
@@ -80,34 +80,21 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult ListAll(AllGamesViewModel model)
 		{
-			int itemsToSkip, itemsToTake;
- 
-			if(!ModelState.IsValid && model.FilterIsChanged)//TODO Required: Don't validate fields separately. You should validate all model
+			if (!ModelState.IsValid && model.FilterIsChanged)
 			{
-				model.FilterIsChanged = false;
-				model.Filter.PlatformTypesData = GetPlatformTypes();
-				model.Filter.GenresData = GetGenres();
-				model.Filter.PublishersData = GetPublishers();
-				itemsToSkip = model.PageSize * (model.CurrentPage - 1); //TODO Required: Remove useless '()'
-				itemsToTake = model.PageSize;
-				model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
+				model = UpdateInvalidModel(model);
 
 				return View(model);
 			}
 
-			if (!ModelState.IsValid && !model.FilterIsChanged) //TODO Required: Don't validate fields separately. You should validate all model
+			if (!ModelState.IsValid && !model.FilterIsChanged)
 			{
-				ModelState.Clear(); //TODO: Why do you need clear ModelState if you don't use it below?
-			}   //If I remove this line, I will see validation error for GameName every time I change it,
-				//do do not apply filter and move to another changePage, which is not a very user-friendly behaviour
+				ModelState.Clear();
+			}
 
 			if (model.Filter == null)
 			{
-				model.Filter = new FilterViewModel();
-				model.CurrentPage = DefaultPage;
-				model.PageSize = DefaultPageSize;
-				model.TotalItems = _gameService.GetCount();
-				model = UpdatePagination(model);
+				model = UpdateNewModel(model);
 				_filterState = model.Filter;
 			}
 			else
@@ -115,17 +102,14 @@ namespace GameStore.Web.Controllers
 				if (model.FilterIsChanged)
 				{
 					_filterState = model.Filter;
-					model.CurrentPage = DefaultPage;
-					model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(_filterState)); // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
-					model = UpdatePagination(model);
-					model.FilterIsChanged = false;
+					model = UpdateChangedModel(model);
 				}
 			}
 
 			model.TotalPages = (int)Math.Ceiling((decimal)model.TotalItems / model.PageSize);
 			model = UpdatePagination(model);
-			itemsToSkip = model.PageSize * (model.CurrentPage - 1);
-			itemsToTake = model.PageSize;
+			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
+			var itemsToTake = model.PageSize;
 			model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
 			model.Filter.PlatformTypesData = GetPlatformTypes();
 			model.Filter.GenresData = GetGenres();
@@ -145,7 +129,7 @@ namespace GameStore.Web.Controllers
 		[OutputCache(Duration = 60)]
 		public ActionResult ShowCount()
 		{
-			var count = _gameService.GetCount(); // TODO Required: GetAll->Map->CalculateCount Really? Do it simply.
+			var count = _gameService.GetCount();
 
 			return PartialView(count);
 		}
@@ -187,8 +171,40 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		//TODO Consider: Move private methods to separate Mapper class.
-		//TODO: Required: You can't give a method name 'Map....' and invoke service method inside. (stick to this signatures: Type1 Map(Type2), Type1 Get(params/no params))
+		private AllGamesViewModel UpdateChangedModel(AllGamesViewModel model)
+		{
+			model.CurrentPage = DefaultPage;
+			model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(_filterState));
+			model = UpdatePagination(model);
+			model.FilterIsChanged = false;
+
+			return model;
+		}
+
+		private AllGamesViewModel UpdateNewModel(AllGamesViewModel model)
+		{
+			model.Filter = new FilterViewModel();
+			model.CurrentPage = DefaultPage;
+			model.PageSize = DefaultPageSize;
+			model.TotalItems = _gameService.GetCount();
+			model = UpdatePagination(model);
+
+			return model;
+		}
+
+		private AllGamesViewModel UpdateInvalidModel(AllGamesViewModel model)
+		{
+			model.FilterIsChanged = false;
+			model.Filter.PlatformTypesData = GetPlatformTypes();
+			model.Filter.GenresData = GetGenres();
+			model.Filter.PublishersData = GetPublishers();
+			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
+			var itemsToTake = model.PageSize;
+			model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
+
+			return model;
+		}
+
 		private List<GameViewModel> GetGames(FilterViewModel filter, int itemsToSkip, int itemsToTake)
 		{
 			var filterDto = _mapper.Map<FilterViewModel, FilterDto>(filter);

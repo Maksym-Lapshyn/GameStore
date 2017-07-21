@@ -88,19 +88,20 @@
 		</div>
 		<div class="panel-footer">
 			<p>
-				<button class="btn btn-success" id="applyFilter">Filter</button>
+				<button type="button" class="btn btn-default" id="applyFilter">Filter</button>
 				@Html.ActionLink("Reset", "ListAll", null, new { @class = "btn btn-warning" })
 			</p>
 		</div>
 	</div>
+}
 
-	<h2>Games</h2>
-	<hr />
+<h2>Games</h2>
+<hr />
 
-	foreach (var game in Model.Games)
-	{
-		<b>@Html.LabelFor(m => game.Key)</b>
-		<p>@Html.DisplayFor(m => game.Key)</p>
+@foreach (var game in Model.Games)
+{
+	<b>@Html.LabelFor(m => game.Key)</b>
+	<p>@Html.DisplayFor(m => game.Key)</p>
 		<b>@Html.LabelFor(m => game.Name)</b>
 		<p>@Html.ActionLink(game.Name, "Show", new { gameKey = game.Key })</p>
 		<b>@Html.LabelFor(m => game.Description)</b>
@@ -112,73 +113,69 @@
 		<b>@Html.LabelFor(m => game.Discontinued)</b>
 		<p>@Html.DisplayFor(m => game.Discontinued)</p>
 
-		if (game.PlatformTypesData.Count != 0)
-		{
-			<b>@Html.LabelFor(m => game.PlatformTypesData)</b>
-
-			foreach (var platformType in game.PlatformTypesData)
-			{
-				<p>@platformType.Type</p>
-			}
-		}
-
-		if (game.GenresData.Count != 0)
-		{
-			<b>@Html.LabelFor(m => game.GenresData)</b>
-
-			foreach (var genre in game.GenresData)
-			{
-				<p>@genre.Name</p>
-			}
-		}
-
-		if (game.PublishersData.Count != 0)
-		{
-			var name = game.PublishersData.First().CompanyName;
-			<b>@Html.LabelFor(m => game.PublishersData)</b>
-			<p>@Html.ActionLink(name, "Show", "Publisher", new { companyName = name }, null)</p>
-		}
-
-		<hr />
-	}
-
-	if (Model.EndPage > 1)
+	if (game.PlatformTypesData.Count != 0)
 	{
-		<ul class="pagination">
+		<b>@Html.LabelFor(m => game.PlatformTypesData)</b>
 
-			@if (Model.CurrentPage > 1)
-			{
-				<li>
-					<a data-page="1" class="changePage">First</a>
-				</li>
-
-				<li>
-					<a data-page=@(Model.CurrentPage - 1) class="changePage">Previous</a>
-				</li>
-			}
-
-			@for (var page = Model.StartPage; page <= Model.EndPage; page++)
-			{
-				<li class="@(page == Model.CurrentPage ? "active" : string.Empty)">
-					<a data-page="@page" class="changePage">@page</a>
-				</li>
-			}
-
-			@if (Model.CurrentPage < Model.TotalPages)
-			{
-				<li>
-					<a data-page=@(Model.CurrentPage + 1) class="changePage">Next</a>
-				</li>
-
-				<li>
-					<a data-page=@Model.TotalPages class="changePage">Last</a>
-				</li>
-			}
-
-		</ul>
+		foreach (var platformType in game.PlatformTypesData)
+		{
+			<p>@platformType.Type</p>
+		}
 	}
+
+	if (game.GenresData.Count != 0)
+	{
+		<b>@Html.LabelFor(m => game.GenresData)</b>
+
+		foreach (var genre in game.GenresData)
+		{
+			<p>@genre.Name</p>
+		}
+	}
+
+	if (game.PublishersData.Count != 0)
+	{
+		var name = game.PublishersData.First().CompanyName;
+		<b>@Html.LabelFor(m => game.PublishersData)</b>
+		<p>@Html.ActionLink(name, "Show", "Publisher", new { companyName = name }, null)</p>
+	}
+
+	<hr />
 }
-@* TODO Required: Move to file and include it*@
+
+@if (Model.EndPage > 1)
+{
+	<ul class="pagination">
+		@if (Model.CurrentPage > 1)
+		{
+			<li>
+				<a data-page="1" class="changePage">First</a>
+			</li>
+
+			<li>
+				<a data-page=@(Model.CurrentPage - 1) class="changePage">Previous</a>
+			</li>
+		}
+
+		@for (var page = Model.StartPage; page <= Model.EndPage; page++)
+		{
+			<li class="@(page == Model.CurrentPage ? "active" : string.Empty)">
+				<a data-page="@page" class="changePage">@page</a>
+			</li>
+		}
+
+		@if (Model.CurrentPage < Model.TotalPages)
+		{
+			<li>
+				<a data-page=@(Model.CurrentPage + 1) class="changePage">Next</a>
+			</li>
+
+			<li>
+				<a data-page=@Model.TotalPages class="changePage">Last</a>
+			</li>
+		}
+	</ul>
+}
 
 @section Scripts
 {

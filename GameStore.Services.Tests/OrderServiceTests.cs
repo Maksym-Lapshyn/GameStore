@@ -130,7 +130,7 @@ namespace GameStore.Services.Tests
 			_target.Edit(orderDto, ValidInt);
 			var result = order.OrderDetails.First().Quantity;
 
-			Assert.AreEqual(result, ValidInt + 1); // TODO Required: Remove useless '()'
+			Assert.AreEqual(result, ValidInt + 1);
 		}
 
 		[TestMethod]

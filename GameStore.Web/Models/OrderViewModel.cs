@@ -5,7 +5,7 @@ namespace GameStore.Web.Models
 {
 	public class OrderViewModel
 	{
-		public OrderViewModel() //TODO Required: Move to top
+		public OrderViewModel()
 		{
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}

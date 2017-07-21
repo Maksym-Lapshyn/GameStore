@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	[OutputCache(Duration = 60, VaryByHeader = "get;post")] //TODO Required: remove commented code
+	[OutputCache(Duration = 60, VaryByHeader = "get;post")]
 	public class CommentController : Controller
 	{
 		private readonly ICommentService _commentService;

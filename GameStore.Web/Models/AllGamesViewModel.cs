@@ -4,7 +4,7 @@ namespace GameStore.Web.Models
 {
 	public class AllGamesViewModel
 	{
-		public AllGamesViewModel() //TODO Required: Move to top
+		public AllGamesViewModel()
 		{
 			Games = new List<GameViewModel>();
 		}

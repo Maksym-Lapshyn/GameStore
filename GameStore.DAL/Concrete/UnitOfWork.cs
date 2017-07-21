@@ -15,7 +15,7 @@ namespace GameStore.DAL.Concrete
 		private readonly Lazy<IRepository<Genre>> _genreRepository;
 		private readonly Lazy<IRepository<Order>> _orderRepository;
 
-		public UnitOfWork(GameStoreContext context) //TODO Required: Move to top
+		public UnitOfWork(GameStoreContext context)
 		{
 			_context = context;
 			_gameRepository = new Lazy<IRepository<Game>>(() => new GenericRepository<Game>(_context));
