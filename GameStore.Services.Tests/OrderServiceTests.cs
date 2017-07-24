@@ -27,8 +27,8 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_mockOfUow.Setup(m => m.OrderRepository.Insert(It.IsAny<Order>())).Callback<Order>(o => _orders.Add(o));
-			_mockOfUow.Setup(m => m.GameRepository.Get(It.IsAny<int>())).Returns(new Game());
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Insert(It.IsAny<Order>())).Callback<Order>(o => _orders.Add(o));
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get(It.IsAny<int>())).Returns(new Game());
 			_target = new OrderService(_mockOfUow.Object, _mapper);
 		}
 
@@ -61,7 +61,7 @@ namespace GameStore.Services.Tests
 				new Order{CustomerId = ValidString}
 			};
 
-			_mockOfUow.Setup(m => m.OrderRepository.Get()).Returns(_orders.AsQueryable);
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Get()).Returns(_orders.AsQueryable);
 
 			var result = _target.GetSingleBy(ValidString);
 
@@ -77,7 +77,7 @@ namespace GameStore.Services.Tests
 				new Order{CustomerId = ValidString}
 			};
 
-			_mockOfUow.Setup(m => m.OrderRepository.Get()).Returns(_orders.AsQueryable);
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Get()).Returns(_orders.AsQueryable);
 
 			_target.GetSingleBy(InvalidString);
 		}
@@ -92,9 +92,9 @@ namespace GameStore.Services.Tests
 			};
 
 			var orderDto = new OrderDto { Id = ValidInt };
-			_mockOfUow.Setup(m => m.GameRepository.Get(ValidInt)).Returns(new Game{Price = ValidInt});
-			_mockOfUow.Setup(m => m.OrderRepository.Get(It.IsAny<int>())).Returns(order);
-			_mockOfUow.Setup(m => m.OrderRepository.Update(It.IsAny<Order>())).Callback<Order>(o => order = o);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get(ValidInt)).Returns(new Game{Price = ValidInt});
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Get(It.IsAny<int>())).Returns(order);
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Update(It.IsAny<Order>())).Callback<Order>(o => order = o);
 
 			_target.Edit(orderDto, ValidInt);
 			var result = order.OrderDetails.Count;
@@ -123,9 +123,9 @@ namespace GameStore.Services.Tests
 			};
 
 			var orderDto = new OrderDto { Id = ValidInt};
-			_mockOfUow.Setup(m => m.GameRepository.Get(ValidInt)).Returns(new Game { Price = ValidInt });
-			_mockOfUow.Setup(m => m.OrderRepository.Get(It.IsAny<int>())).Returns(order);
-			_mockOfUow.Setup(m => m.OrderRepository.Update(It.IsAny<Order>())).Callback<Order>(o => order = o);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get(ValidInt)).Returns(new Game { Price = ValidInt });
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Get(It.IsAny<int>())).Returns(order);
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Update(It.IsAny<Order>())).Callback<Order>(o => order = o);
 
 			_target.Edit(orderDto, ValidInt);
 			var result = order.OrderDetails.First().Quantity;
@@ -143,9 +143,9 @@ namespace GameStore.Services.Tests
 			};
 
 			var orderDto = new OrderDto { Id = ValidInt, CustomerId = ValidString };
-			_mockOfUow.Setup(m => m.GameRepository.Get(ValidInt)).Returns(new Game { Price = ValidInt });
-			_mockOfUow.Setup(m => m.OrderRepository.Get(It.IsAny<int>())).Returns(order);
-			_mockOfUow.Setup(m => m.OrderRepository.Update(It.IsAny<Order>())).Callback<Order>(o => order = o);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get(ValidInt)).Returns(new Game { Price = ValidInt });
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Get(It.IsAny<int>())).Returns(order);
+			_mockOfUow.Setup(m => m.OrderGenericRepository.Update(It.IsAny<Order>())).Callback<Order>(o => order = o);
 
 			_target.Edit(orderDto, ValidInt);
 

@@ -21,7 +21,7 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<GenreDto> GetAll()
 		{
-			var genres = _unitOfWork.GenreRepository.Get();
+			var genres = _unitOfWork.GenreGenericRepository.Get();
 			var genreDtos = _mapper.Map<IQueryable<Genre>, IEnumerable<GenreDto>>(genres);
 
 			return genreDtos;

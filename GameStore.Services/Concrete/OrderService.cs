@@ -24,13 +24,13 @@ namespace GameStore.Services.Concrete
 			var order = _mapper.Map<OrderDto, Order>(orderDto);
 			order.Date = DateTime.UtcNow;
 			Map(order);
-			_unitOfWork.OrderRepository.Insert(order);
+			_unitOfWork.OrderGenericRepository.Insert(order);
 			_unitOfWork.Save();
 		}
 
 		public OrderDto GetSingleBy(string customerId)
 		{
-			var order = _unitOfWork.OrderRepository.Get().First(o => o.CustomerId == customerId);
+			var order = _unitOfWork.OrderGenericRepository.Get().First(o => o.CustomerId == customerId);
 			var orderDto = _mapper.Map<Order, OrderDto>(order);
 
 			return orderDto;
@@ -38,12 +38,12 @@ namespace GameStore.Services.Concrete
 
 		public void Edit(OrderDto orderDto, int gameId)
 		{
-			var order = _unitOfWork.OrderRepository.Get(orderDto.Id);
+			var order = _unitOfWork.OrderGenericRepository.Get(orderDto.Id);
 			var details = order.OrderDetails.FirstOrDefault(o => o.GameId == gameId);
 
 			if (details == null)
 			{
-				var game = _unitOfWork.GameRepository.Get(gameId);
+				var game = _unitOfWork.GameGenericRepository.Get(gameId);
 				order.OrderDetails.Add(new OrderDetails{GameId = gameId, Game = game, Price = game.Price, Quantity = 1});
 			}
 			else
@@ -52,7 +52,7 @@ namespace GameStore.Services.Concrete
 				details.Price = details.Quantity * details.Game.Price;
 			}
 
-			_unitOfWork.OrderRepository.Update(order);
+			_unitOfWork.OrderGenericRepository.Update(order);
 			_unitOfWork.Save();
 		}
 
@@ -60,7 +60,7 @@ namespace GameStore.Services.Concrete
 		{
 			output.OrderDetails.ToList().ForEach(o =>
 			{
-				o.Game = _unitOfWork.GameRepository.Get(o.GameId);
+				o.Game = _unitOfWork.GameGenericRepository.Get(o.GameId);
 				o.Price = o.Game.Price;
 			});
 		}

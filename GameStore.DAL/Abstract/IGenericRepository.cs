@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GameStore.DAL.Abstract
 {
-	public interface IRepository<TEntity> where TEntity : BaseEntity
+	public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 	{
 		IQueryable<TEntity> Get();
 

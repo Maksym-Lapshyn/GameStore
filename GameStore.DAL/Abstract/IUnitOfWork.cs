@@ -5,17 +5,17 @@ namespace GameStore.DAL.Abstract
 
 	public interface IUnitOfWork
 	{
-		IRepository<Game> GameRepository { get; }
+		IGenericRepository<Game> GameGenericRepository { get; }
 
-		IRepository<Comment> CommentRepository { get; }
+		IGenericRepository<Comment> CommentGenericRepository { get; }
 
-		IRepository<Publisher> PublisherRepository { get; }
+		IGenericRepository<Publisher> PublisherGenericRepository { get; }
 
-		IRepository<PlatformType> PlatformTypeRepository { get; }
+		IGenericRepository<PlatformType> PlatformTypeGenericRepository { get; }
 
-		IRepository<Genre> GenreRepository { get; }
+		IGenericRepository<Genre> GenreGenericRepository { get; }
 
-		IRepository<Order> OrderRepository { get; }
+		IGenericRepository<Order> OrderGenericRepository { get; }
 
 		void Save();
 	}

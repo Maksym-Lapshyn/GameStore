@@ -30,16 +30,16 @@ namespace GameStore.Services.Tests
 			Mapper.Initialize(cfg => cfg.CreateMap<IQueryable<Game>, IEnumerable<GameDto>>());
 			_mockOfUow = new Mock<IUnitOfWork>();
 			_target = new CommentService(_mockOfUow.Object, _mapper);
-			_mockOfUow.Setup(m => m.CommentRepository.Insert(It.IsAny<Comment>())).Callback<Comment>(c => _comments.Add(c));
+			_mockOfUow.Setup(m => m.CommentGenericRepository.Insert(It.IsAny<Comment>())).Callback<Comment>(c => _comments.Add(c));
 		}
 
 		[TestMethod]
 		public void Create_CreatesGame_WhenAnyCommentIsPassed()
 		{
 			_comments = new List<Comment>();
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfUow.Setup(m => m.CommentGenericRepository.Get()).Returns(_comments.AsQueryable);
 			_games = new List<Game> { new Game { Id = TestInt } };
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
 
 			_target.Create(new CommentDto { GameId = TestInt });
 
@@ -50,9 +50,9 @@ namespace GameStore.Services.Tests
 		public void Create_CallsSaveOnce_WhenAnyCommentIsPassed()
 		{
 			_comments = new List<Comment>();
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfUow.Setup(m => m.CommentGenericRepository.Get()).Returns(_comments.AsQueryable);
 			_games = new List<Game> { new Game { Id = TestInt } };
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
 
 			_target.Create(new CommentDto { GameId = TestInt });
 
@@ -69,7 +69,7 @@ namespace GameStore.Services.Tests
 				new Comment()
 			};
 
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfUow.Setup(m => m.CommentGenericRepository.Get()).Returns(_comments.AsQueryable);
 
 			var result = _target.GetAll().ToList().Count;
 
@@ -106,7 +106,7 @@ namespace GameStore.Services.Tests
 				}
 			};
 
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfUow.Setup(m => m.CommentGenericRepository.Get()).Returns(_comments.AsQueryable);
 
 			var result = _target.GetBy(ValidString).ToList().Count;
 
@@ -143,7 +143,7 @@ namespace GameStore.Services.Tests
 				}
 			};
 
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfUow.Setup(m => m.CommentGenericRepository.Get()).Returns(_comments.AsQueryable);
 
 			var result = _target.GetBy(InValidString).ToList().Count;
 

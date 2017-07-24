@@ -30,10 +30,10 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_mockOfUow.Setup(m => m.GameRepository.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
-			_mockOfUow.Setup(m => m.PublisherRepository.Get(It.IsAny<int>())).Returns(new Publisher());
-			_mockOfUow.Setup(m => m.PlatformTypeRepository.Get(It.IsAny<int>())).Returns(new PlatformType());
-			_mockOfUow.Setup(m => m.GenreRepository.Get(It.IsAny<int>())).Returns(new Genre());
+			_mockOfUow.Setup(m => m.GameGenericRepository.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
+			_mockOfUow.Setup(m => m.PublisherGenericRepository.Get(It.IsAny<int>())).Returns(new Publisher());
+			_mockOfUow.Setup(m => m.PlatformTypeGenericRepository.Get(It.IsAny<int>())).Returns(new PlatformType());
+			_mockOfUow.Setup(m => m.GenreGenericRepository.Get(It.IsAny<int>())).Returns(new Genre());
 			_target = new GameService(_mockOfUow.Object, _mapper, _pipeline, _filterMapper);
 		}
 
@@ -41,7 +41,7 @@ namespace GameStore.Services.Tests
 		public void Create_CreatesGame_WhenAnyGameIsPassed()
 		{
 			_games = new List<Game>();
-			_mockOfUow.Setup(m => m.GameRepository.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
+			_mockOfUow.Setup(m => m.GameGenericRepository.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
 
 			_target.Create(new GameDto());
 
@@ -66,8 +66,8 @@ namespace GameStore.Services.Tests
 				new Game { Id = TestInt, Name = ValidString }
 			};
 
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
-			_mockOfUow.Setup(m => m.GameRepository.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
 			_target.Edit(new GameDto
 			{
 				Id = TestInt,
@@ -87,8 +87,8 @@ namespace GameStore.Services.Tests
 				new Game { Id = TestInt }
 			};
 
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
-			_mockOfUow.Setup(m => m.GameRepository.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
 
 			_target.Edit(new GameDto
 			{
@@ -103,7 +103,7 @@ namespace GameStore.Services.Tests
 		{
 			_target.Delete(TestInt);
 
-			_mockOfUow.Verify(m => m.GameRepository.Delete(TestInt), Times.Once);
+			_mockOfUow.Verify(m => m.GameGenericRepository.Delete(TestInt), Times.Once);
 		}
 
 		[TestMethod]
@@ -122,7 +122,7 @@ namespace GameStore.Services.Tests
 				new Game {Id = TestInt, Name = ValidString }
 			};
 
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
 
 			var result = _target.GetSingleBy(TestInt).Name;
 
@@ -137,7 +137,7 @@ namespace GameStore.Services.Tests
 				new Game {Id = TestInt, Key = ValidString }
 			};
 
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
 
 			var result = _target.GetSingleBy(ValidString).Key;
 
@@ -154,7 +154,7 @@ namespace GameStore.Services.Tests
 				new Game()
 			};
 
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
 
 			var games = _target.GetAll().ToList();
 
@@ -171,7 +171,7 @@ namespace GameStore.Services.Tests
 				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } }
 			};
 
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
 
 			var result = _target.GetBy(ValidString).ToList().Count;
 
@@ -188,7 +188,7 @@ namespace GameStore.Services.Tests
 				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } }
 			};
 
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			_mockOfUow.Setup(m => m.GameGenericRepository.Get()).Returns(_games.AsQueryable);
 
 			var result = _target.GetBy(new List<string> { ValidString }).ToList().Count;
 

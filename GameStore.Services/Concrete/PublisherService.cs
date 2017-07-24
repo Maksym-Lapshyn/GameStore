@@ -22,13 +22,13 @@ namespace GameStore.Services.Concrete
 		public void Create(PublisherDto publisherDto)
 		{
 			var publisher = _mapper.Map<PublisherDto, Publisher>(publisherDto);
-			_unitOfWork.PublisherRepository.Insert(publisher);
+			_unitOfWork.PublisherGenericRepository.Insert(publisher);
 			_unitOfWork.Save();
 		}
 
 		public PublisherDto GetSingleBy(int publisherId)
 		{
-			var publisher = _unitOfWork.PublisherRepository.Get(publisherId);
+			var publisher = _unitOfWork.PublisherGenericRepository.Get(publisherId);
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;
@@ -36,7 +36,7 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<PublisherDto> GetAll()
 		{
-			var publishers = _unitOfWork.PublisherRepository.Get();
+			var publishers = _unitOfWork.PublisherGenericRepository.Get();
 			var publisherDtos = _mapper.Map<IQueryable<Publisher>, IEnumerable<PublisherDto>>(publishers);
 
 			return publisherDtos;
@@ -44,7 +44,7 @@ namespace GameStore.Services.Concrete
 
 		public PublisherDto GetSingleBy(string companyName)
 		{
-			var publisher = _unitOfWork.PublisherRepository
+			var publisher = _unitOfWork.PublisherGenericRepository
 				.Get().First(p => p.CompanyName == companyName);
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 

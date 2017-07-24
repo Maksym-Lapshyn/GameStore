@@ -5,21 +5,21 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
-	public class GenreRepository : IGenreRepository
+	public class ShipperRepository : IShipperRepository
 	{
-		private readonly IMongoCollection<Genre> _collection;
+		private readonly IMongoCollection<Shipper> _collection;
 
-		public GenreRepository(IMongoDatabase database)
+		public ShipperRepository(IMongoDatabase database)
 		{
-			_collection = database.GetCollection<Genre>("categories");
+			_collection = database.GetCollection<Shipper>("shippers");
 		}
 
-		public IQueryable<Genre> Get()
+		public IQueryable<Shipper> Get()
 		{
 			return _collection.AsQueryable();
 		}
 
-		public Genre Get(string gameId)
+		public Shipper Get(string gameId)
 		{
 			var entity = _collection.AsQueryable().First(g => g.Id.ToString() == gameId);
 

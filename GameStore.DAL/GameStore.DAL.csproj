@@ -61,13 +61,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IRepository.cs" />
+    <Compile Include="Abstract\IRepositoryDecorator.cs" />
+    <Compile Include="Abstract\IGenericRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
+    <Compile Include="Abstract\MongoDb\IGameRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IGenreRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IPublisherRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IShipperRepository.cs" />
+    <Compile Include="Concrete\GameDecorator.cs" />
     <Compile Include="Concrete\MongoDb\GameRepository.cs" />
     <Compile Include="Concrete\MongoDb\GenreRepository.cs" />
     <Compile Include="Concrete\MongoDb\PublisherRepository.cs" />
-    <Compile Include="Concrete\MongoRepository.cs" />
-    <Compile Include="Concrete\EntityFramework\Repository.cs" />
+    <Compile Include="Concrete\MongoDb\ShipperRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\GenericRepository.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
@@ -79,6 +85,7 @@
     <Compile Include="Entities\OrderDetails.cs" />
     <Compile Include="Entities\PlatformType.cs" />
     <Compile Include="Entities\Publisher.cs" />
+    <Compile Include="Entities\Shipper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

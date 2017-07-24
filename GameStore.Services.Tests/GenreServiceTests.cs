@@ -36,7 +36,7 @@ namespace GameStore.Services.Tests
 				new Genre()
 			};
 
-			_unitOfUow.Setup(m => m.GenreRepository.Get()).Returns(_genres.AsQueryable);
+			_unitOfUow.Setup(m => m.GenreGenericRepository.Get()).Returns(_genres.AsQueryable);
 
 			var result = _target.GetAll().ToList().Count;
 

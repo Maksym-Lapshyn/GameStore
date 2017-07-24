@@ -33,7 +33,7 @@ namespace GameStore.Services.Tests
 		public void Create_CreatesPublisher_WhenAnyPublisherIsPassed()
 		{
 			_publishers = new List<Publisher>();
-			_mockOfUow.Setup(m => m.PublisherRepository.Insert(It.IsAny<Publisher>()))
+			_mockOfUow.Setup(m => m.PublisherGenericRepository.Insert(It.IsAny<Publisher>()))
 				.Callback<Publisher>(p => _publishers.Add(p));
 
 			_target.Create(new PublisherDto());
@@ -46,7 +46,7 @@ namespace GameStore.Services.Tests
 		public void Create_CallsSaveOnce_WhenAnyPublisherIsPassed()
 		{
 			_publishers = new List<Publisher>();
-			_mockOfUow.Setup(m => m.PublisherRepository.Insert(It.IsAny<Publisher>()))
+			_mockOfUow.Setup(m => m.PublisherGenericRepository.Insert(It.IsAny<Publisher>()))
 				.Callback<Publisher>(p => _publishers.Add(p));
 
 			_target.Create(new PublisherDto());
@@ -62,7 +62,7 @@ namespace GameStore.Services.Tests
 				Id = TestInt
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get(TestInt)).Returns(publisher);
+			_mockOfUow.Setup(m => m.PublisherGenericRepository.Get(TestInt)).Returns(publisher);
 
 			var result = _target.GetSingleBy(TestInt).Id;
 
@@ -79,7 +79,7 @@ namespace GameStore.Services.Tests
 				new Publisher()
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(_publishers.AsQueryable);
+			_mockOfUow.Setup(m => m.PublisherGenericRepository.Get()).Returns(_publishers.AsQueryable);
 
 			var result = _target.GetAll().ToList().Count;
 
@@ -94,7 +94,7 @@ namespace GameStore.Services.Tests
 				CompanyName = TestString
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(new List<Publisher>{publisher}.AsQueryable);
+			_mockOfUow.Setup(m => m.PublisherGenericRepository.Get()).Returns(new List<Publisher>{publisher}.AsQueryable);
 
 			var result = _target.GetSingleBy(TestString).CompanyName;
 

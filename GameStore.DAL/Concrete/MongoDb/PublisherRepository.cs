@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GameStore.DAL.Abstract.MongoDb;
+using GameStore.DAL.Entities;
+using MongoDB.Driver;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
-	class PublisherRepository
+	public class PublisherRepository : IPublisherRepository
 	{
+		private readonly IMongoCollection<Publisher> _collection;
+
+		public PublisherRepository(IMongoDatabase database)
+		{
+			_collection = database.GetCollection<Publisher>("suppliers");
+		}
+
+		public IQueryable<Publisher> Get()
+		{
+			return _collection.AsQueryable();
+		}
+
+		public Publisher Get(string gameId)
+		{
+			var entity = _collection.AsQueryable().First(g => g.Id.ToString() == gameId);
+
+			return entity;
+		}
 	}
 }

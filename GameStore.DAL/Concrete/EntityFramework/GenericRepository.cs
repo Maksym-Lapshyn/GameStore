@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
-	public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 	{
 		private readonly GameStoreContext _context;
 		private readonly DbSet<TEntity> _dbSet;
 
-		public Repository(GameStoreContext context)
+		public GenericRepository(GameStoreContext context)
 		{
 			_context = context;
 			_dbSet = _context.Set<TEntity>();
