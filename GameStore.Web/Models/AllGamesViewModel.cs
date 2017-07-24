@@ -9,6 +9,8 @@ namespace GameStore.Web.Models
 			Games = new List<GameViewModel>();
 		}
 
+		public FilterViewModel FilterState { get; set; }
+
 		public FilterViewModel Filter { get; set; }
 
 		public List<GameViewModel> Games { get; set; }

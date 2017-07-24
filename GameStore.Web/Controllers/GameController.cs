@@ -13,7 +13,6 @@ namespace GameStore.Web.Controllers
 	{
 		private const int DefaultPageSize = 10;
 		private const int DefaultPage = 1;
-		private static FilterViewModel _filterState;
 		private readonly IGameService _gameService;
 		private readonly IGenreService _genreService;
 		private readonly IPlatformTypeService _platformTypeService;
@@ -95,13 +94,13 @@ namespace GameStore.Web.Controllers
 			if (model.Filter == null)
 			{
 				model = UpdateNewModel(model);
-				_filterState = model.Filter;
+				model.FilterState = model.Filter;
 			}
 			else
 			{
 				if (model.FilterIsChanged)
 				{
-					_filterState = model.Filter;
+					model.FilterState = model.Filter;
 					model = UpdateChangedModel(model);
 				}
 			}
@@ -110,7 +109,7 @@ namespace GameStore.Web.Controllers
 			model = UpdatePagination(model);
 			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
 			var itemsToTake = model.PageSize;
-			model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
+			model.Games = GetGames(model.FilterState, itemsToSkip, itemsToTake);
 			model.Filter.PlatformTypesData = GetPlatformTypes();
 			model.Filter.GenresData = GetGenres();
 			model.Filter.PublishersData = GetPublishers();
@@ -174,7 +173,7 @@ namespace GameStore.Web.Controllers
 		private AllGamesViewModel UpdateChangedModel(AllGamesViewModel model)
 		{
 			model.CurrentPage = DefaultPage;
-			model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(_filterState));
+			model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(model.FilterState));
 			model = UpdatePagination(model);
 			model.FilterIsChanged = false;
 
@@ -200,7 +199,7 @@ namespace GameStore.Web.Controllers
 			model.Filter.PublishersData = GetPublishers();
 			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
 			var itemsToTake = model.PageSize;
-			model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
+			model.Games = GetGames(model.FilterState, itemsToSkip, itemsToTake);
 
 			return model;
 		}

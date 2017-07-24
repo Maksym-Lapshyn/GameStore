@@ -85,6 +85,27 @@
 			<input type="hidden" id="EndPage" name="EndPage" value=@Model.EndPage />
 			<input type="hidden" id="StartPage" name="StartPage" value=@Model.StartPage />
 			<input type="hidden" id="FilterIsChanged" name="FilterIsChanged" value=@Model.FilterIsChanged />
+			<input type="hidden" id="FilterState.DateOptions" name="FilterState.DateOptions" value=@Model.FilterState.DateOptions />
+			<input type="hidden" id="FilterState.GameName" name="FilterState.GameName" value=@Model.FilterState.GameName />
+			<input type="hidden" id="FilterState.MaxPrice" name="FilterState.MaxPrice" value=@Model.FilterState.MaxPrice />
+			<input type="hidden" id="FilterState.MinPrice" name="FilterState.MinPrice" value=@Model.FilterState.MinPrice />
+			<input type="hidden" id="FilterState.SortOptions" name="FilterState.SortOptions" value=@Model.FilterState.SortOptions />
+
+			@for (var i = 0; i < Model.FilterState.GenresInput.Count; i++)
+			{
+				@Html.HiddenFor(m => m.FilterState.GenresInput[i])
+			}
+			
+			@for (var i = 0; i < Model.FilterState.PublishersInput.Count; i++)
+			{
+				@Html.HiddenFor(m => m.FilterState.PublishersInput[i])
+			}
+			
+			@for (var i = 0; i < Model.FilterState.PlatformTypesInput.Count; i++)
+			{
+				@Html.HiddenFor(m => m.FilterState.PlatformTypesInput[i])
+			}
+
 		</div>
 		<div class="panel-footer">
 			<p>
