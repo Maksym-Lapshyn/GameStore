@@ -63,8 +63,11 @@
   <ItemGroup>
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
+    <Compile Include="Concrete\MongoDb\GameRepository.cs" />
+    <Compile Include="Concrete\MongoDb\GenreRepository.cs" />
+    <Compile Include="Concrete\MongoDb\PublisherRepository.cs" />
     <Compile Include="Concrete\MongoRepository.cs" />
-    <Compile Include="Concrete\EfRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\Repository.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />

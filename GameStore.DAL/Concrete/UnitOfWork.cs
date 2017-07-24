@@ -1,6 +1,7 @@
 ﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
+using GameStore.DAL.Concrete.EntityFramework;
 using System;
 
 namespace GameStore.DAL.Concrete
@@ -18,12 +19,12 @@ namespace GameStore.DAL.Concrete
 		public UnitOfWork(GameStoreContext context)
 		{
 			_context = context;
-			_gameRepository = new Lazy<IRepository<Game>>(() => new EfRepository<Game>(_context));
-			_commentRepository = new Lazy<IRepository<Comment>>(() => new EfRepository<Comment>(_context));
-			_publisherRepository = new Lazy<IRepository<Publisher>>(() => new EfRepository<Publisher>(_context));
-			_platformTypeRepository = new Lazy<IRepository<PlatformType>>(() => new EfRepository<PlatformType>(_context));
-			_genreRepository = new Lazy<IRepository<Genre>>(() => new EfRepository<Genre>(_context));
-			_orderRepository = new Lazy<IRepository<Order>>(() => new EfRepository<Order>(_context));
+			_gameRepository = new Lazy<IRepository<Game>>(() => new Repository<Game>(_context));
+			_commentRepository = new Lazy<IRepository<Comment>>(() => new Repository<Comment>(_context));
+			_publisherRepository = new Lazy<IRepository<Publisher>>(() => new Repository<Publisher>(_context));
+			_platformTypeRepository = new Lazy<IRepository<PlatformType>>(() => new Repository<PlatformType>(_context));
+			_genreRepository = new Lazy<IRepository<Genre>>(() => new Repository<Genre>(_context));
+			_orderRepository = new Lazy<IRepository<Order>>(() => new Repository<Order>(_context));
 		}
 
 		public IRepository<Game> GameRepository => _gameRepository.Value;
