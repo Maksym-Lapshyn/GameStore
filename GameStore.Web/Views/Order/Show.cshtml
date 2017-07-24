@@ -6,7 +6,7 @@
 }
 
 <h1>Show Order</h1>
-@if (Model.OrderDetails.Count != 0)
+@if (Model.CustomerId != null)
 {
 	<b>@Html.LabelFor(m => m.CustomerId)</b>
 	<p>

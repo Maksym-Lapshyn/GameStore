@@ -68,9 +68,8 @@ namespace GameStore.Services.Tests
 			Assert.AreEqual(result.CustomerId, ValidString);
 		}
 
-		[ExpectedException(typeof(InvalidOperationException))]
 		[TestMethod]
-		public void GetSingleBy_ThrowsArgumentException_WhenInValidCustomerIdIsPassed()
+		public void GetSingleBy_ReturnsEmptyOrderWithPassedCustomerId_WhenInValidCustomerIdIsPassed()
 		{
 			_orders = new List<Order>
 			{
@@ -79,7 +78,9 @@ namespace GameStore.Services.Tests
 
 			_mockOfUow.Setup(m => m.OrderRepository.Get()).Returns(_orders.AsQueryable);
 
-			_target.GetSingleBy(InvalidString);
+			var result = _target.GetSingleBy(InvalidString).CustomerId;
+
+			Assert.AreEqual(result, InvalidString);
 		}
 
 		[TestMethod]

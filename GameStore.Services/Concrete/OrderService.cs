@@ -30,9 +30,16 @@ namespace GameStore.Services.Concrete
 
 		public OrderDto GetSingleBy(string customerId)
 		{
-			var order = new Order();
+			Order order;
 
-			if (_unitOfWork.OrderRepository.Get().Count(o => o.CustomerId == customerId) != 0)
+			if (_unitOfWork.OrderRepository.Get().Count(o => o.CustomerId == customerId) == 0)
+			{
+				order = new Order
+				{
+					CustomerId = customerId
+				};
+			}
+			else
 			{
 				order = _unitOfWork.OrderRepository.Get().First(o => o.CustomerId == customerId);
 			}
