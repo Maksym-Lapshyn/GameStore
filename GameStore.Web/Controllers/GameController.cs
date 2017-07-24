@@ -86,33 +86,23 @@ namespace GameStore.Web.Controllers
 				return View(model);
 			}
 
-			if (!ModelState.IsValid && !model.FilterIsChanged)
-			{
-				ModelState.Clear();
-			}
-
 			if (model.Filter == null)
 			{
 				model = UpdateNewModel(model);
 				model.FilterState = model.Filter;
 			}
-			else
+			else if (model.FilterIsChanged)
 			{
-				if (model.FilterIsChanged)
-				{
-					model.FilterState = model.Filter;
-					model = UpdateChangedModel(model);
-				}
+				model.FilterState = model.Filter;
+				model = UpdateChangedModel(model);
 			}
+
+			ModelState.Clear();//Clears errors if any is present and user did not apply filter
 
 			model.TotalPages = (int)Math.Ceiling((decimal)model.TotalItems / model.PageSize);
 			model = UpdatePagination(model);
-			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
-			var itemsToTake = model.PageSize;
-			model.Games = GetGames(model.FilterState, itemsToSkip, itemsToTake);
-			model.Filter.PlatformTypesData = GetPlatformTypes();
-			model.Filter.GenresData = GetGenres();
-			model.Filter.PublishersData = GetPublishers();
+			model = UpdateGames(model);
+			model = UpdateFilterDate(model);
 
 			return View(model);
 		}
@@ -144,6 +134,24 @@ namespace GameStore.Web.Controllers
 			}
 
 			return new FileContentResult(fileBytes, "application/pdf");
+		}
+
+		private AllGamesViewModel UpdateGames(AllGamesViewModel model)
+		{
+			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
+			var itemsToTake = model.PageSize;
+			model.Games = GetGames(model.FilterState, itemsToSkip, itemsToTake);
+
+			return model;
+		}
+
+		private AllGamesViewModel UpdateFilterDate(AllGamesViewModel model)
+		{
+			model.Filter.PlatformTypesData = GetPlatformTypes();
+			model.Filter.GenresData = GetGenres();
+			model.Filter.PublishersData = GetPublishers();
+
+			return model;
 		}
 
 		private AllGamesViewModel UpdatePagination(AllGamesViewModel model)
@@ -194,12 +202,7 @@ namespace GameStore.Web.Controllers
 		private AllGamesViewModel UpdateInvalidModel(AllGamesViewModel model)
 		{
 			model.FilterIsChanged = false;
-			model.Filter.PlatformTypesData = GetPlatformTypes();
-			model.Filter.GenresData = GetGenres();
-			model.Filter.PublishersData = GetPublishers();
-			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
-			var itemsToTake = model.PageSize;
-			model.Games = GetGames(model.FilterState, itemsToSkip, itemsToTake);
+			model = UpdateGames(model);
 
 			return model;
 		}
