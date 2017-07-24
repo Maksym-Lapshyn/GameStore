@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.DAL.Entities
 {
@@ -15,8 +16,9 @@ namespace GameStore.DAL.Entities
 
 		public string Description { get; set; }
 
+		[BsonElement("UnitPrice")]
 		[Column(TypeName = "MONEY")]
-		public decimal Price { get; set; }
+		public double Price { get; set; }
 
 		[Column(TypeName="datetime2")]
 		public DateTime DateAdded { get; set; }

@@ -1,18 +1,21 @@
-﻿using System.Linq;
-using GameStore.DAL.Abstract;
-using GameStore.DAL.Abstract.MongoDb;
+﻿using GameStore.DAL.Abstract;
+using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
+using MongoDB.Driver;
+using System.Data.Entity;
+using System.Linq;
 
 namespace GameStore.DAL.Concrete
 {
 	public class GameDecorator : IGenericRepository<Game>
 	{
-		private IGenericRepository<Game> _efGameRepository;
-		private IGameRepository _mongoGameRepository;
+		private DbSet<Game> _dbSet;
+		private IMongoCollection<Game> _collection;
 
-		public GameDecorator(IGenericRepository<> )
+		public GameDecorator(GameStoreContext context, IMongoDatabase database)
 		{
-			
+			_dbSet = context.Games;
+			_collection = database.GetCollection<Game>("products");
 		}
 
 		public IQueryable<Game> Get()
