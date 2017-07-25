@@ -13,7 +13,6 @@ namespace GameStore.Web.Controllers
 	{
 		private const int DefaultPageSize = 10;
 		private const int DefaultPage = 1;
-		private static FilterViewModel _filterState;
 		private readonly IGameService _gameService;
 		private readonly IGenreService _genreService;
 		private readonly IPlatformTypeService _platformTypeService;
@@ -87,33 +86,23 @@ namespace GameStore.Web.Controllers
 				return View(model);
 			}
 
-			if (!ModelState.IsValid && !model.FilterIsChanged)
-			{
-				ModelState.Clear();
-			}
-
 			if (model.Filter == null)
 			{
 				model = UpdateNewModel(model);
-				_filterState = model.Filter;
+				model.FilterState = model.Filter;
 			}
-			else
+			else if (model.FilterIsChanged)
 			{
-				if (model.FilterIsChanged)
-				{
-					_filterState = model.Filter;
-					model = UpdateChangedModel(model);
-				}
+				model.FilterState = model.Filter;
+				model = UpdateChangedModel(model);
 			}
+
+			ModelState.Clear();//Clears errors if any is present and user did not apply filter
 
 			model.TotalPages = (int)Math.Ceiling((decimal)model.TotalItems / model.PageSize);
 			model = UpdatePagination(model);
-			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
-			var itemsToTake = model.PageSize;
-			model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
-			model.Filter.PlatformTypesData = GetPlatformTypes();
-			model.Filter.GenresData = GetGenres();
-			model.Filter.PublishersData = GetPublishers();
+			model = UpdateGames(model);
+			model = UpdateFilterDate(model);
 
 			return View(model);
 		}
@@ -147,6 +136,24 @@ namespace GameStore.Web.Controllers
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
 
+		private AllGamesViewModel UpdateGames(AllGamesViewModel model)
+		{
+			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
+			var itemsToTake = model.PageSize;
+			model.Games = GetGames(model.FilterState, itemsToSkip, itemsToTake);
+
+			return model;
+		}
+
+		private AllGamesViewModel UpdateFilterDate(AllGamesViewModel model)
+		{
+			model.Filter.PlatformTypesData = GetPlatformTypes();
+			model.Filter.GenresData = GetGenres();
+			model.Filter.PublishersData = GetPublishers();
+
+			return model;
+		}
+
 		private AllGamesViewModel UpdatePagination(AllGamesViewModel model)
 		{
 			model.StartPage = model.CurrentPage - 5;
@@ -174,7 +181,7 @@ namespace GameStore.Web.Controllers
 		private AllGamesViewModel UpdateChangedModel(AllGamesViewModel model)
 		{
 			model.CurrentPage = DefaultPage;
-			model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(_filterState));
+			model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(model.FilterState));
 			model = UpdatePagination(model);
 			model.FilterIsChanged = false;
 
@@ -195,12 +202,7 @@ namespace GameStore.Web.Controllers
 		private AllGamesViewModel UpdateInvalidModel(AllGamesViewModel model)
 		{
 			model.FilterIsChanged = false;
-			model.Filter.PlatformTypesData = GetPlatformTypes();
-			model.Filter.GenresData = GetGenres();
-			model.Filter.PublishersData = GetPublishers();
-			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
-			var itemsToTake = model.PageSize;
-			model.Games = GetGames(_filterState, itemsToSkip, itemsToTake);
+			model = UpdateGames(model);
 
 			return model;
 		}

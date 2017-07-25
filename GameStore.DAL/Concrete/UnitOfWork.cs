@@ -27,17 +27,17 @@ namespace GameStore.DAL.Concrete
 			_orderRepository = new Lazy<IGenericRepository<Order>>(() => new GenericRepository<Order>(_context));
 		}
 
-		public IGenericRepository<Game> GameGenericRepository => _gameRepository.Value;
+		public IGenericRepository<Game> GameRepository => _gameRepository.Value;
 
-		public IGenericRepository<Comment> CommentGenericRepository => _commentRepository.Value;
+		public IGenericRepository<Comment> CommentRepository => _commentRepository.Value;
 
-		public IGenericRepository<Publisher> PublisherGenericRepository => _publisherRepository.Value;
+		public IGenericRepository<Publisher> PublisherRepository => _publisherRepository.Value;
 
-		public IGenericRepository<Genre> GenreGenericRepository => _genreRepository.Value;
+		public IGenericRepository<Genre> GenreRepository => _genreRepository.Value;
 
-		public IGenericRepository<PlatformType> PlatformTypeGenericRepository => _platformTypeRepository.Value;
+		public IGenericRepository<PlatformType> PlatformTypeRepository => _platformTypeRepository.Value;
 
-		public IGenericRepository<Order> OrderGenericRepository => _orderRepository.Value;
+		public IGenericRepository<Order> OrderRepository => _orderRepository.Value;
 
 		public void Save()
 		{

@@ -106,7 +106,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void DisplayBasket_CallsRightControllerAndAction_WhenValidRouteIsPassed()
 		{
-			TestRouteMatch("~/basket", "Order", "Show");
+			TestRouteMatch("~/busket", "Order", "Show");
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<PlatformTypeDto> GetAll()
 		{
-			var platforms = _unitOfWork.PlatformTypeGenericRepository.Get();
+			var platforms = _unitOfWork.PlatformTypeRepository.Get();
 			var platformDtos = _mapper.Map<IQueryable<PlatformType>, IEnumerable<PlatformTypeDto>>(platforms);
 
 			return platformDtos;

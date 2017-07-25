@@ -25,19 +25,19 @@ namespace GameStore.Services.Concrete
 
 			if (comment.ParentCommentId != null)
 			{
-				var parentComment = _unitOfWork.CommentGenericRepository.Get(comment.ParentCommentId.Value);
+				var parentComment = _unitOfWork.CommentRepository.Get(comment.ParentCommentId.Value);
 				comment.ParentComment = parentComment;
 			}
 
-			var game = _unitOfWork.GameGenericRepository.Get(comment.Id);
+			var game = _unitOfWork.GameRepository.Get(comment.Id);
 			comment.Game = game;
-			_unitOfWork.CommentGenericRepository.Insert(comment);
+			_unitOfWork.CommentRepository.Insert(comment);
 			_unitOfWork.Save();
 		}
 
 		public IEnumerable<CommentDto> GetAll()
 		{
-			var comments = _unitOfWork.CommentGenericRepository.Get();
+			var comments = _unitOfWork.CommentRepository.Get();
 			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
@@ -45,7 +45,7 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<CommentDto> GetBy(string gameKey)
 		{
-			var comments = _unitOfWork.CommentGenericRepository.Get().Where(c => c.Game.Key == gameKey && c.ParentComment == null);
+			var comments = _unitOfWork.CommentRepository.Get().Where(c => c.Game.Key == gameKey && c.ParentComment == null);
 			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;

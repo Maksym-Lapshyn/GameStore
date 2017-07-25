@@ -36,7 +36,7 @@ namespace GameStore.Services.Tests
 				new PlatformType()
 			};
 
-			_mockOfUow.Setup(m => m.PlatformTypeGenericRepository.Get()).Returns(_platformTypes.AsQueryable);
+			_mockOfUow.Setup(m => m.PlatformTypeRepository.Get()).Returns(_platformTypes.AsQueryable);
 
 			var result = _target.GetAll().ToList().Count;
 
