@@ -6,7 +6,7 @@ namespace GameStore.Web.Models
 {
 	public class PublisherViewModel
 	{
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[DisplayName("Company Name")]

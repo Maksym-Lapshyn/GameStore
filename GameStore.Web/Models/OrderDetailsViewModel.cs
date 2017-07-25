@@ -2,9 +2,9 @@
 {
 	public class OrderDetailsViewModel
 	{
-		public string Id { get; set; }
+		public int Id { get; set; }
 
-		public string GameId { get; set; }
+		public int GameId { get; set; }
 
 		public GameViewModel Game { get; set; }
 

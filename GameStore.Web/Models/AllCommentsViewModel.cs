@@ -9,7 +9,7 @@ namespace GameStore.Web.Models
 			Comments = new List<CommentViewModel>();
 		}
 
-		public string GameId { get; set; }
+		public int GameId { get; set; }
 
 		public string GameKey { get; set; }
 

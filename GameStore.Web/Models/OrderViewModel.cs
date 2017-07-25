@@ -10,7 +10,7 @@ namespace GameStore.Web.Models
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}
 
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		public string CustomerId { get; set; }
 

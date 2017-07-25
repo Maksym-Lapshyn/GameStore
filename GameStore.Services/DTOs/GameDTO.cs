@@ -14,7 +14,7 @@ namespace GameStore.Services.DTOs
 			PlatformTypesInput = new List<int>();
 		}
 
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		public string Key { get; set; }
 

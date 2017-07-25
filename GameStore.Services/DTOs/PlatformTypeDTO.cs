@@ -9,7 +9,7 @@ namespace GameStore.Services.DTOs
 			Games = new List<GameDto>();
 		}
 
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		public string Type { get; set; }
 
