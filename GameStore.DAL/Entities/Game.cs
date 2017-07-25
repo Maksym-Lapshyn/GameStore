@@ -6,6 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.DAL.Entities
 {
+	[BsonIgnoreExtraElements]
 	public class Game : BaseEntity
 	{
 		[StringLength(450)]
@@ -18,7 +19,7 @@ namespace GameStore.DAL.Entities
 
 		[BsonElement("UnitPrice")]
 		[Column(TypeName = "MONEY")]
-		public double Price { get; set; }
+		public decimal Price { get; set; }
 
 		[Column(TypeName="datetime2")]
 		public DateTime DateAdded { get; set; }

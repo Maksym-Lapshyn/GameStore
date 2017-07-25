@@ -22,7 +22,7 @@ namespace GameStore.Services.Concrete
 		public void Create(OrderDto orderDto)
 		{
 			var order = _mapper.Map<OrderDto, Order>(orderDto);
-			order.Date = DateTime.UtcNow;
+			order.OrderDate = DateTime.UtcNow;
 			Map(order);
 			_unitOfWork.OrderGenericRepository.Insert(order);
 			_unitOfWork.Save();
