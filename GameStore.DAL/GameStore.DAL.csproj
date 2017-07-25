@@ -45,6 +45,9 @@
     <Reference Include="MongoDB.Driver.Core, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -61,19 +64,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IRepositoryDecorator.cs" />
     <Compile Include="Abstract\IGenericRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
-    <Compile Include="Abstract\MongoDb\IGameRepository.cs" />
-    <Compile Include="Abstract\MongoDb\IGenreRepository.cs" />
-    <Compile Include="Abstract\MongoDb\IPublisherRepository.cs" />
-    <Compile Include="Abstract\MongoDb\IShipperRepository.cs" />
     <Compile Include="Concrete\GameDecorator.cs" />
-    <Compile Include="Concrete\MongoDb\GameRepository.cs" />
-    <Compile Include="Concrete\MongoDb\GenreRepository.cs" />
-    <Compile Include="Concrete\MongoDb\PublisherRepository.cs" />
-    <Compile Include="Concrete\MongoDb\ShipperRepository.cs" />
-    <Compile Include="Concrete\EntityFramework\GenericRepository.cs" />
+    <Compile Include="Concrete\GenreDecorator.cs" />
+    <Compile Include="Concrete\MongoDb\MongoGameRepository.cs" />
+    <Compile Include="Concrete\MongoDb\MongoGenreRepository.cs" />
+    <Compile Include="Concrete\MongoDb\MongoPublisherRepository.cs" />
+    <Compile Include="Concrete\MongoDb\MongoShipperRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfGenericRepository.cs" />
+    <Compile Include="Concrete\PublisherDecorator.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
@@ -86,6 +86,9 @@
     <Compile Include="Entities\PlatformType.cs" />
     <Compile Include="Entities\Publisher.cs" />
     <Compile Include="Entities\Shipper.cs" />
+    <Compile Include="Infrastructure\DalModule.cs" />
+    <Compile Include="Infrastructure\Filter.cs" />
+    <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +96,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
+    <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
+      <Project>{2567104D-41D6-43B6-94FE-51F1FE8F6407}</Project>
+      <Name>GameStore.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

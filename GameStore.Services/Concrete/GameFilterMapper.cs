@@ -1,7 +1,7 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.Common.Enums;
+using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using GameStore.Services.Enums;
 using GameStore.Services.Filters;
 using System.Collections.Generic;
 using System.Linq;

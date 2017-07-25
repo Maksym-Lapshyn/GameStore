@@ -1,4 +1,4 @@
-﻿namespace GameStore.Services.Enums
+﻿namespace GameStore.Common.Enums
 {
 	public enum SortOptions
 	{

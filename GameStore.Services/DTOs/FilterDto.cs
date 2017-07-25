@@ -1,5 +1,5 @@
-﻿using GameStore.Services.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GameStore.Common.Enums;
 
 namespace GameStore.Services.DTOs
 {

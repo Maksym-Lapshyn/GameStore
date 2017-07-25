@@ -1,8 +1,10 @@
-﻿using System;
+﻿using GameStore.DAL.Infrastructure.Serializers;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.DAL.Entities
 {
@@ -11,13 +13,17 @@ namespace GameStore.DAL.Entities
 	{
 		[StringLength(450)]
 		[Index(IsUnique = true)]
+		[BsonElement("ProductID")]
+		[BsonSerializer(typeof(Int32ToStringSerializer))]
 		public string Key { get; set; }
 
+		[BsonElement("ProductName")]
 		public string Name { get; set; }
 
 		public string Description { get; set; }
 
 		[BsonElement("UnitPrice")]
+		[BsonRepresentation(BsonType.Double)]
 		[Column(TypeName = "MONEY")]
 		public decimal Price { get; set; }
 
@@ -29,8 +35,10 @@ namespace GameStore.DAL.Entities
 
 		public int ViewsCount { get; set; }
 
+		[BsonRepresentation(BsonType.Int32)]
 		public short UnitsInStock { get; set; }
 
+		[BsonRepresentation(BsonType.Int32)]
 		public bool Discontinued { get; set; }
 
 		public int? PublisherId { get; set; }

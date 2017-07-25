@@ -8,18 +8,18 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete
 {
-	public class GameDecorator : IGenericRepository<Game>
+	public class GenreDecorator : IGenericRepository<Genre>
 	{
-		private readonly EfGenericRepository<Game> _efRepository;
-		private readonly MongoGameRepository _mongoRepository;
+		private readonly EfGenericRepository<Genre> _efRepository;
+		private readonly MongoGenreRepository _mongoRepository;
 
-		public GameDecorator(GameStoreContext context, IMongoDatabase database)
+		public GenreDecorator(GameStoreContext context, IMongoDatabase database)
 		{
-			_efRepository = new EfGenericRepository<Game>(context);
-			_mongoRepository = new MongoGameRepository(database);
+			_efRepository = new EfGenericRepository<Genre>(context);
+			_mongoRepository = new MongoGenreRepository(database);
 		}
 
-		public IQueryable<Game> Get()
+		public IQueryable<Genre> Get()
 		{
 			var efQuery = _efRepository.Get();
 			var mongoQuery = _mongoRepository.Get();
@@ -27,12 +27,12 @@ namespace GameStore.DAL.Concrete
 			return efQuery.Union(mongoQuery);
 		}
 
-		public Game Get(int id)
+		public Genre Get(int id)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public void Insert(Game entity)
+		public void Insert(Genre entity)
 		{
 			_efRepository.Insert(entity);
 		}
@@ -42,7 +42,7 @@ namespace GameStore.DAL.Concrete
 			_efRepository.Delete(id);
 		}
 
-		public void Update(Game entityToUpdate)
+		public void Update(Genre entityToUpdate)
 		{
 			_efRepository.Update(entityToUpdate);
 		}

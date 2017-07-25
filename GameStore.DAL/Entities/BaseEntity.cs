@@ -1,10 +1,15 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.DAL.Entities
 {
 	public abstract class BaseEntity
 	{
-		public Guid Id { get; set; }
+		public int Id { get; set; }
+
+		[BsonRepresentation(BsonType.ObjectId)]
+		[BsonElement("_id")]
+		public string NorthwindId { get; set; }
 
 		public bool IsDeleted { get; set; }
 	}

@@ -1,7 +1,7 @@
-﻿using GameStore.Services.Enums;
-using GameStore.Web.Infrastructure.Attributes;
+﻿using GameStore.Web.Infrastructure.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
+using GameStore.Common.Enums;
 
 namespace GameStore.Web.Models
 {

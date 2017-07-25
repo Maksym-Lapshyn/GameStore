@@ -1,17 +1,17 @@
-﻿using GameStore.DAL.Abstract;
+﻿using System.Data.Entity;
+using System.Linq;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
-using System.Data.Entity;
-using System.Linq;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
-	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
+	public class EfGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 	{
 		private readonly GameStoreContext _context;
 		private readonly DbSet<TEntity> _dbSet;
 
-		public GenericRepository(GameStoreContext context)
+		public EfGenericRepository(GameStoreContext context)
 		{
 			_context = context;
 			_dbSet = _context.Set<TEntity>();

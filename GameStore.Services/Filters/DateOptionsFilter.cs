@@ -1,7 +1,7 @@
 ﻿
+using GameStore.Common.Enums;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
-using GameStore.Services.Enums;
 using System;
 using System.Linq;
 
