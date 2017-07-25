@@ -33,7 +33,7 @@ namespace GameStore.DAL.Entities
 
 		public bool Discontinued { get; set; }
 
-		public int? PublisherId { get; set; }
+		public string PublisherId { get; set; }
 
 		public virtual Publisher Publisher { get; set; }
 

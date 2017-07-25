@@ -9,17 +9,17 @@ namespace GameStore.Services.DTOs
 			ChildComments = new List<CommentDto>();
 		}
 
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		public string Name { get; set; }
 
 		public string Body { get; set; }
 
-		public int GameId { get; set; }
+		public string GameId { get; set; }
 
 		public GameDto Game { get; set; }
 
-		public int? ParentCommentId { get; set; }
+		public string ParentCommentId { get; set; }
 
 		public CommentDto ParentComment { get; set; }
 

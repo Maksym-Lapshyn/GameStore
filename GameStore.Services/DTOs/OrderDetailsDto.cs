@@ -2,9 +2,9 @@
 {
 	public class OrderDetailsDto
 	{
-		public int Id { get; set; }
+		public string Id { get; set; }
 
-		public int GameId { get; set; }
+		public string GameId { get; set; }
 
 		public GameDto Game { get; set; }
 

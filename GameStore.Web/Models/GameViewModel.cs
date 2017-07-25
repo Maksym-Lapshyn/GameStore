@@ -9,8 +9,7 @@ namespace GameStore.Web.Models
 {
 	public class GameViewModel
 	{
-		[HiddenInput]
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		[Required]
 		public string Key { get; set; }

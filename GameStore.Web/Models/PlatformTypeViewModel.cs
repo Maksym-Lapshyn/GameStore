@@ -4,7 +4,7 @@ namespace GameStore.Web.Models
 {
 	public class PlatformTypeViewModel
 	{
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		public string Type { get; set; }
 

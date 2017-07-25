@@ -5,7 +5,7 @@ namespace GameStore.Web.Models
 {
 	public class CommentViewModel
 	{
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		[Required]
 		public string Name { get; set; }
@@ -13,13 +13,13 @@ namespace GameStore.Web.Models
 		[Required]
 		public string Body { get; set; }
 
-		public int GameId { get; set; }
+		public string GameId { get; set; }
 
 		public string GameKey { get; set; }
 
 		public GameViewModel Game { get; set; }
 
-		public int? ParentCommentId { get; set; }
+		public string ParentCommentId { get; set; }
 
 		public CommentViewModel ParentComment { get; set; }
 

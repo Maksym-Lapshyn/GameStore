@@ -10,7 +10,7 @@ namespace GameStore.Services.DTOs
 			OrderDetails = new List<OrderDetailsDto>();
 		}
 
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		public bool IsDeleted { get; set; }
 
