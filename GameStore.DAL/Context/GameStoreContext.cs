@@ -5,6 +5,11 @@ namespace GameStore.DAL.Context
 {
 	public class GameStoreContext : DbContext
 	{
+		public GameStoreContext(string connectionString)
+		: base(connectionString)
+		{
+		}
+
 		public DbSet<Game> Games { get; set; }
 
 		public DbSet<Comment> Comments { get; set; }
@@ -19,14 +24,9 @@ namespace GameStore.DAL.Context
 
 		public DbSet<OrderDetails> OrderDetails { get; set; }
 
-		public GameStoreContext(string connectionString)
-			: base(connectionString)
-		{
-		}
-
 		static GameStoreContext()
 		{
-			Database.SetInitializer<GameStoreContext>(new GameStoreContextInitializer());
+			Database.SetInitializer(new GameStoreContextInitializer());
 		}
 	}
 }

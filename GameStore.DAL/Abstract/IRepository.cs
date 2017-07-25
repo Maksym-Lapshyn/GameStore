@@ -1,14 +1,11 @@
 ﻿using GameStore.DAL.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace GameStore.DAL.Abstract
 {
-	public interface IGenericRepository<TEntity> where TEntity : BaseEntity
+	public interface IRepository<TEntity> where TEntity : BaseEntity
 	{
-		IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
+		IQueryable<TEntity> Get();
 
 		TEntity Get(int id);
 

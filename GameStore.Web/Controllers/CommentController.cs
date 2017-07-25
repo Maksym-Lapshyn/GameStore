@@ -8,16 +8,17 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	//[OutputCache(Duration = 60, VaryByHeader = "get;post")]
+	[OutputCache(Duration = 60, VaryByHeader = "get;post")]
 	public class CommentController : Controller
 	{
 		private readonly ICommentService _commentService;
-		private readonly IGameService _gameService;
+		private readonly IMapper _mapper;
 
-		public CommentController(ICommentService commentService, IGameService gameService)
+		public CommentController(ICommentService commentService,
+			IMapper mapper)
 		{
 			_commentService = commentService;
-			_gameService = gameService;
+			_mapper = mapper;
 		}
 
 		[HttpPost]
@@ -28,7 +29,7 @@ namespace GameStore.Web.Controllers
 				return PartialView(commentViewModel);
 			}
 
-			var commentDto = Mapper.Map<CommentViewModel, CommentDto>(commentViewModel);
+			var commentDto = _mapper.Map<CommentViewModel, CommentDto>(commentViewModel);
 			_commentService.Create(commentDto);
 
 			return RedirectToAction("ListAll", new { gameKey = commentViewModel.GameKey });
@@ -38,7 +39,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult ListAll(string gameKey)
 		{
 			var commentDtos = _commentService.GetBy(gameKey);
-			var commentViewModels = Mapper.Map<List<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
+			var commentViewModels = _mapper.Map<IEnumerable<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
 			var commentListViewModel = new AllCommentsViewModel
 			{
 				GameId = commentViewModels.First().GameId,

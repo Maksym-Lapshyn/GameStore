@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,25 +49,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\ICommentService.cs" />
+    <Compile Include="Abstract\IFilter.cs" />
+    <Compile Include="Abstract\IFilterMapper.cs" />
     <Compile Include="Abstract\IGameService.cs" />
     <Compile Include="Abstract\IGenreService.cs" />
     <Compile Include="Abstract\IOrderService.cs" />
+    <Compile Include="Abstract\IPipeline.cs" />
     <Compile Include="Abstract\IPlatformTypeService.cs" />
     <Compile Include="Abstract\IPublisherService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
+    <Compile Include="Concrete\GamePipeline.cs" />
+    <Compile Include="Concrete\GameFilterMapper.cs" />
     <Compile Include="Concrete\GameService.cs" />
+    <Compile Include="Filters\DateOptionsFilter.cs" />
+    <Compile Include="Filters\GameNameFilter.cs" />
+    <Compile Include="Filters\GenreFilter.cs" />
     <Compile Include="Concrete\GenreService.cs" />
     <Compile Include="Concrete\OrderService.cs" />
     <Compile Include="Concrete\PlatformTypeService.cs" />
     <Compile Include="Concrete\PublisherService.cs" />
     <Compile Include="DTOs\CommentDto.cs" />
+    <Compile Include="Enums\DateOptions.cs" />
+    <Compile Include="DTOs\FilterDto.cs" />
     <Compile Include="DTOs\GameDto.cs" />
     <Compile Include="DTOs\GenreDto.cs" />
     <Compile Include="DTOs\OrderDetailsDto.cs" />
     <Compile Include="DTOs\OrderDto.cs" />
     <Compile Include="DTOs\PlatformTypeDto.cs" />
     <Compile Include="DTOs\PublisherDto.cs" />
-    <Compile Include="Infrastructure\ServicesAutoMapperConfig.cs" />
+    <Compile Include="Enums\SortOptions.cs" />
+    <Compile Include="Filters\MaxPriceFilter.cs" />
+    <Compile Include="Filters\MinPriceFilter.cs" />
+    <Compile Include="Filters\PlatformTypeFilter.cs" />
+    <Compile Include="Filters\PublisherFilter.cs" />
+    <Compile Include="Filters\SortOptionsFilter.cs" />
+    <Compile Include="Infrastructure\ServiceProfile.cs" />
     <Compile Include="Infrastructure\ServicesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

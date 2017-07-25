@@ -8,14 +8,17 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-    public class OrderController : Controller
+	public class OrderController : Controller
 	{
 		private readonly IOrderService _orderService;
+		private readonly IMapper _mapper;
 		private const string CookieKey = "customerId";
 
-		public OrderController(IOrderService orderService)
+		public OrderController(IOrderService orderService,
+			IMapper mapper)
 		{
 			_orderService = orderService;
+			_mapper = mapper;
 		}
 
 		public ActionResult Show()
@@ -28,7 +31,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult Edit(int gameId)
 		{
 			var orderViewModel = GetOrder();
-			var orderDto = Mapper.Map<OrderViewModel, OrderDto>(orderViewModel);
+			var orderDto = _mapper.Map<OrderViewModel, OrderDto>(orderViewModel);
 			_orderService.Edit(orderDto, gameId);
 
 			return RedirectToAction("Show");
@@ -41,7 +44,7 @@ namespace GameStore.Web.Controllers
 			if (Request.Cookies[CookieKey] != null)
 			{
 				var orderDto = _orderService.GetSingleBy(Request.Cookies[CookieKey].Value);
-				orderViewModel = Mapper.Map<OrderDto, OrderViewModel>(orderDto);
+				orderViewModel = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
 
 				return orderViewModel;
 			}
@@ -53,8 +56,8 @@ namespace GameStore.Web.Controllers
 				CustomerId = customerId
 			};
 
-			_orderService.Create(Mapper.Map<OrderViewModel, OrderDto>(orderViewModel));
-			orderViewModel = Mapper.Map<OrderDto, OrderViewModel>(_orderService.GetSingleBy(customerId));
+			_orderService.Create(_mapper.Map<OrderViewModel, OrderDto>(orderViewModel));
+			orderViewModel = _mapper.Map<OrderDto, OrderViewModel>(_orderService.GetSingleBy(customerId));
 
 			return orderViewModel;
 		}

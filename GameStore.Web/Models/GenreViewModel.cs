@@ -9,7 +9,7 @@ namespace GameStore.Web.Models
 
 		public string Name { get; set; }
 
-		public IEnumerable<GenreViewModel> ChildGenres { get; set; }
+		public List<GenreViewModel> ChildGenres { get; set; }
 
 		public GenreDto ParentGenre { get; set; }
 	}

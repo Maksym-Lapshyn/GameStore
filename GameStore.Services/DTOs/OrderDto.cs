@@ -5,6 +5,11 @@ namespace GameStore.Services.DTOs
 {
 	public class OrderDto
 	{
+		public OrderDto()
+		{
+			OrderDetails = new List<OrderDetailsDto>();
+		}
+
 		public int Id { get; set; }
 
 		public bool IsDeleted { get; set; }
@@ -14,10 +19,5 @@ namespace GameStore.Services.DTOs
 		public DateTime Date { get; set; }
 
 		public IEnumerable<OrderDetailsDto> OrderDetails { get; set; }
-
-		public OrderDto()
-		{
-			OrderDetails = new List<OrderDetailsDto>();
-		}
 	}
 }

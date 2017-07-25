@@ -1,4 +1,5 @@
-﻿using GameStore.Web.Infrastructure.Attributes;
+﻿using System;
+using GameStore.Web.Infrastructure.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,21 +26,31 @@ namespace GameStore.Web.Models
 		[Range(0.1, double.MaxValue)]
 		public decimal Price { get; set; }
 
+		public DateTime DateAdded { get; set; }
+
+		[DisplayName("Date published")]
+		[Required]
+		public DateTime DatePublished { get; set; }
+
+		public int ViewsCount { get; set; }
+
+		public int CommentsCount { get; set; }
+
 		[DisplayName("Units in stock")]
 		public short UnitsInStock { get; set; }
 
 		public bool Discontinued { get; set; }
 
-		[DisplayName("Publisher")]
+		[DisplayName("Publishers")]
 		public List<PublisherViewModel> PublishersData { get; set; }
 
 		[DisplayName("Genres")]
 		public List<GenreViewModel> GenresData { get; set; }
 
-		[DisplayName("Platforms")]
+		[DisplayName("PlatformTypes")]
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
-		[DisplayName("Publisher")]
+		[DisplayName("Publishers")]
 		[Required]
 		[HiddenInput]
 		public int PublisherInput { get; set; }
@@ -48,7 +59,7 @@ namespace GameStore.Web.Models
 		[CannotBeEmpty]
 		public List<int> GenresInput { get; set; }
 
-		[DisplayName("Platforms")]
+		[DisplayName("PlatformTypes")]
 		[CannotBeEmpty]
 		public List<int> PlatformTypesInput { get; set; }
 	}

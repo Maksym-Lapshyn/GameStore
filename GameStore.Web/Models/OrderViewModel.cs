@@ -5,6 +5,11 @@ namespace GameStore.Web.Models
 {
 	public class OrderViewModel
 	{
+		public OrderViewModel()
+		{
+			OrderDetails = new List<OrderDetailsViewModel>();
+		}
+
 		public int Id { get; set; }
 
 		public string CustomerId { get; set; }
@@ -12,10 +17,5 @@ namespace GameStore.Web.Models
 		public DateTime Date { get; set; }
 
 		public List<OrderDetailsViewModel> OrderDetails { get; set; }
-
-		public OrderViewModel()
-		{
-			OrderDetails = new List<OrderDetailsViewModel>();
-		}
 	}
 }

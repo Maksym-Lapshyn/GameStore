@@ -1,15 +1,12 @@
 ﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete
 {
-	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
+	public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 	{
 		private readonly GameStoreContext _context;
 		private readonly DbSet<TEntity> _dbSet;
@@ -20,14 +17,9 @@ namespace GameStore.DAL.Concrete
 			_dbSet = _context.Set<TEntity>();
 		}
 
-		public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
-			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
+		public IQueryable<TEntity> Get()
 		{
-			IQueryable<TEntity> query = _dbSet;
-			query = filter != null ? query.Where(filter) : query;
-			query = orderBy != null ? orderBy(query) : query;
-
-			return query.Where(e => !e.IsDeleted).ToList();
+			return _dbSet;
 		}
 
 		public TEntity Get(int id)
@@ -44,8 +36,8 @@ namespace GameStore.DAL.Concrete
 
 		public void Delete(int id)
 		{
-			var entityToRemove = _dbSet.Find(id);
-			entityToRemove.IsDeleted = true;
+			var entity = _dbSet.Find(id);
+			entity.IsDeleted = true;
 		}
 
 		public void Update(TEntity entityToUpdate)

@@ -4,6 +4,11 @@ namespace GameStore.Services.DTOs
 {
 	public class CommentDto
 	{
+		public CommentDto()
+		{
+			ChildComments = new List<CommentDto>();
+		}
+
 		public int Id { get; set; }
 
 		public string Name { get; set; }
@@ -19,10 +24,5 @@ namespace GameStore.Services.DTOs
 		public CommentDto ParentComment { get; set; }
 
 		public IEnumerable<CommentDto> ChildComments { get; set; }
-
-		public CommentDto()
-		{
-			ChildComments = new List<CommentDto>();
-		}
 	}
 }

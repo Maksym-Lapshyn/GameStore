@@ -73,14 +73,14 @@ namespace GameStore.Web
 
 			routes.MapRoute(
 				"DisplayBasket",
-				"basket",
+				"busket",
 				new { controller = "Order", action = "Show" }
 			);
 
 			routes.MapRoute(
 				"Default",
-				"{controller}/{action}/{id}",
-				new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+				"{controller}/{action}",
+				new {controller = "Game", action = "ListAll"}
 			);
 		}
 	}

@@ -9,16 +9,20 @@ namespace GameStore.Services.Abstract
 
 		IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames);
 
+		int GetCount(FilterDto filter = null);
+
 		GameDto GetSingleBy(string gameKey);
+
+		void SaveView(int gameId);
 
 		void Create(GameDto gameDto);
 
 		void Edit(GameDto gameDto);
 
-		void Delete(int id);
+		void Delete(int gameId);
 
 		GameDto GetSingleBy(int gameId);
 
-		IEnumerable<GameDto> GetAll();
+		IEnumerable<GameDto> GetAll(FilterDto filter = null, int? skip = null, int? take = null);
 	}
 }

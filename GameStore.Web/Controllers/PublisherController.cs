@@ -10,10 +10,13 @@ namespace GameStore.Web.Controllers
 	public class PublisherController : Controller
 	{
 		private readonly IPublisherService _publisherService;
+		private readonly IMapper _mapper;
 
-		public PublisherController(IPublisherService publisherService)
+		public PublisherController(IPublisherService publisherService,
+			IMapper mapper)
 		{
 			_publisherService = publisherService;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
@@ -30,7 +33,7 @@ namespace GameStore.Web.Controllers
 				return View(publisherViewModel);
 			}
 
-			var publisherDto = Mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
+			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
 			_publisherService.Create(publisherDto);
 
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -38,7 +41,7 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult Show(string companyName)
 		{
-			var publisherViewModel = Mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingleBy(companyName));
+			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingleBy(companyName));
 
 			return View(publisherViewModel);
 		}

@@ -3,7 +3,6 @@ using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,15 +11,17 @@ namespace GameStore.Services.Concrete
 	public class PublisherService : IPublisherService
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
 
-		public PublisherService(IUnitOfWork unitOfWork)
+		public PublisherService(IUnitOfWork unitOfWork, IMapper mapper)
 		{
 			_unitOfWork = unitOfWork;
+			_mapper = mapper;
 		}
 
 		public void Create(PublisherDto publisherDto)
 		{
-			var publisher = Mapper.Map<PublisherDto, Publisher>(publisherDto);
+			var publisher = _mapper.Map<PublisherDto, Publisher>(publisherDto);
 			_unitOfWork.PublisherRepository.Insert(publisher);
 			_unitOfWork.Save();
 		}
@@ -28,7 +29,7 @@ namespace GameStore.Services.Concrete
 		public PublisherDto GetSingleBy(int publisherId)
 		{
 			var publisher = _unitOfWork.PublisherRepository.Get(publisherId);
-			var publisherDto = Mapper.Map<Publisher, PublisherDto>(publisher);
+			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;
 		}
@@ -36,7 +37,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<PublisherDto> GetAll()
 		{
 			var publishers = _unitOfWork.PublisherRepository.Get();
-			var publisherDtos = Mapper.Map<IEnumerable<Publisher>, IEnumerable< PublisherDto>>(publishers);
+			var publisherDtos = _mapper.Map<IQueryable<Publisher>, IEnumerable<PublisherDto>>(publishers);
 
 			return publisherDtos;
 		}
@@ -44,8 +45,8 @@ namespace GameStore.Services.Concrete
 		public PublisherDto GetSingleBy(string companyName)
 		{
 			var publisher = _unitOfWork.PublisherRepository
-				.Get(p => string.Equals(p.CompanyName, companyName, StringComparison.CurrentCultureIgnoreCase)).First();
-			var publisherDto = Mapper.Map<Publisher, PublisherDto>(publisher);
+				.Get().First(p => p.CompanyName == companyName);
+			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;
 		}
