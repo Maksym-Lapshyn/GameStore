@@ -2,10 +2,11 @@
 using GameStore.DAL.Entities;
 using MongoDB.Driver;
 using System.Linq;
+using GameStore.DAL.Abstract.MongoDb;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
-	public class MongoShipperRepository : IGenericRepository<Shipper>
+	public class MongoShipperRepository : IMongoShipperRepository
 	{
 		private readonly IMongoCollection<Shipper> _collection;
 
@@ -19,22 +20,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return _collection.AsQueryable();
 		}
 
-		public Shipper Get(int id)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Insert(Shipper entity)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Delete(int id)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Update(Shipper entityToUpdate)
+		public Shipper Get(string id)
 		{
 			throw new System.NotImplementedException();
 		}

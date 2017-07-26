@@ -45,9 +45,6 @@
     <Reference Include="MongoDB.Driver.Core, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -64,8 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IGenericRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IGenericRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
     <Compile Include="Concrete\GameDecorator.cs" />
     <Compile Include="Concrete\GenreDecorator.cs" />
     <Compile Include="Concrete\MongoDb\MongoGameRepository.cs" />
@@ -86,7 +87,6 @@
     <Compile Include="Entities\PlatformType.cs" />
     <Compile Include="Entities\Publisher.cs" />
     <Compile Include="Entities\Shipper.cs" />
-    <Compile Include="Infrastructure\DalModule.cs" />
     <Compile Include="Infrastructure\Filter.cs" />
     <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

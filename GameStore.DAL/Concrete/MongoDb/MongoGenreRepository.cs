@@ -1,11 +1,11 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using MongoDB.Driver;
 using System.Linq;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
-	public class MongoGenreRepository : IGenericRepository<Genre>
+	public class MongoGenreRepository : IMongoGenreRepository
 	{
 		private readonly IMongoCollection<Genre> _collection;
 
@@ -19,22 +19,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return _collection.AsQueryable();
 		}
 
-		public Genre Get(int id)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Insert(Genre entity)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Delete(int id)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Update(Genre entityToUpdate)
+		public Genre Get(string id)
 		{
 			throw new System.NotImplementedException();
 		}

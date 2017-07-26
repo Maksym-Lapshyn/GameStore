@@ -71,14 +71,14 @@
     <Compile Include="Concrete\OrderService.cs" />
     <Compile Include="Concrete\PlatformTypeService.cs" />
     <Compile Include="Concrete\PublisherService.cs" />
-    <Compile Include="DTOs\CommentDto.cs" />
-    <Compile Include="DTOs\FilterDto.cs" />
-    <Compile Include="DTOs\GameDto.cs" />
-    <Compile Include="DTOs\GenreDto.cs" />
-    <Compile Include="DTOs\OrderDetailsDto.cs" />
-    <Compile Include="DTOs\OrderDto.cs" />
-    <Compile Include="DTOs\PlatformTypeDto.cs" />
-    <Compile Include="DTOs\PublisherDto.cs" />
+    <Compile Include="Dtos\CommentDto.cs" />
+    <Compile Include="Dtos\FilterDto.cs" />
+    <Compile Include="Dtos\GameDto.cs" />
+    <Compile Include="Dtos\GenreDto.cs" />
+    <Compile Include="Dtos\OrderDetailsDto.cs" />
+    <Compile Include="Dtos\OrderDto.cs" />
+    <Compile Include="Dtos\PlatformTypeDto.cs" />
+    <Compile Include="Dtos\PublisherDto.cs" />
     <Compile Include="Filters\MaxPriceFilter.cs" />
     <Compile Include="Filters\MinPriceFilter.cs" />
     <Compile Include="Filters\PlatformTypeFilter.cs" />
@@ -96,9 +96,9 @@
       <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
       <Name>GameStore.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
+    <ProjectReference Include="..\GameStore.DAL\GameStore.Dal.csproj">
       <Project>{8a3889e4-a9ba-486d-b5c4-3a3c3ee0e824}</Project>
-      <Name>GameStore.DAL</Name>
+      <Name>GameStore.Dal</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

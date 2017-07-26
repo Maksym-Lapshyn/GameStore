@@ -1,10 +1,12 @@
 ﻿using GameStore.DAL.Abstract;
-using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
-using System;
+using GameStore.DAL.Abstract.EntityFramework;
+using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Concrete.EntityFramework;
 using GameStore.DAL.Concrete.MongoDb;
+using GameStore.DAL.Context;
+using GameStore.DAL.Entities;
 using MongoDB.Driver;
+using System;
 
 namespace GameStore.DAL.Concrete
 {
@@ -18,7 +20,7 @@ namespace GameStore.DAL.Concrete
 		private readonly Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
 		private readonly Lazy<IGenericRepository<Genre>> _genreRepository;
 		private readonly Lazy<IGenericRepository<Order>> _orderRepository;
-		private readonly Lazy<IGenericRepository<Shipper>> _shipperRepository;
+		private readonly Lazy<IMongoShipperRepository> _shipperRepository;
 
 		public UnitOfWork(GameStoreContext context, IMongoDatabase database)
 		{
@@ -30,7 +32,7 @@ namespace GameStore.DAL.Concrete
 			_platformTypeRepository = new Lazy<IGenericRepository<PlatformType>>(() => new EfGenericRepository<PlatformType>(_context));
 			_genreRepository = new Lazy<IGenericRepository<Genre>>(() => new GenreDecorator(_context, _database));
 			_orderRepository = new Lazy<IGenericRepository<Order>>(() => new EfGenericRepository<Order>(_context));
-			_shipperRepository = new Lazy<IGenericRepository<Shipper>>(() => new MongoShipperRepository(_database));
+			_shipperRepository = new Lazy<IMongoShipperRepository>(() => new MongoShipperRepository(_database));
 		}
 
 		public IGenericRepository<Game> GameRepository => _gameRepository.Value;
@@ -45,7 +47,7 @@ namespace GameStore.DAL.Concrete
 
 		public IGenericRepository<Order> OrderRepository => _orderRepository.Value;
 
-		public IGenericRepository<Shipper> ShipperRepository => _shipperRepository.Value;
+		public IMongoShipperRepository ShipperRepository => _shipperRepository.Value;
 
 		public void Save()
 		{

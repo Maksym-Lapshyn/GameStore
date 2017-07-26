@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.DAL.Abstract.EntityFramework;
+using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Abstract
 {
@@ -16,6 +17,8 @@ namespace GameStore.DAL.Abstract
 		IGenericRepository<Genre> GenreRepository { get; }
 
 		IGenericRepository<Order> OrderRepository { get; }
+
+		
 
 		void Save();
 	}

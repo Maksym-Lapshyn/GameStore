@@ -1,7 +1,7 @@
 ﻿using GameStore.DAL.Entities;
 using System.Linq;
 
-namespace GameStore.DAL.Abstract
+namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 	{
@@ -14,5 +14,7 @@ namespace GameStore.DAL.Abstract
 		void Delete(int id);
 
 		void Update(TEntity entityToUpdate);
+
+		int Count();
 	}
 }

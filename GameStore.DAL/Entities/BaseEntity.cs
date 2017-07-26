@@ -7,6 +7,7 @@ namespace GameStore.DAL.Entities
 	{
 		public int Id { get; set; }
 
+		[BsonId]
 		[BsonRepresentation(BsonType.ObjectId)]
 		[BsonElement("_id")]
 		public string NorthwindId { get; set; }

@@ -1,4 +1,4 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Concrete.EntityFramework;
 using GameStore.DAL.Concrete.MongoDb;
 using GameStore.DAL.Context;
@@ -45,6 +45,11 @@ namespace GameStore.DAL.Concrete
 		public void Update(Genre entityToUpdate)
 		{
 			_efRepository.Update(entityToUpdate);
+		}
+
+		public int Count()
+		{
+			return _efRepository.Count();
 		}
 	}
 }

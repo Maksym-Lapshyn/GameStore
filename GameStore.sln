@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Services", "GameStore.Services\GameStore.Services.csproj", "{C5E410DD-69D9-4A8B-ACAB-1414BA91DCBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.DAL", "GameStore.DAL\GameStore.DAL.csproj", "{8A3889E4-A9BA-486D-B5C4-3A3C3EE0E824}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Dal", "GameStore.DAL\GameStore.Dal.csproj", "{8A3889E4-A9BA-486D-B5C4-3A3C3EE0E824}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Web", "GameStore.Web\GameStore.Web.csproj", "{4DA12652-999E-4D2D-81B7-5BBFA1F0878B}"
 EndProject

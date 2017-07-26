@@ -5,6 +5,7 @@ using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
 using MongoDB.Driver;
 using System.Linq;
+using GameStore.DAL.Abstract.EntityFramework;
 
 namespace GameStore.DAL.Concrete
 {
@@ -45,6 +46,11 @@ namespace GameStore.DAL.Concrete
 		public void Update(Game entityToUpdate)
 		{
 			_efRepository.Update(entityToUpdate);
+		}
+
+		public int Count()
+		{
+			return _efRepository.Count() + _mongoRepository.Count();
 		}
 	}
 }

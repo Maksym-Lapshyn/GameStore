@@ -1,11 +1,11 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using MongoDB.Driver;
 using System.Linq;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
-	public class MongoGameRepository : IGenericRepository<Game>
+	public class MongoGameRepository : IMongoGameRepository
 	{
 		private readonly IMongoCollection<Game> _collection;
 
@@ -19,24 +19,14 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return _collection.AsQueryable();
 		}
 
-		public Game Get(int id)
+		public Game Get(string id)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public void Insert(Game entity)
+		public int Count()
 		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Delete(int id)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void Update(Game entityToUpdate)
-		{
-			throw new System.NotImplementedException();
+			return _collection.AsQueryable().Count();
 		}
 	}
 }

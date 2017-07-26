@@ -7,6 +7,7 @@ using Ninject.Web.Common;
 using System;
 using System.Web;
 using System.Web.Mvc;
+using GameStore.Common.Modules;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(GameStore.Web.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(GameStore.Web.App_Start.NinjectWebCommon), "Stop")]
@@ -43,7 +44,8 @@ namespace GameStore.Web.App_Start
 		{
 			var modules = new INinjectModule[]
 			{
-				new ServicesModule("GameStoreContext")
+				new ServicesModule("GameStoreContext"),
+				new DalModule("mongodb://localhost", "Northwind"), 
 			};
 
 			var kernel = new StandardKernel(modules);
@@ -71,6 +73,6 @@ namespace GameStore.Web.App_Start
 		private static void RegisterServices(IKernel kernel)
 		{
 			DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
-		}        
+		}
 	}
 }
