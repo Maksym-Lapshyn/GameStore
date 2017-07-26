@@ -8,7 +8,7 @@ namespace GameStore.DAL.Entities
 
 		public string Body { get; set; }
 
-		public int GameId { get; set; }
+		public string GameKey { get; set; }
 
 		public virtual Game Game { get; set; }
 

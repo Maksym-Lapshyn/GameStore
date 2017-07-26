@@ -1,9 +1,9 @@
-﻿using GameStore.Common.Enums;
+﻿using System.Linq;
+using GameStore.Common.Enums;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
-using GameStore.Services.Abstract;
-using System.Linq;
 
-namespace GameStore.Services.Filters
+namespace GameStore.DAL.Concrete.Filters
 {
 	public class SortOptionsFilter : IFilter<IQueryable<Game>>
 	{

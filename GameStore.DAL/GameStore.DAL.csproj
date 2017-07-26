@@ -61,20 +61,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\EntityFramework\IGenericRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfCommentRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfGameRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfGenreRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfOrderRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfPlatformTypeRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfPublisherRepository.cs" />
+    <Compile Include="Abstract\IFilter.cs" />
+    <Compile Include="Abstract\IFilterMapper.cs" />
+    <Compile Include="Abstract\IPipeLine.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
-    <Compile Include="Concrete\GameDecorator.cs" />
-    <Compile Include="Concrete\GenreDecorator.cs" />
+    <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfGameRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfGenreRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfOrderRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfPlatformRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfPublisherRepository.cs" />
+    <Compile Include="Concrete\GameProxy.cs" />
+    <Compile Include="Concrete\GameFilterMapper.cs" />
+    <Compile Include="Concrete\GamePipeline.cs" />
+    <Compile Include="Concrete\GenreProxy.cs" />
     <Compile Include="Concrete\MongoDb\MongoGameRepository.cs" />
     <Compile Include="Concrete\MongoDb\MongoGenreRepository.cs" />
     <Compile Include="Concrete\MongoDb\MongoPublisherRepository.cs" />
     <Compile Include="Concrete\MongoDb\MongoShipperRepository.cs" />
-    <Compile Include="Concrete\EntityFramework\EfGenericRepository.cs" />
-    <Compile Include="Concrete\PublisherDecorator.cs" />
+    <Compile Include="Concrete\PublisherProxy.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
@@ -87,7 +102,15 @@
     <Compile Include="Entities\PlatformType.cs" />
     <Compile Include="Entities\Publisher.cs" />
     <Compile Include="Entities\Shipper.cs" />
-    <Compile Include="Infrastructure\Filter.cs" />
+    <Compile Include="Concrete\Filters\DateOptionsFilter.cs" />
+    <Compile Include="Concrete\Filters\GameNameFilter.cs" />
+    <Compile Include="Concrete\Filters\GenreFilter.cs" />
+    <Compile Include="Concrete\Filters\MaxPriceFilter.cs" />
+    <Compile Include="Concrete\Filters\MinPriceFilter.cs" />
+    <Compile Include="Concrete\Filters\PlatformTypeFilter.cs" />
+    <Compile Include="Concrete\Filters\PublisherFilter.cs" />
+    <Compile Include="Concrete\Filters\SortOptionsFilter.cs" />
+    <Compile Include="Infrastructure\GameFilter.cs" />
     <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

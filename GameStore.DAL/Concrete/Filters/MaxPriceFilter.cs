@@ -1,8 +1,8 @@
-﻿using GameStore.DAL.Entities;
-using GameStore.Services.Abstract;
-using System.Linq;
+﻿using System.Linq;
+using GameStore.DAL.Abstract;
+using GameStore.DAL.Entities;
 
-namespace GameStore.Services.Filters
+namespace GameStore.DAL.Concrete.Filters
 {
 	public class MaxPriceFilter : IFilter<IQueryable<Game>>
 	{

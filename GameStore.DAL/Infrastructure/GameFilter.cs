@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Infrastructure
 {
-	public class Filter
+	public class GameFilter
 	{
 		public List<Genre> GenresData { get; set; }
 
-		public List<int> GenresInput { get; set; }
+		public List<string> GenresInput { get; set; }
 
 		public List<PlatformType> PlatformTypesData { get; set; }
 
-		public List<int> PlatformTypesInput { get; set; }
+		public List<string> PlatformTypesInput { get; set; }
 
 		public List<Publisher> PublishersData { get; set; }
 
-		public List<int> PublishersInput { get; set; }
+		public List<string> PublishersInput { get; set; }
 
 		public SortOptions SortOptions { get; set; }
 

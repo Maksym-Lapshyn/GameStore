@@ -19,9 +19,9 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return _collection.AsQueryable();
 		}
 
-		public Publisher Get(string id)
+		public Publisher Get(string companyName)
 		{
-			throw new System.NotImplementedException();
+			return _collection.Find(p => p.CompanyName == companyName).Single();
 		}
 	}
 }

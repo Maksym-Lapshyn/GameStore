@@ -22,7 +22,7 @@ namespace GameStore.Web
 
 			CreateMap<OrderDetailsDto, OrderDetailsViewModel>().ReverseMap();
 
-			CreateMap<FilterDto, FilterViewModel>().ReverseMap();
+			CreateMap<GameFilterDto, GameFilterViewModel>().ReverseMap();
 		}
 	}
 }

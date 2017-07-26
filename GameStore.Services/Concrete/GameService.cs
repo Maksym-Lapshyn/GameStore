@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Entities;
+using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System;
@@ -13,18 +15,24 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		private readonly IPipeline<IQueryable<Game>> _pipeline;
-		private readonly IFilterMapper _filterMapper;
+		private readonly IEfGameRepository _gameRepository;
+		private readonly IEfPublisherRepository _publisherRepository;
+		private readonly IEfGenreRepository _genreRepository;
+		private readonly IEfPlatformTypeRepository _platformTypeRepository;
 
 		public GameService(IUnitOfWork unitOfWork,
 			IMapper mapper,
-			IPipeline<IQueryable<Game>> pipeline,
-			IFilterMapper filterMapper)
+			IEfGameRepository gameRepository,
+			IEfPublisherRepository publisherRepository,
+			IEfGenreRepository genreRepository,
+			IEfPlatformTypeRepository platformTypeRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
-			_pipeline = pipeline;
-			_filterMapper = filterMapper;
+			_gameRepository = gameRepository;
+			_publisherRepository = publisherRepository;
+			_platformTypeRepository = platformTypeRepository;
+			_genreRepository = genreRepository;
 		}
 
 		public void Create(GameDto gameDto)
@@ -33,36 +41,36 @@ namespace GameStore.Services.Concrete
 			Map(gameDto, game);
 			game.ViewsCount = 0;
 			game.DateAdded = DateTime.UtcNow;
-			_unitOfWork.GameRepository.Insert(game);
+			_gameRepository.Insert(game);
 			_unitOfWork.Save();
 		}
 
 		public void Edit(GameDto gameDto)
 		{
-			var game = _unitOfWork.GameRepository.Get().First(g => g.Id == gameDto.Id);
+			var game = _gameRepository.Get().First(g => g.Id == gameDto.Id);
 			game = _mapper.Map(gameDto, game);
 			Map(gameDto, game);
-			_unitOfWork.GameRepository.Update(game);
+			_gameRepository.Update(game);
 			_unitOfWork.Save();
 		}
 
-		public void SaveView(int gameId)
+		public void SaveView(string gameKey)
 		{
-			var game = _unitOfWork.GameRepository.Get(gameId);
+			var game = _gameRepository.Get(gameKey);
 			game.ViewsCount++;
-			_unitOfWork.GameRepository.Update(game);
+			_gameRepository.Update(game);
 			_unitOfWork.Save();
 		}
 
-		public void Delete(int gameId)
+		public void Delete(string gameKey)
 		{
-			_unitOfWork.GameRepository.Delete(gameId);
+			_gameRepository.Delete(gameKey);
 			_unitOfWork.Save();
 		}
 
 		public GameDto GetSingleBy(int id)
 		{
-			var game = _unitOfWork.GameRepository.Get().First(g => g.Id == id);
+			var game = _gameRepository.Get().First(g => g.Id == id);
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 
 			return gameDto;
@@ -70,20 +78,20 @@ namespace GameStore.Services.Concrete
 
 		public GameDto GetSingleBy(string gameKey)
 		{
-			var game = _unitOfWork.GameRepository.Get().First(g => g.Key.ToLower() == gameKey.ToLower());
+			var game = _gameRepository.Get().First(g => g.Key.ToLower() == gameKey.ToLower());
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 
 			return gameDto;
 		}
 
-		public IEnumerable<GameDto> GetAll(FilterDto filter = null, int? skip = null, int? take = null)
+		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? skip = null, int? take = null)
 		{
-			var games = _unitOfWork.GameRepository.Get();
+			var games = _gameRepository.Get();
 
-			if (filter != null)
+			if (filterDto != null)
 			{
-				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
-				games = _pipeline.Process(games);
+				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
+				games = _gameRepository.Get(filter);
 			}
 
 			if (skip != null && take != null)
@@ -96,22 +104,21 @@ namespace GameStore.Services.Concrete
 			return gameDtos;
 		}
 
-		public int GetCount(FilterDto filter = null)
+		public int GetCount(GameFilterDto gameFilter = null)
 		{
-			var games = _unitOfWork.GameRepository.Get();
-
-			if (filter != null)
+			if (gameFilter != null)
 			{
-				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
-				games = _pipeline.Process(games);
+				var filter = _mapper.Map<GameFilterDto, GameFilter>(gameFilter);
+
+				return _gameRepository.Get(filter).Count();
 			}
 
-			return games.Count();
+			return _gameRepository.Get().Count();
 		}
 
 		public IEnumerable<GameDto> GetBy(string genreName)
 		{
-			var games = _unitOfWork.GameRepository
+			var games = _gameRepository
 				.Get().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
 			var gameDtOs = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(games);
 
@@ -120,7 +127,7 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
 		{
-			var allGames = _unitOfWork.GameRepository.Get();
+			var allGames = _gameRepository.Get();
 			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game);
 			var gameDtOs = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(matchedGames);
 
@@ -129,9 +136,9 @@ namespace GameStore.Services.Concrete
 
 		private void Map(GameDto input, Game result)
 		{
-			result.Publisher = _unitOfWork.PublisherRepository.Get(input.PublisherInput);
-			result.PlatformTypes = input.PlatformTypesInput.Select(id => _unitOfWork.PlatformTypeRepository.Get(id)).ToList();
-			result.Genres = input.GenresInput.Select(id => _unitOfWork.GenreRepository.Get(id)).ToList();
+			result.Publisher = _publisherRepository.Get(input.PublisherInput);
+			result.PlatformTypes = input.PlatformTypesInput.Select(id => _platformTypeRepository.Get(id)).ToList();
+			result.Genres = input.GenresInput.Select(id => _genreRepository.Get(id)).ToList();
 		}
 	}
 }

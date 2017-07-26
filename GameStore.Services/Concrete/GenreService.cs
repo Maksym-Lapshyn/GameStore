@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
@@ -10,18 +10,19 @@ namespace GameStore.Services.Concrete
 {
 	public class GenreService : IGenreService
 	{
-		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
+		private readonly IEfGenreRepository _genreRepository;
 
-		public GenreService(IUnitOfWork unitOfWork, IMapper mapper)
+		public GenreService(IMapper mapper,
+			IEfGenreRepository genreRepository)
 		{
-			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_genreRepository = genreRepository;
 		}
 
 		public IEnumerable<GenreDto> GetAll()
 		{
-			var genres = _unitOfWork.GenreRepository.Get();
+			var genres = _genreRepository.Get();
 			var genreDtos = _mapper.Map<IQueryable<Genre>, IEnumerable<GenreDto>>(genres);
 
 			return genreDtos;

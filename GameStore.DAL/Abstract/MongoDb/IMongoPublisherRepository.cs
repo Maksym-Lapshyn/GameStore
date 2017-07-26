@@ -7,6 +7,6 @@ namespace GameStore.DAL.Abstract.MongoDb
 	{
 		IQueryable<Publisher> Get();
 
-		Publisher Get(string id);
+		Publisher Get(string companyName);
 	}
 }

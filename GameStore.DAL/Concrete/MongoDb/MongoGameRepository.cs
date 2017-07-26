@@ -19,14 +19,9 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return _collection.AsQueryable();
 		}
 
-		public Game Get(string id)
+		public Game Get(string gameKey)
 		{
-			throw new System.NotImplementedException();
-		}
-
-		public int Count()
-		{
-			return _collection.AsQueryable().Count();
+			return _collection.Find(g => g.Key == gameKey).Single();
 		}
 	}
 }

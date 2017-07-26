@@ -1,0 +1,27 @@
+﻿using GameStore.DAL.Abstract.EntityFramework;
+using GameStore.DAL.Context;
+using GameStore.DAL.Entities;
+using System.Linq;
+
+namespace GameStore.DAL.Concrete.EntityFramework
+{
+	public class EfPlatformRepository : IEfPlatformTypeRepository
+	{
+		private readonly GameStoreContext _context;
+
+		public EfPlatformRepository(GameStoreContext context)
+		{
+			_context = context;
+		}
+
+		public PlatformType Get(string type)
+		{
+			return _context.PlatformTypes.First(p => p.Type == type);
+		}
+
+		public IQueryable<PlatformType> Get()
+		{
+			return _context.PlatformTypes;
+		}
+	}
+}

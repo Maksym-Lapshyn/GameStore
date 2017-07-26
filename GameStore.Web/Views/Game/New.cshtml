@@ -32,17 +32,17 @@
 	</p>
 	<b>@Html.LabelFor(m => m.PlatformTypesInput)</b>
 	<p>
-		@Html.ListBoxFor(m => m.PlatformTypesInput, new SelectList(Model.PlatformTypesData, "Id", "Type"))
+		@Html.ListBoxFor(m => m.PlatformTypesInput, new SelectList(Model.PlatformTypesData, "Type", "Type"))
 		@Html.ValidationMessageFor(m => m.PlatformTypesInput)
 	</p>
 	<b>@Html.LabelFor(m => m.GenresInput)</b>
 	<p>
-		@Html.ListBoxFor(m => m.GenresInput, new SelectList(Model.GenresData, "Id", "Name"))
+		@Html.ListBoxFor(m => m.GenresInput, new SelectList(Model.GenresData, "Name", "Name"))
 		@Html.ValidationMessageFor(m => m.GenresInput)
 	</p>
 	<b>@Html.LabelFor(m => m.PublisherInput)</b>
 	<p>
-		@Html.DropDownListFor(m => m.PublisherInput, new SelectList(Model.PublishersData, "Id", "CompanyName"))
+		@Html.DropDownListFor(m => m.PublisherInput, new SelectList(Model.PublishersData, "CompanyName", "CompanyName"))
 		@Html.ValidationMessageFor(m => m.PublisherInput)
 	</p>
 

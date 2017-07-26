@@ -7,8 +7,6 @@ namespace GameStore.DAL.Abstract.MongoDb
 	{
 		IQueryable<Game> Get();
 
-		Game Get(string id);
-
-		int Count();
+		Game Get(string gameKey);
 	}
 }

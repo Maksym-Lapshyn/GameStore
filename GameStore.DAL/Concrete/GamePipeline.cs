@@ -1,9 +1,9 @@
-﻿using GameStore.DAL.Entities;
-using GameStore.Services.Abstract;
+﻿using GameStore.DAL.Abstract;
+using GameStore.DAL.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameStore.Services.Concrete
+namespace GameStore.DAL.Concrete
 {
 	public class GamePipeline : IPipeline<IQueryable<Game>>
 	{

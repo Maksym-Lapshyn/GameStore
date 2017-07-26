@@ -1,18 +1,18 @@
 ﻿using GameStore.Common.Enums;
+using GameStore.DAL.Abstract;
+using GameStore.DAL.Concrete.Filters;
 using GameStore.DAL.Entities;
-using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
-using GameStore.Services.Filters;
+using GameStore.DAL.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameStore.Services.Concrete
+namespace GameStore.DAL.Concrete
 {
 	public class GameFilterMapper : IFilterMapper
 	{
 		private readonly List<IFilter<IQueryable<Game>>> _filters = new List<IFilter<IQueryable<Game>>>();
 
-		public List<IFilter<IQueryable<Game>>> Map(FilterDto filter)
+		public List<IFilter<IQueryable<Game>>> Map(GameFilter filter)
 		{
 			if (filter.GenresInput.Count != 0)
 			{

@@ -21,7 +21,7 @@
 					<p>
 						@foreach (var genre in Model.Filter.GenresData)
 						{
-							@Html.CreateCheckbox("Filter.GenresInput", genre.Name, genre.Id, Model.Filter.GenresInput)
+							@Html.CreateCheckbox("Filter.GenresInput", genre.Name, Model.Filter.GenresInput)
 						}
 					</p>
 				</div>
@@ -30,7 +30,7 @@
 					<p>
 						@foreach (var platformType in Model.Filter.PlatformTypesData)
 						{
-							@Html.CreateCheckbox("Filter.PlatformTypesInput", platformType.Type, platformType.Id, Model.Filter.PlatformTypesInput)
+							@Html.CreateCheckbox("Filter.PlatformTypesInput", platformType.Type, Model.Filter.PlatformTypesInput)
 						}
 					</p>
 				</div>
@@ -39,7 +39,7 @@
 					<p>
 						@foreach (var publisher in Model.Filter.PublishersData)
 						{
-							@Html.CreateCheckbox("Filter.PublishersInput", publisher.CompanyName, publisher.Id, Model.Filter.PublishersInput)
+							@Html.CreateCheckbox("Filter.PublishersInput", publisher.CompanyName, Model.Filter.PublishersInput)
 						}
 					</p>
 				</div>

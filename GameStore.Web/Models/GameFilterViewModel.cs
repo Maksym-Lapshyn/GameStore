@@ -5,32 +5,32 @@ using GameStore.Common.Enums;
 
 namespace GameStore.Web.Models
 {
-	public class FilterViewModel
+	public class GameFilterViewModel
 	{
-		public FilterViewModel()
+		public GameFilterViewModel()
 		{
 			GenresData = new List<GenreViewModel>();
-			GenresInput = new List<int>();
+			GenresInput = new List<string>();
 			PlatformTypesData = new List<PlatformTypeViewModel>();
-			PlatformTypesInput = new List<int>();
+			PlatformTypesInput = new List<string>();
 			PublishersData = new List<PublisherViewModel>();
-			PublishersInput = new List<int>();
+			PublishersInput = new List<string>();
 		}
 
 		[DisplayName("Genres")]
 		public List<GenreViewModel> GenresData { get; set; }
 
-		public List<int> GenresInput { get; set; }
+		public List<string> GenresInput { get; set; }
 
 		[DisplayName("Platform types")]
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
-		public List<int> PlatformTypesInput { get; set; }
+		public List<string> PlatformTypesInput { get; set; }
 
 		[DisplayName("Publishers")]
 		public List<PublisherViewModel> PublishersData { get; set; }
 
-		public List<int> PublishersInput { get; set; }
+		public List<string> PublishersInput { get; set; }
 
 		[DisplayName("Sort by")]
 		public SortOptions SortOptions { get; set; }

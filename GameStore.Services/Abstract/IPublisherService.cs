@@ -9,8 +9,6 @@ namespace GameStore.Services.Abstract
 
 		void Create(PublisherDto publisherDto);
 
-		PublisherDto GetSingleBy(int publisherId);
-
 		IEnumerable<PublisherDto> GetAll();
 	}
 }

@@ -53,14 +53,14 @@ namespace GameStore.Web.Models
 		[DisplayName("Publishers")]
 		[Required]
 		[HiddenInput]
-		public int PublisherInput { get; set; }
+		public string PublisherInput { get; set; }
 
 		[DisplayName("Genres")]
 		[CannotBeEmpty]
-		public List<int> GenresInput { get; set; }
+		public List<string> GenresInput { get; set; }
 
 		[DisplayName("PlatformTypes")]
 		[CannotBeEmpty]
-		public List<int> PlatformTypesInput { get; set; }
+		public List<string> PlatformTypesInput { get; set; }
 	}
 }

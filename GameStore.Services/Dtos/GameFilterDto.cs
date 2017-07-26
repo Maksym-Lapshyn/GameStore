@@ -3,29 +3,29 @@ using GameStore.Common.Enums;
 
 namespace GameStore.Services.DTOs
 {
-	public class FilterDto
+	public class GameFilterDto
 	{
-		public FilterDto()
+		public GameFilterDto()
 		{
 			GenresData = new List<GenreDto>();
-			GenresInput = new List<int>();
+			GenresInput = new List<string>();
 			PlatformTypesData = new List<PlatformTypeDto>();
-			PlatformTypesInput = new List<int>();
+			PlatformTypesInput = new List<string>();
 			PublishersData = new List<PublisherDto>();
-			PublishersInput = new List<int>();
+			PublishersInput = new List<string>();
 		}
 
 		public List<GenreDto> GenresData { get; set; }
 
-		public List<int> GenresInput { get; set; }
+		public List<string> GenresInput { get; set; }
 
 		public List<PlatformTypeDto> PlatformTypesData { get; set; }
 
-		public List<int> PlatformTypesInput { get; set; }
+		public List<string> PlatformTypesInput { get; set; }
 
 		public List<PublisherDto> PublishersData { get; set; }
 
-		public List<int> PublishersInput { get; set; }
+		public List<string> PublishersInput { get; set; }
 
 		public SortOptions SortOptions { get; set; }
 

@@ -2,7 +2,7 @@
 {
 	public class OrderDetails : BaseEntity
 	{
-		public int GameId { get; set; }
+		public string GameKey { get; set; }
 
 		public virtual Game Game { get; set; }
 

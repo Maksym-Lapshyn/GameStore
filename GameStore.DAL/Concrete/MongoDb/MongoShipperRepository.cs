@@ -1,8 +1,7 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using MongoDB.Driver;
 using System.Linq;
-using GameStore.DAL.Abstract.MongoDb;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {

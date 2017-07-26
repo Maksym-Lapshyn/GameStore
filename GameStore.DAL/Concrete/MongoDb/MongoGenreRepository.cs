@@ -19,9 +19,9 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return _collection.AsQueryable();
 		}
 
-		public Genre Get(string id)
+		public Genre Get(string name)
 		{
-			throw new System.NotImplementedException();
+			return _collection.Find(g => g.Name == name).Single();
 		}
 	}
 }

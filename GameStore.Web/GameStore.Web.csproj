@@ -165,7 +165,7 @@
     <Compile Include="Models\AllCommentsViewModel.cs" />
     <Compile Include="Models\AllGamesViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
-    <Compile Include="Models\FilterViewModel.cs" />
+    <Compile Include="Models\GameFilterViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />

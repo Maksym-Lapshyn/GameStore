@@ -2,8 +2,6 @@
 using GameStore.DAL.Concrete;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
-using GameStore.Services.Abstract;
-using GameStore.Services.Concrete;
 using Ninject.Modules;
 using System.Linq;
 

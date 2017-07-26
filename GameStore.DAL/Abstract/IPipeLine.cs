@@ -1,4 +1,4 @@
-﻿namespace GameStore.Services.Abstract
+﻿namespace GameStore.DAL.Abstract
 {
 	public interface IPipeline<T>
 	{

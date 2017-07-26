@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
@@ -12,11 +13,18 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
+		private readonly IEfOrderRepository _orderRepository;
+		private readonly IEfGameRepository _gameRepository;
 
-		public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
+		public OrderService(IUnitOfWork unitOfWork,
+			IMapper mapper,
+			IEfOrderRepository orderRepository,
+			IEfGameRepository gameRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_orderRepository = orderRepository;
+			_gameRepository = gameRepository;
 		}
 
 		public void Create(OrderDto orderDto)
@@ -24,7 +32,7 @@ namespace GameStore.Services.Concrete
 			var order = _mapper.Map<OrderDto, Order>(orderDto);
 			order.OrderDate = DateTime.UtcNow;
 			Map(order);
-			_unitOfWork.OrderRepository.Insert(order);
+			_orderRepository.Insert(order);
 			_unitOfWork.Save();
 		}
 
@@ -32,7 +40,7 @@ namespace GameStore.Services.Concrete
 		{
 			Order order;
 
-			if (_unitOfWork.OrderRepository.Get().Count(o => o.CustomerId == customerId) == 0)
+			if (!_orderRepository.Contains(customerId))
 			{
 				order = new Order
 				{
@@ -41,7 +49,7 @@ namespace GameStore.Services.Concrete
 			}
 			else
 			{
-				order = _unitOfWork.OrderRepository.Get().First(o => o.CustomerId == customerId);
+				order = _orderRepository.Get(customerId);
 			}
 
 			var orderDto = _mapper.Map<Order, OrderDto>(order);
@@ -49,15 +57,15 @@ namespace GameStore.Services.Concrete
 			return orderDto;
 		}
 
-		public void Edit(OrderDto orderDto, int gameId)
+		public void Edit(OrderDto orderDto, string gameKey)
 		{
-			var order = _unitOfWork.OrderRepository.Get(orderDto.Id);
-			var details = order.OrderDetails.FirstOrDefault(o => o.GameId == gameId);
+			var order = _orderRepository.Get(orderDto.CustomerId);
+			var details = order.OrderDetails.FirstOrDefault(o => o.GameKey == gameKey);
 
 			if (details == null)
 			{
-				var game = _unitOfWork.GameRepository.Get(gameId);
-				order.OrderDetails.Add(new OrderDetails{GameId = gameId, Game = game, Price = game.Price, Quantity = 1});
+				var game = _gameRepository.Get(gameKey);
+				order.OrderDetails.Add(new OrderDetails{GameKey = gameKey, Game = game, Price = game.Price, Quantity = 1});
 			}
 			else
 			{
@@ -65,7 +73,7 @@ namespace GameStore.Services.Concrete
 				details.Price = details.Quantity * details.Game.Price;
 			}
 
-			_unitOfWork.OrderRepository.Update(order);
+			_orderRepository.Update(order);
 			_unitOfWork.Save();
 		}
 
@@ -73,7 +81,7 @@ namespace GameStore.Services.Concrete
 		{
 			output.OrderDetails.ToList().ForEach(o =>
 			{
-				o.Game = _unitOfWork.GameRepository.Get(o.GameId);
+				o.Game = _gameRepository.Get(o.GameKey);
 				o.Price = o.Game.Price;
 			});
 		}

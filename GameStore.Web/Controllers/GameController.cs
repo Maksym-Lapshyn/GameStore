@@ -70,7 +70,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult Show(string gameKey)
 		{
 			var gameDto = _gameService.GetSingleBy(gameKey);
-			_gameService.SaveView(gameDto.Id);
+			_gameService.SaveView(gameKey);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
 			return View(gameViewModel);
@@ -108,9 +108,9 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Delete(int gameId)
+		public ActionResult Delete(string gameKey)
 		{
-			_gameService.Delete(gameId);
+			_gameService.Delete(gameKey);
 
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
@@ -181,7 +181,7 @@ namespace GameStore.Web.Controllers
 		private AllGamesViewModel UpdateChangedModel(AllGamesViewModel model)
 		{
 			model.CurrentPage = DefaultPage;
-			model.TotalItems = _gameService.GetCount(_mapper.Map<FilterViewModel, FilterDto>(model.FilterState));
+			model.TotalItems = _gameService.GetCount(_mapper.Map<GameFilterViewModel, GameFilterDto>(model.FilterState));
 			model = UpdatePagination(model);
 			model.FilterIsChanged = false;
 
@@ -190,7 +190,7 @@ namespace GameStore.Web.Controllers
 
 		private AllGamesViewModel UpdateNewModel(AllGamesViewModel model)
 		{
-			model.Filter = new FilterViewModel();
+			model.Filter = new GameFilterViewModel();
 			model.CurrentPage = DefaultPage;
 			model.PageSize = DefaultPageSize;
 			model.TotalItems = _gameService.GetCount();
@@ -207,9 +207,9 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		private List<GameViewModel> GetGames(FilterViewModel filter, int itemsToSkip, int itemsToTake)
+		private List<GameViewModel> GetGames(GameFilterViewModel filter, int itemsToSkip, int itemsToTake)
 		{
-			var filterDto = _mapper.Map<FilterViewModel, FilterDto>(filter);
+			var filterDto = _mapper.Map<GameFilterViewModel, GameFilterDto>(filter);
 
 			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto, itemsToSkip, itemsToTake));
 		}

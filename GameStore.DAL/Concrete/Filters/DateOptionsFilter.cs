@@ -1,11 +1,10 @@
-﻿
-using GameStore.Common.Enums;
+﻿using GameStore.Common.Enums;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Entities;
-using GameStore.Services.Abstract;
 using System;
 using System.Linq;
 
-namespace GameStore.Services.Filters
+namespace GameStore.DAL.Concrete.Filters
 {
 	public class DateOptionsFilter : IFilter<IQueryable<Game>>
 	{

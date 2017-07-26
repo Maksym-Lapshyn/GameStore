@@ -6,7 +6,7 @@ namespace GameStore.Services.Abstract
 	{
 		void Create(OrderDto orderDto);
 
-		void Edit(OrderDto orderDto, int gameId);
+		void Edit(OrderDto orderDto, string gameKey);
 
 		OrderDto GetSingleBy(string customerId);
 	}

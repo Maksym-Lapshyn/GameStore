@@ -7,6 +7,6 @@ namespace GameStore.DAL.Abstract.MongoDb
 	{
 		IQueryable<Genre> Get();
 
-		Genre Get(string id);
+		Genre Get(string name);
 	}
 }
