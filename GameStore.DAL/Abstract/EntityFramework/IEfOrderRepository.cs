@@ -1,4 +1,5 @@
 ﻿using GameStore.DAL.Entities;
+using GameStore.DAL.Infrastructure;
 using System.Linq;
 
 namespace GameStore.DAL.Abstract.EntityFramework
@@ -7,7 +8,7 @@ namespace GameStore.DAL.Abstract.EntityFramework
 	{
 		void Insert(Order order);
 
-		IQueryable<Order> Get();
+		IQueryable<Order> Get(OrderFilter orderFilter = null);
 
 		Order Get(string customerId);
 

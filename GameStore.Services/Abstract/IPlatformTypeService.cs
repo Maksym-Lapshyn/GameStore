@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IPlatformTypeService
+	public interface IPlatformTypeService : IService
 	{
 		IEnumerable<PlatformTypeDto> GetAll();
 	}

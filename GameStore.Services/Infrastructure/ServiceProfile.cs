@@ -2,6 +2,7 @@
 using AutoMapper;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
+using GameStore.Services.Dtos;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
 
@@ -32,6 +33,8 @@ namespace GameStore.Services.Infrastructure
 			CreateMap<OrderDetailsDto, OrderDetails>().ReverseMap();
 
 			CreateMap<GameFilterDto, GameFilter>().ReverseMap();
+
+			CreateMap<OrderFilterDto, OrderFilter>().ReverseMap();
 		}
 	}
 }

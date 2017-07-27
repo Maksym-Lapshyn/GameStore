@@ -3,6 +3,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,6 +36,17 @@ namespace GameStore.Web.Controllers
 			_orderService.Edit(orderDto, gameKey);
 
 			return RedirectToAction("Show");
+		}
+
+		[HttpGet]
+		public ActionResult ShowHistory()
+		{
+			return View();
+		}
+
+		public ActionResult ShowHistory(OrderFilterViewModel model)
+		{
+			_orderService.Ge
 		}
 
 		private OrderViewModel GetOrder()

@@ -5,7 +5,10 @@ using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using GameStore.DAL.Infrastructure;
+using GameStore.Services.Dtos;
 
 namespace GameStore.Services.Concrete
 {
@@ -75,6 +78,14 @@ namespace GameStore.Services.Concrete
 
 			_orderRepository.Update(order);
 			_unitOfWork.Save();
+		}
+
+		public IEnumerable<Order> GetAll(OrderFilterDto orderFilter = null)
+		{
+			if (orderFilter != null)
+			{
+				_orderRepository.Get(_mapper.Map<OrderFilterDto, OrderFilter>(orderFilter));
+			}
 		}
 
 		private void Map(Order output)

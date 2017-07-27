@@ -3,6 +3,7 @@ using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using System;
+using System.Data.Entity.Migrations;
 using System.Linq;
 
 namespace GameStore.DAL.Concrete.EntityFramework
@@ -18,32 +19,32 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public IQueryable<Game> Get(GameFilter filter = null)
 		{
-			throw new NotImplementedException();
+			return _context.Games;
 		}
 
 		public Game Get(string gameKey)
 		{
-			throw new NotImplementedException();
+			return _context.Games.First(g => g.Key == gameKey);
 		}
 
 		public void Insert(Game game)
 		{
-			throw new NotImplementedException();
+			_context.Games.Add(game);
 		}
 
 		public void Delete(string gameKey)
 		{
-			throw new NotImplementedException();
+			_context.Games.First(g => g.Key == gameKey).IsDeleted = true;
 		}
 
 		public void Update(Game game)
 		{
-			throw new NotImplementedException();
+			_context.Games.AddOrUpdate(game);
 		}
 
 		public bool Contains(string gameKey)
 		{
-			throw new NotImplementedException();
+			return _context.Games.Any(g => g.Key == gameKey);
 		}
 	}
 }

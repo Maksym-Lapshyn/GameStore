@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
-	public class EfPlatformRepository : IEfPlatformTypeRepository
+	public class EfPlatformTypeRepository : IEfPlatformTypeRepository
 	{
 		private readonly GameStoreContext _context;
 
-		public EfPlatformRepository(GameStoreContext context)
+		public EfPlatformTypeRepository(GameStoreContext context)
 		{
 			_context = context;
 		}

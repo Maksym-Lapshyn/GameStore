@@ -12,6 +12,10 @@ namespace GameStore.DAL.Entities
 		[Index(IsUnique = true)]
 		public string CompanyName { get; set; }
 
+		[BsonElement("SupplierID")]
+		[NotMapped]
+		public int SupplierId { get; set; }
+
 		[Column(TypeName = "NTEXT")]
 		public string Description { get; set; }
 

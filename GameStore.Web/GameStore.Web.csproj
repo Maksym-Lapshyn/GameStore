@@ -169,6 +169,7 @@
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />
+    <Compile Include="Models\OrderFilterViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PlatformTypeViewModel.cs" />
     <Compile Include="Models\PublisherViewModel.cs" />

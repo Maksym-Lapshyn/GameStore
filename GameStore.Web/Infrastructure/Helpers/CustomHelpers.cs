@@ -12,11 +12,11 @@ namespace GameStore.Web.Infrastructure.Helpers
 
 			if (selectedItems.Contains(name))
 			{
-				div.InnerHtml += $"<p><label for={name}><input type='checkbox' id={name} name={propertyName} value={name} checked /> " + name + "</label></p>";
+				div.InnerHtml += $"<p><label for='{name}'><input type='checkbox' id='{name}' name={propertyName} value='{name}' checked /> " + name + "</label></p>";
 			}
 			else
 			{
-				div.InnerHtml += $"<p><label for={name}><input type='checkbox' id={name} name={propertyName} value={name} /> " + name + "</label></p>";
+				div.InnerHtml += $"<p><label for='{name}'><input type='checkbox' id='{name}' name={propertyName} value='{name}' /> " + name + "</label></p>";
 			}
 
 			return new MvcHtmlString(div.InnerHtml);

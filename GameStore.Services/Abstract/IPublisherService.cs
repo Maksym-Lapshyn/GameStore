@@ -3,7 +3,7 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IPublisherService
+	public interface IPublisherService : IService
 	{
 		PublisherDto GetSingleBy(string companyName);
 

@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="Enums\DateOptions.cs" />
     <Compile Include="Enums\SortOptions.cs" />
-    <Compile Include="Modules\DALModule.cs" />
+    <Compile Include="Modules\DalModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

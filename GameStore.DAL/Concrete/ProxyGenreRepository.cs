@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete
 {
-	public class GenreProxy : IEfGenreRepository
+	public class ProxyGenreRepository : IEfGenreRepository
 	{
 		private readonly IEfGenreRepository _efRepository;
 		private readonly IMongoGenreRepository _mongoRepository;
 
-		public GenreProxy(IEfGenreRepository efRepository, IMongoGenreRepository mongoRepository)
+		public ProxyGenreRepository(IEfGenreRepository efRepository, IMongoGenreRepository mongoRepository)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
@@ -18,10 +18,10 @@ namespace GameStore.DAL.Concrete
 
 		public IQueryable<Genre> Get()
 		{
-			var efQuery = _efRepository.Get();
-			var mongoQuery = _mongoRepository.Get();
+			var efQuery = _efRepository.Get().ToList();
+			var mongoQuery = _mongoRepository.Get().ToList();
 
-			return efQuery.Union(mongoQuery);
+			return efQuery.Union(mongoQuery).AsQueryable();
 		}
 
 		public Genre Get(string name)

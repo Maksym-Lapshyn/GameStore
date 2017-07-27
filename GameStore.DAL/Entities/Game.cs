@@ -17,6 +17,14 @@ namespace GameStore.DAL.Entities
 		[BsonSerializer(typeof(Int32ToStringSerializer))]
 		public string Key { get; set; }
 
+		[BsonElement("CategoryID")]
+		[NotMapped]
+		public int CategoryId { get; set; }
+
+		[BsonElement("SupplierID")]
+		[NotMapped]
+		public int SupplierId { get; set; }
+
 		[BsonElement("ProductName")]
 		public string Name { get; set; }
 

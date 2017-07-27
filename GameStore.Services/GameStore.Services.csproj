@@ -57,6 +57,7 @@
     <Compile Include="Abstract\IOrderService.cs" />
     <Compile Include="Abstract\IPlatformTypeService.cs" />
     <Compile Include="Abstract\IPublisherService.cs" />
+    <Compile Include="Abstract\IService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
     <Compile Include="Concrete\GameService.cs" />
     <Compile Include="Concrete\GenreService.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Dtos\GenreDto.cs" />
     <Compile Include="Dtos\OrderDetailsDto.cs" />
     <Compile Include="Dtos\OrderDto.cs" />
+    <Compile Include="Dtos\OrderFilterDto.cs" />
     <Compile Include="Dtos\PlatformTypeDto.cs" />
     <Compile Include="Dtos\PublisherDto.cs" />
     <Compile Include="Infrastructure\ServiceProfile.cs" />

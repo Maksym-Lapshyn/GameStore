@@ -7,14 +7,14 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete
 {
-	public class GameProxy : IEfGameRepository
+	public class ProxyGameRepository : IEfGameRepository
 	{
 		private readonly IEfGameRepository _efRepository;
 		private readonly IMongoGameRepository _mongoRepository;
 		private readonly IPipeline<IQueryable<Game>> _pipeline;
 		private readonly IFilterMapper _filterMapper;
 
-		public GameProxy(IPipeline<IQueryable<Game>> pipeline,
+		public ProxyGameRepository(IPipeline<IQueryable<Game>> pipeline,
 			IFilterMapper filterMapper,
 			IEfGameRepository efRepository,
 			IMongoGameRepository mongoRepository)
@@ -37,7 +37,7 @@ namespace GameStore.DAL.Concrete
 				mongoQuery = _pipeline.Process(mongoQuery);
 			}
 
-			return efQuery.Union(mongoQuery);
+			return efQuery.ToList().Union(mongoQuery.ToList()).AsQueryable();
 		}
 
 		public Game Get(string gameKey)

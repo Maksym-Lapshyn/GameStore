@@ -78,6 +78,12 @@ namespace GameStore.Web
 			);
 
 			routes.MapRoute(
+				"DisplayOrdersHistory",
+				"orders/history",
+				new { controller = "Order", action = "ShowHistory" }
+			);
+
+			routes.MapRoute(
 				"Default",
 				"{controller}/{action}",
 				new {controller = "Game", action = "ListAll"}

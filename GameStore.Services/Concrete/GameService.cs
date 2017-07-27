@@ -68,14 +68,6 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public GameDto GetSingleBy(int id)
-		{
-			var game = _gameRepository.Get().First(g => g.Id == id);
-			var gameDto = _mapper.Map<Game, GameDto>(game);
-
-			return gameDto;
-		}
-
 		public GameDto GetSingleBy(string gameKey)
 		{
 			var game = _gameRepository.Get().First(g => g.Key.ToLower() == gameKey.ToLower());

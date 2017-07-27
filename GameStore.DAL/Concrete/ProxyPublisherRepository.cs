@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete
 {
-	public class PublisherProxy : IEfPublisherRepository
+	public class ProxyPublisherRepository : IEfPublisherRepository
 	{
 		private readonly IEfPublisherRepository _efRepository;
 		private readonly IMongoPublisherRepository _mongoRepository;
 
-		public PublisherProxy(IEfPublisherRepository efRepository, IMongoPublisherRepository mongoRepository)
+		public ProxyPublisherRepository(IEfPublisherRepository efRepository, IMongoPublisherRepository mongoRepository)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
@@ -18,10 +18,10 @@ namespace GameStore.DAL.Concrete
 
 		public IQueryable<Publisher> Get()
 		{
-			var efQuery = _efRepository.Get();
-			var mongoQuery = _mongoRepository.Get();
+			var efQuery = _efRepository.Get().ToList();
+			var mongoQuery = _mongoRepository.Get().ToList();
 
-			return efQuery.Union(mongoQuery);
+			return efQuery.Union(mongoQuery).AsQueryable();
 		}
 
 		public Publisher Get(string companyName)

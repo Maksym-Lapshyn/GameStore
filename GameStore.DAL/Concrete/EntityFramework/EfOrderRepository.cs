@@ -1,7 +1,8 @@
-﻿using System.Data.Entity.Migrations;
-using GameStore.DAL.Abstract.EntityFramework;
+﻿using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
+using GameStore.DAL.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Linq;
 
 namespace GameStore.DAL.Concrete.EntityFramework
@@ -20,7 +21,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context.Orders.Add(order);
 		}
 
-		public IQueryable<Order> Get()
+		public IQueryable<Order> Get(OrderFilter orderFilter = null)
 		{
 			return _context.Orders;
 		}
