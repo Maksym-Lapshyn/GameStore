@@ -3,6 +3,7 @@ using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using System;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 
@@ -39,7 +40,14 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Game game)
 		{
-			_context.Games.AddOrUpdate(game);
+			if (_context.Games.Any(g => g.Key == game.Key))
+			{
+				_context.Entry(game).State = EntityState.Modified;
+			}
+			else
+			{
+				_context.Games.Add(game);
+			}
 		}
 
 		public bool Contains(string gameKey)

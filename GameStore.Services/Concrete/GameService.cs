@@ -129,8 +129,8 @@ namespace GameStore.Services.Concrete
 		private void Map(GameDto input, Game result)
 		{
 			result.Publisher = _publisherRepository.Get(input.PublisherInput);
-			result.PlatformTypes = input.PlatformTypesInput.Select(id => _platformTypeRepository.Get(id)).ToList();
-			result.Genres = input.GenresInput.Select(id => _genreRepository.Get(id)).ToList();
+			result.PlatformTypes = input.PlatformTypesInput.Select(type => _platformTypeRepository.Get(type)).ToList();
+			result.Genres = input.GenresInput.Select(name => _genreRepository.Get(name)).ToList();
 		}
 	}
 }

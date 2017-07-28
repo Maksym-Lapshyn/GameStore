@@ -1,12 +1,15 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using GameStore.DAL.Infrastructure.Serializers;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.DAL.Entities
 {
 	[BsonIgnoreExtraElements]
 	public class OrderDetails : BaseEntity
 	{
+		[BsonElement("ProductID")]
+		[BsonSerializer(typeof(Int32ToStringSerializer))]
 		public string GameKey { get; set; }
 
 		[BsonElement("OrderID")]
@@ -22,7 +25,7 @@ namespace GameStore.DAL.Entities
 		[BsonRepresentation(BsonType.Int64)]
 		public short Quantity { get; set; }
 
-		[BsonRepresentation(BsonType.Int32)]
+		[BsonSerializer(typeof(DoubleOrInt32ToFloatSerializer))]
 		public float Discount { get; set; }
 	}
 }

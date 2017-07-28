@@ -8,9 +8,10 @@ using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using Ninject.Modules;
+using Ninject.Web.Common;
 using System.Linq;
 
-namespace GameStore.Services.Infrastructure
+namespace GameStore.Ninject.Modules
 {
 	public class ServicesModule : NinjectModule
 	{
@@ -27,19 +28,22 @@ namespace GameStore.Services.Infrastructure
 			Bind<IEfGameRepository>().To<ProxyGameRepository>().WhenInjectedInto(typeof(IService));
 			Bind<IEfGenreRepository>().To<ProxyGenreRepository>().WhenInjectedInto(typeof(IService));
 			Bind<IEfPublisherRepository>().To<ProxyPublisherRepository>().WhenInjectedInto(typeof(IService));
-			var context = Bind<GameStoreContext>().ToSelf().WithConstructorArgument(_connectionString);
-			Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(context);
-			Bind<IEfGameRepository>().To<EfGameRepository>().WithConstructorArgument(context);
-			Bind<IEfCommentRepository>().To<EfCommentRepository>().WithConstructorArgument(context);
-			Bind<IEfGenreRepository>().To<EfGenreRepository>().WithConstructorArgument(context);
-			Bind<IEfOrderRepository>().To<EfOrderRepository>().WithConstructorArgument(context);
-			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>().WithConstructorArgument(context);
-			Bind<IEfPublisherRepository>().To<EfPublisherRepository>().WithConstructorArgument(context);
+			Bind<IEfOrderRepository>().To<ProxyOrderRepository>().WhenInjectedInto(typeof(IService));
+			Bind<GameStoreContext>().ToSelf().InRequestScope().WithConstructorArgument(_connectionString);
+			Bind<IUnitOfWork>().To<UnitOfWork>();
+			Bind<IEfGameRepository>().To<EfGameRepository>();
+			Bind<IEfCommentRepository>().To<EfCommentRepository>();
+			Bind<IEfGenreRepository>().To<EfGenreRepository>();
+			Bind<IEfOrderRepository>().To<EfOrderRepository>();
+			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>();
+			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
+			//Bind<IEfOrderRepository>().To<EfOrderRepository>().WithConstructorArgument(context);
 			//Mongo
 			Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
 			Bind<IMongoGenreRepository>().To<MongoGenreRepository>();
 			Bind<IMongoPublisherRepository>().To<MongoPublisherRepository>();
+			Bind<IMongoOrderRepository>().To<MongoOrderRepository>();
 			//Common
 			Bind<IPipeline<IQueryable<Game>>>().To<GamePipeline>();
 			Bind<IFilterMapper>().To<GameFilterMapper>();

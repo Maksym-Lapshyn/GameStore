@@ -2,13 +2,13 @@
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Entities;
+using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
+using GameStore.Services.Dtos;
 using GameStore.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Infrastructure;
-using GameStore.Services.Dtos;
 
 namespace GameStore.Services.Concrete
 {
@@ -80,12 +80,20 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public IEnumerable<Order> GetAll(OrderFilterDto orderFilter = null)
+		public IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null)
 		{
+			IEnumerable<Order> orders;
+
 			if (orderFilter != null)
 			{
-				_orderRepository.Get(_mapper.Map<OrderFilterDto, OrderFilter>(orderFilter));
+				orders = _orderRepository.Get(_mapper.Map<OrderFilterDto, OrderFilter>(orderFilter));
+
+				return _mapper.Map<IEnumerable<Order>, List<OrderDto>>(orders);
 			}
+
+			orders = _orderRepository.Get(_mapper.Map<OrderFilterDto, OrderFilter>(null));
+
+			return _mapper.Map<IEnumerable<Order>, List<OrderDto>>(orders);
 		}
 
 		private void Map(Order output)

@@ -1,10 +1,8 @@
-﻿using System.Data.Entity.Migrations;
-using GameStore.DAL.Abstract.EntityFramework;
-using GameStore.DAL.Context;
+﻿using GameStore.DAL.Abstract.EntityFramework;
+using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using System.Linq;
-using GameStore.DAL.Abstract.MongoDb;
 
 namespace GameStore.DAL.Concrete
 {
@@ -31,8 +29,11 @@ namespace GameStore.DAL.Concrete
 
 			if (orderFilter != null)
 			{
-				efQuery = _efRepository.Get().Where();
+				efQuery = Filter(efQuery, orderFilter);
+				mongoQuery = Filter(mongoQuery, orderFilter);
 			}
+
+			return efQuery.ToList().Union(mongoQuery.ToList()).AsQueryable();
 		}
 
 		public Order Get(string customerId)
@@ -48,6 +49,11 @@ namespace GameStore.DAL.Concrete
 		public bool Contains(string customerId)
 		{
 			return _efRepository.Contains(customerId);
+		}
+
+		private IQueryable<Order> Filter(IQueryable<Order> orders, OrderFilter orderFilter)
+		{
+			return orders.Where(o => o.OrderDate > orderFilter.From).Where(o => o.OrderDate < orderFilter.To);
 		}
 	}
 }

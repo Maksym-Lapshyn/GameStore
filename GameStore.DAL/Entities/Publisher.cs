@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.DAL.Infrastructure.Serializers;
+using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.DAL.Entities
 {
@@ -16,6 +17,8 @@ namespace GameStore.DAL.Entities
 		[NotMapped]
 		public int SupplierId { get; set; }
 
+		[BsonElement("Phone")]
+		[BsonSerializer(typeof(StringOrInt32ToStringSerializer))]
 		[Column(TypeName = "NTEXT")]
 		public string Description { get; set; }
 

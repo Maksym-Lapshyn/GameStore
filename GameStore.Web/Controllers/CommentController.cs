@@ -40,14 +40,13 @@ namespace GameStore.Web.Controllers
 		{
 			var commentDtos = _commentService.GetBy(gameKey);
 			var commentViewModels = _mapper.Map<IEnumerable<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
-			var commentListViewModel = new AllCommentsViewModel
+			var allCommentsViewModel = new AllCommentsViewModel
 			{
-				GameId = commentViewModels.First().GameId,
 				GameKey = gameKey,
 				Comments = commentViewModels
 			};
 
-			return View(commentListViewModel);
+			return View(allCommentsViewModel);
 		}
 	}
 }

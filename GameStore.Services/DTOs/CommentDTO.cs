@@ -15,7 +15,7 @@ namespace GameStore.Services.DTOs
 
 		public string Body { get; set; }
 
-		public int GameId { get; set; }
+		public string GameKey { get; set; }
 
 		public GameDto Game { get; set; }
 

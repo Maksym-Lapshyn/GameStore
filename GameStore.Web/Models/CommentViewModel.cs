@@ -13,8 +13,6 @@ namespace GameStore.Web.Models
 		[Required]
 		public string Body { get; set; }
 
-		public int GameId { get; set; }
-
 		public string GameKey { get; set; }
 
 		public GameViewModel Game { get; set; }

@@ -46,9 +46,6 @@
 
 @Html.ActionLink("Download", "Download", "Game", null, new { target = "_blank" })
 
-@if (Model.CommentsCount != 0)
-{
-	@Html.ActionLink("Comments", "ListAll", "Comment", new { gameKey = Model.Key }, null)
-}
+@Html.ActionLink("Comments", "ListAll", "Comment", new { gameKey = Model.Key }, null)
 
-@Html.ActionLink("Buy", "Edit", "Order", new { gameId = Model.Id }, null)
+@Html.ActionLink("Buy", "Edit", "Order", new { gameKey = Model.Key }, null)

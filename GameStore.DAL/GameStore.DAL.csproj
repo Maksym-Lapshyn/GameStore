@@ -116,7 +116,9 @@
     <Compile Include="Infrastructure\GameFilter.cs" />
     <Compile Include="Infrastructure\OrderFilter.cs" />
     <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\StringOrInt32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

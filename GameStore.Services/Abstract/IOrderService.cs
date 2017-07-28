@@ -1,5 +1,4 @@
-﻿using GameStore.DAL.Entities;
-using GameStore.Services.Dtos;
+﻿using GameStore.Services.Dtos;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
 
@@ -13,6 +12,6 @@ namespace GameStore.Services.Abstract
 
 		OrderDto GetSingleBy(string customerId);
 
-		IEnumerable<Order> GetAll(OrderFilterDto orderFilter = null);
+		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
 	}
 }

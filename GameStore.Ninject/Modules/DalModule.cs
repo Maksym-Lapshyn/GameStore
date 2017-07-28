@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using Ninject.Modules;
 
-namespace GameStore.Common.Modules
+namespace GameStore.Ninject.Modules
 {
 	public class DalModule : NinjectModule
 	{

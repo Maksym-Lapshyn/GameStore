@@ -9,7 +9,12 @@ namespace GameStore.DAL.Infrastructure.Serializers
 	{
 		object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
-			var result = context.Reader.CurrentBsonType == BsonType.DateTime
+			if (context.Reader.CurrentBsonType == BsonType.Null)
+			{
+				return DateTime.UtcNow;
+			}
+
+			var result = context.Reader.CurrentBsonType == BsonType.String
 				? ParseDateTime(context.Reader.ReadString())
 				: DateTime.UtcNow;
 

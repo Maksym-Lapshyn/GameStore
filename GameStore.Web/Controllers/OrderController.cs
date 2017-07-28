@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Services.Abstract;
+using GameStore.Services.Dtos;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 using System;
@@ -39,14 +40,31 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ShowHistory()
+		public ActionResult ListAll()
 		{
-			return View();
+			var allOrdersModel = new AllOrdersViewModel
+			{
+				Filter = new OrderFilterViewModel
+				{
+					From = DateTime.UtcNow,
+					To = DateTime.UtcNow
+				}
+			};
+
+			return View(allOrdersModel);
 		}
 
-		public ActionResult ShowHistory(OrderFilterViewModel model)
+		public ActionResult ListAll(AllOrdersViewModel allOrdersViewModel)
 		{
-			_orderService.Ge
+			if (!ModelState.IsValid)
+			{
+				return View(allOrdersViewModel);
+			}
+
+			var filterDto = _mapper.Map<OrderFilterViewModel, OrderFilterDto>(allOrdersViewModel.Filter);
+			allOrdersViewModel.Orders = _mapper.Map<IEnumerable<OrderDto>, List<OrderViewModel>>(_orderService.GetAll(filterDto));
+
+			return View(allOrdersViewModel);
 		}
 
 		private OrderViewModel GetOrder()

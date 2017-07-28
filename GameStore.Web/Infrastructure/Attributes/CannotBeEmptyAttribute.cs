@@ -7,7 +7,7 @@ namespace GameStore.Web.Infrastructure.Attributes
 	{
 		public override bool IsValid(object value)
 		{
-			var list = value as List<int>;
+			var list = value as List<string>;
 
 			return list != null && list.Count > 0;
 		}

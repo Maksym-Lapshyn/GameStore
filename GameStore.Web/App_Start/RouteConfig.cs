@@ -80,7 +80,7 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"DisplayOrdersHistory",
 				"orders/history",
-				new { controller = "Order", action = "ShowHistory" }
+				new { controller = "Order", action = "ListAll" }
 			);
 
 			routes.MapRoute(
