@@ -18,10 +18,11 @@ namespace GameStore.DAL.Concrete
 
 		public IQueryable<Publisher> Get()
 		{
-			var efQuery = _efRepository.Get().ToList();
-			var mongoQuery = _mongoRepository.Get().ToList();
+			var efList = _efRepository.Get().ToList();
+			var mongoList = _mongoRepository.Get().ToList();
+            mongoList.RemoveAll(mongoPublisher => efList.Any(efPublisher => efPublisher.CompanyName == mongoPublisher.CompanyName));//Removes duplicates
 
-			return efQuery.Union(mongoQuery).AsQueryable();
+            return efList.Union(mongoList).AsQueryable();
 		}
 
 		public Publisher Get(string companyName)

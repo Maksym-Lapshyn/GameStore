@@ -7,7 +7,7 @@
 	<b>@Html.LabelFor(m => comment.Body):</b>
 	<p>@Html.DisplayFor(m => comment.Body)</p>
 	<p>
-		<button data-id=@comment.Id data-name=@comment.Name class="reply">Reply</button>
+		<button data-id=@comment.Id data-name=@comment.Name class="reply btn btn-default">Reply</button>
 	</p>
 
 	if (comment.ChildComments.Count != 0)

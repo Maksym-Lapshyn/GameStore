@@ -40,14 +40,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Game game)
 		{
-			if (_context.Games.Any(g => g.Key == game.Key))
-			{
-				_context.Entry(game).State = EntityState.Modified;
-			}
-			else
-			{
-				_context.Games.Add(game);
-			}
+            _context.Entry(game).State = EntityState.Modified;
 		}
 
 		public bool Contains(string gameKey)

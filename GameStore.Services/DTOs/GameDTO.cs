@@ -22,7 +22,9 @@ namespace GameStore.Services.DTOs
 
 		public string Description { get; set; }
 
-		public decimal Price { get; set; }
+        public bool IsUpdated { get; set; }
+
+        public decimal Price { get; set; }
 
 		public DateTime DateAdded { get; set; }
 

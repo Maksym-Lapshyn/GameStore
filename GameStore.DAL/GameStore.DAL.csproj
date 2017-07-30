@@ -70,6 +70,7 @@
     <Compile Include="Abstract\IFilter.cs" />
     <Compile Include="Abstract\IFilterMapper.cs" />
     <Compile Include="Abstract\IPipeLine.cs" />
+    <Compile Include="Abstract\ISynchronizer.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Concrete\EntityFramework\EfOrderRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfPlatformTypeRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfPublisherRepository.cs" />
+    <Compile Include="Concrete\MongoGameSynchronizer.cs" />
     <Compile Include="Concrete\MongoDb\MongoOrderRepository.cs" />
     <Compile Include="Concrete\ProxyGameRepository.cs" />
     <Compile Include="Concrete\GameFilterMapper.cs" />

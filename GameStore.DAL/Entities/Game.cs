@@ -30,6 +30,8 @@ namespace GameStore.DAL.Entities
 
 		public string Description { get; set; }
 
+        public bool IsUpdated { get; set; }
+
 		[BsonElement("UnitPrice")]
 		[BsonRepresentation(BsonType.Double)]
 		[Column(TypeName = "MONEY")]

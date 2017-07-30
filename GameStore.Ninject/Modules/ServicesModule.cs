@@ -15,38 +15,13 @@ namespace GameStore.Ninject.Modules
 {
 	public class ServicesModule : NinjectModule
 	{
-		private readonly string _connectionString;
-
-		public ServicesModule(string connectionString)
-		{
-			_connectionString = connectionString;
-		}
-
 		public override void Load()
 		{
-			//Ef
 			Bind<IEfGameRepository>().To<ProxyGameRepository>().WhenInjectedInto(typeof(IService));
 			Bind<IEfGenreRepository>().To<ProxyGenreRepository>().WhenInjectedInto(typeof(IService));
 			Bind<IEfPublisherRepository>().To<ProxyPublisherRepository>().WhenInjectedInto(typeof(IService));
 			Bind<IEfOrderRepository>().To<ProxyOrderRepository>().WhenInjectedInto(typeof(IService));
-			Bind<GameStoreContext>().ToSelf().InRequestScope().WithConstructorArgument(_connectionString);
 			Bind<IUnitOfWork>().To<UnitOfWork>();
-			Bind<IEfGameRepository>().To<EfGameRepository>();
-			Bind<IEfCommentRepository>().To<EfCommentRepository>();
-			Bind<IEfGenreRepository>().To<EfGenreRepository>();
-			Bind<IEfOrderRepository>().To<EfOrderRepository>();
-			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>();
-			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
-			//Bind<IEfOrderRepository>().To<EfOrderRepository>().WithConstructorArgument(context);
-			//Mongo
-			Bind<IMongoGameRepository>().To<MongoGameRepository>();
-			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
-			Bind<IMongoGenreRepository>().To<MongoGenreRepository>();
-			Bind<IMongoPublisherRepository>().To<MongoPublisherRepository>();
-			Bind<IMongoOrderRepository>().To<MongoOrderRepository>();
-			//Common
-			Bind<IPipeline<IQueryable<Game>>>().To<GamePipeline>();
-			Bind<IFilterMapper>().To<GameFilterMapper>();
 		}
 	}
 }

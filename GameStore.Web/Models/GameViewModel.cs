@@ -34,7 +34,9 @@ namespace GameStore.Web.Models
 
 		public int ViewsCount { get; set; }
 
-		public int CommentsCount { get; set; }
+        public bool IsUpdated { get; set; }
+
+        public int CommentsCount { get; set; }
 
 		[DisplayName("Units in stock")]
 		public short UnitsInStock { get; set; }

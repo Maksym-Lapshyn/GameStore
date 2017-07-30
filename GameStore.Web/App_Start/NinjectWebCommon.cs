@@ -43,8 +43,8 @@ namespace GameStore.Web.App_Start
 		{
 			var modules = new INinjectModule[]
 			{
-				new ServicesModule("GameStoreContext"),
-				new DalModule("mongodb://localhost", "Northwind"), 
+				new ServicesModule(),
+				new DalModule("mongodb://localhost", "Northwind", "GameStoreContext"), 
 			};
 
 			var kernel = new StandardKernel(modules);

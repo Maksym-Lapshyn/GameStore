@@ -18,10 +18,11 @@ namespace GameStore.DAL.Concrete
 
 		public IQueryable<Genre> Get()
 		{
-			var efQuery = _efRepository.Get().ToList();
-			var mongoQuery = _mongoRepository.Get().ToList();
+			var efList = _efRepository.Get().ToList();
+			var mongoList = _mongoRepository.Get().ToList();
+            mongoList.RemoveAll(mongoGenre => efList.Any(efGenre => efGenre.Name == mongoGenre.Name));//Removes duplicates
 
-			return efQuery.Union(mongoQuery).AsQueryable();
+            return efList.Union(mongoList).AsQueryable();
 		}
 
 		public Genre Get(string name)

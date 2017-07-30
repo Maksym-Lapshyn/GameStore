@@ -60,9 +60,10 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Update(GameDto game)
+		public ActionResult Update(GameViewModel game)
 		{
-			_gameService.Edit(game);
+            var gameDto = _mapper.Map<GameViewModel, GameDto>(game);
+			_gameService.Edit(gameDto);
 
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
