@@ -21,32 +21,47 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpPost]
-		public ActionResult New(CommentViewModel commentViewModel)
-		{
-			if (!ModelState.IsValid)
-			{
-				return PartialView(commentViewModel);
-			}
-
-			var commentDto = _mapper.Map<CommentViewModel, CommentDto>(commentViewModel);
-			_commentService.Create(commentDto);
-
-			return RedirectToAction("ListAll", new { gameKey = commentViewModel.GameKey });
-		}
-
 		[HttpGet]
 		public ActionResult ListAll(string gameKey)
 		{
-			var commentDtos = _commentService.GetBy(gameKey);
-			var commentViewModels = _mapper.Map<IEnumerable<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
-			var allCommentsViewModel = new AllCommentsViewModel
+			var model = new AllCommentsViewModel
 			{
+				NewComment = new CommentViewModel
+				{
+					GameKey = gameKey
+				},
+
 				GameKey = gameKey,
-				Comments = commentViewModels
+				Comments = GetComments(gameKey)
 			};
 
-			return View(allCommentsViewModel);
+			return View(model);
+		}
+
+		[HttpPost]
+		public ActionResult ListAll(AllCommentsViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				model.Comments = GetComments(model.GameKey);
+
+				return View(model);
+			}
+
+			var commentDto = _mapper.Map<CommentViewModel, CommentDto>(model.NewComment);
+			_commentService.Create(commentDto);
+
+			model.NewComment = new CommentViewModel();
+			model.Comments = GetComments(model.GameKey);
+
+			return View(model);
+		}
+
+		private List<CommentViewModel> GetComments(string gameKey)
+		{
+			var commentDtos = _commentService.GetBy(gameKey);
+
+			return _mapper.Map<IEnumerable<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
 		}
 	}
 }

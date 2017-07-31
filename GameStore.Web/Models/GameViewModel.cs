@@ -12,6 +12,8 @@ namespace GameStore.Web.Models
 		[HiddenInput]
 		public int Id { get; set; }
 
+		public string NorthwindId { get; set; }
+
 		[Required]
 		public string Key { get; set; }
 
@@ -34,9 +36,9 @@ namespace GameStore.Web.Models
 
 		public int ViewsCount { get; set; }
 
-        public bool IsUpdated { get; set; }
+		public bool IsUpdated { get; set; }
 
-        public int CommentsCount { get; set; }
+		public int CommentsCount { get; set; }
 
 		[DisplayName("Units in stock")]
 		public short UnitsInStock { get; set; }

@@ -24,7 +24,33 @@
 	}
 }
 
-@{Html.RenderPartial("New", new CommentViewModel { GameKey = Model.GameKey });}
+@using (Html.BeginForm("ListAll", "Comment", new { @id = "CommentForm" }, FormMethod.Post, null))
+{
+	@Html.HiddenFor(m => m.NewComment.GameKey)
+	@Html.HiddenFor(m => m.NewComment.ParentCommentName)
+	@Html.HiddenFor(m => m.NewComment.ParentCommentId)
+	<div id="replyTo">
+		@if (Model.NewComment.ParentCommentName != null)
+		{
+		<p>
+			<b>Reply to: @Model.NewComment.ParentCommentName</b>
+		</p>
+		}
+	</div>
+	<b>@Html.LabelFor(m => m.NewComment.Name)</b>
+	<p>
+		@Html.TextBoxFor(m => m.NewComment.Name, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.NewComment.Name)
+	</p>
+	<b>@Html.LabelFor(m => m.NewComment.Body)</b>
+	<p>
+		@Html.TextBoxFor(m => m.NewComment.Body, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.NewComment.Body)
+	</p>
+	<p>
+		<button id="button" type="submit" class="btn btn-default">Create</button>
+	</p>
+}
 
 @section Scripts
 {

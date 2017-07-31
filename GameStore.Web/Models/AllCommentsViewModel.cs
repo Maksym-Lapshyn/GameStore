@@ -12,5 +12,7 @@ namespace GameStore.Web.Models
 		public string GameKey { get; set; }
 
 		public List<CommentViewModel> Comments { get; set; }
+
+		public CommentViewModel NewComment { get; set; }
 	}
 }

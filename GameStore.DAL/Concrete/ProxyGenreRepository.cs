@@ -20,9 +20,9 @@ namespace GameStore.DAL.Concrete
 		{
 			var efList = _efRepository.Get().ToList();
 			var mongoList = _mongoRepository.Get().ToList();
-            mongoList.RemoveAll(mongoGenre => efList.Any(efGenre => efGenre.Name == mongoGenre.Name));//Removes duplicates
+			mongoList.RemoveAll(mongoGenre => efList.Any(efGenre => efGenre.Name == mongoGenre.Name));//Removes duplicates
 
-            return efList.Union(mongoList).AsQueryable();
+			return efList.Union(mongoList).AsQueryable();
 		}
 
 		public Genre Get(string name)

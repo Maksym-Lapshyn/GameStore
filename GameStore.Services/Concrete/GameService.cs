@@ -38,7 +38,7 @@ namespace GameStore.Services.Concrete
 		public void Create(GameDto gameDto)
 		{
 			var game = _mapper.Map<GameDto, Game>(gameDto);
-			Map(gameDto, game);
+			MapDto(gameDto, game);
 			game.ViewsCount = 0;
 			game.DateAdded = DateTime.UtcNow;
 			_gameRepository.Insert(game);
@@ -49,7 +49,7 @@ namespace GameStore.Services.Concrete
 		{
 			var game = _gameRepository.Get().First(g => g.Id == gameDto.Id);
 			game = _mapper.Map(gameDto, game);
-			Map(gameDto, game);
+			MapDto(gameDto, game);
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
 		}
@@ -57,6 +57,7 @@ namespace GameStore.Services.Concrete
 		public void SaveView(string gameKey)
 		{
 			var game = _gameRepository.Get(gameKey);
+			MapEntity(game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -126,11 +127,23 @@ namespace GameStore.Services.Concrete
 			return gameDtOs;
 		}
 
-		private void Map(GameDto input, Game result)
+		private void MapDto(GameDto input, Game result)
 		{
 			result.Publisher = _publisherRepository.Get(input.PublisherInput);
 			result.PlatformTypes = input.PlatformTypesInput.Select(type => _platformTypeRepository.Get(type)).ToList();
 			result.Genres = input.GenresInput.Select(name => _genreRepository.Get(name)).ToList();
+		}
+
+		private void MapEntity(Game result)
+		{
+			if (result.Publisher != null)
+			{
+				result.Publisher = _publisherRepository.Get(result.Publisher.CompanyName);
+			}
+			if (result.Genres.Count != 0)
+			{
+				result.Genres = result.Genres.Select(genre => _genreRepository.Get(genre.Name)).ToList();
+			}
 		}
 	}
 }

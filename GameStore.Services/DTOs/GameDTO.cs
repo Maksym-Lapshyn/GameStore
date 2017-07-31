@@ -16,15 +16,17 @@ namespace GameStore.Services.DTOs
 
 		public int Id { get; set; }
 
+		public string NorthwindId { get; set; }
+
 		public string Key { get; set; }
 
 		public string Name { get; set; }
 
 		public string Description { get; set; }
 
-        public bool IsUpdated { get; set; }
+		public bool IsUpdated { get; set; }
 
-        public decimal Price { get; set; }
+		public decimal Price { get; set; }
 
 		public DateTime DateAdded { get; set; }
 
