@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
-using System.Linq;
-using GameStore.DAL.Abstract.EntityFramework;
 
 namespace GameStore.Services.Concrete
 {
@@ -13,11 +11,11 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		private readonly IEfPublisherRepository _publisherRepository;
+		private readonly IPublisherRepository _publisherRepository;
 
 		public PublisherService(IUnitOfWork unitOfWork,
 			IMapper mapper,
-			IEfPublisherRepository publisherRepository)
+			IPublisherRepository publisherRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
@@ -42,7 +40,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<PublisherDto> GetAll()
 		{
 			var publishers = _publisherRepository.Get();
-			var publisherDtos = _mapper.Map<IQueryable<Publisher>, IEnumerable<PublisherDto>>(publishers);
+			var publisherDtos = _mapper.Map<IEnumerable<Publisher>, IEnumerable<PublisherDto>>(publishers);
 
 			return publisherDtos;
 		}

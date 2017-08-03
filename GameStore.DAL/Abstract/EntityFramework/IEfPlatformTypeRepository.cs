@@ -11,6 +11,6 @@ namespace GameStore.DAL.Abstract.EntityFramework
 
 		bool Contains(string type);
 
-		void Insert(PlatformType type);
+		void Insert(PlatformType platformType);
 	}
 }

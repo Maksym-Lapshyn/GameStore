@@ -8,7 +8,7 @@ namespace GameStore.Services.Abstract
 	{
 		void Create(OrderDto orderDto);
 
-		void Edit(OrderDto orderDto, string gameKey);
+		void Update(OrderDto orderDto, string gameKey);
 
 		OrderDto GetSingleBy(string customerId);
 

@@ -17,6 +17,7 @@ namespace GameStore.DAL.Entities
 		public int OrderId { get; set; }
 
 		[BsonSerializer(typeof(DateTimeToStringSerializer))]
+		[Column(TypeName = "datetime2")]
 		public DateTime OrderDate { get; set; }
 
 		public virtual ICollection<OrderDetails> OrderDetails { get; set; }

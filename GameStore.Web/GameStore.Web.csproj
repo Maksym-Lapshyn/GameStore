@@ -209,7 +209,7 @@
     <Content Include="Views\Comments\ListAllChilds.cshtml" />
     <Content Include="Views\Games\ListAll.cshtml" />
     <Content Include="Views\Orders\ListAll.cshtml" />
-    <Content Include="Views\Games\Edit.cshtml" />
+    <Content Include="Views\Games\Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

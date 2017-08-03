@@ -53,8 +53,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Game game)
 		{
+			var oldGame = (Game)_context.Entry(game).OriginalValues.ToObject();
+			var container = CreateContainer("Update", game, oldGame);
+			_logger.LogChange(container);
 			PopulateEf(game);
 			//game = PopulateEntity(game);
+			//var oldGame = _context.Games.AsNoTracking().First(g => g.Key == game.Key);
 			_context.Entry(game).State = EntityState.Modified;
 		}
 

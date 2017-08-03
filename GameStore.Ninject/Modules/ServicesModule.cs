@@ -1,7 +1,5 @@
-﻿using GameStore.DAL.Abstract;
-using GameStore.DAL.Abstract.EntityFramework;
-using GameStore.DAL.Concrete;
-using GameStore.Services.Abstract;
+﻿using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Concrete.Common;
 using Ninject.Modules;
 
 namespace GameStore.Ninject.Modules
@@ -10,10 +8,12 @@ namespace GameStore.Ninject.Modules
 	{
 		public override void Load()
 		{
-			Bind<IEfGameRepository>().To<ProxyGameRepository>().WhenInjectedInto(typeof(IService));
-			Bind<IEfGenreRepository>().To<ProxyGenreRepository>().WhenInjectedInto(typeof(IService));
-			Bind<IEfPublisherRepository>().To<ProxyPublisherRepository>().WhenInjectedInto(typeof(IService));
-			Bind<IEfOrderRepository>().To<ProxyOrderRepository>().WhenInjectedInto(typeof(IService));
+			Bind<IGameRepository>().To<GameRepository>();
+			Bind<IGenreRepository>().To<GenreRepository>();
+			Bind<IPublisherRepository>().To<PublisherRepository>();
+			Bind<IOrderRepository>().To<OrderRepository>();
+			Bind<IPlatformTypeRepository>().To<PlatformTypeRepository>();
+			Bind<ICommentRepository>().To<CommentRepository>();
 			Bind<IUnitOfWork>().To<UnitOfWork>();
 		}
 	}

@@ -42,5 +42,10 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 			return order;
 		}
+
+		public bool Contains(string customerId)
+		{
+			return _orderCollection.AsQueryable().Any(o => o.CustomerId == customerId);
+		}
 	}
 }

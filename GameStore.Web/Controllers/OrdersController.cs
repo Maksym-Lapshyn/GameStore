@@ -34,7 +34,7 @@ namespace GameStore.Web.Controllers
 		{
 			var orderViewModel = GetOrder();
 			var orderDto = _mapper.Map<OrderViewModel, OrderDto>(orderViewModel);
-			_orderService.Edit(orderDto, gameKey);
+			_orderService.Update(orderDto, gameKey);
 
 			return RedirectToAction("Show");
 		}

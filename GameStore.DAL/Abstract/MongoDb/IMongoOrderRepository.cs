@@ -8,5 +8,7 @@ namespace GameStore.DAL.Abstract.MongoDb
 		IQueryable<Order> Get();
 
 		Order Get(string customerId);
+
+		bool Contains(string customerId);
 	}
 }

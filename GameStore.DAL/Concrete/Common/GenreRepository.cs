@@ -1,28 +1,30 @@
-﻿using GameStore.DAL.Abstract.EntityFramework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
-using System.Linq;
 
-namespace GameStore.DAL.Concrete
+namespace GameStore.DAL.Concrete.Common
 {
-	public class ProxyGenreRepository : IEfGenreRepository
+	public class GenreRepository : IGenreRepository
 	{
 		private readonly IEfGenreRepository _efRepository;
 		private readonly IMongoGenreRepository _mongoRepository;
 
-		public ProxyGenreRepository(IEfGenreRepository efRepository, IMongoGenreRepository mongoRepository)
+		public GenreRepository(IEfGenreRepository efRepository, IMongoGenreRepository mongoRepository)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 		}
 
-		public IQueryable<Genre> Get()
+		public IEnumerable<Genre> Get()
 		{
 			var efList = _efRepository.Get().ToList();
-			var mongoList = _mongoRepository.Get().ToList();
-			mongoList.RemoveAll(mongoGenre => efList.Any(efGenre => efGenre.Name == mongoGenre.Name));//Removes duplicates
+			var northwindIds = efList.Select(p => p.NorthwindId);
+			var mongoList = _mongoRepository.Get().Where(g => !northwindIds.Contains(g.NorthwindId));
 
-			return efList.Union(mongoList).AsQueryable();
+			return efList.Union(mongoList);
 		}
 
 		public Genre Get(string name)

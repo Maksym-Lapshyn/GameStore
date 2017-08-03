@@ -30,19 +30,20 @@ namespace GameStore.Ninject.Modules
 		{
 			Bind<GameStoreContext>().ToSelf().InRequestScope().WithConstructorArgument(_efConnectionString);
 			Bind<IMongoDatabase>().ToMethod(ctx => new MongoClient(_mongoConnectionString).GetDatabase(_mongoDatabaseName));
+
 			Bind<IEfGameRepository>().To<EfGameRepository>();
 			Bind<IEfCommentRepository>().To<EfCommentRepository>();
 			Bind<IEfGenreRepository>().To<EfGenreRepository>();
 			Bind<IEfOrderRepository>().To<EfOrderRepository>();
 			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>();
 			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
-			//Bind<IEfOrderRepository>().To<EfOrderRepository>().WithConstructorArgument(context);
-			//Mongo
+			
 			Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
 			Bind<IMongoGenreRepository>().To<MongoGenreRepository>();
 			Bind<IMongoPublisherRepository>().To<MongoPublisherRepository>();
 			Bind<IMongoOrderRepository>().To<MongoOrderRepository>();
+
 			Bind<IPipeline<IQueryable<Game>>>().To<GamePipeline>();
 			Bind<IFilterMapper>().To<GameFilterMapper>();
 			Bind<ISynchronizer<Game>>().To<MongoGameSynchronizer>();

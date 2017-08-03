@@ -1,4 +1,4 @@
-﻿namespace GameStore.DAL.Abstract
+﻿namespace GameStore.DAL.Abstract.Common
 {
 	public interface IUnitOfWork
 	{

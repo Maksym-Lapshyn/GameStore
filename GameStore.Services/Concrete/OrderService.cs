@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
-using GameStore.DAL.Abstract.EntityFramework;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
@@ -16,13 +15,13 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		private readonly IEfOrderRepository _orderRepository;
-		private readonly IEfGameRepository _gameRepository;
+		private readonly IOrderRepository _orderRepository;
+		private readonly IGameRepository _gameRepository;
 
 		public OrderService(IUnitOfWork unitOfWork,
 			IMapper mapper,
-			IEfOrderRepository orderRepository,
-			IEfGameRepository gameRepository)
+			IOrderRepository orderRepository,
+			IGameRepository gameRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
@@ -47,7 +46,8 @@ namespace GameStore.Services.Concrete
 			{
 				order = new Order
 				{
-					CustomerId = customerId
+					CustomerId = customerId,
+					OrderDate = DateTime.UtcNow
 				};
 			}
 			else
@@ -60,9 +60,9 @@ namespace GameStore.Services.Concrete
 			return orderDto;
 		}
 
-		public void Edit(OrderDto orderDto, string gameKey)
+		public void Update(OrderDto orderDto, string gameKey)
 		{
-			var order = _orderRepository.Get(orderDto.CustomerId);
+			var order = orderDto.Id != default(int) ? _orderRepository.Get(orderDto.CustomerId) : _mapper.Map<OrderDto, Order>(orderDto);
 			var details = order.OrderDetails.FirstOrDefault(o => o.GameKey == gameKey);
 
 			if (details == null)

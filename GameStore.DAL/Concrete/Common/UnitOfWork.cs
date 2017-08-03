@@ -1,7 +1,7 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Context;
 
-namespace GameStore.DAL.Concrete
+namespace GameStore.DAL.Concrete.Common
 {
 	public class UnitOfWork : IUnitOfWork
 	{

@@ -1,17 +1,19 @@
-﻿using GameStore.DAL.Abstract.EntityFramework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
-using System.Linq;
 
-namespace GameStore.DAL.Concrete
+namespace GameStore.DAL.Concrete.Common
 {
-	public class ProxyOrderRepository : IEfOrderRepository
+	public class OrderRepository : IOrderRepository
 	{
 		private readonly IEfOrderRepository _efRepository;
 		private readonly IMongoOrderRepository _mongoRepository;
 
-		public ProxyOrderRepository(IEfOrderRepository efRepository, IMongoOrderRepository mongoRepository)
+		public OrderRepository(IEfOrderRepository efRepository, IMongoOrderRepository mongoRepository)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
@@ -22,7 +24,7 @@ namespace GameStore.DAL.Concrete
 			_efRepository.Insert(order);
 		}
 
-		public IQueryable<Order> Get(OrderFilter orderFilter = null)
+		public IEnumerable<Order> Get(OrderFilter orderFilter = null)
 		{
 			var efQuery = _efRepository.Get();
 			var mongoQuery = _mongoRepository.Get();
@@ -34,10 +36,10 @@ namespace GameStore.DAL.Concrete
 			}
 
 			var efList = efQuery.ToList();
-			var mongoList = mongoQuery.ToList();
-			mongoList.RemoveAll(mongoOrder => efList.Any(efOrder => efOrder.CustomerId == mongoOrder.CustomerId));//Removes duplicates
+			var northwindIds = efList.Select(p => p.NorthwindId);
+			var mongoList = mongoQuery.Where(g => !northwindIds.Contains(g.NorthwindId));
 
-			return efList.Union(mongoList).AsQueryable();
+			return efList.Union(mongoList);
 		}
 
 		public Order Get(string customerId)
@@ -52,7 +54,7 @@ namespace GameStore.DAL.Concrete
 
 		public bool Contains(string customerId)
 		{
-			return _efRepository.Contains(customerId);
+			return _efRepository.Contains(customerId) || _mongoRepository.Contains(customerId);
 		}
 
 		private IQueryable<Order> Filter(IQueryable<Order> orders, OrderFilter orderFilter)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +11,7 @@ namespace GameStore.DAL.Entities
 		[Index(IsUnique = true)]
 		public string Type { get; set; }
 
+		[BsonIgnore]
 		public ICollection<Game> Games { get; set; }
 	}
 }

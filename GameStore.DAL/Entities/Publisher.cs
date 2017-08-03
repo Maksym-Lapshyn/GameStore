@@ -25,6 +25,7 @@ namespace GameStore.DAL.Entities
 		[Column(TypeName = "NTEXT")]
 		public string HomePage { get; set; }
 
+		[BsonIgnore]
 		public ICollection<Game> Games { get; set; }
 	}
 }

@@ -1,28 +1,30 @@
-﻿using GameStore.DAL.Abstract.EntityFramework;
+﻿using System.Collections.Generic;
+using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using System.Linq;
 
-namespace GameStore.DAL.Concrete
+namespace GameStore.DAL.Concrete.Common
 {
-	public class ProxyPublisherRepository : IEfPublisherRepository
+	public class PublisherRepository : IPublisherRepository
 	{
 		private readonly IEfPublisherRepository _efRepository;
 		private readonly IMongoPublisherRepository _mongoRepository;
 
-		public ProxyPublisherRepository(IEfPublisherRepository efRepository, IMongoPublisherRepository mongoRepository)
+		public PublisherRepository(IEfPublisherRepository efRepository, IMongoPublisherRepository mongoRepository)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 		}
 
-		public IQueryable<Publisher> Get()
+		public IEnumerable<Publisher> Get()
 		{
-			var efQuery = _efRepository.Get();
-			var northwindIds = efQuery.Select(p => p.NorthwindId).ToList();
-			var mongoQuery = _mongoRepository.Get().Where(g => !northwindIds.Contains(g.NorthwindId));
+			var efList = _efRepository.Get().ToList();
+			var northwindIds = efList.Select(p => p.NorthwindId);
+			var mongoList = _mongoRepository.Get().Where(g => !northwindIds.Contains(g.NorthwindId));
 
-			return efQuery.Union(mongoQuery);
+			return efList.Union(mongoList);
 		}
 
 		public Publisher Get(string companyName)

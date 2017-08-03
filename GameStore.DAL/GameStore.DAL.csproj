@@ -66,6 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Common\ICommentRepository.cs" />
+    <Compile Include="Abstract\Common\IGameRepository.cs" />
+    <Compile Include="Abstract\Common\IGenreRepository.cs" />
+    <Compile Include="Abstract\Common\IOrderRepository.cs" />
+    <Compile Include="Abstract\Common\IPlatformTypeRepository.cs" />
+    <Compile Include="Abstract\Common\IPublisherRepository.cs" />
     <Compile Include="Abstract\EntityFramework\IEfCommentRepository.cs" />
     <Compile Include="Abstract\EntityFramework\IEfGameRepository.cs" />
     <Compile Include="Abstract\EntityFramework\IEfGenreRepository.cs" />
@@ -78,12 +84,14 @@
     <Compile Include="Abstract\ILogger.cs" />
     <Compile Include="Abstract\IPipeLine.cs" />
     <Compile Include="Abstract\ISynchronizer.cs" />
-    <Compile Include="Abstract\IUnitOfWork.cs" />
+    <Compile Include="Abstract\Common\IUnitOfWork.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoOrderRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
+    <Compile Include="Concrete\Common\CommentRepository.cs" />
+    <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGameRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGenreRepository.cs" />
@@ -93,17 +101,17 @@
     <Compile Include="Concrete\MongoGameLogger.cs" />
     <Compile Include="Concrete\MongoGameSynchronizer.cs" />
     <Compile Include="Concrete\MongoDb\MongoOrderRepository.cs" />
-    <Compile Include="Concrete\ProxyGameRepository.cs" />
+    <Compile Include="Concrete\Common\GameRepository.cs" />
     <Compile Include="Concrete\GameFilterMapper.cs" />
     <Compile Include="Concrete\GamePipeline.cs" />
-    <Compile Include="Concrete\ProxyGenreRepository.cs" />
+    <Compile Include="Concrete\Common\GenreRepository.cs" />
     <Compile Include="Concrete\MongoDb\MongoGameRepository.cs" />
     <Compile Include="Concrete\MongoDb\MongoGenreRepository.cs" />
     <Compile Include="Concrete\MongoDb\MongoPublisherRepository.cs" />
     <Compile Include="Concrete\MongoDb\MongoShipperRepository.cs" />
-    <Compile Include="Concrete\ProxyOrderRepository.cs" />
-    <Compile Include="Concrete\ProxyPublisherRepository.cs" />
-    <Compile Include="Concrete\UnitOfWork.cs" />
+    <Compile Include="Concrete\Common\OrderRepository.cs" />
+    <Compile Include="Concrete\Common\PublisherRepository.cs" />
+    <Compile Include="Concrete\Common\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
     <Compile Include="Entities\BaseEntity.cs" />

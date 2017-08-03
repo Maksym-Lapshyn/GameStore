@@ -1,13 +1,15 @@
-﻿using GameStore.DAL.Abstract;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
-using System.Linq;
 
-namespace GameStore.DAL.Concrete
+namespace GameStore.DAL.Concrete.Common
 {
-	public class ProxyGameRepository : IEfGameRepository
+	public class GameRepository : IGameRepository
 	{
 		private readonly IEfGameRepository _efRepository;
 		private readonly IMongoGameRepository _mongoRepository;
@@ -15,7 +17,7 @@ namespace GameStore.DAL.Concrete
 		private readonly IFilterMapper _filterMapper;
 		private readonly ISynchronizer<Game> _synchronizer;
 
-		public ProxyGameRepository(IPipeline<IQueryable<Game>> pipeline,
+		public GameRepository(IPipeline<IQueryable<Game>> pipeline,
 			IFilterMapper filterMapper,
 			IEfGameRepository efRepository,
 			IMongoGameRepository mongoRepository,
@@ -28,7 +30,7 @@ namespace GameStore.DAL.Concrete
 			_synchronizer = synchronizer;
 		}
 
-		public IQueryable<Game> Get(GameFilter filter = null)
+		public IEnumerable<Game> Get(GameFilter filter = null)
 		{
 			var efQuery = _efRepository.Get();
 			var mongoQuery = _mongoRepository.Get();
@@ -47,11 +49,10 @@ namespace GameStore.DAL.Concrete
 				efList[i] = _synchronizer.Synchronize(efList[i]);
 			}
 
-			var mongoList = mongoQuery.ToList();
+			var northwindIds = efList.Select(p => p.NorthwindId);
+			var mongoList = mongoQuery.Where(g => !northwindIds.Contains(g.NorthwindId));
 
-			mongoList.RemoveAll(mongoGame => efList.Any(efGame => efGame.Key == mongoGame.Key));//Removes duplicates
-
-			return efList.Union(mongoList).AsQueryable();
+			return efList.Union(mongoList);
 		}
 
 		public Game Get(string gameKey)

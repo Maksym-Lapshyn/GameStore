@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Abstract.EntityFramework;
 
 namespace GameStore.Services.Concrete
 {
@@ -13,13 +12,13 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		private readonly IEfCommentRepository _commentRepository;
-		private readonly IEfGameRepository _gameRepository;
+		private readonly ICommentRepository _commentRepository;
+		private readonly IGameRepository _gameRepository;
 
 		public CommentService(IUnitOfWork unitOfWork, 
 			IMapper mapper,
-			IEfCommentRepository commentRepository,
-			IEfGameRepository gameRepository)
+			ICommentRepository commentRepository,
+			IGameRepository gameRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
@@ -50,7 +49,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<CommentDto> GetAll()
 		{
 			var comments = _commentRepository.Get();
-			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
+			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}
@@ -58,7 +57,7 @@ namespace GameStore.Services.Concrete
 		public IEnumerable<CommentDto> GetBy(string gameKey)
 		{
 			var comments = _commentRepository.Get().Where(c => c.GameKey == gameKey && c.ParentCommentId == null);
-			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
+			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}

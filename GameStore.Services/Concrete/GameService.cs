@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
-using GameStore.DAL.Abstract.EntityFramework;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
@@ -15,17 +14,17 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		private readonly IEfGameRepository _gameRepository;
-		private readonly IEfPublisherRepository _publisherRepository;
-		private readonly IEfGenreRepository _genreRepository;
-		private readonly IEfPlatformTypeRepository _platformTypeRepository;
+		private readonly IGameRepository _gameRepository;
+		private readonly IPublisherRepository _publisherRepository;
+		private readonly IGenreRepository _genreRepository;
+		private readonly IPlatformTypeRepository _platformTypeRepository;
 
 		public GameService(IUnitOfWork unitOfWork,
 			IMapper mapper,
-			IEfGameRepository gameRepository,
-			IEfPublisherRepository publisherRepository,
-			IEfGenreRepository genreRepository,
-			IEfPlatformTypeRepository platformTypeRepository)
+			IGameRepository gameRepository,
+			IPublisherRepository publisherRepository,
+			IGenreRepository genreRepository,
+			IPlatformTypeRepository platformTypeRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
@@ -58,7 +57,7 @@ namespace GameStore.Services.Concrete
 		public void SaveView(string gameKey)
 		{
 			var game = _gameRepository.Get(gameKey);
-			//MapEntity(game);
+			MapEntity(game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -93,7 +92,7 @@ namespace GameStore.Services.Concrete
 				games = games.Skip(skip.Value).Take(take.Value);
 			}
 
-			var gameDtos = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(games);
+			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
 			return gameDtos;
 		}
@@ -114,7 +113,7 @@ namespace GameStore.Services.Concrete
 		{
 			var games = _gameRepository
 				.Get().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
-			var gameDtOs = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(games);
+			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
 			return gameDtOs;
 		}
@@ -123,7 +122,7 @@ namespace GameStore.Services.Concrete
 		{
 			var allGames = _gameRepository.Get();
 			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game);
-			var gameDtOs = _mapper.Map<IQueryable<Game>, IEnumerable<GameDto>>(matchedGames);
+			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
 
 			return gameDtOs;
 		}
@@ -135,7 +134,7 @@ namespace GameStore.Services.Concrete
 			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.Get(n)));
 		}
 
-		/*private void MapEntity(Game result)
+		private void MapEntity(Game result)
 		{
 			if (result.Publisher != null)
 			{
@@ -149,6 +148,6 @@ namespace GameStore.Services.Concrete
 			{
 				result.PlatformTypes = result.PlatformTypes.Select(platformType => _platformTypeRepository.Get(platformType.Type)).ToList();
 			}
-		}*/
+		}
 	}
 }

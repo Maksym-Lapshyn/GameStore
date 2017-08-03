@@ -19,6 +19,7 @@ namespace GameStore.DAL.Entities
 
 		public virtual ICollection<Genre> ChildGenres { get; set; }
 
+		[BsonIgnore]
 		public virtual ICollection<Game> Games { get; set; }
 	}
 }
