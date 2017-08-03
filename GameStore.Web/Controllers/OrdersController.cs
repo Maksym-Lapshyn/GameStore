@@ -10,13 +10,13 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	public class OrderController : Controller
+	public class OrdersController : Controller
 	{
 		private readonly IOrderService _orderService;
 		private readonly IMapper _mapper;
 		private const string CookieKey = "customerId";
 
-		public OrderController(IOrderService orderService,
+		public OrdersController(IOrderService orderService,
 			IMapper mapper)
 		{
 			_orderService = orderService;
@@ -40,7 +40,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ListAll()
+		public ActionResult History()
 		{
 			var allOrdersModel = new AllOrdersViewModel
 			{
@@ -54,7 +54,7 @@ namespace GameStore.Web.Controllers
 			return View(allOrdersModel);
 		}
 
-		public ActionResult ListAll(AllOrdersViewModel allOrdersViewModel)
+		public ActionResult History(AllOrdersViewModel allOrdersViewModel)
 		{
 			if (!ModelState.IsValid)
 			{

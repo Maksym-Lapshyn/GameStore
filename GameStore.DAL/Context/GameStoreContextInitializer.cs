@@ -345,27 +345,6 @@ namespace GameStore.DAL.Context
 
 			context.Games.AddRange(new List<Game> { halflife, callOfDuty, dots, mario, fifa15, assassinsCreed, granTurismo, battleToads, fable, goldenAxe, diablo});
 			context.SaveChanges();
-			
-			var firstComment = new Comment { Name = "Josh123", Game = callOfDuty, Body = "Cool game, I like it" };
-			var secondComment = new Comment { Name = "Drake321", Game = callOfDuty, Body = "Nice game, but not as good as Quake" };
-			var thirdComment = new Comment
-			{
-				Name = "Jake555",
-				Game = callOfDuty,
-				Body = "You know nothing, this game is bad as hell",
-				ParentComment = firstComment
-			};
-
-			var fourthComment = new Comment
-			{
-				Name = "Josh213",
-				Game = callOfDuty,
-				ParentComment = thirdComment,
-				Body = "No, you know nothing. It is cool"
-			};
-
-			context.Comments.AddRange(new List<Comment> { firstComment, secondComment, thirdComment, fourthComment });
-			context.SaveChanges();
 			SeedRandomGames(context);
 			base.Seed(context);
 		}

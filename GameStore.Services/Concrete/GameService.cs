@@ -47,8 +47,9 @@ namespace GameStore.Services.Concrete
 
 		public void Edit(GameDto gameDto)
 		{
-			var game = _gameRepository.Get().First(g => g.Id == gameDto.Id);
-			game = _mapper.Map(gameDto, game);
+			var game = _gameRepository.Get(gameDto.Key);
+			_mapper.Map(gameDto, game);
+			game.IsUpdated = true;
 			MapDto(gameDto, game);
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -57,7 +58,7 @@ namespace GameStore.Services.Concrete
 		public void SaveView(string gameKey)
 		{
 			var game = _gameRepository.Get(gameKey);
-			MapEntity(game);
+			//MapEntity(game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -130,11 +131,11 @@ namespace GameStore.Services.Concrete
 		private void MapDto(GameDto input, Game result)
 		{
 			result.Publisher = _publisherRepository.Get(input.PublisherInput);
-			result.PlatformTypes = input.PlatformTypesInput.Select(type => _platformTypeRepository.Get(type)).ToList();
-			result.Genres = input.GenresInput.Select(name => _genreRepository.Get(name)).ToList();
+			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.Get(t)));
+			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.Get(n)));
 		}
 
-		private void MapEntity(Game result)
+		/*private void MapEntity(Game result)
 		{
 			if (result.Publisher != null)
 			{
@@ -144,6 +145,10 @@ namespace GameStore.Services.Concrete
 			{
 				result.Genres = result.Genres.Select(genre => _genreRepository.Get(genre.Name)).ToList();
 			}
-		}
+			if (result.PlatformTypes.Count != 0)
+			{
+				result.PlatformTypes = result.PlatformTypes.Select(platformType => _platformTypeRepository.Get(platformType.Type)).ToList();
+			}
+		}*/
 	}
 }

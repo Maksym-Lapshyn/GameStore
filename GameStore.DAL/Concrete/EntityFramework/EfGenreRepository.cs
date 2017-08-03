@@ -28,5 +28,10 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			return _context.Genres.Any(g => g.Name == name);
 		}
+
+		public void Insert(Genre genre)
+		{
+			_context.Genres.Add(genre);
+		}
 	}
 }

@@ -10,5 +10,7 @@ namespace GameStore.DAL.Abstract.EntityFramework
 		Comment Get(int commentId);
 
 		IQueryable<Comment> Get();
+
+		void Update(Comment comment);
 	}
 }

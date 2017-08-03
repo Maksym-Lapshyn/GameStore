@@ -82,11 +82,6 @@ namespace GameStore.DAL.Concrete
 			}
 			else
 			{
-				if (CheckIfGameWasChanged(game))
-				{
-					game.IsUpdated = true;
-				}
-
 				_efRepository.Update(game);
 			}
 		}
@@ -94,22 +89,6 @@ namespace GameStore.DAL.Concrete
 		public bool Contains(string gameKey)
 		{
 			return _efRepository.Contains(gameKey);
-		}
-
-		public bool CheckIfGameWasChanged(Game game)
-		{
-			var previousVersion = _efRepository.Get(game.Key);
-
-			if (previousVersion.Description != game.Description
-				|| previousVersion.Name != game.Name
-				|| previousVersion.Price != game.Price
-				|| previousVersion.UnitsInStock != game.UnitsInStock
-				|| previousVersion.Discontinued != game.Discontinued)
-			{
-				return true;
-			}
-
-			return false;
 		}
 	}
 }

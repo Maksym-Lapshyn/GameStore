@@ -8,5 +8,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 		PlatformType Get(string type);
 
 		IQueryable<PlatformType> Get();
+
+		bool Contains(string type);
+
+		void Insert(PlatformType type);
 	}
 }

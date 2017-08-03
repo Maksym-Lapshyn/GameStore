@@ -51,8 +51,6 @@ namespace GameStore.DAL.Entities
 		[BsonRepresentation(BsonType.Int32)]
 		public bool Discontinued { get; set; }
 
-		public int? PublisherId { get; set; }
-
 		public virtual Publisher Publisher { get; set; }
 
 		public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

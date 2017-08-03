@@ -46,6 +46,7 @@ namespace GameStore.Ninject.Modules
 			Bind<IPipeline<IQueryable<Game>>>().To<GamePipeline>();
 			Bind<IFilterMapper>().To<GameFilterMapper>();
 			Bind<ISynchronizer<Game>>().To<MongoGameSynchronizer>();
+			Bind<ILogger<Game>>().To<MongoGameLogger>();
 		}
 	}
 }

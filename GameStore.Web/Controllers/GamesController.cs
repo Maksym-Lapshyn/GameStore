@@ -4,12 +4,11 @@ using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	public class GameController : Controller
+	public class GamesController : Controller
 	{
 		private const int DefaultPageSize = 10;
 		private const int DefaultPage = 1;
@@ -19,7 +18,7 @@ namespace GameStore.Web.Controllers
 		private readonly IPublisherService _publisherService;
 		private readonly IMapper _mapper;
 
-		public GameController(IGameService gameService,
+		public GamesController(IGameService gameService,
 			IGenreService genreService,
 			IPlatformTypeService platformTypeService,
 			IPublisherService publisherService,
@@ -59,13 +58,30 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("ListAll");
 		}
 
-		[HttpPost]
-		public ActionResult Update(GameViewModel game)
+		[HttpGet]
+		public ActionResult Update(string gameKey)
 		{
-			var gameDto = _mapper.Map<GameViewModel, GameDto>(game);
+			var gameDto = _gameService.GetSingleBy(gameKey);
+			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
+			gameViewModel.GenresData = GetGenres();
+			gameViewModel.PublishersData = GetPublishers();
+			gameViewModel.PlatformTypesData = GetPlatformTypes();
+
+			return View(gameViewModel);
+		}
+
+		[HttpPost]
+		public ActionResult Update(GameViewModel gameViewModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(gameViewModel);
+			}
+
+			var gameDto = _mapper.Map<GameViewModel, GameDto>(gameViewModel);
 			_gameService.Edit(gameDto);
 
-			return new HttpStatusCodeResult(HttpStatusCode.OK);
+			return RedirectToAction("ListAll");
 		}
 
 		public ActionResult Show(string gameKey)
@@ -113,7 +129,7 @@ namespace GameStore.Web.Controllers
 		{
 			_gameService.Delete(gameKey);
 
-			return new HttpStatusCodeResult(HttpStatusCode.OK);
+			return RedirectToAction("ListAll");
 		}
 
 		[OutputCache(Duration = 60)]

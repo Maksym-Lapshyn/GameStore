@@ -33,11 +33,11 @@ namespace GameStore.DAL.Concrete
 				mongoQuery = Filter(mongoQuery, orderFilter);
 			}
 
-            var efList = efQuery.ToList();
-            var mongoList = mongoQuery.ToList();
-            mongoList.RemoveAll(mongoOrder => efList.Any(efOrder => efOrder.CustomerId == mongoOrder.CustomerId));//Removes duplicates
+			var efList = efQuery.ToList();
+			var mongoList = mongoQuery.ToList();
+			mongoList.RemoveAll(mongoOrder => efList.Any(efOrder => efOrder.CustomerId == mongoOrder.CustomerId));//Removes duplicates
 
-            return efList.Union(mongoList).AsQueryable();
+			return efList.Union(mongoList).AsQueryable();
 		}
 
 		public Order Get(string customerId)

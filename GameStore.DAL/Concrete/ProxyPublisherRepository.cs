@@ -20,9 +20,9 @@ namespace GameStore.DAL.Concrete
 		{
 			var efList = _efRepository.Get().ToList();
 			var mongoList = _mongoRepository.Get().ToList();
-            mongoList.RemoveAll(mongoPublisher => efList.Any(efPublisher => efPublisher.CompanyName == mongoPublisher.CompanyName));//Removes duplicates
+			mongoList.RemoveAll(mongoPublisher => efList.Any(efPublisher => efPublisher.CompanyName == mongoPublisher.CompanyName));//Removes duplicates
 
-            return efList.Union(mongoList).AsQueryable();
+			return efList.Union(mongoList).AsQueryable();
 		}
 
 		public Publisher Get(string companyName)

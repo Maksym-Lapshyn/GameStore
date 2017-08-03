@@ -134,31 +134,30 @@
 		<b>@Html.LabelFor(m => game.Discontinued)</b>
 		<p>@Html.DisplayFor(m => game.Discontinued)</p>
 
-	if (game.PlatformTypesData.Count != 0)
+	if (game.PlatformTypesInput.Count != 0)
 	{
-		<b>@Html.LabelFor(m => game.PlatformTypesData)</b>
+		<b>@Html.LabelFor(m => game.PlatformTypesInput)</b>
 
-		foreach (var platformType in game.PlatformTypesData)
+		foreach (var platformType in game.PlatformTypesInput)
 		{
-			<p>@platformType.Type</p>
+			<p>@platformType</p>
 		}
 	}
 
-	if (game.GenresData.Count != 0)
+	if (game.GenresInput.Count != 0)
 	{
-		<b>@Html.LabelFor(m => game.GenresData)</b>
+		<b>@Html.LabelFor(m => game.GenresInput)</b>
 
-		foreach (var genre in game.GenresData)
+		foreach (var name in game.GenresInput)
 		{
-			<p>@genre.Name</p>
+			<p>@name</p>
 		}
 	}
 
-	if (game.PublishersData.Count != 0)
+	if (game.PublisherInput != null)
 	{
-		var name = game.PublishersData.First().CompanyName;
-		<b>@Html.LabelFor(m => game.PublishersData)</b>
-		<p>@Html.ActionLink(name, "Show", "Publisher", new { companyName = name }, null)</p>
+		<b>@Html.LabelFor(m => game.PublisherInput)</b>
+		<p>@Html.ActionLink(game.PublisherInput, "Show", "Publisher", new { companyName = game.PublisherInput }, null)</p>
 	}
 
 	<hr />

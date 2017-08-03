@@ -1,15 +1,8 @@
 ﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.EntityFramework;
-using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Concrete;
-using GameStore.DAL.Concrete.EntityFramework;
-using GameStore.DAL.Concrete.MongoDb;
-using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using Ninject.Modules;
-using Ninject.Web.Common;
-using System.Linq;
 
 namespace GameStore.Ninject.Modules
 {

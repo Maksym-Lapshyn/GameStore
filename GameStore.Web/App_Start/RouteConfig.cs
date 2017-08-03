@@ -20,7 +20,7 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"EditGame",
 				"games/update",
-				new {controller = "Game", action = "Update"}
+				new {controller = "Game", action = "Edit"}
 			);
 
 			routes.MapRoute(

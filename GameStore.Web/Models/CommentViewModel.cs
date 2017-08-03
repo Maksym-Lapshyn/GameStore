@@ -17,11 +17,7 @@ namespace GameStore.Web.Models
 
 		public string GameKey { get; set; }
 
-		public GameViewModel Game { get; set; }
-
 		public int? ParentCommentId { get; set; }
-
-		public CommentViewModel ParentComment { get; set; }
 
 		public List<CommentViewModel> ChildComments { get; set; }
 	}

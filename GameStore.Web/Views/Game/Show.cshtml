@@ -19,29 +19,28 @@
 <b>@Html.LabelFor(m => m.Discontinued)</b>
 <p>@Html.DisplayFor(m => m.Discontinued)</p>
 
-@if (Model.PlatformTypesData.Count != 0)
+@if (Model.PlatformTypesInput.Count != 0)
 {
-	<b>@Html.LabelFor(m => m.PlatformTypesData)</b>
-	foreach (var platform in Model.PlatformTypesData)
+	<b>@Html.LabelFor(m => m.PlatformTypesInput)</b>
+	foreach (var platformType in Model.PlatformTypesInput)
 	{
-		<p>@platform.Type</p>
+		<p>@platformType</p>
 	}
 }
 
-@if (Model.GenresData.Count != 0)
+@if (Model.GenresInput.Count != 0)
 {
-	<b>@Html.LabelFor(m => m.GenresData)</b>
-	foreach (var genre in Model.GenresData)
+	<b>@Html.LabelFor(m => m.GenresInput)</b>
+	foreach (var name in Model.GenresInput)
 	{
-		<p>@genre.Name</p>
+		<p>@name</p>
 	}
 }
 
-@if (Model.PublishersData.Count != 0)
+@if (Model.PublisherInput != null)
 {
-	var name = Model.PublishersData.First().CompanyName;
-	<b>@Html.LabelFor(m => m.PublishersData)</b>
-	<p>@Html.ActionLink(name, "Show", "Publisher", new { companyName = name }, null)</p>
+	<b>@Html.LabelFor(m => m.PublisherInput)</b>
+	<p>@Html.ActionLink(Model.PublisherInput, "Show", "Publisher", new { companyName = Model.PublisherInput }, null)</p>
 }
 
 @Html.ActionLink("Download", "Download", "Game", null, new { target = "_blank", @class = "btn btn-primary" })
@@ -49,3 +48,5 @@
 @Html.ActionLink("Comments", "ListAll", "Comment", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
 
 @Html.ActionLink("Buy", "Edit", "Order", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
+
+@Html.ActionLink("Edit", "Edit", "Game", new {gameKey = Model.Key}, new { @class = "btn btn-default" })

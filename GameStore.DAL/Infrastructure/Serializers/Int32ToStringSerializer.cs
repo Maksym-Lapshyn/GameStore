@@ -17,7 +17,14 @@ namespace GameStore.DAL.Infrastructure.Serializers
 
 		public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
 		{
-			context.Writer.WriteInt32(Convert.ToInt32(value));
+			if (int.TryParse(value.ToString(), out int result))
+			{
+				context.Writer.WriteInt32(result);
+			}
+			else
+			{
+				context.Writer.WriteString(value.ToString());
+			}
 		}
 
 		public Type ValueType => typeof(string);

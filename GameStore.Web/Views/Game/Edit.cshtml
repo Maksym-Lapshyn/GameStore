@@ -2,17 +2,17 @@
 @model GameStore.Web.Models.GameViewModel
 
 @{
-	ViewBag.Title = "New Game";
+	ViewBag.Title = "Edit Game";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>New Game</h1>
-@using (Html.BeginForm("New", "Game", FormMethod.Post))
+<h1>Edit Game</h1>
+@using (Html.BeginForm("Edit", "Game", FormMethod.Post))
 {
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<b>@Html.LabelFor(m => m.Key)</b>
-			<p>@Html.TextBoxFor(m => m.Key, new { @class = "form-control" })</p>
+			<p>@Html.DisplayFor(m => m.Key)</p>
 			<b>@Html.LabelFor(m => m.Name)</b>
 			<p>
 				@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
@@ -90,11 +90,14 @@
 				@Html.HiddenFor(m => m.PublishersData[i].Description)
 				@Html.HiddenFor(m => m.PublishersData[i].HomePage)
 			}
+			
+			@Html.HiddenFor(m => m.ViewsCount)
+			@Html.HiddenFor(m => m.Key)
+			@Html.HiddenFor(m => m.Id)
+			@Html.HiddenFor(m => m.NorthwindId)
 
-			<p>
-				<button type="submit" class="btn btn-default">Create</button>
-				@Html.ActionLink("Back", "ListAll", "Game", null, new { @class = "btn btn-primary" })
-			</p>
+			<button type="submit" class="btn btn-default">Edit</button>
+			@Html.ActionLink("Back", "Show", "Game", new { gameKey = Model.Key }, new { @class = "btn btn-primary" })
 		</div>
 	</div>
 }

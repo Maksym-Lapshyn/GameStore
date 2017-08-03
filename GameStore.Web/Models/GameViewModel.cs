@@ -9,6 +9,12 @@ namespace GameStore.Web.Models
 {
 	public class GameViewModel
 	{
+		public GameViewModel()
+		{
+			GenresInput = new List<string>();
+			PlatformTypesInput = new List<string>();
+		}
+
 		[HiddenInput]
 		public int Id { get; set; }
 
@@ -54,7 +60,7 @@ namespace GameStore.Web.Models
 		[DisplayName("PlatformTypes")]
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
-		[DisplayName("Publishers")]
+		[DisplayName("Publisher")]
 		[Required]
 		[HiddenInput]
 		public string PublisherInput { get; set; }

@@ -23,5 +23,15 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			return _context.PlatformTypes;
 		}
+
+		public bool Contains(string type)
+		{
+			return _context.PlatformTypes.Any(p => p.Type == type);
+		}
+
+		public void Insert(PlatformType type)
+		{
+			_context.PlatformTypes.Add(type);
+		}
 	}
 }

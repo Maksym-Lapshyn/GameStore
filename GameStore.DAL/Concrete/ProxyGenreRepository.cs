@@ -34,5 +34,10 @@ namespace GameStore.DAL.Concrete
 		{
 			return _efRepository.Contains(name);
 		}
+
+		public void Insert(Genre genre)
+		{
+			_efRepository.Insert(genre);
+		}
 	}
 }

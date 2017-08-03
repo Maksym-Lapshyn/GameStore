@@ -9,12 +9,12 @@ using System.Web.Mvc;
 namespace GameStore.Web.Controllers
 {
 	[OutputCache(Duration = 60, VaryByHeader = "get;post")]
-	public class CommentController : Controller
+	public class CommentsController : Controller
 	{
 		private readonly ICommentService _commentService;
 		private readonly IMapper _mapper;
 
-		public CommentController(ICommentService commentService,
+		public CommentsController(ICommentService commentService,
 			IMapper mapper)
 		{
 			_commentService = commentService;

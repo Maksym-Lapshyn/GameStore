@@ -17,11 +17,7 @@ namespace GameStore.Services.DTOs
 
 		public string GameKey { get; set; }
 
-		public GameDto Game { get; set; }
-
 		public int? ParentCommentId { get; set; }
-
-		public CommentDto ParentComment { get; set; }
 
 		public IEnumerable<CommentDto> ChildComments { get; set; }
 	}

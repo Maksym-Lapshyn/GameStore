@@ -12,17 +12,3 @@
 <p>@Html.DisplayFor(m => m.Description)</p>
 <b>@Html.LabelFor(m => m.HomePage)</b>
 <p>@Html.DisplayFor(m => m.HomePage)</p>
-
-@if (Model.Games != null)
-{
-	<b>@Html.LabelFor(m => m.Games)</b>
-	<br />
-
-	foreach (var game in Model.Games)
-	{
-		<b>@Html.Label(game.Name)</b>
-		<p>@Html.Display(game.Name)</p>
-		<b>@Html.Label(game.Description)</b>
-		<p>@Html.Display(game.Description)</p>
-	}
-}

@@ -7,12 +7,12 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	public class PublisherController : Controller
+	public class PublishersController : Controller
 	{
 		private readonly IPublisherService _publisherService;
 		private readonly IMapper _mapper;
 
-		public PublisherController(IPublisherService publisherService,
+		public PublishersController(IPublisherService publisherService,
 			IMapper mapper)
 		{
 			_publisherService = publisherService;
