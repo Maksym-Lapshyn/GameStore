@@ -40,13 +40,13 @@
 @if (Model.PublisherInput != null)
 {
 	<b>@Html.LabelFor(m => m.PublisherInput)</b>
-	<p>@Html.ActionLink(Model.PublisherInput, "Show", "Publisher", new { companyName = Model.PublisherInput }, null)</p>
+	<p>@Html.ActionLink(Model.PublisherInput, "Show", "Publishers", new { companyName = Model.PublisherInput }, null)</p>
 }
 
-@Html.ActionLink("Download", "Download", "Game", null, new { target = "_blank", @class = "btn btn-primary" })
+@Html.ActionLink("Download", "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
 
-@Html.ActionLink("Comments", "ListAll", "Comment", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
+@Html.ActionLink("Comments", "ListAll", "Comments", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
 
-@Html.ActionLink("Buy", "Edit", "Order", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
+@Html.ActionLink("Buy", "Update", "Orders", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
 
-@Html.ActionLink("Edit", "Edit", "Game", new {gameKey = Model.Key}, new { @class = "btn btn-default" })
+@Html.ActionLink("Update", "Update", "Games", new {gameKey = Model.Key}, new { @class = "btn btn-default" })

@@ -36,7 +36,30 @@ namespace GameStore.Web.Controllers
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
 			_publisherService.Create(publisherDto);
 
-			return new HttpStatusCodeResult(HttpStatusCode.OK);
+			return RedirectToAction("ListAll", "Games");
+		}
+
+		[HttpGet]
+		public ActionResult Update(string companyName)
+		{
+			var publisherDto = _publisherService.GetSingleBy(companyName);
+			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(publisherDto);
+
+			return View(publisherViewModel);
+		}
+
+		[HttpPost]
+		public ActionResult Update(PublisherViewModel publisherViewModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(publisherViewModel);
+			}
+
+			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
+			_publisherService.Update(publisherDto);
+
+			return RedirectToAction("ListAll", "Games");
 		}
 
 		public ActionResult Show(string companyName)

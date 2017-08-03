@@ -18,11 +18,11 @@ namespace GameStore.DAL.Concrete
 
 		public IQueryable<Publisher> Get()
 		{
-			var efList = _efRepository.Get().ToList();
-			var mongoList = _mongoRepository.Get().ToList();
-			mongoList.RemoveAll(mongoPublisher => efList.Any(efPublisher => efPublisher.CompanyName == mongoPublisher.CompanyName));//Removes duplicates
+			var efQuery = _efRepository.Get();
+			var northwindIds = efQuery.Select(p => p.NorthwindId).ToList();
+			var mongoQuery = _mongoRepository.Get().Where(g => !northwindIds.Contains(g.NorthwindId));
 
-			return efList.Union(mongoList).AsQueryable();
+			return efQuery.Union(mongoQuery);
 		}
 
 		public Publisher Get(string companyName)
@@ -38,6 +38,11 @@ namespace GameStore.DAL.Concrete
 		public void Insert(Publisher publisher)
 		{
 			_efRepository.Insert(publisher);
+		}
+
+		public void Update(Publisher publisher)
+		{
+			_efRepository.Update(publisher);
 		}
 	}
 }

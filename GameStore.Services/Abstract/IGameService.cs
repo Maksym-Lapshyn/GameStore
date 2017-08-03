@@ -17,7 +17,7 @@ namespace GameStore.Services.Abstract
 
 		void Create(GameDto gameDto);
 
-		void Edit(GameDto gameDto);
+		void Update(GameDto gameDto);
 
 		void Delete(string gameKey);
 

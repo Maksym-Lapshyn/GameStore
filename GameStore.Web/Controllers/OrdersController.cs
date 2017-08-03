@@ -30,7 +30,7 @@ namespace GameStore.Web.Controllers
 			return View(order);
 		}
 
-		public ActionResult Edit(string gameKey)
+		public ActionResult Update(string gameKey)
 		{
 			var orderViewModel = GetOrder();
 			var orderDto = _mapper.Map<OrderViewModel, OrderDto>(orderViewModel);
@@ -40,7 +40,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult History()
+		public ActionResult ListAll()
 		{
 			var allOrdersModel = new AllOrdersViewModel
 			{
@@ -54,7 +54,7 @@ namespace GameStore.Web.Controllers
 			return View(allOrdersModel);
 		}
 
-		public ActionResult History(AllOrdersViewModel allOrdersViewModel)
+		public ActionResult ListAll(AllOrdersViewModel allOrdersViewModel)
 		{
 			if (!ModelState.IsValid)
 			{

@@ -197,19 +197,19 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Game\New.cshtml" />
-    <Content Include="Views\Game\Show.cshtml" />
-    <Content Include="Views\Comment\ListAll.cshtml" />
+    <Content Include="Views\Games\New.cshtml" />
+    <Content Include="Views\Games\Show.cshtml" />
+    <Content Include="Views\Comments\ListAll.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Views\Game\ShowCount.cshtml" />
+    <Content Include="Views\Games\ShowCount.cshtml" />
     <Content Include="Views\Publisher\Show.cshtml" />
     <Content Include="Views\Publisher\New.cshtml" />
-    <Content Include="Views\Order\Show.cshtml" />
-    <Content Include="Views\Comment\ListAllChilds.cshtml" />
-    <Content Include="Views\Game\ListAll.cshtml" />
-    <Content Include="Views\Order\ListAll.cshtml" />
-    <Content Include="Views\Game\Edit.cshtml" />
+    <Content Include="Views\Orders\Show.cshtml" />
+    <Content Include="Views\Comments\ListAllChilds.cshtml" />
+    <Content Include="Views\Games\ListAll.cshtml" />
+    <Content Include="Views\Orders\ListAll.cshtml" />
+    <Content Include="Views\Games\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -219,7 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">

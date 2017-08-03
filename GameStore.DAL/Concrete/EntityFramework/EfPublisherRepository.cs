@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Abstract.EntityFramework;
+﻿using System.Data.Entity;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
 using System.Linq;
@@ -32,6 +33,11 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		public void Insert(Publisher publisher)
 		{
 			_context.Publishers.Add(publisher);
+		}
+
+		public void Update(Publisher publisher)
+		{
+			_context.Entry(publisher).State = EntityState.Modified;
 		}
 	}
 }

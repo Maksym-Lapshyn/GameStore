@@ -79,7 +79,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(gameViewModel);
-			_gameService.Edit(gameDto);
+			_gameService.Update(gameDto);
 
 			return RedirectToAction("ListAll");
 		}

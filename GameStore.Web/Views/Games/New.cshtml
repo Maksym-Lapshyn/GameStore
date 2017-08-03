@@ -7,7 +7,7 @@
 }
 
 <h1>New Game</h1>
-@using (Html.BeginForm("New", "Game", FormMethod.Post))
+@using (Html.BeginForm("New", "Games", FormMethod.Post))
 {
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -93,7 +93,7 @@
 
 			<p>
 				<button type="submit" class="btn btn-default">Create</button>
-				@Html.ActionLink("Back", "ListAll", "Game", null, new { @class = "btn btn-primary" })
+				@Html.ActionLink("Back", "ListAll", "Games", null, new { @class = "btn btn-primary" })
 			</p>
 		</div>
 	</div>

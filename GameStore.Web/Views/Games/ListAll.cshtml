@@ -8,7 +8,7 @@
 
 <h1>List All</h1>
 
-@using (Html.BeginForm("ListAll", "Game", FormMethod.Get, new { id = "gameForm" }))
+@using (Html.BeginForm("ListAll", "Games", FormMethod.Get, new { id = "gameForm" }))
 {
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -157,7 +157,7 @@
 	if (game.PublisherInput != null)
 	{
 		<b>@Html.LabelFor(m => game.PublisherInput)</b>
-		<p>@Html.ActionLink(game.PublisherInput, "Show", "Publisher", new { companyName = game.PublisherInput }, null)</p>
+		<p>@Html.ActionLink(game.PublisherInput, "Show", "Publishers", new { companyName = game.PublisherInput }, null)</p>
 	}
 
 	<hr />

@@ -10,5 +10,7 @@ namespace GameStore.Services.Abstract
 		void Create(PublisherDto publisherDto);
 
 		IEnumerable<PublisherDto> GetAll();
+
+		void Update(PublisherDto publisherDto);
 	}
 }

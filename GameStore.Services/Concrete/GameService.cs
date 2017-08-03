@@ -45,7 +45,7 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public void Edit(GameDto gameDto)
+		public void Update(GameDto gameDto)
 		{
 			var game = _gameRepository.Get(gameDto.Key);
 			_mapper.Map(gameDto, game);

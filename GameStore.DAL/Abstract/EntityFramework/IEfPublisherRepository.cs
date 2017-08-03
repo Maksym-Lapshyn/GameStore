@@ -12,5 +12,7 @@ namespace GameStore.DAL.Abstract.EntityFramework
 		bool Contains(string companyName);
 
 		void Insert(Publisher publisher);
+
+		void Update(Publisher publisher);
 	}
 }

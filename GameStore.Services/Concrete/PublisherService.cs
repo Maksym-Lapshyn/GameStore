@@ -46,5 +46,13 @@ namespace GameStore.Services.Concrete
 
 			return publisherDtos;
 		}
+
+		public void Update(PublisherDto publisherDto)
+		{
+			var publisher = _publisherRepository.Get(publisherDto.CompanyName);
+			_mapper.Map(publisherDto, publisher);
+			_publisherRepository.Update(publisher);
+			_unitOfWork.Save();
+		}
 	}
 }
