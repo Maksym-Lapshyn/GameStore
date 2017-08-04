@@ -199,17 +199,18 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Games\New.cshtml" />
     <Content Include="Views\Games\Show.cshtml" />
-    <Content Include="Views\Comments\ListAll.cshtml" />
+    <Content Include="Views\Comments\NewComment.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Games\ShowCount.cshtml" />
-    <Content Include="Views\Publisher\Show.cshtml" />
-    <Content Include="Views\Publisher\New.cshtml" />
+    <Content Include="Views\Publishers\Show.cshtml" />
+    <Content Include="Views\Publishers\New.cshtml" />
     <Content Include="Views\Orders\Show.cshtml" />
     <Content Include="Views\Comments\ListAllChilds.cshtml" />
     <Content Include="Views\Games\ListAll.cshtml" />
     <Content Include="Views\Orders\ListAll.cshtml" />
     <Content Include="Views\Games\Update.cshtml" />
+    <Content Include="Views\Publishers\Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

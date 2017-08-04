@@ -13,6 +13,8 @@ namespace GameStore.Web.Models
 
 		public int Id { get; set; }
 
+		public string NorthwindId { get; set; }
+
 		[Required]
 		[DisplayName("Company Name")]
 		public string CompanyName { get; set; }

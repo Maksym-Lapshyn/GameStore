@@ -124,7 +124,7 @@
 	<b>@Html.LabelFor(m => game.Key)</b>
 	<p>@Html.DisplayFor(m => game.Key)</p>
 		<b>@Html.LabelFor(m => game.Name)</b>
-		<p>@Html.ActionLink(game.Name, "Show", new { gameKey = game.Key })</p>
+		<p>@Html.ActionLink(game.Name, "Show", "Games", new { gameKey = game.Key }, null)</p>
 		<b>@Html.LabelFor(m => game.Description)</b>
 		<p>@Html.DisplayFor(m => game.Description)</p>
 		<b>@Html.LabelFor(m => game.Price)</b>

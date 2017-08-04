@@ -87,7 +87,6 @@ namespace GameStore.Web.Controllers
 		public ActionResult Show(string gameKey)
 		{
 			var gameDto = _gameService.GetSingleBy(gameKey);
-			_gameService.SaveView(gameKey);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
 			return View(gameViewModel);
@@ -125,7 +124,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Delete(string gameKey)
+		public ActionResult Remove(string gameKey)
 		{
 			_gameService.Delete(gameKey);
 

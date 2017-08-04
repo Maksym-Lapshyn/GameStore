@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICloner.cs" />
     <Compile Include="Abstract\Common\ICommentRepository.cs" />
     <Compile Include="Abstract\Common\IGameRepository.cs" />
     <Compile Include="Abstract\Common\IGenreRepository.cs" />
@@ -91,7 +92,10 @@
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
     <Compile Include="Concrete\Common\CommentRepository.cs" />
+    <Compile Include="Concrete\GameCloner.cs" />
+    <Compile Include="Concrete\GenreCloner.cs" />
     <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
+    <Compile Include="Concrete\PublisherCloner.cs" />
     <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGameRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGenreRepository.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="Concrete\Filters\PlatformTypeFilter.cs" />
     <Compile Include="Concrete\Filters\PublisherFilter.cs" />
     <Compile Include="Concrete\Filters\SortOptionsFilter.cs" />
+    <Compile Include="Infrastructure\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Infrastructure\GameFilter.cs" />
     <Compile Include="Concrete\GameLogContainer.cs" />
     <Compile Include="Infrastructure\OrderFilter.cs" />

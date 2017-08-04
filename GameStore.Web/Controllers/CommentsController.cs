@@ -22,7 +22,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ListAll(string gameKey)
+		public ActionResult NewComment(string gameKey)
 		{
 			var model = new AllCommentsViewModel
 			{
@@ -39,7 +39,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult ListAll(AllCommentsViewModel model)
+		public ActionResult NewComment(AllCommentsViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{

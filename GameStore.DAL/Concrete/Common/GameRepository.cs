@@ -16,18 +16,21 @@ namespace GameStore.DAL.Concrete.Common
 		private readonly IPipeline<IQueryable<Game>> _pipeline;
 		private readonly IFilterMapper _filterMapper;
 		private readonly ISynchronizer<Game> _synchronizer;
+		private readonly ICloner<Game> _cloner;
 
 		public GameRepository(IPipeline<IQueryable<Game>> pipeline,
 			IFilterMapper filterMapper,
 			IEfGameRepository efRepository,
 			IMongoGameRepository mongoRepository,
-			ISynchronizer<Game> synchronizer)
+			ISynchronizer<Game> synchronizer,
+			ICloner<Game> cloner)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 			_pipeline = pipeline;
 			_filterMapper = filterMapper;
 			_synchronizer = synchronizer;
+			_cloner = cloner;
 		}
 
 		public IEnumerable<Game> Get(GameFilter filter = null)
@@ -57,12 +60,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public Game Get(string gameKey)
 		{
-			if (!_efRepository.Contains(gameKey))
-			{
-				return _mongoRepository.Get(gameKey);
-			}
-
-			return _synchronizer.Synchronize(_efRepository.Get(gameKey));
+			return !_efRepository.Contains(gameKey) ? _cloner.Clone(_mongoRepository.Get(gameKey)) : _synchronizer.Synchronize(_efRepository.Get(gameKey));
 		}
 
 		public void Insert(Game game)
@@ -77,14 +75,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public void Update(Game game)
 		{
-			if (!_efRepository.Contains(game.Key))
-			{
-				_efRepository.Insert(game);
-			}
-			else
-			{
-				_efRepository.Update(game);
-			}
+			_efRepository.Update(game);
 		}
 
 		public bool Contains(string gameKey)

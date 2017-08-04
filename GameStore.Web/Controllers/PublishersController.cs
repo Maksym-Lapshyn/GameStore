@@ -2,7 +2,6 @@
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
-using System.Net;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers

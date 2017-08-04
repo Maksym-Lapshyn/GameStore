@@ -13,8 +13,6 @@ namespace GameStore.Services.Abstract
 
 		GameDto GetSingleBy(string gameKey);
 
-		void SaveView(string gameKey);
-
 		void Create(GameDto gameDto);
 
 		void Update(GameDto gameDto);

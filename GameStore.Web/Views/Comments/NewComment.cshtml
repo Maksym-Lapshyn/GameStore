@@ -2,11 +2,11 @@
 @model AllCommentsViewModel
 
 @{
-	ViewBag.Title = "List All Comments";
+	ViewBag.Title = "New Comment";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>List All Comments</h1>
+<h1>New Comment</h1>
 
 @foreach (var comment in Model.Comments)
 {
@@ -24,7 +24,7 @@
 	}
 }
 
-@using (Html.BeginForm("ListAll", "Comment", new { @id = "CommentForm" }, FormMethod.Post, null))
+@using (Html.BeginForm("NewComment", "Comments", FormMethod.Post, new { @id = "CommentForm" }))
 {
 	@Html.HiddenFor(m => m.NewComment.GameKey)
 	@Html.HiddenFor(m => m.NewComment.ParentCommentName)

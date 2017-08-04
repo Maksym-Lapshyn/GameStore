@@ -45,8 +45,8 @@
 
 @Html.ActionLink("Download", "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
 
-@Html.ActionLink("Comments", "ListAll", "Comments", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
+@Html.ActionLink("Comments", "NewComment", "Comments", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
 
-@Html.ActionLink("Buy", "Update", "Orders", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
+@Html.ActionLink("Buy", "Buy", "Orders", new { gameKey = Model.Key }, new { @class = "btn btn-default" })
 
 @Html.ActionLink("Update", "Update", "Games", new {gameKey = Model.Key}, new { @class = "btn btn-default" })

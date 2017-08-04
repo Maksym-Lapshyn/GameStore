@@ -11,6 +11,8 @@ namespace GameStore.Services.DTOs
 
 		public int Id { get; set; }
 
+		public string NorthwindId { get; set; }
+
 		public string CompanyName { get; set; }
 
 		public string Description { get; set; }

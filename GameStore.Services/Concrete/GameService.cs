@@ -37,7 +37,7 @@ namespace GameStore.Services.Concrete
 		public void Create(GameDto gameDto)
 		{
 			var game = _mapper.Map<GameDto, Game>(gameDto);
-			MapDto(gameDto, game);
+			MapEmbeddedEntities(gameDto, game);
 			game.ViewsCount = 0;
 			game.DateAdded = DateTime.UtcNow;
 			_gameRepository.Insert(game);
@@ -46,19 +46,11 @@ namespace GameStore.Services.Concrete
 
 		public void Update(GameDto gameDto)
 		{
-			var game = _gameRepository.Get(gameDto.Key);
-			_mapper.Map(gameDto, game);
+			//var game = _gameRepository.Get(gameDto.Key);
+			//_mapper.Map(gameDto, game);
+			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
-			MapDto(gameDto, game);
-			_gameRepository.Update(game);
-			_unitOfWork.Save();
-		}
-
-		public void SaveView(string gameKey)
-		{
-			var game = _gameRepository.Get(gameKey);
-			MapEntity(game);
-			game.ViewsCount++;
+			game = MapEmbeddedEntities(gameDto, game);
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
 		}
@@ -71,7 +63,11 @@ namespace GameStore.Services.Concrete
 
 		public GameDto GetSingleBy(string gameKey)
 		{
-			var game = _gameRepository.Get().First(g => g.Key.ToLower() == gameKey.ToLower());
+			var game = _gameRepository.Get(gameKey);
+			game = ConvertToPoco(game);
+			game.ViewsCount++;
+			_gameRepository.Update(game);
+			_unitOfWork.Save();
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 
 			return gameDto;
@@ -127,27 +123,22 @@ namespace GameStore.Services.Concrete
 			return gameDtOs;
 		}
 
-		private void MapDto(GameDto input, Game result)
+		private Game ConvertToPoco(Game game)
 		{
-			result.Publisher = _publisherRepository.Get(input.PublisherInput);
-			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.Get(t)));
-			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.Get(n)));
+			var gameDto = _mapper.Map<Game, GameDto>(game);
+			var result = _mapper.Map<GameDto, Game>(gameDto);
+			result = MapEmbeddedEntities(gameDto, result);
+
+			return result;
 		}
 
-		private void MapEntity(Game result)
+		private Game MapEmbeddedEntities(GameDto input, Game result)
 		{
-			if (result.Publisher != null)
-			{
-				result.Publisher = _publisherRepository.Get(result.Publisher.CompanyName);
-			}
-			if (result.Genres.Count != 0)
-			{
-				result.Genres = result.Genres.Select(genre => _genreRepository.Get(genre.Name)).ToList();
-			}
-			if (result.PlatformTypes.Count != 0)
-			{
-				result.PlatformTypes = result.PlatformTypes.Select(platformType => _platformTypeRepository.Get(platformType.Type)).ToList();
-			}
+			result.Publisher = _publisherRepository.Get(input.PublisherInput);
+			result.PlatformTypes = _platformTypeRepository.Get().Where(p => input.PlatformTypesInput.Any(type => type == p.Type)).ToList();
+			result.Genres = _genreRepository.Get().Where(g => input.GenresInput.Any(name => name == g.Name)).ToList();
+
+			return result;
 		}
 	}
 }
