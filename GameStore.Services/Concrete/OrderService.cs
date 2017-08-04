@@ -62,7 +62,7 @@ namespace GameStore.Services.Concrete
 
 		public void Update(OrderDto orderDto, string gameKey)
 		{
-			var order = orderDto.Id != default(int) ? _orderRepository.Get(orderDto.CustomerId) : _mapper.Map<OrderDto, Order>(orderDto);
+			var order = _orderRepository.Contains(orderDto.CustomerId) ? _orderRepository.Get(orderDto.CustomerId) : _mapper.Map<OrderDto, Order>(orderDto);
 			var details = order.OrderDetails.FirstOrDefault(o => o.GameKey == gameKey);
 
 			if (details == null)
