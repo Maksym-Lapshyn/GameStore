@@ -12,115 +12,123 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Tests
 {
-	[TestClass]
-	public class CommentControllerTests
-	{
-		private Mock<ICommentService> _mockOfCommentService;
-		private CommentController _target;
-		private List<CommentDto> _comments;
-		private readonly IMapper _mapper = new Mapper(
-			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
-		private const string ValidString = "test";
-		private const string InvalidString = "testtest";
+    [TestClass]
+    public class CommentControllerTests
+    {
+        private Mock<ICommentService> _mockOfCommentService;
+        private CommentsController _target;
+        private List<CommentDto> _comments;
+        private readonly IMapper _mapper = new Mapper(
+            new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+        private const string ValidString = "test";
+        private const string InvalidString = "testtest";
 
-		[TestInitialize]
-		public void Initialize()
-		{
-			Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<CommentDto>, List<CommentViewModel>>());
-			_mockOfCommentService = new Mock<ICommentService>();
-			_target = new CommentController(_mockOfCommentService.Object, _mapper);
-		}
+        [TestInitialize]
+        public void Initialize()
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<CommentDto>, List<CommentViewModel>>());
+            _mockOfCommentService = new Mock<ICommentService>();
+            _target = new CommentsController(_mockOfCommentService.Object, _mapper);
+        }
 
-		[TestMethod]
-		public void New_SendsCommentToView_WhenModelStateIsInvalid()
-		{
-			_target.ModelState.AddModelError(InvalidString, InvalidString);
+        [TestMethod]
+        public void NewComment_SendsAllCommentsViewModelToView()
+        {
+            _target.ModelState.AddModelError(InvalidString, InvalidString);
 
-			var result = ((PartialViewResult)_target.New(new CommentViewModel())).Model;
+            var result = ((ViewResult)_target.NewComment(ValidString)).Model;
 
-			Assert.IsInstanceOfType(result, typeof(CommentViewModel));
-		}
+            Assert.IsInstanceOfType(result, typeof(AllCommentsViewModel));
+        }
 
-		[TestMethod]
-		public void New_ReturnsRedirectToRouteResult_WhenModelStateIsValid()
-		{
-			var result = _target.New(new CommentViewModel());
+        [TestMethod]
+        public void NewComment_ReturnsViewResult_WhenModelStateIsInvalid()
+        {
+            _target.ModelState.AddModelError(InvalidString, InvalidString);
 
-			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-		}
+            var result = _target.NewComment(new AllCommentsViewModel());
 
-		[ExpectedException(typeof(InvalidOperationException))]
-		[TestMethod]
-		public void ListAll_ThrowsInvalidOperationException_WhenInvalidGameKeyIsPassed()
-		{
-			_comments = new List<CommentDto>
-			{
-				new CommentDto
-				{
-					Game = new GameDto
-					{
-						Key = ValidString
-					}
-				},
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
 
-				new CommentDto
-				{
-					Game = new GameDto
-					{
-						Key = ValidString
-					}
-				},
+        [TestMethod]
+        public void NewComment_CreatesComment_WhenModelStateIsValid()
+        {
+            _comments = new List<CommentDto>();
+            var comment = new CommentViewModel { Name = ValidString, Body = ValidString };
+            var model = new AllCommentsViewModel { Comments = new List<CommentViewModel> { comment } };
 
-				new CommentDto
-				{
-					Game = new GameDto
-					{
-						Key = ValidString
-					}
-				}
-			};
+            _mockOfCommentService.Setup(m => m.Create(_mapper.Map<CommentViewModel, CommentDto>(comment))).Callback<CommentDto>(c => _comments.Add(c));
 
-			_mockOfCommentService.Setup(m => m.GetBy(ValidString)).Returns(_comments.Where(c => c.Game.Key == ValidString));
+            _target.NewComment(model);
 
-			_target.ListAll(InvalidString);
-		}
+            Assert.AreEqual(_comments.First().Name, ValidString);
+            Assert.AreEqual(_comments.First().Body, ValidString);
+        }
 
-		[TestMethod]
-		public void ListAll_SendsAllCommentsToView_WhenValidGameKeyIsPassed()
-		{
-			_comments = new List<CommentDto>
-			{
-				new CommentDto
-				{
-					Game = new GameDto
-					{
-						Key = ValidString
-					}
-				},
+        [TestMethod]
+        public void NewComment_ReturnsViewResult_WhenModelStateIsValid()
+        {
+            var result = _target.NewComment(new AllCommentsViewModel());
 
-				new CommentDto
-				{
-					Game = new GameDto
-					{
-						Key = ValidString
-					}
-				},
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
 
-				new CommentDto
-				{
-					Game = new GameDto
-					{
-						Key = ValidString
-					}
-				}
-			};
 
-			_mockOfCommentService.Setup(m => m.GetBy(ValidString)).Returns(_comments.Where(c => c.Game.Key == ValidString));
+        [ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
+        public void NewComment_ThrowsInvalidOperationException_WhenInvalidGameKeyIsPassed()
+        {
+            _comments = new List<CommentDto>
+            {
+                new CommentDto
+                {
+                    GameKey = ValidString
+                },
 
-			var model = ((ViewResult)_target.ListAll(ValidString)).Model;
-			var result = ((AllCommentsViewModel)model).Comments.Count;
+                new CommentDto
+                {
+                    GameKey = ValidString
+                },
 
-			Assert.IsTrue(result == 3);
-		}
-	}
+                new CommentDto
+                {
+                    GameKey = ValidString
+                }
+            };
+
+            _mockOfCommentService.Setup(m => m.GetBy(ValidString)).Returns(_comments.Where(c => c.GameKey == ValidString));
+
+            _target.NewComment(InvalidString);
+        }
+
+        [TestMethod]
+        public void NewComemnt_ReturnsModelWithAllComments_WhenValidGameKeyIsPassed()
+        {
+            _comments = new List<CommentDto>
+            {
+                new CommentDto
+                {
+                    GameKey = ValidString
+                },
+
+                new CommentDto
+                {
+                    GameKey = ValidString
+                },
+
+                new CommentDto
+                {
+                    GameKey = ValidString
+                }
+            };
+
+            _mockOfCommentService.Setup(m => m.GetBy(ValidString)).Returns(_comments.Where(c => c.GameKey == ValidString));
+
+            var model = ((ViewResult)_target.NewComment(ValidString)).Model;
+            var result = ((AllCommentsViewModel)model).Comments.Count;
+
+            Assert.AreEqual(result, 3);
+        }
+    }
 }

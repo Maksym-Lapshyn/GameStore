@@ -23,7 +23,7 @@ namespace GameStore.Web.Tests
 		private const string InvalidString = "testtest";
 		private const int ValidInt = 10;
 		private List<GameDto> _games;
-		private GameController _target;
+		private GamesController _target;
 
 		[TestInitialize]
 		public void Initialize()
@@ -32,11 +32,11 @@ namespace GameStore.Web.Tests
 			_mockOfPlatformTypeService = new Mock<IPlatformTypeService>();
 			_mockOfGenreService = new Mock<IGenreService>();
 			_mockOfPublisherService = new Mock<IPublisherService>();
-			_target = new GameController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper);
+			_target = new GamesController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper);
 			_games = new List<GameDto>();
 			_mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>())).Callback<GameDto>(g => _games.Add(g));
 			_mockOfGameService.Setup(m => m.GetSingleBy(ValidString)).Returns(new GameDto());
-			_mockOfGameService.Setup(m => m.Delete(ValidInt)).Callback<int>(i => _games.RemoveAll(g => g.Id == i));
+			_mockOfGameService.Setup(m => m.Delete(ValidString)).Callback<string>(k => _games.RemoveAll(g => g.Key == k));
 		}
 
 		[TestMethod]
@@ -75,21 +75,43 @@ namespace GameStore.Web.Tests
 			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
 		}
 
-		[TestMethod]
-		public void Update_CallsEditOnce_WhenAnyGameIsPassed()
-		{
-			_target.Update(new GameDto());
+        [TestMethod]
+        public void Update_SendsGameToView_WhenValidGameKeyIsPassed()
+        {
+            var result = _target.Update(ValidString);
 
-			_mockOfGameService.Verify(m => m.Edit(It.IsAny<GameDto>()), Times.Once);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void Update_ReturnsViewResult_WhenModelStateIsInValid()
+        {
+            _target.ModelState.AddModelError(InvalidString, InvalidString);
+
+            var result = _target.Update(new GameViewModel());
+
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+		public void Update_UpdatesGame_WhenModelStateIsValid()
+		{
+            var game = new GameViewModel { Key = ValidString };
+            _games = new List<GameDto> { new GameDto { Key = InvalidString } };
+            _mockOfGameService.Setup(m => m.Update(_mapper.Map<GameViewModel, GameDto>(game))).Callback<GameDto>(g => _games[0] = g);
+
+            _target.Update(game);
+
+            Assert.AreEqual(_games[0].Key, ValidString);
 		}
 
-		[TestMethod]
-		public void Show_ReturnsHttpStatusCodeResult()
-		{
-			var result = _target.Update(new GameDto());
+        [TestMethod]
+        public void Update_ReturnsRedirectResult_WhenModelStateIsValid()
+        {
+            var result = _target.Update(new GameViewModel());
 
-			Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
-		}
+            Assert.IsInstanceOfType(result, typeof(RedirectResult));
+        }
 
 		[TestMethod]
 		public void Show_SendsGameToView_WhenValidGameKeyIsPassed()
@@ -110,14 +132,14 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void Delete_DeletesGame_WhenValidGameIdIsPassed()
+		public void Remove_DeletesGame_WhenValidGameIdIsPassed()
 		{
 			_games = new List<GameDto>
 			{
-				new GameDto {Id = ValidInt }
+				new GameDto {Key = ValidString }
 			};
 
-			_target.Delete(ValidInt);
+			_target.Remove(ValidString);
 			var result = _games.Count;
 
 			Assert.AreEqual(result, 0);

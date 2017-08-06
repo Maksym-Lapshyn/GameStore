@@ -134,9 +134,9 @@ namespace GameStore.Services.Concrete
 
 		private Game MapEmbeddedEntities(GameDto input, Game result)
 		{
-			result.Publisher = _publisherRepository.Get(input.PublisherInput);
-			result.PlatformTypes = _platformTypeRepository.Get().Where(p => input.PlatformTypesInput.Any(type => type == p.Type)).ToList();
-			result.Genres = _genreRepository.Get().Where(g => input.GenresInput.Any(name => name == g.Name)).ToList();
+            input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.Get(n)));
+            input.PlatformTypesInput.ForEach(p => result.PlatformTypes.Add(_platformTypeRepository.Get(p)));
+            result.Publisher = _publisherRepository.Get(input.PublisherInput);
 
 			return result;
 		}

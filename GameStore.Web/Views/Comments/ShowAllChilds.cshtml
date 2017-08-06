@@ -1,0 +1,17 @@
+﻿@model List<GameStore.Web.Models.CommentViewModel>
+
+@foreach (var comment in @Model)
+{
+	<b>@Html.LabelFor(m => comment.Name):</b>
+	<p>@Html.DisplayFor(m => comment.Name)</p>
+	<b>@Html.LabelFor(m => comment.Body):</b>
+	<p>@Html.DisplayFor(m => comment.Body)</p>
+	<p>
+		<button data-id=@comment.Id data-name=@comment.Name class="reply btn btn-default">Reply</button>
+	</p>
+
+	if (comment.ChildComments.Count != 0)
+	{
+		{ Html.RenderPartial("ShowAllChilds", comment.ChildComments);};
+	}
+}

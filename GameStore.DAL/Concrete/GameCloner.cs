@@ -39,7 +39,7 @@ namespace GameStore.DAL.Concrete
 			_gameRepository.Insert(game);
 			_unitOfWork.Save();
 
-			return _gameRepository.Get(game.Name);
+			return _gameRepository.Get(game.Key);
 		}
 	}
 }
