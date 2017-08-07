@@ -5,8 +5,8 @@ namespace GameStore.DAL.Abstract.MongoDb
 {
 	public interface IMongoShipperRepository
 	{
-		IQueryable<Shipper> Get();
+		IQueryable<Shipper> GetAll();
 
-		Shipper Get(string id);
+		Shipper GetSingle(string id);
 	}
 }

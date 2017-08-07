@@ -6,9 +6,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IGameRepository
 	{
-		IEnumerable<Game> Get(GameFilter filter = null);
+		IEnumerable<Game> GetAll(GameFilter filter = null, int? skip = null, int? take = null);
 
-		Game Get(string gameKey);
+		Game GetSingle(string gameKey);
 
 		void Insert(Game game);
 

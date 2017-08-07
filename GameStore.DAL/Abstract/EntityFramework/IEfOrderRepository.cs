@@ -8,9 +8,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 	{
 		void Insert(Order order);
 
-		IQueryable<Order> Get(OrderFilter orderFilter = null);
+		IQueryable<Order> GetAll(OrderFilter orderFilter = null);
 
-		Order Get(string customerId);
+		Order GetSingle(string customerId);
 
 		void Update(Order order);
 

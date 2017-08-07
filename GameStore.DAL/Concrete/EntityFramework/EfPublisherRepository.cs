@@ -15,12 +15,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context = context;
 		}
 
-		public Publisher Get(string companyName)
+		public Publisher GetSingle(string companyName)
 		{
 			return _context.Publishers.First(p => p.CompanyName == companyName);
 		}
 
-		public IQueryable<Publisher> Get()
+		public IQueryable<Publisher> GetAll()
 		{
 			return _context.Publishers;
 		}

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
+using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Infrastructure.Comparers;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -23,18 +24,17 @@ namespace GameStore.DAL.Concrete.Common
 			_cloner = cloner;
 		}
 
-		public IEnumerable<Publisher> Get()
+		public IEnumerable<Publisher> GetAll()
 		{
-			var efList = _efRepository.Get().ToList();
-			var northwindIds = efList.Select(p => p.NorthwindId);
-			var mongoList = _mongoRepository.Get().Where(g => !northwindIds.Contains(g.NorthwindId));
+			var efList = _efRepository.GetAll().ToList();
+			var mongoList = _mongoRepository.GetAll().ToList();
 
-			return efList.Union(mongoList);
+			return efList.Union(mongoList, new PublisherEqualityComparer());
 		}
 
-		public Publisher Get(string companyName)
+		public Publisher GetSingle(string companyName)
 		{
-			return !_efRepository.Contains(companyName) ? _cloner.Clone(_mongoRepository.Get(companyName)) : _efRepository.Get(companyName);
+			return !_efRepository.Contains(companyName) ? _cloner.Clone(_mongoRepository.GetSingle(companyName)) : _efRepository.GetSingle(companyName);
 		}
 
 		public bool Contains(string companyName)

@@ -5,9 +5,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfPublisherRepository
 	{
-		Publisher Get(string companyName);
+		Publisher GetSingle(string companyName);
 
-		IQueryable<Publisher> Get();
+		IQueryable<Publisher> GetAll();
 
 		bool Contains(string companyName);
 

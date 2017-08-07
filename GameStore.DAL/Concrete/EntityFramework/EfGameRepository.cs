@@ -3,11 +3,10 @@ using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
+using GameStore.DAL.Infrastructure.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using GameStore.DAL.Infrastructure.Extensions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -23,12 +22,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_logger = logger;
 		}
 
-		public IQueryable<Game> Get(GameFilter filter = null)
+		public IQueryable<Game> GetAll(GameFilter filter = null)
 		{
 			return _context.Games;
 		}
 
-		public Game Get(string gameKey)
+		public Game GetSingle(string gameKey)
 		{
 			return _context.Games.First(g => g.Key == gameKey);
 		}

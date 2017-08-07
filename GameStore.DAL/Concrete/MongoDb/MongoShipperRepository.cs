@@ -14,12 +14,12 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_collection = database.GetCollection<Shipper>("shippers");
 		}
 
-		public IQueryable<Shipper> Get()
+		public IQueryable<Shipper> GetAll()
 		{
 			return _collection.AsQueryable();
 		}
 
-		public Shipper Get(string id)
+		public Shipper GetSingle(string id)
 		{
 			throw new System.NotImplementedException();
 		}

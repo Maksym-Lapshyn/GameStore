@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 	{
 		void Insert(Comment comment);
 
-		Comment Get(int commentId);
+		Comment GetSingle(int commentId);
 
-		IQueryable<Comment> Get();
+		IQueryable<Comment> GetAll();
 
 		void Update(Comment comment);
 	}

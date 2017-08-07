@@ -5,9 +5,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IGenreRepository
 	{
-		IEnumerable<Genre> Get();
+		IEnumerable<Genre> GetAll();
 
-		Genre Get(string name);
+		Genre GetSingle(string name);
 
 		bool Contains(string name);
 

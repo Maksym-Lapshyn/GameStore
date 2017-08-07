@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		void Insert(Comment comment);
 
-		Comment Get(int commentId);
+		Comment GetSingle(int commentId);
 
-		IEnumerable<Comment> Get();
+		IEnumerable<Comment> GetAll();
 
 		void Update(Comment comment);
 	}

@@ -14,12 +14,12 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_collection = database.GetCollection<Publisher>("suppliers");
 		}
 
-		public IQueryable<Publisher> Get()
+		public IQueryable<Publisher> GetAll()
 		{
 			return _collection.AsQueryable();
 		}
 
-		public Publisher Get(string companyName)
+		public Publisher GetSingle(string companyName)
 		{
 			return _collection.AsQueryable().First(p => p.CompanyName.ToLower() == companyName.ToLower());
 		}

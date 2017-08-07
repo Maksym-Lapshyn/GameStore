@@ -14,12 +14,12 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_collection = database.GetCollection<Genre>("categories");
 		}
 
-		public IQueryable<Genre> Get()
+		public IQueryable<Genre> GetAll()
 		{
 			return _collection.AsQueryable();
 		}
 
-		public Genre Get(string name)
+		public Genre GetSingle(string name)
 		{
 			return _collection.Find(g => g.Name == name).Single();
 		}

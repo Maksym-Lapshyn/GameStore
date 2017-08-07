@@ -5,8 +5,8 @@ namespace GameStore.DAL.Abstract.MongoDb
 {
 	public interface IMongoPublisherRepository
 	{
-		IQueryable<Publisher> Get();
+		IQueryable<Publisher> GetAll();
 
-		Publisher Get(string companyName);
+		Publisher GetSingle(string companyName);
 	}
 }

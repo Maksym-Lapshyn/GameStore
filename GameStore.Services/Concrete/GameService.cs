@@ -46,7 +46,7 @@ namespace GameStore.Services.Concrete
 
 		public void Update(GameDto gameDto)
 		{
-			//var game = _gameRepository.Get(gameDto.Key);
+			//var game = _gameRepository.GetAll(gameDto.Key);
 			//_mapper.Map(gameDto, game);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
@@ -63,7 +63,7 @@ namespace GameStore.Services.Concrete
 
 		public GameDto GetSingleBy(string gameKey)
 		{
-			var game = _gameRepository.Get(gameKey);
+			var game = _gameRepository.GetSingle(gameKey);
 			game = ConvertToPoco(game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
@@ -75,17 +75,16 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? skip = null, int? take = null)
 		{
-			var games = _gameRepository.Get();
+			IEnumerable<Game> games;
 
 			if (filterDto != null)
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
-				games = _gameRepository.Get(filter);
+				games = _gameRepository.GetAll(filter, skip, take);
 			}
-
-			if (skip != null && take != null)
+			else
 			{
-				games = games.Skip(skip.Value).Take(take.Value);
+				games = _gameRepository.GetAll(null, skip, take);
 			}
 
 			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
@@ -99,16 +98,16 @@ namespace GameStore.Services.Concrete
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(gameFilter);
 
-				return _gameRepository.Get(filter).Count();
+				return _gameRepository.GetAll(filter).Count();
 			}
 
-			return _gameRepository.Get().Count();
+			return _gameRepository.GetAll().Count();
 		}
 
 		public IEnumerable<GameDto> GetBy(string genreName)
 		{
 			var games = _gameRepository
-				.Get().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
+				.GetAll().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
 			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
 			return gameDtOs;
@@ -116,7 +115,7 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
 		{
-			var allGames = _gameRepository.Get();
+			var allGames = _gameRepository.GetAll();
 			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game);
 			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
 
@@ -134,9 +133,9 @@ namespace GameStore.Services.Concrete
 
 		private Game MapEmbeddedEntities(GameDto input, Game result)
 		{
-            input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.Get(n)));
-            input.PlatformTypesInput.ForEach(p => result.PlatformTypes.Add(_platformTypeRepository.Get(p)));
-            result.Publisher = _publisherRepository.Get(input.PublisherInput);
+			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(n)));
+			input.PlatformTypesInput.ForEach(p => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p)));
+			result.Publisher = _publisherRepository.GetSingle(input.PublisherInput);
 
 			return result;
 		}

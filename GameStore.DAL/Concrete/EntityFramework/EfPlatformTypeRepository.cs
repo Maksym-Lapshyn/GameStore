@@ -14,12 +14,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context = context;
 		}
 
-		public PlatformType Get(string type)
+		public PlatformType GetSingle(string type)
 		{
 			return _context.PlatformTypes.First(p => p.Type == type);
 		}
 
-		public IQueryable<PlatformType> Get()
+		public IQueryable<PlatformType> GetAll()
 		{
 			return _context.PlatformTypes;
 		}

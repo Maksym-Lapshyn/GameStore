@@ -25,7 +25,7 @@ namespace GameStore.DAL.Concrete
 				_unitOfWork.Save();
 			}
 
-			return genre.Id != default(int) ? genre : _genreRepository.Get(genre.Name);
+			return genre.Id != default(int) ? genre : _genreRepository.GetSingle(genre.Name);
 		}
 	}
 }

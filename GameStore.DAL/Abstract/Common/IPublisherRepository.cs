@@ -5,9 +5,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IPublisherRepository
 	{
-		Publisher Get(string companyName);
+		Publisher GetSingle(string companyName);
 
-		IEnumerable<Publisher> Get();
+		IEnumerable<Publisher> GetAll();
 
 		bool Contains(string companyName);
 

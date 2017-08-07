@@ -5,9 +5,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IPlatformTypeRepository
 	{
-		PlatformType Get(string type);
+		PlatformType GetSingle(string type);
 
-		IEnumerable<PlatformType> Get();
+		IEnumerable<PlatformType> GetAll();
 
 		bool Contains(string type);
 

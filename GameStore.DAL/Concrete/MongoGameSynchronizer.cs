@@ -17,7 +17,7 @@ namespace GameStore.DAL.Concrete
 		{
 			if (!string.IsNullOrEmpty(game.NorthwindId) && !game.IsUpdated)
 			{
-				var gameFromMongo = _mongoRepository.Get(game.Key);
+				var gameFromMongo = _mongoRepository.GetSingle(game.Key);
 				game.Name = gameFromMongo.Name;
 				game.Price = gameFromMongo.Price;
 				game.UnitsInStock = gameFromMongo.UnitsInStock;

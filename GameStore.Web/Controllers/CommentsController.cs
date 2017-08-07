@@ -22,17 +22,17 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult NewComment(string gameKey)
+		public ActionResult NewComment(string key)
 		{
 			var model = new AllCommentsViewModel
 			{
 				NewComment = new CommentViewModel
 				{
-					GameKey = gameKey
+					GameKey = key
 				},
 
-				GameKey = gameKey,
-				Comments = GetComments(gameKey)
+				GameKey = key,
+				Comments = GetComments(key)
 			};
 
 			return View(model);
@@ -57,9 +57,9 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		private List<CommentViewModel> GetComments(string gameKey)
+		private List<CommentViewModel> GetComments(string key)
 		{
-			var commentDtos = _commentService.GetBy(gameKey);
+			var commentDtos = _commentService.GetBy(key);
 
 			return _mapper.Map<IEnumerable<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
 		}

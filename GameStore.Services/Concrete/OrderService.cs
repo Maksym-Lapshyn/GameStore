@@ -52,7 +52,7 @@ namespace GameStore.Services.Concrete
 			}
 			else
 			{
-				order = _orderRepository.Get(customerId);
+				order = _orderRepository.GetSingle(customerId);
 			}
 
 			var orderDto = _mapper.Map<Order, OrderDto>(order);
@@ -62,12 +62,12 @@ namespace GameStore.Services.Concrete
 
 		public void Update(OrderDto orderDto, string gameKey)
 		{
-			var order = _orderRepository.Contains(orderDto.CustomerId) ? _orderRepository.Get(orderDto.CustomerId) : _mapper.Map<OrderDto, Order>(orderDto);
+			var order = _orderRepository.Contains(orderDto.CustomerId) ? _orderRepository.GetSingle(orderDto.CustomerId) : _mapper.Map<OrderDto, Order>(orderDto);
 			var details = order.OrderDetails.FirstOrDefault(o => o.GameKey == gameKey);
 
 			if (details == null)
 			{
-				var game = _gameRepository.Get(gameKey);
+				var game = _gameRepository.GetSingle(gameKey);
 				order.OrderDetails.Add(new OrderDetails{GameKey = gameKey, Game = game, Price = game.Price, Quantity = 1});
 			}
 			else
@@ -86,12 +86,12 @@ namespace GameStore.Services.Concrete
 
 			if (orderFilter != null)
 			{
-				orders = _orderRepository.Get(_mapper.Map<OrderFilterDto, OrderFilter>(orderFilter));
+				orders = _orderRepository.GetAll(_mapper.Map<OrderFilterDto, OrderFilter>(orderFilter));
 
 				return _mapper.Map<IEnumerable<Order>, List<OrderDto>>(orders);
 			}
 
-			orders = _orderRepository.Get(_mapper.Map<OrderFilterDto, OrderFilter>(null));
+			orders = _orderRepository.GetAll(_mapper.Map<OrderFilterDto, OrderFilter>(null));
 
 			return _mapper.Map<IEnumerable<Order>, List<OrderDto>>(orders);
 		}
@@ -100,7 +100,7 @@ namespace GameStore.Services.Concrete
 		{
 			output.OrderDetails.ToList().ForEach(o =>
 			{
-				o.Game = _gameRepository.Get(o.GameKey);
+				o.Game = _gameRepository.GetSingle(o.GameKey);
 				o.Price = o.Game.Price;
 			});
 		}

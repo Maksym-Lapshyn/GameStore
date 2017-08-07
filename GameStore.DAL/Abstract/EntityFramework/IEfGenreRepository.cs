@@ -5,9 +5,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfGenreRepository
 	{
-		IQueryable<Genre> Get();
+		IQueryable<Genre> GetAll();
 
-		Genre Get(string name);
+		Genre GetSingle(string name);
 
 		bool Contains(string name);
 

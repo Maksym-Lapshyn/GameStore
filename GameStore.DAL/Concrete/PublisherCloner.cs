@@ -25,7 +25,7 @@ namespace GameStore.DAL.Concrete
 				_unitOfWork.Save();
 			}
 
-			return publisher.Id != default(int) ? publisher : _publisherRepository.Get(publisher.CompanyName);
+			return publisher.Id != default(int) ? publisher : _publisherRepository.GetSingle(publisher.CompanyName);
 		}
 	}
 }

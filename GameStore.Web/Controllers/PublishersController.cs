@@ -39,9 +39,9 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Update(string companyName)
+		public ActionResult Update(string key)
 		{
-			var publisherDto = _publisherService.GetSingleBy(companyName);
+			var publisherDto = _publisherService.GetSingleBy(key);
 			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(publisherDto);
 
 			return View(publisherViewModel);
@@ -61,9 +61,9 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("ListAll", "Games");
 		}
 
-		public ActionResult Show(string companyName)
+		public ActionResult Show(string key)
 		{
-			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingleBy(companyName));
+			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingleBy(key));
 
 			return View(publisherViewModel);
 		}

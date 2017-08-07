@@ -31,7 +31,7 @@ namespace GameStore.Services.Concrete
 
 		public PublisherDto GetSingleBy(string companyName)
 		{
-			var publisher = _publisherRepository.Get(companyName);
+			var publisher = _publisherRepository.GetSingle(companyName);
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;
@@ -39,7 +39,7 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<PublisherDto> GetAll()
 		{
-			var publishers = _publisherRepository.Get();
+			var publishers = _publisherRepository.GetAll();
 			var publisherDtos = _mapper.Map<IEnumerable<Publisher>, IEnumerable<PublisherDto>>(publishers);
 
 			return publisherDtos;
@@ -47,7 +47,7 @@ namespace GameStore.Services.Concrete
 
 		public void Update(PublisherDto publisherDto)
 		{
-			var publisher = _publisherRepository.Get(publisherDto.CompanyName);
+			var publisher = _publisherRepository.GetSingle(publisherDto.CompanyName);
 			_mapper.Map(publisherDto, publisher);
 			_publisherRepository.Update(publisher);
 			_unitOfWork.Save();

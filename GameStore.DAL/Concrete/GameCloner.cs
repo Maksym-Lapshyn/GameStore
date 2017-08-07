@@ -9,22 +9,16 @@ namespace GameStore.DAL.Concrete
 	public class GameCloner : ICloner<Game>
 	{
 		private readonly IEfGameRepository _gameRepository;
-		private readonly IEfGenreRepository _genreRepository;
-		private readonly IEfPublisherRepository _publisherRepository;
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly ICloner<Genre> _genreCloner;
 		private readonly ICloner<Publisher> _publisherCloner;
 
 		public GameCloner(IEfGameRepository gameRepository,
-			IEfGenreRepository genreRepository,
-			IEfPublisherRepository publisherRepository,
 			IUnitOfWork unitOfWork,
 			ICloner<Genre> genreCloner,
 			ICloner<Publisher> publisherCloner)
 		{
 			_gameRepository = gameRepository;
-			_genreRepository = genreRepository;
-			_publisherRepository = publisherRepository;
 			_unitOfWork = unitOfWork;
 			_genreCloner = genreCloner;
 			_publisherCloner = publisherCloner;
@@ -39,7 +33,7 @@ namespace GameStore.DAL.Concrete
 			_gameRepository.Insert(game);
 			_unitOfWork.Save();
 
-			return _gameRepository.Get(game.Key);
+			return _gameRepository.GetSingle(game.Key);
 		}
 	}
 }

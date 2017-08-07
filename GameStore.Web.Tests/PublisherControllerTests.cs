@@ -10,106 +10,106 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Tests
 {
-    [TestClass]
-    public class PublisherControllerTests
-    {
-        private Mock<IPublisherService> _mockOfPublisherService;
-        private PublishersController _target;
-        private List<PublisherDto> _publishers;
-        private const string ValidString = "test";
-        private const string InvalidString = "testtest";
-        private readonly IMapper _mapper = new Mapper(
-            new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+	[TestClass]
+	public class PublisherControllerTests
+	{
+		private const string ValidString = "test";
+		private const string InvalidString = "testtest";
+		private readonly IMapper _mapper = new Mapper(
+			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+		private Mock<IPublisherService> _mockOfPublisherService;
+		private PublishersController _target;
+		private List<PublisherDto> _publishers;
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            _publishers = new List<PublisherDto>();
-            _mockOfPublisherService = new Mock<IPublisherService>();
-            _mockOfPublisherService.Setup(m => m.Create(It.IsAny<PublisherDto>())).Callback<PublisherDto>(p => _publishers.Add(p));
-            _mockOfPublisherService.Setup(m => m.GetSingleBy(It.IsAny<string>())).Returns(new PublisherDto());
-            _target = new PublishersController(_mockOfPublisherService.Object, _mapper);
-        }
+		[TestInitialize]
+		public void Initialize()
+		{
+			_publishers = new List<PublisherDto>();
+			_mockOfPublisherService = new Mock<IPublisherService>();
+			_mockOfPublisherService.Setup(m => m.Create(It.IsAny<PublisherDto>())).Callback<PublisherDto>(p => _publishers.Add(p));
+			_mockOfPublisherService.Setup(m => m.GetSingleBy(It.IsAny<string>())).Returns(new PublisherDto());
+			_target = new PublishersController(_mockOfPublisherService.Object, _mapper);
+		}
 
-        [TestMethod]
-        public void New_SendsPublisherToView()
-        {
-            var result = ((ViewResult)_target.New()).Model;
+		[TestMethod]
+		public void New_SendsPublisherToView()
+		{
+			var result = ((ViewResult)_target.New()).Model;
 
-            Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
-        }
+			Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
+		}
 
-        [TestMethod]
-        public void New_ReturnsHttpStatusCode_WhenModelStateIsValid()
-        {
-            var result = _target.New(new PublisherViewModel());
+		[TestMethod]
+		public void New_ReturnsRedirectToRouteResult_WhenModelStateIsValid()
+		{
+			var result = _target.New(new PublisherViewModel());
 
-            Assert.IsInstanceOfType(result, typeof(HttpStatusCodeResult));
-        }
+			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+		}
 
-        [TestMethod]
-        public void New_SendsPublisherToView_WhenModelStateIsInvalid()
-        {
-            _target.ModelState.AddModelError(InvalidString, InvalidString);
+		[TestMethod]
+		public void New_SendsPublisherToView_WhenModelStateIsInvalid()
+		{
+			_target.ModelState.AddModelError(InvalidString, InvalidString);
 
-            var result = ((ViewResult)_target.New(new PublisherViewModel())).Model;
+			var result = ((ViewResult)_target.New(new PublisherViewModel())).Model;
 
-            Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
-        }
+			Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
+		}
 
-        [TestMethod]
-        public void New_CreatesPublisher_WhenModelStateIsValid()
-        {
-            _target.New(new PublisherViewModel());
+		[TestMethod]
+		public void New_CreatesPublisher_WhenModelStateIsValid()
+		{
+			_target.New(new PublisherViewModel());
 
-            Assert.IsTrue(_publishers.Count == 1);
-        }
+			Assert.IsTrue(_publishers.Count == 1);
+		}
 
-        [TestMethod]
-        public void Show_SendsPublisherToView_WhenAnyCompanyNameIsPassed()
-        {
-            var result = ((ViewResult)_target.Show(InvalidString)).Model;
+		[TestMethod]
+		public void Show_SendsPublisherToView_WhenAnyCompanyNameIsPassed()
+		{
+			var result = ((ViewResult)_target.Show(InvalidString)).Model;
 
-            Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
-        }
+			Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
+		}
 
-        [TestMethod]
-        public void Update_SendsPublisherToView_WhenValidCompanyNameIsPassed()
-        {
-            _publishers = new List<PublisherDto> { new PublisherDto { CompanyName = ValidString } };
-            var result = ((ViewResult)_target.Update(ValidString)).Model;
+		[TestMethod]
+		public void Update_SendsPublisherToView_WhenValidCompanyNameIsPassed()
+		{
+			_publishers = new List<PublisherDto> { new PublisherDto { CompanyName = ValidString } };
+			var result = ((ViewResult)_target.Update(ValidString)).Model;
 
-            Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
-        }
+			Assert.IsInstanceOfType(result, typeof(PublisherViewModel));
+		}
 
-        [TestMethod]
-        public void Update_ReturnsViewResult_IfModelStateIsInvalid()
-        {
-            _target.ModelState.AddModelError(InvalidString, InvalidString);
+		[TestMethod]
+		public void Update_ReturnsViewResult_IfModelStateIsInvalid()
+		{
+			_target.ModelState.AddModelError(InvalidString, InvalidString);
 
-            var result = _target.Update(ValidString);
+			var result = _target.Update(ValidString);
 
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
-        }
+			Assert.IsInstanceOfType(result, typeof(ViewResult));
+		}
 
-        [TestMethod]
-        public void Update_UpdatesPublisher_IfModelStateIsValid()
-        {
-            _publishers = new List<PublisherDto> { new PublisherDto { CompanyName = InvalidString } };
-            var publisher = new PublisherViewModel { CompanyName = ValidString };
-            _mockOfPublisherService.Setup(m => m.Update(_mapper.Map<PublisherViewModel, PublisherDto>(publisher))).Callback<PublisherDto>(p => _publishers[0] = p);
+		[TestMethod]
+		public void Update_UpdatesPublisher_IfModelStateIsValid()
+		{
+			_publishers = new List<PublisherDto> { new PublisherDto { CompanyName = InvalidString } };
+			var publisher = new PublisherViewModel { CompanyName = ValidString };
+			_mockOfPublisherService.Setup(m => m.Update(It.IsAny<PublisherDto>())).Callback<PublisherDto>(p => _publishers[0] = p);
 
-            _target.Update(publisher);
+			_target.Update(publisher);
 
-            Assert.AreEqual(_publishers[0].CompanyName, ValidString);
-        }
+			Assert.AreEqual(_publishers[0].CompanyName, ValidString);
+		}
 
-        [TestMethod]
-        public void Update_ReturnsRedirectResult_IfModelStateIsValid()
-        {
-            var result = _target.Update(new PublisherViewModel());
+		[TestMethod]
+		public void Update_ReturnsRedirectToRouteResult_IfModelStateIsValid()
+		{
+			var result = _target.Update(new PublisherViewModel());
 
-            Assert.IsInstanceOfType(result, typeof(RedirectResult));
-        }
-    }
+			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+		}
+	}
 }

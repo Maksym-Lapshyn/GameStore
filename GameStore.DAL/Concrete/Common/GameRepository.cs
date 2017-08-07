@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GameStore.DAL.Abstract;
+﻿using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
+using GameStore.DAL.Infrastructure.Comparers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -33,10 +34,10 @@ namespace GameStore.DAL.Concrete.Common
 			_cloner = cloner;
 		}
 
-		public IEnumerable<Game> Get(GameFilter filter = null)
+		public IEnumerable<Game> GetAll(GameFilter filter = null, int? skip = null, int? take = null)
 		{
-			var efQuery = _efRepository.Get();
-			var mongoQuery = _mongoRepository.Get();
+			var efQuery = _efRepository.GetAll();
+			var mongoQuery = _mongoRepository.GetAll();
 
 			if (filter != null)
 			{
@@ -45,22 +46,26 @@ namespace GameStore.DAL.Concrete.Common
 				mongoQuery = _pipeline.Process(mongoQuery);
 			}
 
-			var efList = efQuery.ToList();
+			var totalQuery = efQuery.ToList().Union(mongoQuery.ToList(), new GameEqualityComparer());
 
-			for (var i = 0; i < efList.Count; i++)
+			if (skip != null && take != null)
 			{
-				efList[i] = _synchronizer.Synchronize(efList[i]);
+				totalQuery = totalQuery.Skip(skip.Value).Take(take.Value);
 			}
 
-			var northwindIds = efList.Select(p => p.NorthwindId);
-			var mongoList = mongoQuery.Where(g => !northwindIds.Contains(g.NorthwindId));
+			var totalList = totalQuery.ToList();
 
-			return efList.Union(mongoList);
+			for (var i = 0; i < totalList.Count; i++)
+			{
+				totalList[i] = _synchronizer.Synchronize(totalList[i]);
+			}
+
+			return totalList;
 		}
 
-		public Game Get(string gameKey)
+		public Game GetSingle(string gameKey)
 		{
-			return !_efRepository.Contains(gameKey) ? _cloner.Clone(_mongoRepository.Get(gameKey)) : _synchronizer.Synchronize(_efRepository.Get(gameKey));
+			return !_efRepository.Contains(gameKey) ? _cloner.Clone(_mongoRepository.GetSingle(gameKey)) : _synchronizer.Synchronize(_efRepository.GetSingle(gameKey));
 		}
 
 		public void Insert(Game game)

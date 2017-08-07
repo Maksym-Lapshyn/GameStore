@@ -8,9 +8,9 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		void Insert(Order order);
 
-		IEnumerable<Order> Get(OrderFilter orderFilter = null);
+		IEnumerable<Order> GetAll(OrderFilter orderFilter = null);
 
-		Order Get(string customerId);
+		Order GetSingle(string customerId);
 
 		void Update(Order order);
 

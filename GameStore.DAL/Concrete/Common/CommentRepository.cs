@@ -19,14 +19,14 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository.Insert(comment);
 		}
 
-		public Comment Get(int commentId)
+		public Comment GetSingle(int commentId)
 		{
-			return _efRepository.Get(commentId);
+			return _efRepository.GetSingle(commentId);
 		}
 
-		public IEnumerable<Comment> Get()
+		public IEnumerable<Comment> GetAll()
 		{
-			return _efRepository.Get();
+			return _efRepository.GetAll();
 		}
 
 		public void Update(Comment comment)

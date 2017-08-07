@@ -16,7 +16,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_orderDetailsCollection = database.GetCollection<OrderDetails>("order-details");
 		}
 
-		public IQueryable<Order> Get()
+		public IQueryable<Order> GetAll()
 		{
 			var orders = _orderCollection.AsQueryable().ToList();
 
@@ -28,7 +28,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return orders.AsQueryable();
 		}
 
-		public Order Get(string customerId)
+		public Order GetSingle(string customerId)
 		{
 			var order = _orderCollection.AsQueryable().First(o => o.CustomerId == customerId);
 			order = GetEmbeddedDocuments(order);

@@ -20,12 +20,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context.Comments.Add(comment);
 		}
 
-		public Comment Get(int commentId)
+		public Comment GetSingle(int commentId)
 		{
 			return _context.Comments.First(c => c.Id == commentId);
 		}
 
-		public IQueryable<Comment> Get()
+		public IQueryable<Comment> GetAll()
 		{
 			return _context.Comments;
 		}

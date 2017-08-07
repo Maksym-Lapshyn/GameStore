@@ -21,12 +21,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context.Orders.Add(order);
 		}
 
-		public IQueryable<Order> Get(OrderFilter orderFilter = null)
+		public IQueryable<Order> GetAll(OrderFilter orderFilter = null)
 		{
 			return _context.Orders;
 		}
 
-		public Order Get(string customerId)
+		public Order GetSingle(string customerId)
 		{
 			return _context.Orders.First(o => o.CustomerId == customerId);
 		}

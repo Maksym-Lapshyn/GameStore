@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E21D8A57-D2D5-418E-AF98-CF181775BD1E}</ProjectGuid>
+    <ProjectGuid>{7CC9F095-1D53-4412-AF2D-8A8853D91B74}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameStore.Services.Tests</RootNamespace>
-    <AssemblyName>GameStore.Services.Tests</AssemblyName>
+    <RootNamespace>GameStore.DAL.Tests</RootNamespace>
+    <AssemblyName>GameStore.DAL.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,15 +38,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.1.1\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.1.18\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -61,25 +54,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommentServiceTests.cs" />
-    <Compile Include="GameServiceTests.cs" />
+    <Compile Include="GamePipelineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GenreServiceTests.cs" />
-    <Compile Include="OrderServiceTests.cs" />
-    <Compile Include="PlatformTypeServiceTests.cs" />
-    <Compile Include="PublisherServiceTests.cs" />
+    <Compile Include="GameRepositoryTests.cs" />
+    <Compile Include="GenreRepositoryTests.cs" />
+    <Compile Include="PublisherRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
+      <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
+      <Name>GameStore.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
       <Project>{8a3889e4-a9ba-486d-b5c4-3a3c3ee0e824}</Project>
       <Name>GameStore.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameStore.Services\GameStore.Services.csproj">
-      <Project>{c5e410dd-69d9-4a8b-acab-1414ba91dcbf}</Project>
-      <Name>GameStore.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

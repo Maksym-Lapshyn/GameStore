@@ -59,9 +59,9 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Update(string gameKey)
+		public ActionResult Update(string key)
 		{
-			var gameDto = _gameService.GetSingleBy(gameKey);
+			var gameDto = _gameService.GetSingleBy(key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 			gameViewModel.GenresData = GetGenres();
 			gameViewModel.PublishersData = GetPublishers();
@@ -84,9 +84,9 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("ListAll");
 		}
 
-		public ActionResult Show(string gameKey)
+		public ActionResult Show(string key)
 		{
-			var gameDto = _gameService.GetSingleBy(gameKey);
+			var gameDto = _gameService.GetSingleBy(key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
 			return View(gameViewModel);
@@ -124,9 +124,9 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Remove(string gameKey)
+		public ActionResult Remove(string key)
 		{
-			_gameService.Delete(gameKey);
+			_gameService.Delete(key);
 
 			return RedirectToAction("ListAll");
 		}
@@ -139,7 +139,7 @@ namespace GameStore.Web.Controllers
 			return PartialView(count);
 		}
 
-		public FileResult Download(string gameKey)
+		public FileResult Download(string key)
 		{
 			var path = Server.MapPath("~/file.pdf");
 			var fileBytes = new byte[0];

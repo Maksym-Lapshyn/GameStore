@@ -14,12 +14,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context = context;
 		}
 
-		public IQueryable<Genre> Get()
+		public IQueryable<Genre> GetAll()
 		{
 			return _context.Genres;
 		}
 
-		public Genre Get(string name)
+		public Genre GetSingle(string name)
 		{
 			return _context.Genres.First(g => g.Name == name);
 		}

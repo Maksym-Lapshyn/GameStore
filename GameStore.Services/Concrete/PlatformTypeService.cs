@@ -9,22 +9,19 @@ namespace GameStore.Services.Concrete
 {
 	public class PlatformTypeService : IPlatformTypeService
 	{
-		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IPlatformTypeRepository _platformTypeRepository;
 
-		public PlatformTypeService(IUnitOfWork unitOfWork,
-			IMapper mapper,
+		public PlatformTypeService(IMapper mapper,
 			IPlatformTypeRepository platformTypeRepository)
 		{
-			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_platformTypeRepository = platformTypeRepository;
 		}
 
 		public IEnumerable<PlatformTypeDto> GetAll()
 		{
-			var platforms = _platformTypeRepository.Get();
+			var platforms = _platformTypeRepository.GetAll();
 			var platformDtos = _mapper.Map<IEnumerable<PlatformType>, IEnumerable<PlatformTypeDto>>(platforms);
 
 			return platformDtos;

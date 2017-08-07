@@ -1,14 +1,14 @@
-﻿using System;
+﻿using GameStore.Common.Enums;
+using GameStore.DAL.Abstract;
+using GameStore.DAL.Concrete;
+using GameStore.DAL.Concrete.Filters;
+using GameStore.DAL.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Entities;
-using GameStore.Services.Abstract;
-using GameStore.Services.Concrete;
-using GameStore.Services.Enums;
-using GameStore.Services.Filters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GameStore.Services.Tests
+namespace GameStore.DAL.Tests
 {
 	[TestClass]
 	public class GamePipelineTests
@@ -202,7 +202,7 @@ namespace GameStore.Services.Tests
 				{
 					Genres = new List<Genre>
 					{
-						new Genre{Id=1}
+						new Genre{Name = ValidString}
 					}
 				},
 
@@ -210,7 +210,7 @@ namespace GameStore.Services.Tests
 				{
 					Genres = new List<Genre>
 					{
-						new Genre{Id=2}
+						new Genre{Name=ValidString}
 					}
 				},
 
@@ -218,14 +218,14 @@ namespace GameStore.Services.Tests
 				{
 					Genres = new List<Genre>
 					{
-						new Genre{Id=3}
+						new Genre{Name=InvalidString}
 					}
 				}
 			}.AsQueryable();
 
-			var genreIds = new List<int> {1, 2};
+			var genres = new List<string> { ValidString };
 
-			_target.Register(new GenreFilter(genreIds));
+			_target.Register(new GenreFilter(genres));
 			var result = _target.Process(_games).Count();
 
 			Assert.AreEqual(result, 2);
@@ -286,7 +286,7 @@ namespace GameStore.Services.Tests
 		}
 
 		[TestMethod]
-		public void GamePipeline_FiltersByPlatformType_WhenPlatformTypeIdsArePassed()
+		public void GamePipeline_FiltersByPlatformType_WhenPlatformTypesArePassed()
 		{
 			_games = new List<Game>
 			{
@@ -294,7 +294,7 @@ namespace GameStore.Services.Tests
 				{
 					PlatformTypes = new List<PlatformType>
 					{
-						new PlatformType(){Id=1}
+						new PlatformType{Type=ValidString}
 					}
 				},
 
@@ -302,7 +302,7 @@ namespace GameStore.Services.Tests
 				{
 					PlatformTypes = new List<PlatformType>
 					{
-						new PlatformType(){Id=2}
+						new PlatformType{Type=ValidString}
 					}
 				},
 
@@ -310,43 +310,43 @@ namespace GameStore.Services.Tests
 				{
 					PlatformTypes = new List<PlatformType>
 					{
-						new PlatformType(){Id=3}
+						new PlatformType{Type=InvalidString}
 					}
 				}
 			}.AsQueryable();
 
-			var platformTypeIds = new List<int> { 1, 2 };
+			var platformTypes = new List<string> { ValidString };
 
-			_target.Register(new PlatformTypeFilter(platformTypeIds));
+			_target.Register(new PlatformTypeFilter(platformTypes));
 			var result = _target.Process(_games).Count();
 
 			Assert.AreEqual(result, 2);
 		}
 
 		[TestMethod]
-		public void GamePipeline_FiltersByPublisher_WhenPublisherIdsArePassed()
+		public void GamePipeline_FiltersByPublisher_WhenCompanyNamesArePassed()
 		{
 			_games = new List<Game>
 			{
 				new Game
 				{
-					PublisherId = 1
+					Publisher = new Publisher{CompanyName = ValidString}
 				},
 
 				new Game
 				{
-					PublisherId = 2
+					Publisher = new Publisher{CompanyName = ValidString}
 				},
 
 				new Game
 				{
-					PublisherId = 3
+					Publisher = new Publisher{CompanyName = InvalidString}
 				}
 			}.AsQueryable();
 
-			var publisherIds = new List<int> { 1, 2 };
+			var companyNames = new List<string> { ValidString };
 
-			_target.Register(new PublisherFilter(publisherIds));
+			_target.Register(new PublisherFilter(companyNames));
 			var result = _target.Process(_games).Count();
 
 			Assert.AreEqual(result, 2);

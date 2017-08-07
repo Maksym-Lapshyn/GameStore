@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GameStore.DAL.Abstract.Common;
+﻿using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -24,10 +24,10 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository.Insert(order);
 		}
 
-		public IEnumerable<Order> Get(OrderFilter orderFilter = null)
+		public IEnumerable<Order> GetAll(OrderFilter orderFilter = null)
 		{
-			var efQuery = _efRepository.Get();
-			var mongoQuery = _mongoRepository.Get();
+			var efQuery = _efRepository.GetAll();
+			var mongoQuery = _mongoRepository.GetAll();
 
 			if (orderFilter != null)
 			{
@@ -42,9 +42,9 @@ namespace GameStore.DAL.Concrete.Common
 			return efList.Union(mongoList);
 		}
 
-		public Order Get(string customerId)
+		public Order GetSingle(string customerId)
 		{
-			return _efRepository.Contains(customerId) ? _efRepository.Get(customerId) : _mongoRepository.Get(customerId);
+			return _efRepository.Contains(customerId) ? _efRepository.GetSingle(customerId) : _mongoRepository.GetSingle(customerId);
 		}
 
 		public void Update(Order order)

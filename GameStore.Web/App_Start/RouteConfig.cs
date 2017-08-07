@@ -25,27 +25,20 @@ namespace GameStore.Web
 
 			routes.MapRoute(
 				"LeaveComment",
-				"games/{gameKey}/{action}",
-				new { controller = "Comments" },
-				new { action = "NewComment"}
+				"games/{key}/comments",
+				new { controller = "Comments", action = "NewComment" }
 			);
 
 			routes.MapRoute(
 				"DisplayPublisher1",
 				"{controller}/{action}",
-				new { controller = "Publishers", action = "Show" },
-				new { action = "New|History|Update|Remove"}
-			);
-
-			routes.MapRoute(
-				"DisplayPublisher",
-				"{controller}/key",
-				new { action = "Show" }
+				new { controller = "Games", action = "ListAll" },
+				new { action = "New|History|Update|Remove|ShowCount" }
 			);
 
 			routes.MapRoute(
 				"DefaultWithGameKey",
-				"{controller}/{gameKey}/{action}",
+				"{controller}/{key}/{action}",
 				new { action = "Show" }
 			);
 

@@ -14,14 +14,14 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository = efRepository;
 		}
 
-		public PlatformType Get(string type)
+		public PlatformType GetSingle(string type)
 		{
-			return _efRepository.Get(type);
+			return _efRepository.GetSingle(type);
 		}
 
-		public IEnumerable<PlatformType> Get()
+		public IEnumerable<PlatformType> GetAll()
 		{
-			return _efRepository.Get();
+			return _efRepository.GetAll();
 		}
 
 		public bool Contains(string type)

@@ -5,9 +5,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfPlatformTypeRepository
 	{
-		PlatformType Get(string type);
+		PlatformType GetSingle(string type);
 
-		IQueryable<PlatformType> Get();
+		IQueryable<PlatformType> GetAll();
 
 		bool Contains(string type);
 

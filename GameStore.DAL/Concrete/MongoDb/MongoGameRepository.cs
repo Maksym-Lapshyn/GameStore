@@ -19,7 +19,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_genreCollection = database.GetCollection<Genre>("categories");
 		}
 
-		public IQueryable<Game> Get()
+		public IQueryable<Game> GetAll()
 		{
 			var games = _gameCollection.AsQueryable().ToList();
 
@@ -33,7 +33,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return games.AsQueryable();
 		}
 
-		public Game Get(string gameKey)
+		public Game GetSingle(string gameKey)
 		{
 			var game =  _gameCollection.Find(g => g.Key == gameKey).Single();
 			game = GetEmbeddedDocuments(game);

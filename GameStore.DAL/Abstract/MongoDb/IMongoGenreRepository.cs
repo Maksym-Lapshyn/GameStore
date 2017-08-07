@@ -5,8 +5,8 @@ namespace GameStore.DAL.Abstract.MongoDb
 {
 	public interface IMongoGenreRepository
 	{
-		IQueryable<Genre> Get();
+		IQueryable<Genre> GetAll();
 
-		Genre Get(string name);
+		Genre GetSingle(string name);
 	}
 }

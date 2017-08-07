@@ -30,11 +30,11 @@ namespace GameStore.Web.Controllers
 			return View(order);
 		}
 
-		public ActionResult Buy(string gameKey)
+		public ActionResult Buy(string key)
 		{
 			var orderViewModel = GetOrder();
 			var orderDto = _mapper.Map<OrderViewModel, OrderDto>(orderViewModel);
-			_orderService.Update(orderDto, gameKey);
+			_orderService.Update(orderDto, key);
 
 			return RedirectToAction("Show");
 		}

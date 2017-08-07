@@ -5,9 +5,9 @@ namespace GameStore.DAL.Abstract.MongoDb
 {
 	public interface IMongoOrderRepository
 	{
-		IQueryable<Order> Get();
+		IQueryable<Order> GetAll();
 
-		Order Get(string customerId);
+		Order GetSingle(string customerId);
 
 		bool Contains(string customerId);
 	}

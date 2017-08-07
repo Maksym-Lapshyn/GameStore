@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.DTOs;
@@ -14,11 +14,11 @@ namespace GameStore.Services.Tests
 	[TestClass]
 	public class PublisherServiceTests
 	{
-		private const int TestInt = 10;
 		private const string TestString = "test";
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private Mock<IUnitOfWork> _mockOfUow;
+		private Mock<IPublisherRepository> _mockOfPublisherRepository;
 		private PublisherService _target;
 		private List<Publisher> _publishers;
 
@@ -26,14 +26,15 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new PublisherService(_mockOfUow.Object, _mapper);
+			_mockOfPublisherRepository = new Mock<IPublisherRepository>();
+			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfPublisherRepository.Object);
 		}
 
 		[TestMethod]
 		public void Create_CreatesPublisher_WhenAnyPublisherIsPassed()
 		{
 			_publishers = new List<Publisher>();
-			_mockOfUow.Setup(m => m.PublisherRepository.Insert(It.IsAny<Publisher>()))
+			_mockOfPublisherRepository.Setup(m => m.Insert(It.IsAny<Publisher>()))
 				.Callback<Publisher>(p => _publishers.Add(p));
 
 			_target.Create(new PublisherDto());
@@ -46,7 +47,7 @@ namespace GameStore.Services.Tests
 		public void Create_CallsSaveOnce_WhenAnyPublisherIsPassed()
 		{
 			_publishers = new List<Publisher>();
-			_mockOfUow.Setup(m => m.PublisherRepository.Insert(It.IsAny<Publisher>()))
+			_mockOfPublisherRepository.Setup(m => m.Insert(It.IsAny<Publisher>()))
 				.Callback<Publisher>(p => _publishers.Add(p));
 
 			_target.Create(new PublisherDto());
@@ -55,18 +56,18 @@ namespace GameStore.Services.Tests
 		}
 
 		[TestMethod]
-		public void GetStingleby_ReturnsPublisher_WhenValidPublisherIdIsPassed()
+		public void GetStingleBy_ReturnsPublisher_WhenValidPublisherIdIsPassed()
 		{
 			var publisher = new Publisher
 			{
-				Id = TestInt
+				CompanyName = TestString
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get(TestInt)).Returns(publisher);
+			_mockOfPublisherRepository.Setup(m => m.GetSingle(TestString)).Returns(publisher);
 
-			var result = _target.GetSingleBy(TestInt).Id;
+			var result = _target.GetSingleBy(TestString).CompanyName;
 
-			Assert.AreEqual(result, TestInt);
+			Assert.AreEqual(result, TestString);
 		}
 
 		[TestMethod]
@@ -79,7 +80,7 @@ namespace GameStore.Services.Tests
 				new Publisher()
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(_publishers.AsQueryable);
+			_mockOfPublisherRepository.Setup(m => m.GetAll()).Returns(_publishers);
 
 			var result = _target.GetAll().ToList().Count;
 
@@ -94,7 +95,7 @@ namespace GameStore.Services.Tests
 				CompanyName = TestString
 			};
 
-			_mockOfUow.Setup(m => m.PublisherRepository.Get()).Returns(new List<Publisher>{publisher}.AsQueryable);
+			_mockOfPublisherRepository.Setup(m => m.GetSingle(TestString)).Returns(publisher);
 
 			var result = _target.GetSingleBy(TestString).CompanyName;
 

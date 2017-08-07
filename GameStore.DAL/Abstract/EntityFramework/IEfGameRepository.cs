@@ -6,9 +6,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfGameRepository
 	{
-		IQueryable<Game> Get(GameFilter filter = null);
+		IQueryable<Game> GetAll(GameFilter filter = null);
 
-		Game Get(string gameKey);
+		Game GetSingle(string gameKey);
 
 		void Insert(Game game);
 
