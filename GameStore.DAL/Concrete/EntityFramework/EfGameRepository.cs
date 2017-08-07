@@ -51,15 +51,15 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Game game)
 		{
-            var oldGame = _context.Games.First(g => g.Key == game.Key);
+			var oldGame = _context.Games.First(g => g.Key == game.Key);
 			var container = CreateContainer("Update", game, oldGame);
 			_logger.LogChange(container);
-            game = MergeGenres(game);
-            game = MergePlatformTypes(game);
-            game = MergePublisher(game);
-            game = MergePlainProperties(game);
-            _context.SaveChanges();
-        }
+			game = MergeGenres(game);
+			game = MergePlatformTypes(game);
+			game = MergePublisher(game);
+			MergePlainProperties(game);
+			_context.SaveChanges();
+		}
 
 		public bool Contains(string gameKey)
 		{
@@ -82,7 +82,6 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		private Game MergeGenres(Game game)
 		{
-			//_context.Entry(game).State = EntityState.Detached;
 			var existingGame = _context.Games.First(g => g.Key == game.Key);
 			var deletedGenres = existingGame.Genres.Except(game.Genres, g => g.Id).ToList();
 			var addedGenres = game.Genres.Except(existingGame.Genres, g => g.Id).ToList();
@@ -98,49 +97,47 @@ namespace GameStore.DAL.Concrete.EntityFramework
 				existingGame.Genres.Add(g);
 			}
 
-            return game;
+			return game;
 		}
 
-        private Game MergePlatformTypes(Game game)
-        {
-            var existingGame = _context.Games.First(g => g.Key == game.Key);
-            var deletedPlatformTypes = existingGame.PlatformTypes.Except(game.PlatformTypes, p => p.Id).ToList();
-            var addedPlatformTypes = game.PlatformTypes.Except(existingGame.PlatformTypes, p => p.Id).ToList();
-            deletedPlatformTypes.ForEach(p => existingGame.PlatformTypes.Remove(p));
+		private Game MergePlatformTypes(Game game)
+		{
+			var existingGame = _context.Games.First(g => g.Key == game.Key);
+			var deletedPlatformTypes = existingGame.PlatformTypes.Except(game.PlatformTypes, p => p.Id).ToList();
+			var addedPlatformTypes = game.PlatformTypes.Except(existingGame.PlatformTypes, p => p.Id).ToList();
+			deletedPlatformTypes.ForEach(p => existingGame.PlatformTypes.Remove(p));
 
-            foreach (var p in addedPlatformTypes)
-            {
-                if (_context.Entry(p).State == EntityState.Detached)
-                {
-                    _context.PlatformTypes.Attach(p);
-                }
+			foreach (var p in addedPlatformTypes)
+			{
+				if (_context.Entry(p).State == EntityState.Detached)
+				{
+					_context.PlatformTypes.Attach(p);
+				}
 
-                existingGame.PlatformTypes.Add(p);
-            }
+				existingGame.PlatformTypes.Add(p);
+			}
 
-            return game;
-        }
+			return game;
+		}
 
-        private Game MergePublisher(Game game)
-        {
-            var existingGame = _context.Games.First(g => g.Key == game.Key);
-            if (_context.Entry(game.Publisher).State == EntityState.Detached)
-            {
-                _context.Publishers.Attach(game.Publisher);
-            }
+		private Game MergePublisher(Game game)
+		{
+			var existingGame = _context.Games.First(g => g.Key == game.Key);
+			if (_context.Entry(game.Publisher).State == EntityState.Detached)
+			{
+				_context.Publishers.Attach(game.Publisher);
+			}
 
-            existingGame.Publisher = game.Publisher;
+			existingGame.Publisher = game.Publisher;
 
-            return game;
-        }
+			return game;
+		}
 
-        private Game MergePlainProperties(Game game)
-        {
-            var existingGame = _context.Games.First(g => g.Key == game.Key);
-            _context.Entry(existingGame).CurrentValues.SetValues(game);
-            _context.Entry(existingGame).State = EntityState.Modified;
-
-            return game;
-        }
+		private void MergePlainProperties(Game game)
+		{
+			var existingGame = _context.Games.First(g => g.Key == game.Key);
+			_context.Entry(existingGame).CurrentValues.SetValues(game);
+			_context.Entry(existingGame).State = EntityState.Modified;
+		}
 	}
 }
