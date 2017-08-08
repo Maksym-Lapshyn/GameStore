@@ -45,7 +45,7 @@ namespace GameStore.Services.Concrete
 		}
 
 		public void Update(GameDto gameDto)
-		{
+		{ //TODO Required: Get rid of commented code
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
 			game = MapEmbeddedEntities(gameDto, game);

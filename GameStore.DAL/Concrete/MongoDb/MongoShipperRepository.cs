@@ -21,7 +21,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 		public Shipper GetSingle(string id)
 		{
-			throw new System.NotImplementedException();
+			return _collection.AsQueryable().First(s => s.NorthwindId == id);
 		}
 	}
 }
