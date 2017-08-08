@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace GameStore.Web.Tests
 {
 	[TestClass]
-	public class PublisherControllerTests
+	public class PublishersControllerTests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";

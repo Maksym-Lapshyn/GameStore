@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace GameStore.Web.Tests
 {
 	[TestClass]
-	public class GameControllerTests
+	public class GamesControllerTests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
@@ -27,6 +27,11 @@ namespace GameStore.Web.Tests
 		[TestInitialize]
 		public void Initialize()
 		{
+			Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<GenreDto>, List<GenreViewModel>>());
+			Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>());
+			Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<PublisherDto>, List<PublisherViewModel>>());
+			Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<GameDto>, List<GameViewModel>>());
+			Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<CommentDto>, List<CommentViewModel>>());
 			_mockOfGameService = new Mock<IGameService>();
 			_mockOfPlatformTypeService = new Mock<IPlatformTypeService>();
 			_mockOfGenreService = new Mock<IGenreService>();

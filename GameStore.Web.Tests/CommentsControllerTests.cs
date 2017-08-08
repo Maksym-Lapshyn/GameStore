@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace GameStore.Web.Tests
 {
 	[TestClass]
-	public class CommentControllerTests
+	public class CommentsControllerTests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
