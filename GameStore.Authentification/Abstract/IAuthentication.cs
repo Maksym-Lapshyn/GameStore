@@ -1,4 +1,4 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
 using System.Security.Principal;
 using System.Web;
 
@@ -8,12 +8,12 @@ namespace GameStore.Authentification.Abstract
 	{
 		HttpContext HttpContext { get; set; }
 
-		User Login(string login, string password, bool isPersistent);
+		User Login(string userName, string password, bool isPersistent);
 
-		User Login(string login);
+		User Login(string userName);
 
 		void LogOut();
 
-		IPrincipal CurrentUser { get; set; }
+		IPrincipal CurrentUser { get; }
 	}
 }

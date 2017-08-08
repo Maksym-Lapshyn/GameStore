@@ -1,13 +1,15 @@
-﻿using GameStore.Services.Abstract;
+﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
+using GameStore.Authentification.Concrete;
+using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
+using GameStore.Services.Infrastructure;
 using GameStore.Web.Infrastructure.Abstract;
 using GameStore.Web.Infrastructure.Concrete;
 using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using AutoMapper;
-using GameStore.Services.Infrastructure;
 
 namespace GameStore.Web.Infrastructure.Resolver
 {
@@ -47,6 +49,7 @@ namespace GameStore.Web.Infrastructure.Resolver
 			_kernel.Bind<IPlatformTypeService>().To<PlatformTypeService>();
 			_kernel.Bind<IOrderService>().To<OrderService>();
 			_kernel.Bind<ILogger>().To<Logger>();
+			_kernel.Bind<IAuthentication>().To<Authentication>();
 		}
 	}
 }

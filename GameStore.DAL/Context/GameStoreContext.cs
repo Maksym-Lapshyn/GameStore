@@ -1,5 +1,6 @@
 using GameStore.DAL.Entities;
 using System.Data.Entity;
+using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Context
 {

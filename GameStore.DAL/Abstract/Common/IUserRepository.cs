@@ -1,15 +1,15 @@
 ﻿using GameStore.DAL.Entities;
-using System.Linq;
+using System.Collections.Generic;
 using GameStore.Common.Entities;
 
-namespace GameStore.DAL.Abstract.EntityFramework
+namespace GameStore.DAL.Abstract.Common
 {
-	public interface IEfUserRepository
+	public interface IUserRepository
 	{
 		User GetSingle(string userName, string password = null);
 
 		bool Contains(string userName, string password);
 
-		IQueryable<User> GetAll();
+		IEnumerable<User> GetAll();
 	}
 }

@@ -37,6 +37,7 @@ namespace GameStore.Ninject.Modules
 			Bind<IEfOrderRepository>().To<EfOrderRepository>();
 			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>();
 			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
+			Bind<IEfUserRepository>().To<EfUserRepository>();
 			
 			Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();

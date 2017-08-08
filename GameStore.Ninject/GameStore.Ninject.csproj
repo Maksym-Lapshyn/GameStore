@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\AuthenticationModule.cs" />
     <Compile Include="Modules\DalModule.cs" />
     <Compile Include="Modules\ServicesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

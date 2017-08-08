@@ -3,9 +3,9 @@ using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Entities;
+using GameStore.DAL.Infrastructure.Comparers;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Infrastructure.Comparers;
 
 namespace GameStore.DAL.Concrete.Common
 {

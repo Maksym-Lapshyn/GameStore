@@ -157,6 +157,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Filters\LogExceptionAttribute.cs" />
     <Compile Include="Filters\LogIpAttribute.cs" />
     <Compile Include="Infrastructure\Helpers\CustomHelpers.cs" />
+    <Compile Include="Infrastructure\Modules\AuthHttpModule.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
     <Compile Include="Models\AllGamesViewModel.cs" />
@@ -222,6 +224,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameStore.Authentification\GameStore.Authentification.csproj">
+      <Project>{21ababd0-fa79-4693-b6f0-f7e6458f5af3}</Project>
+      <Name>GameStore.Authentification</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
       <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
       <Name>GameStore.Common</Name>
