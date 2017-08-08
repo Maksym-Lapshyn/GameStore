@@ -46,8 +46,6 @@ namespace GameStore.Services.Concrete
 
 		public void Update(GameDto gameDto)
 		{
-			//var game = _gameRepository.GetAll(gameDto.Key);
-			//_mapper.Map(gameDto, game);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
 			game = MapEmbeddedEntities(gameDto, game);
