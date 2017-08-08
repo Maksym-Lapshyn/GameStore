@@ -45,7 +45,7 @@ namespace GameStore.Services.Concrete
 		}
 
 		public void Update(GameDto gameDto)
-		{
+		{ //TODO Required: Get rid of commented code
 			//var game = _gameRepository.GetAll(gameDto.Key);
 			//_mapper.Map(gameDto, game);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
