@@ -29,7 +29,6 @@ namespace GameStore.Services.Tests
 		[TestInitialize]
 		public void Initialize()
 		{
-			Mapper.Initialize(cfg => cfg.CreateMap<IQueryable<Game>, IEnumerable<GameDto>>());
 			_mockOfCommentRepository = new Mock<ICommentRepository>();
 			_mockOfGameRepository = new Mock<IGameRepository>();
 			_mockOfUow = new Mock<IUnitOfWork>();

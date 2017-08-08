@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\EntityFramework\IEfUserRepository.cs" />
     <Compile Include="Abstract\ICloner.cs" />
     <Compile Include="Abstract\Common\ICommentRepository.cs" />
     <Compile Include="Abstract\Common\IGameRepository.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
     <Compile Include="Concrete\Common\CommentRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfUserRepository.cs" />
     <Compile Include="Concrete\GameCloner.cs" />
     <Compile Include="Concrete\GenreCloner.cs" />
     <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Concrete\Filters\PlatformTypeFilter.cs" />
     <Compile Include="Concrete\Filters\PublisherFilter.cs" />
     <Compile Include="Concrete\Filters\SortOptionsFilter.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />

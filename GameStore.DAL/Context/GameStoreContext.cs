@@ -25,6 +25,8 @@ namespace GameStore.DAL.Context
 
 		public DbSet<OrderDetails> OrderDetails { get; set; }
 
+		public DbSet<User> Users { get; set; }
+
 		static GameStoreContext()
 		{
 			Database.SetInitializer(new GameStoreContextInitializer());
