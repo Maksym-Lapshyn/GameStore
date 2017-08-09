@@ -32,7 +32,7 @@ namespace GameStore.DAL.Tests
 		public void GetSingle_ClonesGenre_WhenNonExistingCompanyNameIsPassed()
 		{
 			_mockOfEfRepository.Setup(m => m.Contains(InvalidString)).Returns(false);
-			_mockOfCloner.Setup(m => m.Copy(It.IsAny<Publisher>())).Returns<Publisher>(g => new Publisher() { CompanyName = ValidString });
+			_mockOfCloner.Setup(m => m.Copy(It.IsAny<Publisher>())).Returns<Publisher>(g => new Publisher { CompanyName = ValidString });
 
 			var result = _target.GetSingle(InvalidString);
 

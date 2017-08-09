@@ -32,10 +32,16 @@ namespace GameStore.Services.Concrete
 
 			if (comment.ParentCommentId != null)
 			{
+				comment.ParentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
+				_commentRepository.Update(comment);
+			}
+			/*
+			if (comment.ParentCommentId != null)
+			{
 				var parentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
 				parentComment.ChildComments.Add(comment);
 				_commentRepository.Update(parentComment);
-			}
+			}*/
 			else
 			{
 				var game = _gameRepository.GetSingle(comment.GameKey);
@@ -60,6 +66,24 @@ namespace GameStore.Services.Concrete
 			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
+		}
+
+		public void Update(CommentDto commentDto)
+		{
+			var comment = _mapper.Map<CommentDto, Comment>(commentDto);
+
+			if (comment.ParentCommentId != null)
+			{
+				comment.ParentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
+			}
+
+			_commentRepository.Update(comment);
+			_unitOfWork.Save();
+		}
+
+		public CommentDto GetSingle(int id)
+		{
+			return _mapper.Map<Comment, CommentDto>(_commentRepository.GetSingle(id));
 		}
 	}
 }

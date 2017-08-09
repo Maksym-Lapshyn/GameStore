@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Infrastructure.Serializers;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Infrastructure.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;

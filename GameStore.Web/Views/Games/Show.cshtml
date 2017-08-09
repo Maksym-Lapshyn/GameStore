@@ -28,19 +28,27 @@
 	}
 }
 
+<b>@Html.LabelFor(m => m.GenresInput)</b>
 @if (Model.GenresInput.Count != 0)
 {
-	<b>@Html.LabelFor(m => m.GenresInput)</b>
 	foreach (var name in Model.GenresInput)
 	{
-		<p>@name</p>
+		<p>@Html.ActionLink(name, "Show", "Genres", new { key = name }, null)</p>
 	}
 }
+else
+{
+	<p>Other</p>
+}
 
+<b>@Html.LabelFor(m => m.PublisherInput)</b>
 @if (Model.PublisherInput != null)
 {
-	<b>@Html.LabelFor(m => m.PublisherInput)</b>
 	<p>@Html.ActionLink(Model.PublisherInput, "Show", "Publishers", new { key = Model.PublisherInput }, null)</p>
+}
+else
+{
+	<p>Unknown</p>
 }
 
 @Html.ActionLink("Download", "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
@@ -49,4 +57,4 @@
 
 @Html.ActionLink("Buy", "Buy", "Orders", new { key = Model.Key }, new { @class = "btn btn-default" })
 
-@Html.ActionLink("Update", "Update", "Games", new {key = Model.Key}, new { @class = "btn btn-default" })
+@Html.ActionLink("Update", "Update", "Games", new { key = Model.Key }, new { @class = "btn btn-default" })

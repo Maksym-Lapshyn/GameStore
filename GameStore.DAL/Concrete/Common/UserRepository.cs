@@ -1,9 +1,8 @@
-﻿using GameStore.DAL.Abstract.Common;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
-using GameStore.DAL.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -16,19 +15,34 @@ namespace GameStore.DAL.Concrete.Common
 			_userRepository = userRepository;
 		}
 
-		public User GetSingle(string userName, string password = null)
+		public User GetSingle(string name, string password = null)
 		{
-			return _userRepository.GetSingle(userName, password);
+			return _userRepository.GetSingle(name, password);
 		}
 
-		public bool Contains(string userName, string password)
+		public bool Contains(string name, string password)
 		{
-			return _userRepository.Contains(userName, password);
+			return _userRepository.Contains(name, password);
 		}
 
 		public IEnumerable<User> GetAll()
 		{
 			return _userRepository.GetAll().ToList();
+		}
+
+		public void Update(User user)
+		{
+			_userRepository.Update(user);
+		}
+
+		public void Create(User user)
+		{
+			_userRepository.Create(user);
+		}
+
+		public void Delete(string name)
+		{
+			_userRepository.Delete(name);
 		}
 	}
 }

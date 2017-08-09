@@ -31,7 +31,6 @@ namespace GameStore.Web.Controllers
 					GameKey = key
 				},
 
-				GameKey = key,
 				Comments = GetComments(key)
 			};
 
@@ -43,18 +42,41 @@ namespace GameStore.Web.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				model.Comments = GetComments(model.GameKey);
+				model.Comments = GetComments(model.NewComment.GameKey);
 
 				return View(model);
 			}
 
-			var commentDto = _mapper.Map<CommentViewModel, CommentDto>(model.NewComment);
-			_commentService.Create(commentDto);
+			var dto = _mapper.Map<CommentViewModel, CommentDto>(model.NewComment);
+			_commentService.Create(dto);
 
+			model.Comments = GetComments(model.NewComment.GameKey);
 			model.NewComment = new CommentViewModel();
-			model.Comments = GetComments(model.GameKey);
 
 			return View(model);
+		}
+
+		[HttpGet]
+		public ActionResult Update(int id)
+		{
+			var dto = _commentService.GetSingle(id);
+			var model = _mapper.Map<CommentDto, CommentViewModel>(dto);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public ActionResult Update(CommentViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var dto = _mapper.Map<CommentViewModel, CommentDto>(model);
+			_commentService.Update(dto);
+
+			return View("NewComment", model.GameKey);
 		}
 
 		private List<CommentViewModel> GetComments(string key)

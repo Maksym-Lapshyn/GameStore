@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameStore.Common.Entities;
 
 namespace GameStore.Services.DTOs
 {
-	public class OrderDto
+	public class OrderDto : BaseEntity
 	{
 		public OrderDto()
 		{
 			OrderDetails = new List<OrderDetailsDto>();
 		}
-
-		public int Id { get; set; }
-
-		public bool IsDeleted { get; set; }
 
 		public string CustomerId { get; set; }
 

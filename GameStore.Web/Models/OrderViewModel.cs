@@ -1,16 +1,15 @@
-﻿using System;
+﻿using GameStore.Common.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace GameStore.Web.Models
 {
-	public class OrderViewModel
+	public class OrderViewModel : BaseEntity
 	{
 		public OrderViewModel()
 		{
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}
-
-		public int Id { get; set; }
 
 		public string CustomerId { get; set; }
 

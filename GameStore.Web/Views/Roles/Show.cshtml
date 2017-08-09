@@ -1,0 +1,17 @@
+﻿@model GameStore.Web.Models.RoleViewModel
+
+@{
+	ViewBag.Title = "Show Role";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Role</h1>
+<b>@Html.LabelFor(m => m.Name)</b>
+<p>@Html.DisplayFor(m => m.Name)</p>
+@if (Model.ParentGenreInput != null)
+{
+	<b>@Html.LabelFor(m => m.ParentGenreInput)</b>
+	<p>@Html.DisplayFor(m => m.ParentGenreInput)</p>
+}
+
+@Html.ActionLink("Update", "Update", "Genres", new { key = Model.Name }, new { @class = "btn btn-default" })

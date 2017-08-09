@@ -164,6 +164,8 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PublishersController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,6 +192,8 @@
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PlatformTypeViewModel.cs" />
     <Compile Include="Models\PublisherViewModel.cs" />
+    <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +222,14 @@
     <Content Include="Views\Publishers\Update.cshtml" />
     <Content Include="Views\Genres\New.cshtml" />
     <Content Include="Views\Genres\Show.cshtml" />
+    <Content Include="Views\Genres\Update.cshtml" />
+    <Content Include="Views\Comments\Update.cshtml" />
+    <Content Include="Views\Users\New.cshtml" />
+    <Content Include="Views\Users\Show.cshtml" />
+    <Content Include="Views\Users\Update.cshtml" />
+    <Content Include="Views\Roles\New.cshtml" />
+    <Content Include="Views\Roles\Show.cshtml" />
+    <Content Include="Views\Roles\Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

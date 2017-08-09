@@ -10,5 +10,9 @@ namespace GameStore.Services.Abstract
 		void Create(CommentDto entity);
 
 		IEnumerable<CommentDto> GetAll();
+
+		CommentDto GetSingle(int id);
+
+		void Update(CommentDto commentDto);
 	}
 }

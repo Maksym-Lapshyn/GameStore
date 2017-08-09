@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.Common.Entities;
+using System.Collections.Generic;
 
 namespace GameStore.Services.DTOs
 {
-	public class PlatformTypeDto
+	public class PlatformTypeDto : BaseEntity
 	{
 		public PlatformTypeDto()
 		{
 			Games = new List<GameDto>();
 		}
-
-		public int Id { get; set; }
 
 		public string Type { get; set; }
 

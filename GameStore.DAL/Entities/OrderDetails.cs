@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
+using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Entities
 {

@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Abstract
 {

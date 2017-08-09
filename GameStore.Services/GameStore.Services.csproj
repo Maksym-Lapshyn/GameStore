@@ -54,12 +54,17 @@
     <Compile Include="Abstract\IOrderService.cs" />
     <Compile Include="Abstract\IPlatformTypeService.cs" />
     <Compile Include="Abstract\IPublisherService.cs" />
+    <Compile Include="Abstract\IRoleService.cs" />
+    <Compile Include="Abstract\IService.cs" />
+    <Compile Include="Abstract\IUserService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
     <Compile Include="Concrete\GameService.cs" />
     <Compile Include="Concrete\GenreService.cs" />
     <Compile Include="Concrete\OrderService.cs" />
     <Compile Include="Concrete\PlatformTypeService.cs" />
     <Compile Include="Concrete\PublisherService.cs" />
+    <Compile Include="Concrete\RoleService.cs" />
+    <Compile Include="Concrete\UserService.cs" />
     <Compile Include="Dtos\CommentDto.cs" />
     <Compile Include="Dtos\GameFilterDto.cs" />
     <Compile Include="Dtos\GameDto.cs" />
@@ -69,6 +74,8 @@
     <Compile Include="Dtos\OrderFilterDto.cs" />
     <Compile Include="Dtos\PlatformTypeDto.cs" />
     <Compile Include="Dtos\PublisherDto.cs" />
+    <Compile Include="Dtos\RoleDto.cs" />
+    <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Infrastructure\ServiceProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -41,6 +41,7 @@ namespace GameStore.Services.Concrete
 		public void Create(GenreDto genreDto)
 		{
 			var genre = _mapper.Map<GenreDto, Genre>(genreDto);
+			genre = MapEmbeddedEntities(genreDto, genre);
 			_genreRepository.Insert(genre);
 			_unitOfWork.Save();
 		}
@@ -48,6 +49,7 @@ namespace GameStore.Services.Concrete
 		public void Update(GenreDto genreDto)
 		{
 			var genre = _genreRepository.GetSingle(genreDto.Name);
+			genre = MapEmbeddedEntities(genreDto, genre);
 			genre = _mapper.Map(genreDto, genre);
 			_genreRepository.Update(genre);
 			_unitOfWork.Save();
@@ -57,6 +59,16 @@ namespace GameStore.Services.Concrete
 		{
 			_genreRepository.Delete(name);
 			_unitOfWork.Save();
+		}
+
+		private Genre MapEmbeddedEntities(GenreDto input, Genre result)
+		{
+			if (input.ParentGenreInput != null)
+			{
+				result.ParentGenre = _genreRepository.GetSingle(input.ParentGenreInput);
+			}
+
+			return result;
 		}
 	}
 }

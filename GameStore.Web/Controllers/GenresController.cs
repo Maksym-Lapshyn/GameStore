@@ -22,7 +22,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult New()
 		{
-			var model = new GenreViewModel {ParentGenresData = new List<GenreViewModel>()};
+			var model = new GenreViewModel {ParentGenreData = new List<GenreViewModel>()};
 
 			return View(model);
 		}
@@ -32,7 +32,7 @@ namespace GameStore.Web.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				model.ParentGenresData = GetGenres();
+				model.ParentGenreData = GetGenres();
 				return View(model);
 			}
 

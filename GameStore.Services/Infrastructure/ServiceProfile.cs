@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Dtos;
@@ -21,13 +22,16 @@ namespace GameStore.Services.Infrastructure
 				.ForMember(dto => dto.GenresInput,
 					option => option.MapFrom(entity => entity.Genres.Select(genre => genre.Name).ToList()));
 
+			CreateMap<Genre, GenreDto>()
+				.ForMember(dto => dto.ParentGenreInput, option => option.MapFrom(entity => entity.ParentGenre.Name));
+
+			CreateMap<GenreDto, Genre>();
+
 			CreateMap<CommentDto, Comment>().ReverseMap();
 
 			CreateMap<PublisherDto, Publisher>().ReverseMap();
 
 			CreateMap<PlatformTypeDto, PlatformType>().ReverseMap();
-
-			CreateMap<GenreDto, Genre>().ReverseMap();
 
 			CreateMap<OrderDto, Order>().ReverseMap();
 
@@ -36,6 +40,10 @@ namespace GameStore.Services.Infrastructure
 			CreateMap<GameFilterDto, GameFilter>().ReverseMap();
 
 			CreateMap<OrderFilterDto, OrderFilter>().ReverseMap();
+
+			CreateMap<UserDto, User>().ReverseMap();
+
+			CreateMap<RoleDto, Role>().ReverseMap();
 		}
 	}
 }

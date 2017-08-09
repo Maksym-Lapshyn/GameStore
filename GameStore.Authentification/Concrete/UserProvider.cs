@@ -30,7 +30,7 @@ namespace GameStore.Authentification.Concrete
 				var rolesArray = roles.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 				return rolesArray.Any(
 					r =>
-						string.Equals(Enum.GetName(typeof(UserRoles), _userIdentity.User.Role), r,
+						string.Equals(Enum.GetName(typeof(AccessLevel), _userIdentity.User.Role.AccessLevel), r,
 							StringComparison.CurrentCultureIgnoreCase));
 			}
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GameStore.Common.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.DAL.Entities
@@ -17,7 +18,7 @@ namespace GameStore.DAL.Entities
 		[NotMapped]
 		public int CategoryId { get; set; }
 
-		public virtual ICollection<Genre> ChildGenres { get; set; }
+		public virtual Genre ParentGenre { get; set; }
 
 		[BsonIgnore]
 		public virtual ICollection<Game> Games { get; set; }

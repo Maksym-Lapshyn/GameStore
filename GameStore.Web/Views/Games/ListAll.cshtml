@@ -144,20 +144,30 @@
 		}
 	}
 
+	<b>@Html.LabelFor(m => game.GenresInput)</b>
+
 	if (game.GenresInput.Count != 0)
 	{
-		<b>@Html.LabelFor(m => game.GenresInput)</b>
-
 		foreach (var name in game.GenresInput)
 		{
-			<p>@name</p>
+			<p>@Html.ActionLink(name, "Show", "Genres", new { key = name }, null)</p>
 		}
 	}
+	else
+	{
+		<p>Other</p>
+	}
+
+	<b>@Html.LabelFor(m => game.PublisherInput)</b>
 
 	if (game.PublisherInput != null)
 	{
-		<b>@Html.LabelFor(m => game.PublisherInput)</b>
-		<p>@Html.ActionLink(game.PublisherInput, "Show", "Publishers", new { key = game.PublisherInput }, null)</p>
+
+		<p>@Html.ActionLink(game.PublisherInput, "Show", "Publishers", new {key = game.PublisherInput}, null)</p>
+	}
+	else
+	{
+		<p>Unknown</p>
 	}
 
 	<hr />

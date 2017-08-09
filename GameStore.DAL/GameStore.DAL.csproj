@@ -66,7 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Common\IRoleRepository.cs" />
     <Compile Include="Abstract\Common\IUserRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfRoleRepository.cs" />
     <Compile Include="Abstract\EntityFramework\IEfUserRepository.cs" />
     <Compile Include="Abstract\ICopier.cs" />
     <Compile Include="Abstract\Common\ICommentRepository.cs" />
@@ -94,7 +96,9 @@
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
     <Compile Include="Concrete\Common\CommentRepository.cs" />
+    <Compile Include="Concrete\Common\RoleRepository.cs" />
     <Compile Include="Concrete\Common\UserRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfRoleRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfUserRepository.cs" />
     <Compile Include="Concrete\GameCopier.cs" />
     <Compile Include="Concrete\GenreCopier.cs" />
@@ -122,7 +126,6 @@
     <Compile Include="Concrete\Common\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
-    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />

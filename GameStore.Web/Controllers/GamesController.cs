@@ -38,7 +38,7 @@ namespace GameStore.Web.Controllers
 			{
 				GenresData = GetGenres(),
 				PlatformTypesData = GetPlatformTypes(),
-				PublishersData = GetPublishers()
+				PublisherData = GetPublishers()
 			};
 
 			return View(gameViewModel);
@@ -64,7 +64,7 @@ namespace GameStore.Web.Controllers
 			var gameDto = _gameService.GetSingle(key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 			gameViewModel.GenresData = GetGenres();
-			gameViewModel.PublishersData = GetPublishers();
+			gameViewModel.PublisherData = GetPublishers();
 			gameViewModel.PlatformTypesData = GetPlatformTypes();
 
 			return View(gameViewModel);

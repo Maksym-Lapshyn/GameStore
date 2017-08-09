@@ -1,24 +1,19 @@
-﻿using System;
+﻿using GameStore.Common.Entities;
 using GameStore.Web.Infrastructure.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace GameStore.Web.Models
 {
-	public class GameViewModel
+	public class GameViewModel : BaseEntity
 	{
 		public GameViewModel()
 		{
 			GenresInput = new List<string>();
 			PlatformTypesInput = new List<string>();
 		}
-
-		[HiddenInput]
-		public int Id { get; set; }
-
-		public string NorthwindId { get; set; }
 
 		[Required]
 		public string Key { get; set; }
@@ -51,18 +46,14 @@ namespace GameStore.Web.Models
 
 		public bool Discontinued { get; set; }
 
-		[DisplayName("Publishers")]
-		public List<PublisherViewModel> PublishersData { get; set; }
+		public List<PublisherViewModel> PublisherData { get; set; }
 
-		[DisplayName("Genres")]
 		public List<GenreViewModel> GenresData { get; set; }
 
-		[DisplayName("PlatformTypes")]
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
 		[DisplayName("Publisher")]
 		[Required]
-		[HiddenInput]
 		public string PublisherInput { get; set; }
 
 		[DisplayName("Genres")]

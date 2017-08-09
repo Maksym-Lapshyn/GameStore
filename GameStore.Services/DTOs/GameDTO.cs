@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameStore.Common.Entities;
 
 namespace GameStore.Services.DTOs
 {
-	public class GameDto
+	public class GameDto : BaseEntity
 	{
 		public GameDto()
 		{
 			GenresData = new List<GenreDto>();
 			PlatformTypesData = new List<PlatformTypeDto>();
-			PublishersData = new List<PublisherDto>();
+			PublisherData = new List<PublisherDto>();
 			GenresInput = new List<string>();
 			PlatformTypesInput = new List<string>();
 		}
-
-		public int Id { get; set; }
-
-		public string NorthwindId { get; set; }
 
 		public string Key { get; set; }
 
@@ -44,7 +41,7 @@ namespace GameStore.Services.DTOs
 
 		public List<PlatformTypeDto> PlatformTypesData { get; set; }
 
-		public List<PublisherDto> PublishersData { get; set; }
+		public List<PublisherDto> PublisherData { get; set; }
 
 		public string PublisherInput { get; set; }
 

@@ -28,6 +28,8 @@ namespace GameStore.DAL.Context
 
 		public DbSet<User> Users { get; set; }
 
+		public DbSet<Role> Roles { get; set; }
+
 		static GameStoreContext()
 		{
 			Database.SetInitializer(new GameStoreContextInitializer());

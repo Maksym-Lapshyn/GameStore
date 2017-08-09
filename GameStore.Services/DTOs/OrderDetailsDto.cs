@@ -1,9 +1,9 @@
-﻿namespace GameStore.Services.DTOs
-{
-	public class OrderDetailsDto
-	{
-		public int Id { get; set; }
+﻿using GameStore.Common.Entities;
 
+namespace GameStore.Services.DTOs
+{
+	public class OrderDetailsDto : BaseEntity
+	{
 		public GameDto Game { get; set; }
 
 		public string GameKey { get; set; }

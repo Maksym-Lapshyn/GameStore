@@ -1,6 +1,6 @@
 ﻿namespace GameStore.Common.Enums
 {
-	public enum UserRoles
+	public enum AccessLevel
 	{
 		Administrator,
 		Manager,

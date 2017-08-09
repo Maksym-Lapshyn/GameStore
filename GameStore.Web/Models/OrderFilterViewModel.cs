@@ -1,10 +1,11 @@
-﻿using System;
+﻿using GameStore.Common.Entities;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
-	public class OrderFilterViewModel
+	public class OrderFilterViewModel : BaseEntity
 	{
 		[Required]
 		[DisplayName("Date from")]

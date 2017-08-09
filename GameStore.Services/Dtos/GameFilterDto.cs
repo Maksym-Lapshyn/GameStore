@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.Common.Entities;
 using GameStore.Common.Enums;
+using System.Collections.Generic;
 
 namespace GameStore.Services.DTOs
 {
-	public class GameFilterDto
+	public class GameFilterDto : BaseEntity
 	{
 		public GameFilterDto()
 		{

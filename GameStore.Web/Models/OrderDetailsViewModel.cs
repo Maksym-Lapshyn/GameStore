@@ -1,10 +1,10 @@
-﻿namespace GameStore.Web.Models
-{
-	public class OrderDetailsViewModel
-	{
-		public int Id { get; set; }
+﻿using GameStore.Common.Entities;
 
-		public int GameId { get; set; }
+namespace GameStore.Web.Models
+{
+	public class OrderDetailsViewModel : BaseEntity
+	{
+		public string GameKey { get; set; }
 
 		public GameViewModel Game { get; set; }
 
