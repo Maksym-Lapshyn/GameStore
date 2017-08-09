@@ -45,7 +45,7 @@ namespace GameStore.Services.Concrete
 		}
 
 		public void Update(GameDto gameDto)
-		{ //TODO Required: Get rid of commented code
+		{
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
 			game = MapEmbeddedEntities(gameDto, game);
@@ -71,18 +71,18 @@ namespace GameStore.Services.Concrete
 			return gameDto;
 		}
 
-		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? skip = null, int? take = null)
+		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null)
 		{
 			IEnumerable<Game> games;
 
 			if (filterDto != null)
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
-				games = _gameRepository.GetAll(filter, skip, take);
+				games = _gameRepository.GetAll(filter, itemsToSkip, itemsToTake);
 			}
 			else
 			{
-				games = _gameRepository.GetAll(null, skip, take);
+				games = _gameRepository.GetAll(null, itemsToSkip, itemsToTake);
 			}
 
 			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);

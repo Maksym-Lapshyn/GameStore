@@ -14,7 +14,7 @@ namespace GameStore.DAL.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
-		private Mock<ICloner<Publisher>> _mockOfCloner;
+		private Mock<ICopier<Publisher>> _mockOfCloner;
 		private Mock<IEfPublisherRepository> _mockOfEfRepository;
 		private Mock<IMongoPublisherRepository> _mockOfMongoRepository;
 		private IPublisherRepository _target;
@@ -22,7 +22,7 @@ namespace GameStore.DAL.Tests
 		[TestInitialize]
 		public void Initialize()
 		{
-			_mockOfCloner = new Mock<ICloner<Publisher>>();
+			_mockOfCloner = new Mock<ICopier<Publisher>>();
 			_mockOfEfRepository = new Mock<IEfPublisherRepository>();
 			_mockOfMongoRepository = new Mock<IMongoPublisherRepository>();
 			_target = new PublisherRepository(_mockOfEfRepository.Object, _mockOfMongoRepository.Object, _mockOfCloner.Object);
@@ -32,7 +32,7 @@ namespace GameStore.DAL.Tests
 		public void GetSingle_ClonesGenre_WhenNonExistingCompanyNameIsPassed()
 		{
 			_mockOfEfRepository.Setup(m => m.Contains(InvalidString)).Returns(false);
-			_mockOfCloner.Setup(m => m.Clone(It.IsAny<Publisher>())).Returns<Publisher>(g => new Publisher() { CompanyName = ValidString });
+			_mockOfCloner.Setup(m => m.Copy(It.IsAny<Publisher>())).Returns<Publisher>(g => new Publisher() { CompanyName = ValidString });
 
 			var result = _target.GetSingle(InvalidString);
 

@@ -66,7 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\ICloner.cs" />
+    <Compile Include="Abstract\ICopier.cs" />
     <Compile Include="Abstract\Common\ICommentRepository.cs" />
     <Compile Include="Abstract\Common\IGameRepository.cs" />
     <Compile Include="Abstract\Common\IGenreRepository.cs" />
@@ -92,10 +92,10 @@
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
     <Compile Include="Concrete\Common\CommentRepository.cs" />
-    <Compile Include="Concrete\GameCloner.cs" />
-    <Compile Include="Concrete\GenreCloner.cs" />
+    <Compile Include="Concrete\GameCopier.cs" />
+    <Compile Include="Concrete\GenreCopier.cs" />
     <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
-    <Compile Include="Concrete\PublisherCloner.cs" />
+    <Compile Include="Concrete\PublisherCopier.cs" />
     <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGameRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGenreRepository.cs" />

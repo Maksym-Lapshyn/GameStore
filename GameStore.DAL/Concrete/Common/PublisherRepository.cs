@@ -13,15 +13,15 @@ namespace GameStore.DAL.Concrete.Common
 	{
 		private readonly IEfPublisherRepository _efRepository;
 		private readonly IMongoPublisherRepository _mongoRepository;
-		private readonly ICloner<Publisher> _cloner;
+		private readonly ICopier<Publisher> _copier;
 
 		public PublisherRepository(IEfPublisherRepository efRepository,
 			IMongoPublisherRepository mongoRepository,
-			ICloner<Publisher> cloner)
+			ICopier<Publisher> copier)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
-			_cloner = cloner;
+			_copier = copier;
 		}
 
 		public IEnumerable<Publisher> GetAll()
@@ -34,7 +34,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public Publisher GetSingle(string companyName)
 		{
-			return !_efRepository.Contains(companyName) ? _cloner.Clone(_mongoRepository.GetSingle(companyName)) : _efRepository.GetSingle(companyName);
+			return !_efRepository.Contains(companyName) ? _copier.Copy(_mongoRepository.GetSingle(companyName)) : _efRepository.GetSingle(companyName);
 		}
 
 		public bool Contains(string companyName)

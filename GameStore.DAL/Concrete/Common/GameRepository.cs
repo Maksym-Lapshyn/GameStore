@@ -17,24 +17,24 @@ namespace GameStore.DAL.Concrete.Common
 		private readonly IPipeline<IQueryable<Game>> _pipeline;
 		private readonly IFilterMapper _filterMapper;
 		private readonly ISynchronizer<Game> _synchronizer;
-		private readonly ICloner<Game> _cloner;
+		private readonly ICopier<Game> _copier;
 
 		public GameRepository(IPipeline<IQueryable<Game>> pipeline,
 			IFilterMapper filterMapper,
 			IEfGameRepository efRepository,
 			IMongoGameRepository mongoRepository,
 			ISynchronizer<Game> synchronizer,
-			ICloner<Game> cloner)
+			ICopier<Game> copier)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 			_pipeline = pipeline;
 			_filterMapper = filterMapper;
 			_synchronizer = synchronizer;
-			_cloner = cloner;
+			_copier = copier;
 		}
 
-		public IEnumerable<Game> GetAll(GameFilter filter = null, int? skip = null, int? take = null)
+		public IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null)
 		{
 			var efQuery = _efRepository.GetAll();
 			var mongoQuery = _mongoRepository.GetAll();
@@ -48,9 +48,9 @@ namespace GameStore.DAL.Concrete.Common
 
 			var totalQuery = efQuery.ToList().Union(mongoQuery.ToList(), new GameEqualityComparer());
 
-			if (skip != null && take != null)
+			if (itemsToSkip != null && itemsToTake != null)
 			{
-				totalQuery = totalQuery.Skip(skip.Value).Take(take.Value);
+				totalQuery = totalQuery.Skip(itemsToSkip.Value).Take(itemsToTake.Value);
 			}
 
 			var totalList = totalQuery.ToList();
@@ -65,7 +65,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public Game GetSingle(string gameKey)
 		{
-			return !_efRepository.Contains(gameKey) ? _cloner.Clone(_mongoRepository.GetSingle(gameKey)) : _synchronizer.Synchronize(_efRepository.GetSingle(gameKey));
+			return !_efRepository.Contains(gameKey) ? _copier.Copy(_mongoRepository.GetSingle(gameKey)) : _synchronizer.Synchronize(_efRepository.GetSingle(gameKey));
 		}
 
 		public void Insert(Game game)

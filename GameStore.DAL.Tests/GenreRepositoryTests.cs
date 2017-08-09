@@ -14,7 +14,7 @@ namespace GameStore.DAL.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
-		private Mock<ICloner<Genre>> _mockOfCloner;
+		private Mock<ICopier<Genre>> _mockOfCloner;
 		private Mock<IEfGenreRepository> _mockOfEfRepository;
 		private Mock<IMongoGenreRepository> _mockOfMongoRepository;
 		private IGenreRepository _target;
@@ -22,7 +22,7 @@ namespace GameStore.DAL.Tests
 		[TestInitialize]
 		public void Initialize()
 		{
-			_mockOfCloner = new Mock<ICloner<Genre>>();
+			_mockOfCloner = new Mock<ICopier<Genre>>();
 			_mockOfEfRepository = new Mock<IEfGenreRepository>();
 			_mockOfMongoRepository = new Mock<IMongoGenreRepository>();
 			_target = new GenreRepository(_mockOfEfRepository.Object, _mockOfMongoRepository.Object, _mockOfCloner.Object);
@@ -32,7 +32,7 @@ namespace GameStore.DAL.Tests
 		public void GetSingle_ClonesGenre_WhenNonExistingGenreNameIsPassed()
 		{
 			_mockOfEfRepository.Setup(m => m.Contains(InvalidString)).Returns(false);
-			_mockOfCloner.Setup(m => m.Clone(It.IsAny<Genre>())).Returns<Genre>(g => new Genre { Name = ValidString });
+			_mockOfCloner.Setup(m => m.Copy(It.IsAny<Genre>())).Returns<Genre>(g => new Genre { Name = ValidString });
 
 			var result = _target.GetSingle(InvalidString);
 

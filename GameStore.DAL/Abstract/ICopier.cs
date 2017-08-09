@@ -2,8 +2,8 @@
 
 namespace GameStore.DAL.Abstract
 {
-	public interface ICloner<T> where T : BaseEntity
+	public interface ICopier<T> where T : BaseEntity
 	{
-		T Clone(T entity);
+		T Copy(T entity);
 	}
 }

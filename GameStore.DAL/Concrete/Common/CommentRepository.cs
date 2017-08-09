@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Concrete.Common
 {
-	public class CommentRepository : ICommentRepository //TODO Consider: Remove useless wrapper
+	public class CommentRepository : ICommentRepository
 	{
 		private readonly IEfCommentRepository _efRepository;
 

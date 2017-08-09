@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Concrete.Common
 {
-	public class PlatformTypeRepository : IPlatformTypeRepository //TODO Consider: Remove useless wrapper
+	public class PlatformTypeRepository : IPlatformTypeRepository
 	{
 		private readonly IEfPlatformTypeRepository _efRepository;
 
