@@ -51,5 +51,10 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			_efRepository.Update(publisher);
 		}
+
+		public void Delete(string companyName)
+		{
+			_efRepository.Delete(companyName);
+		}
 	}
 }

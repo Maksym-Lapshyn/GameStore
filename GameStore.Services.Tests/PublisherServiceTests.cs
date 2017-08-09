@@ -65,7 +65,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfPublisherRepository.Setup(m => m.GetSingle(TestString)).Returns(publisher);
 
-			var result = _target.GetSingleBy(TestString).CompanyName;
+			var result = _target.GetSingle(TestString).CompanyName;
 
 			Assert.AreEqual(result, TestString);
 		}
@@ -97,7 +97,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfPublisherRepository.Setup(m => m.GetSingle(TestString)).Returns(publisher);
 
-			var result = _target.GetSingleBy(TestString).CompanyName;
+			var result = _target.GetSingle(TestString).CompanyName;
 
 			Assert.AreEqual(result, TestString);
 		}

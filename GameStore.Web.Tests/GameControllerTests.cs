@@ -34,7 +34,7 @@ namespace GameStore.Web.Tests
 			_target = new GamesController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper);
 			_games = new List<GameDto>();
 			_mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>())).Callback<GameDto>(g => _games.Add(g));
-			_mockOfGameService.Setup(m => m.GetSingleBy(ValidString)).Returns(new GameDto());
+			_mockOfGameService.Setup(m => m.GetSingle(ValidString)).Returns(new GameDto());
 			_mockOfGameService.Setup(m => m.Delete(ValidString)).Callback<string>(k => _games.RemoveAll(g => g.Key == k));
 		}
 

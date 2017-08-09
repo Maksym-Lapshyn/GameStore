@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace GameStore.Web.Controllers
 {
 	[OutputCache(Duration = 60, VaryByHeader = "get;post")]
-	public class CommentsController : Controller
+	public class CommentsController : BaseController
 	{
 		private readonly ICommentService _commentService;
 		private readonly IMapper _mapper;
@@ -59,7 +59,7 @@ namespace GameStore.Web.Controllers
 
 		private List<CommentViewModel> GetComments(string key)
 		{
-			var commentDtos = _commentService.GetBy(key);
+			var commentDtos = _commentService.GetAll(key);
 
 			return _mapper.Map<IEnumerable<CommentDto>, List<CommentViewModel>>(commentDtos.ToList());
 		}

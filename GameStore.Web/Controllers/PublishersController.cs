@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	public class PublishersController : Controller
+	public class PublishersController : BaseController
 	{
 		private readonly IPublisherService _publisherService;
 		private readonly IMapper _mapper;
@@ -41,7 +41,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var publisherDto = _publisherService.GetSingleBy(key);
+			var publisherDto = _publisherService.GetSingle(key);
 			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(publisherDto);
 
 			return View(publisherViewModel);
@@ -63,9 +63,17 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult Show(string key)
 		{
-			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingleBy(key));
+			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingle(key));
 
 			return View(publisherViewModel);
+		}
+
+		[HttpPost]
+		public ActionResult Remove(string key)
+		{
+			_publisherService.Delete(key);
+
+			return RedirectToAction("ListAll", "Games");
 		}
 	}
 }

@@ -1,0 +1,79 @@
+﻿using AutoMapper;
+using GameStore.Services.Abstract;
+using GameStore.Services.DTOs;
+using GameStore.Web.Models;
+using System.Web.Mvc;
+
+namespace GameStore.Web.Controllers
+{
+	public class GenresController : BaseController
+	{
+		private readonly IGenreService _genreService;
+		private readonly IMapper _mapper;
+
+		public GenresController(IGenreService genreService,
+			IMapper mapper)
+		{
+			_genreService = genreService;
+			_mapper = mapper;
+		}
+
+		[HttpGet]
+		public ActionResult New()
+		{
+			return View(new GenreViewModel());
+		}
+
+		[HttpPost]
+		public ActionResult New(GenreViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
+			_genreService.Create(genreDto);
+
+			return RedirectToAction("ListAll", "Games");
+		}
+
+		[HttpGet]
+		public ActionResult Update(string key)
+		{
+			var genreDto = _genreService.GetSingle(key);
+			var model = _mapper.Map<GenreDto, GenreViewModel>(genreDto);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public ActionResult Update(GenreViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
+			_genreService.Update(genreDto);
+
+			return RedirectToAction("ListAll", "Games");
+		}
+
+		public ActionResult Show(string key)
+		{
+			var genreDto = _genreService.GetSingle(key);
+			var model = _mapper.Map<GenreDto, GenreViewModel>(genreDto);
+
+			return View(model);
+		}
+
+		public ActionResult Delete(string key)
+		{
+			_genreService.Delete(key);
+
+			return RedirectToAction("ListAll", "Games");
+		}
+	}
+}

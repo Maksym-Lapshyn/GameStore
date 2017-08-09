@@ -3,15 +3,15 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IGameService : IService
+	public interface IGameService
 	{
-		IEnumerable<GameDto> GetBy(string genreName);
+		IEnumerable<GameDto> GetAll(string genreName);
 
-		IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames);
+		IEnumerable<GameDto> GetAll(IEnumerable<string> platformTypeNames);
 
 		int GetCount(GameFilterDto gameFilter = null);
 
-		GameDto GetSingleBy(string gameKey);
+		GameDto GetSingle(string gameKey);
 
 		void Create(GameDto gameDto);
 

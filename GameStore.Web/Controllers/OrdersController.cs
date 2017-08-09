@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	public class OrdersController : Controller
+	public class OrdersController : BaseController
 	{
 		private readonly IOrderService _orderService;
 		private readonly IMapper _mapper;
@@ -73,7 +73,7 @@ namespace GameStore.Web.Controllers
 
 			if (Request.Cookies[CookieKey] != null)
 			{
-				var orderDto = _orderService.GetSingleBy(Request.Cookies[CookieKey].Value);
+				var orderDto = _orderService.GetSingle(Request.Cookies[CookieKey].Value);
 				orderViewModel = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
 
 				return orderViewModel;
@@ -87,7 +87,7 @@ namespace GameStore.Web.Controllers
 			};
 
 			_orderService.Create(_mapper.Map<OrderViewModel, OrderDto>(orderViewModel));
-			orderViewModel = _mapper.Map<OrderDto, OrderViewModel>(_orderService.GetSingleBy(customerId));
+			orderViewModel = _mapper.Map<OrderDto, OrderViewModel>(_orderService.GetSingle(customerId));
 
 			return orderViewModel;
 		}

@@ -54,7 +54,7 @@ namespace GameStore.Services.Concrete
 			return commentDtos;
 		}
 
-		public IEnumerable<CommentDto> GetBy(string gameKey)
+		public IEnumerable<CommentDto> GetAll(string gameKey)
 		{
 			var comments = _commentRepository.GetAll().Where(c => c.GameKey == gameKey && c.ParentCommentId == null);
 			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);

@@ -46,5 +46,15 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			_efRepository.Insert(genre);
 		}
+
+		public void Update(Genre genre)
+		{
+			_efRepository.Update(genre);
+		}
+
+		public void Delete(string name)
+		{
+			_efRepository.Delete(name);
+		}
 	}
 }

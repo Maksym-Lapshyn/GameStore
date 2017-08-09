@@ -6,7 +6,7 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IGameRepository
 	{
-		IEnumerable<Game> GetAll(GameFilter filter = null, int? skip = null, int? take = null);
+		IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null);
 
 		Game GetSingle(string gameKey);
 

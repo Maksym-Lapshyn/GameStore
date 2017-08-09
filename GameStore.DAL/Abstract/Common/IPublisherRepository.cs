@@ -14,5 +14,7 @@ namespace GameStore.DAL.Abstract.Common
 		void Insert(Publisher publisher);
 
 		void Update(Publisher publisher);
+
+		void Delete(string companyName);
 	}
 }

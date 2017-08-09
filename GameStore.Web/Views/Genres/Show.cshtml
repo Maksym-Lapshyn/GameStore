@@ -1,0 +1,20 @@
+﻿@model GameStore.Web.Models.GenreViewModel
+
+@{
+	ViewBag.Title = "Show Genre";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Genre</h1>
+<b>@Html.LabelFor(m => m.Name)</b>
+<p>@Html.DisplayFor(m => m.Name)</p>
+@if (Model.ChildGenres.Count != 0)
+{
+	foreach (var childGenre in Model.ChildGenres)
+	{
+		<b>@Html.LabelFor(m => childGenre.Name)</b>
+		<p>@Html.DisplayFor(m => childGenre.Name)</p>
+	}
+}
+
+@Html.ActionLink("Update", "Update", "Genres", new { key = Model.Name }, new { @class = "btn btn-default" })

@@ -57,7 +57,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			game = MergePlatformTypes(game);
 			game = MergePublisher(game);
 			MergePlainProperties(game);
-			_context.SaveChanges();
+			//_context.SaveChanges();
 		}
 
 		public bool Contains(string gameKey)

@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Abstract.EntityFramework;
+﻿using System.Data.Entity;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
 using GameStore.DAL.Entities;
 using System.Linq;
@@ -32,6 +33,18 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		public void Insert(Genre genre)
 		{
 			_context.Genres.Add(genre);
+		}
+
+		public void Update(Genre genre)
+		{
+			_context.Entry(genre).State = EntityState.Modified;
+		}
+
+		public void Delete(string name)
+		{
+			var genre = _context.Genres.First(g => g.Name == name);
+			genre.IsDeleted = true;
+			_context.Entry(genre).State = EntityState.Modified;
 		}
 	}
 }

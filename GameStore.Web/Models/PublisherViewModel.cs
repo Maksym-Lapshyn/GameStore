@@ -8,7 +8,7 @@ namespace GameStore.Web.Models
 	{
 		public PublisherViewModel()
 		{
-			Publishers = new List<PublisherViewModel>();
+			Games = new List<GameViewModel>();
 		}
 
 		public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace GameStore.Web.Models
 		[DisplayName("Home Page")]
 		public string HomePage { get; set; }
 
-		public List<PublisherViewModel> Publishers { get; set; }
+		public List<GameViewModel> Games { get; set; }
 	}
 }

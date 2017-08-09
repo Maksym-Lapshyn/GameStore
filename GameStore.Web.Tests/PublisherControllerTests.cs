@@ -27,7 +27,7 @@ namespace GameStore.Web.Tests
 			_publishers = new List<PublisherDto>();
 			_mockOfPublisherService = new Mock<IPublisherService>();
 			_mockOfPublisherService.Setup(m => m.Create(It.IsAny<PublisherDto>())).Callback<PublisherDto>(p => _publishers.Add(p));
-			_mockOfPublisherService.Setup(m => m.GetSingleBy(It.IsAny<string>())).Returns(new PublisherDto());
+			_mockOfPublisherService.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new PublisherDto());
 			_target = new PublishersController(_mockOfPublisherService.Object, _mapper);
 		}
 

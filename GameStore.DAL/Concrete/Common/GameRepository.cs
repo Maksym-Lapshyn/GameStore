@@ -34,7 +34,7 @@ namespace GameStore.DAL.Concrete.Common
 			_cloner = cloner;
 		}
 
-		public IEnumerable<Game> GetAll(GameFilter filter = null, int? skip = null, int? take = null)
+		public IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null)
 		{
 			var efQuery = _efRepository.GetAll();
 			var mongoQuery = _mongoRepository.GetAll();
@@ -48,9 +48,9 @@ namespace GameStore.DAL.Concrete.Common
 
 			var totalQuery = efQuery.ToList().Union(mongoQuery.ToList(), new GameEqualityComparer());
 
-			if (skip != null && take != null)
+			if (itemsToSkip != null && itemsToTake != null)
 			{
-				totalQuery = totalQuery.Skip(skip.Value).Take(take.Value);
+				totalQuery = totalQuery.Skip(itemsToSkip.Value).Take(itemsToTake.Value);
 			}
 
 			var totalList = totalQuery.ToList();

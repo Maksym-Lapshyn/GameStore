@@ -11,12 +11,15 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IMapper _mapper;
 		private readonly IGenreRepository _genreRepository;
+		private readonly IUnitOfWork _unitOfWork;
 
 		public GenreService(IMapper mapper,
-			IGenreRepository genreRepository)
+			IGenreRepository genreRepository,
+			IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_genreRepository = genreRepository;
+			_unitOfWork = unitOfWork;
 		}
 
 		public IEnumerable<GenreDto> GetAll()
@@ -25,6 +28,35 @@ namespace GameStore.Services.Concrete
 			var genreDtos = _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDto>>(genres);
 
 			return genreDtos;
+		}
+
+		public GenreDto GetSingle(string name)
+		{
+			var genre = _genreRepository.GetSingle(name);
+			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
+
+			return genreDto;
+		}
+
+		public void Create(GenreDto genreDto)
+		{
+			var genre = _mapper.Map<GenreDto, Genre>(genreDto);
+			_genreRepository.Insert(genre);
+			_unitOfWork.Save();
+		}
+
+		public void Update(GenreDto genreDto)
+		{
+			var genre = _genreRepository.GetSingle(genreDto.Name);
+			genre = _mapper.Map(genreDto, genre);
+			_genreRepository.Update(genre);
+			_unitOfWork.Save();
+		}
+
+		public void Delete(string name)
+		{
+			_genreRepository.Delete(name);
+			_unitOfWork.Save();
 		}
 	}
 }

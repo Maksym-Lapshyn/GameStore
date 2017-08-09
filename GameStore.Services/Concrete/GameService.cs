@@ -61,7 +61,7 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public GameDto GetSingleBy(string gameKey)
+		public GameDto GetSingle(string gameKey)
 		{
 			var game = _gameRepository.GetSingle(gameKey);
 			game = ConvertToPoco(game);
@@ -104,7 +104,7 @@ namespace GameStore.Services.Concrete
 			return _gameRepository.GetAll().Count();
 		}
 
-		public IEnumerable<GameDto> GetBy(string genreName)
+		public IEnumerable<GameDto> GetAll(string genreName)
 		{
 			var games = _gameRepository
 				.GetAll().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
@@ -113,7 +113,7 @@ namespace GameStore.Services.Concrete
 			return gameDtOs;
 		}
 
-		public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
+		public IEnumerable<GameDto> GetAll(IEnumerable<string> platformTypeNames)
 		{
 			var allGames = _gameRepository.GetAll();
 			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game);

@@ -57,7 +57,7 @@ namespace GameStore.Web.Tests
 			var newComment = new CommentViewModel { GameKey = ValidString };
 			var model = new AllCommentsViewModel { NewComment = newComment };
 			_mockOfCommentService.Setup(m => m.Create(It.IsAny<CommentDto>())).Callback<CommentDto>(c => _comments.Add(c));
-			_mockOfCommentService.Setup(m => m.GetBy(ValidString)).Returns(_comments.Where(c => c.GameKey == ValidString));
+			_mockOfCommentService.Setup(m => m.GetAll(ValidString)).Returns(_comments.Where(c => c.GameKey == ValidString));
 
 			_target.NewComment(model);
 
@@ -93,7 +93,7 @@ namespace GameStore.Web.Tests
 				}
 			};
 
-			_mockOfCommentService.Setup(m => m.GetBy(ValidString)).Returns(_comments.Where(c => c.GameKey == ValidString));
+			_mockOfCommentService.Setup(m => m.GetAll(ValidString)).Returns(_comments.Where(c => c.GameKey == ValidString));
 
 			var model = ((ViewResult)_target.NewComment(ValidString)).Model;
 			var result = ((AllCommentsViewModel)model).Comments.Count;

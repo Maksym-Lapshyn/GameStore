@@ -132,7 +132,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
 
-			var result = _target.GetBy(ValidString).ToList().Count;
+			var result = _target.GetAll(ValidString).ToList().Count;
 
 			Assert.AreEqual(result, 3);
 		}
@@ -160,7 +160,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
 
-			var result = _target.GetBy(InValidString).ToList().Count;
+			var result = _target.GetAll(InValidString).ToList().Count;
 
 			Assert.AreEqual(result, 0);
 		}

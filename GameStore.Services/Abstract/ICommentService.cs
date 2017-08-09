@@ -3,9 +3,9 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-	public interface ICommentService : IService
+	public interface ICommentService
 	{
-		IEnumerable<CommentDto> GetBy(string gameKey);
+		IEnumerable<CommentDto> GetAll(string gameKey);
 
 		void Create(CommentDto entity);
 

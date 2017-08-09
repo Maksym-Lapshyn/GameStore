@@ -1,5 +1,7 @@
 ﻿using GameStore.Services.DTOs;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
@@ -7,17 +9,23 @@ namespace GameStore.Web.Models
 	{
 		public GenreViewModel()
 		{
-			Games = new List<GameViewModel>();
+			ParentGenresData = new List<GenreViewModel>();
 		}
 
 		public int Id { get; set; }
 
+		public string NorthwindId { get; set; }
+
+		public bool IsDeleted { get; set; }
+
+		[Required]
+		[DisplayName("Genre Name")]
 		public string Name { get; set; }
 
-		public List<GenreViewModel> ChildGenres { get; set; }
+		public List<GenreViewModel> ParentGenresData { get; set; }
+
+		public string ParentGenresInput { get; set; }
 
 		public GenreDto ParentGenre { get; set; }
-
-		public List<GameViewModel> Games { get; set; }
 	}
 }

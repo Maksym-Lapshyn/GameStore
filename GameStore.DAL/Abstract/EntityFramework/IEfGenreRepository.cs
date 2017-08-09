@@ -12,5 +12,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 		bool Contains(string name);
 
 		void Insert(Genre genre);
+
+		void Update(Genre genre);
+
+		void Delete(string name);
 	}
 }

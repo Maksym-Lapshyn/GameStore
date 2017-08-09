@@ -39,5 +39,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			_context.Entry(publisher).State = EntityState.Modified;
 		}
+
+		public void Delete(string companyName)
+		{
+			var publisher = _context.Publishers.First(p => p.CompanyName == companyName);
+			publisher.IsDeleted = true;
+			_context.Entry(publisher).State = EntityState.Modified;
+		}
 	}
 }

@@ -160,6 +160,8 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
+    <Compile Include="Controllers\GenresController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -182,6 +184,7 @@
     <Compile Include="Models\GameFilterViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />
     <Compile Include="Models\OrderFilterViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
@@ -213,6 +216,8 @@
     <Content Include="Views\Orders\ListAll.cshtml" />
     <Content Include="Views\Games\Update.cshtml" />
     <Content Include="Views\Publishers\Update.cshtml" />
+    <Content Include="Views\Genres\New.cshtml" />
+    <Content Include="Views\Genres\Show.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -222,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStore.Authentification\GameStore.Authentification.csproj">

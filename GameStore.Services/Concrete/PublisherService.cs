@@ -29,7 +29,7 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public PublisherDto GetSingleBy(string companyName)
+		public PublisherDto GetSingle(string companyName)
 		{
 			var publisher = _publisherRepository.GetSingle(companyName);
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
@@ -50,6 +50,12 @@ namespace GameStore.Services.Concrete
 			var publisher = _publisherRepository.GetSingle(publisherDto.CompanyName);
 			_mapper.Map(publisherDto, publisher);
 			_publisherRepository.Update(publisher);
+			_unitOfWork.Save();
+		}
+
+		public void Delete(string companyName)
+		{
+			_publisherRepository.Delete(companyName);
 			_unitOfWork.Save();
 		}
 	}

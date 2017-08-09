@@ -38,7 +38,7 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public OrderDto GetSingleBy(string customerId)
+		public OrderDto GetSingle(string customerId)
 		{
 			Order order;
 

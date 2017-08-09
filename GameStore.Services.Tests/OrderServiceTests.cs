@@ -66,7 +66,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfOrderRepository.Setup(m => m.GetAll(null)).Returns(_orders);
 
-			var result = _target.GetSingleBy(ValidString);
+			var result = _target.GetSingle(ValidString);
 
 			Assert.AreEqual(result.CustomerId, ValidString);
 		}
@@ -81,7 +81,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfOrderRepository.Setup(m => m.GetAll(null)).Returns(_orders);
 
-			var result = _target.GetSingleBy(InvalidString).CustomerId;
+			var result = _target.GetSingle(InvalidString).CustomerId;
 
 			Assert.AreEqual(result, InvalidString);
 		}

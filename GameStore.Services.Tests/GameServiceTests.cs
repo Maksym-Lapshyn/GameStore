@@ -52,7 +52,7 @@ namespace GameStore.Services.Tests
 
 			_target.Create(new GameDto());
 
-			Assert.AreEqual(_games.Count, 1);
+			Assert.AreEqual(1, _games.Count);
 		}
 
 		[TestMethod]
@@ -142,7 +142,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
 
-			var result = _target.GetBy(ValidString).ToList().Count;
+			var result = _target.GetAll(ValidString).ToList().Count;
 
 			Assert.AreEqual(result, 3);
 		}
@@ -159,7 +159,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
 
-			var result = _target.GetBy(new List<string> { ValidString }).ToList().Count;
+			var result = _target.GetAll(new List<string> { ValidString }).ToList().Count;
 
 			Assert.AreEqual(result, 3);
 		}

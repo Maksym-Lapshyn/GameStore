@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	public class GamesController : Controller
+	public class GamesController : BaseController
 	{
 		private const int DefaultPageSize = 10;
 		private const int DefaultPage = 1;
@@ -61,7 +61,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var gameDto = _gameService.GetSingleBy(key);
+			var gameDto = _gameService.GetSingle(key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 			gameViewModel.GenresData = GetGenres();
 			gameViewModel.PublishersData = GetPublishers();
@@ -86,7 +86,7 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult Show(string key)
 		{
-			var gameDto = _gameService.GetSingleBy(key);
+			var gameDto = _gameService.GetSingle(key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
 			return View(gameViewModel);
