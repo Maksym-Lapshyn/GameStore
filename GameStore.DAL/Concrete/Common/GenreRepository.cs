@@ -13,15 +13,15 @@ namespace GameStore.DAL.Concrete.Common
 	{
 		private readonly IEfGenreRepository _efRepository;
 		private readonly IMongoGenreRepository _mongoRepository;
-		private readonly ICloner<Genre> _cloner;
+		private readonly ICopier<Genre> _copier;
 
 		public GenreRepository(IEfGenreRepository efRepository,
 			IMongoGenreRepository mongoRepository,
-			ICloner<Genre> cloner)
+			ICopier<Genre> copier)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
-			_cloner = cloner;
+			_copier = copier;
 		}
 
 		public IEnumerable<Genre> GetAll()
@@ -34,7 +34,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public Genre GetSingle(string name)
 		{
-			return !_efRepository.Contains(name) ? _cloner.Clone(_mongoRepository.GetSingle(name)) : _efRepository.GetSingle(name);
+			return !_efRepository.Contains(name) ? _copier.Copy(_mongoRepository.GetSingle(name)) : _efRepository.GetSingle(name);
 		}
 
 		public bool Contains(string name)

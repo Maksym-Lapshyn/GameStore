@@ -19,6 +19,6 @@ namespace GameStore.Services.Abstract
 
 		void Delete(string gameKey);
 
-		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? skip = null, int? take = null);
+		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null);
 	}
 }

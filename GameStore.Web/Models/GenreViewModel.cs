@@ -1,5 +1,4 @@
-﻿using GameStore.Services.DTOs;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,7 +24,5 @@ namespace GameStore.Web.Models
 		public List<GenreViewModel> ParentGenresData { get; set; }
 
 		public string ParentGenresInput { get; set; }
-
-		public GenreDto ParentGenre { get; set; }
 	}
 }

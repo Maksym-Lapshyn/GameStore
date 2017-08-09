@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
@@ -21,7 +22,9 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult New()
 		{
-			return View(new GenreViewModel());
+			var model = new GenreViewModel {ParentGenresData = new List<GenreViewModel>()};
+
+			return View(model);
 		}
 
 		[HttpPost]
@@ -29,6 +32,7 @@ namespace GameStore.Web.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
+				model.ParentGenresData = GetGenres();
 				return View(model);
 			}
 
@@ -74,6 +78,11 @@ namespace GameStore.Web.Controllers
 			_genreService.Delete(key);
 
 			return RedirectToAction("ListAll", "Games");
+		}
+
+		private List<GenreViewModel> GetGenres()
+		{
+			return _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
 		}
 	}
 }

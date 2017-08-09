@@ -6,30 +6,30 @@ using GameStore.DAL.Abstract;
 
 namespace GameStore.DAL.Concrete
 {
-	public class GameCloner : ICloner<Game>
+	public class GameCopier : ICopier<Game>
 	{
 		private readonly IEfGameRepository _gameRepository;
 		private readonly IUnitOfWork _unitOfWork;
-		private readonly ICloner<Genre> _genreCloner;
-		private readonly ICloner<Publisher> _publisherCloner;
+		private readonly ICopier<Genre> _genreCopier;
+		private readonly ICopier<Publisher> _publisherCopier;
 
-		public GameCloner(IEfGameRepository gameRepository,
+		public GameCopier(IEfGameRepository gameRepository,
 			IUnitOfWork unitOfWork,
-			ICloner<Genre> genreCloner,
-			ICloner<Publisher> publisherCloner)
+			ICopier<Genre> genreCopier,
+			ICopier<Publisher> publisherCopier)
 		{
 			_gameRepository = gameRepository;
 			_unitOfWork = unitOfWork;
-			_genreCloner = genreCloner;
-			_publisherCloner = publisherCloner;
+			_genreCopier = genreCopier;
+			_publisherCopier = publisherCopier;
 		}
 
-		public Game Clone(Game game)
+		public Game Copy(Game game)
 		{
-			game.Publisher = _publisherCloner.Clone(game.Publisher);
+			game.Publisher = _publisherCopier.Copy(game.Publisher);
 			var genres = game.Genres.ToList();
 			game.Genres.Clear();
-			genres.ForEach(g => game.Genres.Add(_genreCloner.Clone(g)));
+			genres.ForEach(g => game.Genres.Add(_genreCopier.Copy(g)));
 			_gameRepository.Insert(game);
 			_unitOfWork.Save();
 

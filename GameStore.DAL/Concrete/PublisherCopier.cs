@@ -5,18 +5,18 @@ using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Concrete
 {
-	public class PublisherCloner : ICloner<Publisher>
+	public class PublisherCopier : ICopier<Publisher>
 	{
 		private readonly IEfPublisherRepository _publisherRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public PublisherCloner(IEfPublisherRepository publisherRepository, IUnitOfWork unitOfWork)
+		public PublisherCopier(IEfPublisherRepository publisherRepository, IUnitOfWork unitOfWork)
 		{
 			_publisherRepository = publisherRepository;
 			_unitOfWork = unitOfWork;
 		}
 
-		public Publisher Clone(Publisher publisher)
+		public Publisher Copy(Publisher publisher)
 		{
 			if (!_publisherRepository.Contains(publisher.CompanyName))
 			{

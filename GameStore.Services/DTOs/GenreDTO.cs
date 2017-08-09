@@ -7,7 +7,6 @@ namespace GameStore.Services.DTOs
 		public GenreDto()
 		{
 			ChildGenres = new List<GenreDto>();
-			Games = new List<GameDto>();
 		}
 
 		public int Id { get; set; }
@@ -17,7 +16,5 @@ namespace GameStore.Services.DTOs
 		public IEnumerable<GenreDto> ChildGenres { get; set; }
 
 		public GenreDto ParentGenre { get; set; }
-
-		public IEnumerable<GameDto> Games { get; set; }
 	}
 }

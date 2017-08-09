@@ -19,7 +19,7 @@ namespace GameStore.DAL.Tests
 		private Mock<IPipeline<IQueryable<Game>>> _mockOfPipeline;
 		private Mock<IFilterMapper> _mockOfMapper;
 		private Mock<ISynchronizer<Game>> _mockOfSynchronizer;
-		private Mock<ICloner<Game>> _mockOfCloner;
+		private Mock<ICopier<Game>> _mockOfCloner;
 		private Mock<IEfGameRepository> _mockOfEfRepository;
 		private Mock<IMongoGameRepository> _mockOfMongoRepository;
 		private IGameRepository _target;
@@ -32,7 +32,7 @@ namespace GameStore.DAL.Tests
 			_mockOfPipeline = new Mock<IPipeline<IQueryable<Game>>>();
 			_mockOfMapper = new Mock<IFilterMapper>();
 			_mockOfSynchronizer = new Mock<ISynchronizer<Game>>();
-			_mockOfCloner = new Mock<ICloner<Game>>();
+			_mockOfCloner = new Mock<ICopier<Game>>();
 			_mockOfEfRepository = new Mock<IEfGameRepository>();
 			_mockOfMongoRepository = new Mock<IMongoGameRepository>();
 			_target = new GameRepository(_mockOfPipeline.Object, _mockOfMapper.Object, _mockOfEfRepository.Object, _mockOfMongoRepository.Object, _mockOfSynchronizer.Object, _mockOfCloner.Object);
@@ -185,7 +185,7 @@ namespace GameStore.DAL.Tests
 		public void GetSingle_ClonesGame_WhenNonExistingGameKeyIsPassed()
 		{
 			_mockOfEfRepository.Setup(m => m.Contains(InvalidString)).Returns(false);
-			_mockOfCloner.Setup(m => m.Clone(It.IsAny<Game>())).Returns<Game>(g => new Game{Key = ValidString});
+			_mockOfCloner.Setup(m => m.Copy(It.IsAny<Game>())).Returns<Game>(g => new Game{Key = ValidString});
 
 			var result = _target.GetSingle(InvalidString);
 

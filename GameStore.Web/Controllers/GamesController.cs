@@ -232,17 +232,17 @@ namespace GameStore.Web.Controllers
 
 		private List<PlatformTypeViewModel> GetPlatformTypes()
 		{
-			return Mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll());
+			return _mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll());
 		}
 
 		private List<GenreViewModel> GetGenres()
 		{
-			return Mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
+			return _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
 		}
 
 		private List<PublisherViewModel> GetPublishers()
 		{
-			return Mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
+			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
 		}
 	}
 }

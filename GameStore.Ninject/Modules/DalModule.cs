@@ -50,9 +50,9 @@ namespace GameStore.Ninject.Modules
 			Bind<ILogger<Game>>().To<MongoGameLogger>();
 
 			Bind<ISynchronizer<Game>>().To<MongoGameSynchronizer>();
-			Bind<ICloner<Game>>().To<GameCloner>();
-			Bind<ICloner<Genre>>().To<GenreCloner>();
-			Bind<ICloner<Publisher>>().To<PublisherCloner>();
+			Bind<ICopier<Game>>().To<GameCopier>();
+			Bind<ICopier<Genre>>().To<GenreCopier>();
+			Bind<ICopier<Publisher>>().To<PublisherCopier>();
 		}
 	}
 }

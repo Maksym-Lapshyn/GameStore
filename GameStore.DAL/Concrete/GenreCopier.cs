@@ -5,18 +5,18 @@ using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Concrete
 {
-	public class GenreCloner : ICloner<Genre>
+	public class GenreCopier : ICopier<Genre>
 	{
 		private readonly IEfGenreRepository _genreRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public GenreCloner(IEfGenreRepository genreRepository, IUnitOfWork unitOfWork)
+		public GenreCopier(IEfGenreRepository genreRepository, IUnitOfWork unitOfWork)
 		{
 			_genreRepository = genreRepository;
 			_unitOfWork = unitOfWork;
 		}
 
-		public Genre Clone(Genre genre)
+		public Genre Copy(Genre genre)
 		{
 			if (!_genreRepository.Contains(genre.Name))
 			{
