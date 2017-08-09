@@ -98,7 +98,7 @@
   <xs:complexType name="NLogExtensionsAdd">
     <xs:attribute name="prefix" type="xs:string">
       <xs:annotation>
-        <xs:documentation>Prefix for targets/layout renderers/filters/conditions loaded from this assembly.</xs:documentation>
+        <xs:documentation>Prefix for targets/layout renderers/gameFilters/conditions loaded from this assembly.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="assemblyFile" type="xs:string">
@@ -114,7 +114,7 @@
   </xs:complexType>
   <xs:complexType name="NLogLoggerRule">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="filters" type="NLogFilters" />
+      <xs:element name="gameFilters" type="NLogFilters" />
     </xs:choice>
     <xs:attribute name="name" use="optional">
       <xs:annotation>
@@ -2335,7 +2335,7 @@
         </xs:attribute>
         <xs:attribute name="defaultFilter" type="Condition">
           <xs:annotation>
-            <xs:documentation>Default filter to be applied when no specific rule matches.</xs:documentation>
+            <xs:documentation>Default gameFilter to be applied when no specific rule matches.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="optimizeBufferReuse" type="xs:boolean">
@@ -2349,16 +2349,16 @@
   <xs:complexType name="NLog.Targets.Wrappers.FilteringRule">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="exists" minOccurs="0" maxOccurs="1" type="Condition" />
-      <xs:element name="filter" minOccurs="0" maxOccurs="1" type="Condition" />
+      <xs:element name="gameFilter" minOccurs="0" maxOccurs="1" type="Condition" />
     </xs:choice>
     <xs:attribute name="exists" type="Condition">
       <xs:annotation>
         <xs:documentation>Condition to be tested.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="filter" type="Condition">
+    <xs:attribute name="gameFilter" type="Condition">
       <xs:annotation>
-        <xs:documentation>Resulting filter to be applied when the condition matches.</xs:documentation>
+        <xs:documentation>Resulting gameFilter to be applied when the condition matches.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -2848,7 +2848,7 @@
         </xs:choice>
         <xs:attribute name="action" type="FilterResult">
           <xs:annotation>
-            <xs:documentation>Action to be taken when filter matches.</xs:documentation>
+            <xs:documentation>Action to be taken when gameFilter matches.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="condition" type="Condition">
@@ -2879,7 +2879,7 @@
         </xs:choice>
         <xs:attribute name="action" type="FilterResult">
           <xs:annotation>
-            <xs:documentation>Action to be taken when filter matches.</xs:documentation>
+            <xs:documentation>Action to be taken when gameFilter matches.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="ignoreCase" type="xs:boolean">
@@ -2889,7 +2889,7 @@
         </xs:attribute>
         <xs:attribute name="layout" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Layout to be used to filter log messages.</xs:documentation>
+            <xs:documentation>Layout to be used to gameFilter log messages.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="substring" type="xs:string">
@@ -2911,7 +2911,7 @@
         </xs:choice>
         <xs:attribute name="action" type="FilterResult">
           <xs:annotation>
-            <xs:documentation>Action to be taken when filter matches.</xs:documentation>
+            <xs:documentation>Action to be taken when gameFilter matches.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="compareTo" type="xs:string">
@@ -2926,7 +2926,7 @@
         </xs:attribute>
         <xs:attribute name="layout" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Layout to be used to filter log messages.</xs:documentation>
+            <xs:documentation>Layout to be used to gameFilter log messages.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
       </xs:extension>
@@ -2943,7 +2943,7 @@
         </xs:choice>
         <xs:attribute name="action" type="FilterResult">
           <xs:annotation>
-            <xs:documentation>Action to be taken when filter matches.</xs:documentation>
+            <xs:documentation>Action to be taken when gameFilter matches.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="ignoreCase" type="xs:boolean">
@@ -2953,7 +2953,7 @@
         </xs:attribute>
         <xs:attribute name="layout" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Layout to be used to filter log messages.</xs:documentation>
+            <xs:documentation>Layout to be used to gameFilter log messages.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="substring" type="xs:string">
@@ -2975,7 +2975,7 @@
         </xs:choice>
         <xs:attribute name="action" type="FilterResult">
           <xs:annotation>
-            <xs:documentation>Action to be taken when filter matches.</xs:documentation>
+            <xs:documentation>Action to be taken when gameFilter matches.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="compareTo" type="xs:string">
@@ -2990,7 +2990,7 @@
         </xs:attribute>
         <xs:attribute name="layout" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Layout to be used to filter log messages.</xs:documentation>
+            <xs:documentation>Layout to be used to gameFilter log messages.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
       </xs:extension>

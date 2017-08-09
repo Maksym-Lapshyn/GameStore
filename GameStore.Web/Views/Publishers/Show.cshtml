@@ -1,0 +1,16 @@
+﻿@model GameStore.Web.Models.PublisherViewModel
+
+@{
+	ViewBag.Title = "Show Publishers";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Publishers</h1>
+<b>@Html.LabelFor(m => m.CompanyName)</b>
+<p>@Html.DisplayFor(model => model.CompanyName)</p>
+<b>@Html.LabelFor(m => m.Description)</b>
+<p>@Html.DisplayFor(m => m.Description)</p>
+<b>@Html.LabelFor(m => m.HomePage)</b>
+<p>@Html.DisplayFor(m => m.HomePage)</p>
+
+@Html.ActionLink("Update", "Update", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-default" })

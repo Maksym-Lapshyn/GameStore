@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
@@ -12,11 +12,18 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
+		private readonly ICommentRepository _commentRepository;
+		private readonly IGameRepository _gameRepository;
 
-		public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
+		public CommentService(IUnitOfWork unitOfWork, 
+			IMapper mapper,
+			ICommentRepository commentRepository,
+			IGameRepository gameRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_commentRepository = commentRepository;
+			_gameRepository = gameRepository;
 		}
 
 		public void Create(CommentDto commentDto)
@@ -25,28 +32,32 @@ namespace GameStore.Services.Concrete
 
 			if (comment.ParentCommentId != null)
 			{
-				var parentComment = _unitOfWork.CommentRepository.Get(comment.ParentCommentId.Value);
-				comment.ParentComment = parentComment;
+				var parentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
+				parentComment.ChildComments.Add(comment);
+				_commentRepository.Update(parentComment);
 			}
-
-			var game = _unitOfWork.GameRepository.Get(comment.Id);
-			comment.Game = game;
-			_unitOfWork.CommentRepository.Insert(comment);
+			else
+			{
+				var game = _gameRepository.GetSingle(comment.GameKey);
+				game.Comments.Add(comment);
+				_gameRepository.Update(game);
+			}
+			
 			_unitOfWork.Save();
 		}
 
 		public IEnumerable<CommentDto> GetAll()
 		{
-			var comments = _unitOfWork.CommentRepository.Get();
-			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
+			var comments = _commentRepository.GetAll();
+			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}
 
 		public IEnumerable<CommentDto> GetBy(string gameKey)
 		{
-			var comments = _unitOfWork.CommentRepository.Get().Where(c => c.Game.Key == gameKey && c.ParentComment == null);
-			var commentDtos = _mapper.Map<IQueryable<Comment>, IEnumerable<CommentDto>>(comments);
+			var comments = _commentRepository.GetAll().Where(c => c.GameKey == gameKey && c.ParentCommentId == null);
+			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
 		}

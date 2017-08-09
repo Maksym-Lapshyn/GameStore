@@ -3,26 +3,22 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IGameService
+	public interface IGameService : IService
 	{
 		IEnumerable<GameDto> GetBy(string genreName);
 
 		IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames);
 
-		int GetCount(FilterDto filter = null);
+		int GetCount(GameFilterDto gameFilter = null);
 
 		GameDto GetSingleBy(string gameKey);
 
-		void SaveView(int gameId);
-
 		void Create(GameDto gameDto);
 
-		void Edit(GameDto gameDto);
+		void Update(GameDto gameDto);
 
-		void Delete(int gameId);
+		void Delete(string gameKey);
 
-		GameDto GetSingleBy(int gameId);
-
-		IEnumerable<GameDto> GetAll(FilterDto filter = null, int? skip = null, int? take = null);
+		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null);
 	}
 }

@@ -8,6 +8,7 @@ namespace GameStore.DAL.Context
 		public GameStoreContext(string connectionString)
 		: base(connectionString)
 		{
+			Configuration.ProxyCreationEnabled = true;
 		}
 
 		public DbSet<Game> Games { get; set; }

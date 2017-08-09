@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IGenreService
+	public interface IGenreService : IService
 	{
 		IEnumerable<GenreDto> GetAll();
 	}

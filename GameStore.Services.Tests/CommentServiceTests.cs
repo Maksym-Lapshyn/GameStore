@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.DTOs;
@@ -19,42 +19,76 @@ namespace GameStore.Services.Tests
 		private const string InValidString = "testtest";
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+		private Mock<ICommentRepository> _mockOfCommentRepository;
+		private Mock<IGameRepository> _mockOfGameRepository;
 		private Mock<IUnitOfWork> _mockOfUow;
 		private CommentService _target;
 		private List<Comment> _comments;
 		private List<Game> _games;
-		
+
 		[TestInitialize]
 		public void Initialize()
 		{
 			Mapper.Initialize(cfg => cfg.CreateMap<IQueryable<Game>, IEnumerable<GameDto>>());
+			_mockOfCommentRepository = new Mock<ICommentRepository>();
+			_mockOfGameRepository = new Mock<IGameRepository>();
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new CommentService(_mockOfUow.Object, _mapper);
-			_mockOfUow.Setup(m => m.CommentRepository.Insert(It.IsAny<Comment>())).Callback<Comment>(c => _comments.Add(c));
+			_target = new CommentService(_mockOfUow.Object, _mapper, _mockOfCommentRepository.Object, _mockOfGameRepository.Object);
+			_mockOfCommentRepository.Setup(m => m.Insert(It.IsAny<Comment>())).Callback<Comment>(c => _comments.Add(c));
 		}
 
 		[TestMethod]
-		public void Create_CreatesGame_WhenAnyCommentIsPassed()
+		public void Create_UpdatesParentComment_WhenCommentWithParentCommentIdIsPassed()
 		{
-			_comments = new List<Comment>();
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
-			_games = new List<Game> { new Game { Id = TestInt } };
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			var newComment = new CommentDto { ParentCommentId = TestInt, GameKey = ValidString };
+			var parentComment = new Comment { Id = TestInt, ChildComments = new List<Comment>() };
+			_comments = new List<Comment> { new Comment() };
+			_mockOfCommentRepository.Setup(m => m.GetSingle(It.IsAny<int>())).Returns(parentComment);
+			_mockOfCommentRepository.Setup(m => m.Update(It.IsAny<Comment>())).Callback<Comment>(c => _comments[0] = c);
 
-			_target.Create(new CommentDto { GameId = TestInt });
+			_target.Create(newComment);
 
-			Assert.AreEqual(_comments.Count, 1);
+			Assert.AreEqual(ValidString, _comments[0].ChildComments.First().GameKey);
 		}
 
 		[TestMethod]
-		public void Create_CallsSaveOnce_WhenAnyCommentIsPassed()
+		public void Create_UpdatesGame_WhenCommentWithoutParentCommentIdIsPassed()
 		{
-			_comments = new List<Comment>();
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
-			_games = new List<Game> { new Game { Id = TestInt } };
-			_mockOfUow.Setup(m => m.GameRepository.Get()).Returns(_games.AsQueryable);
+			var newComment = new CommentDto { GameKey = ValidString };
+			var game = new Game { Key = ValidString };
+			_games = new List<Game> { new Game() };
+			_mockOfGameRepository.Setup(m => m.GetSingle(ValidString)).Returns(game);
+			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games[0] = g);
 
-			_target.Create(new CommentDto { GameId = TestInt });
+			_target.Create(newComment);
+
+			Assert.AreEqual(ValidString, _games[0].Key);
+		}
+
+		[TestMethod]
+		public void Create_CallsSaveOnce_WhenCommentWithParentCommentIdIsPassed()
+		{
+			var newComment = new CommentDto { ParentCommentId = TestInt, GameKey = ValidString };
+			var parentComment = new Comment { Id = TestInt, ChildComments = new List<Comment>() };
+			_comments = new List<Comment> { new Comment() };
+			_mockOfCommentRepository.Setup(m => m.GetSingle(It.IsAny<int>())).Returns(parentComment);
+			_mockOfCommentRepository.Setup(m => m.Update(It.IsAny<Comment>())).Callback<Comment>(c => _comments[0] = c);
+
+			_target.Create(newComment);
+
+			_mockOfUow.Verify(m => m.Save(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Create_CallsSaveOnce_WhenCommentWithoutParentCommentIdIsPassed()
+		{
+			var newComment = new CommentDto { GameKey = ValidString };
+			var game = new Game { Key = ValidString };
+			_games = new List<Game> { new Game() };
+			_mockOfGameRepository.Setup(m => m.GetSingle(ValidString)).Returns(game);
+			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games[0] = g);
+
+			_target.Create(newComment);
 
 			_mockOfUow.Verify(m => m.Save(), Times.Once);
 		}
@@ -69,7 +103,7 @@ namespace GameStore.Services.Tests
 				new Comment()
 			};
 
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
 
 			var result = _target.GetAll().ToList().Count;
 
@@ -83,30 +117,21 @@ namespace GameStore.Services.Tests
 			{
 				new Comment
 				{
-					Game = new Game
-					{
-						Key = ValidString
-					}
+					GameKey = ValidString
 				},
 
 				new Comment
 				{
-					Game = new Game
-					{
-						Key = ValidString
-					}
+					GameKey = ValidString
 				},
 
 				new Comment
 				{
-					Game = new Game
-					{
-						Key = ValidString
-					}
+					GameKey = ValidString
 				}
 			};
 
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
 
 			var result = _target.GetBy(ValidString).ToList().Count;
 
@@ -120,30 +145,21 @@ namespace GameStore.Services.Tests
 			{
 				new Comment
 				{
-					Game = new Game
-					{
-						Key = ValidString
-					}
+					GameKey = ValidString
 				},
 
 				new Comment
 				{
-					Game = new Game
-					{
-						Key = ValidString
-					}
+					GameKey = ValidString
 				},
 
 				new Comment
 				{
-					Game = new Game
-					{
-						Key = ValidString
-					}
+					GameKey = ValidString
 				}
 			};
 
-			_mockOfUow.Setup(m => m.CommentRepository.Get()).Returns(_comments.AsQueryable);
+			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
 
 			var result = _target.GetBy(InValidString).ToList().Count;
 

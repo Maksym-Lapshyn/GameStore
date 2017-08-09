@@ -1,0 +1,100 @@
+﻿@using GameStore.Web.Infrastructure.Helpers
+@model GameStore.Web.Models.GameViewModel
+
+@{
+	ViewBag.Title = "New Game";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>New Game</h1>
+@using (Html.BeginForm("New", "Games", FormMethod.Post))
+{
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<b>@Html.LabelFor(m => m.Key)</b>
+			<p>@Html.TextBoxFor(m => m.Key, new { @class = "form-control" })</p>
+			<b>@Html.LabelFor(m => m.Name)</b>
+			<p>
+				@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.Name)
+			</p>
+			<b>@Html.LabelFor(m => m.Description)</b>
+			<p>
+				@Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.Description)
+			</p>
+			<b>@Html.LabelFor(m => m.Price)</b>
+			<p>
+				@Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.Price)
+			</p>
+			<b>@Html.LabelFor(m => m.DatePublished)</b>
+			<p>
+				@Html.TextBoxFor(m => m.DatePublished, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.DatePublished)
+			</p>
+			<b>@Html.LabelFor(m => m.UnitsInStock)</b>
+			<p>
+				@Html.TextBoxFor(m => m.UnitsInStock, new { @class = "form-control" })
+			</p>
+			<p>
+				@Html.CheckBoxFor(m => m.Discontinued)
+				<b>@Html.LabelFor(m => m.Discontinued)</b>
+			</p>
+			<div class="row">
+				<div class="col-lg-4">
+					<b>@Html.LabelFor(m => m.GenresData)</b>
+					<p>
+						@foreach (var genre in Model.GenresData)
+						{
+							@Html.CreateCheckbox("GenresInput", genre.Name, Model.GenresInput)
+						}
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<b>@Html.LabelFor(m => m.PlatformTypesData)</b>
+					<p>
+						@foreach (var platformType in Model.PlatformTypesData)
+						{
+							@Html.CreateCheckbox("PlatformTypesInput", platformType.Type, Model.PlatformTypesInput)
+						}
+					</p>
+				</div>
+				<div class="col-sm-4">
+					<b>@Html.LabelFor(m => m.PublishersData)</b>
+					<p>
+						@foreach (var publisher in Model.PublishersData)
+						{
+							@Html.CreateRadioButton("PublisherInput", publisher.CompanyName, Model.PublisherInput)
+						}
+					</p>
+				</div>
+			</div>
+
+			@for (var i = 0; i < Model.PlatformTypesData.Count; i++)
+			{
+				@Html.HiddenFor(m => m.PlatformTypesData[i].Id)
+				@Html.HiddenFor(m => m.PlatformTypesData[i].Type)
+			}
+
+			@for (var i = 0; i < Model.GenresData.Count; i++)
+			{
+				@Html.HiddenFor(m => m.GenresData[i].Id)
+				@Html.HiddenFor(m => m.GenresData[i].Name)
+			}
+
+			@for (var i = 0; i < Model.PublishersData.Count; i++)
+			{
+				@Html.HiddenFor(m => m.PublishersData[i].Id)
+				@Html.HiddenFor(m => m.PublishersData[i].CompanyName)
+				@Html.HiddenFor(m => m.PublishersData[i].Description)
+				@Html.HiddenFor(m => m.PublishersData[i].HomePage)
+			}
+
+			<p>
+				<button type="submit" class="btn btn-default">Create</button>
+				@Html.ActionLink("Back", "ListAll", "Games", null, new { @class = "btn btn-primary" })
+			</p>
+		</div>
+	</div>
+}

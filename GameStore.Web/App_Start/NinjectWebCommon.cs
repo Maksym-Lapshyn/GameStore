@@ -1,4 +1,4 @@
-using GameStore.Services.Infrastructure;
+using GameStore.Ninject.Modules;
 using GameStore.Web.Infrastructure.Resolver;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
@@ -43,7 +43,8 @@ namespace GameStore.Web.App_Start
 		{
 			var modules = new INinjectModule[]
 			{
-				new ServicesModule("GameStoreContext")
+				new ServicesModule(),
+				new DalModule("mongodb://localhost", "Northwind", "GameStoreContext"), 
 			};
 
 			var kernel = new StandardKernel(modules);
@@ -71,6 +72,6 @@ namespace GameStore.Web.App_Start
 		private static void RegisterServices(IKernel kernel)
 		{
 			DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
-		}        
+		}
 	}
 }

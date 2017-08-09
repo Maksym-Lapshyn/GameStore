@@ -12,75 +12,40 @@ namespace GameStore.Web
 			routes.LowercaseUrls = true;
 
 			routes.MapRoute(
-				"CreateGame",
-				"games/new",
-				new {controller = "Game", action = "New"}
-			);
-
-			routes.MapRoute(
-				"EditGame",
-				"games/update",
-				new {controller = "Game", action = "Update"}
-			);
-
-			routes.MapRoute(
-				"GetGameDetailsByKey",
-				"game/{gameKey}",
-				new {controller = "Game", action = "Show"}
-			);
-
-			routes.MapRoute(
 				"GetAllGames",
 				"games",
-				new {controller = "Game", action = "ListAll"}
-			);
-
-			routes.MapRoute(
-				"DeleteGame",
-				"games/remove",
-				new {controller = "Game", action = "Delete"}
-			);
-
-			routes.MapRoute(
-				"LeaveComment",
-				"game/{gameKey}/newcomment",
-				new {controller = "Comment", action = "New"}
-			);
-
-			routes.MapRoute(
-				"GetAllComments",
-				"game/{gameKey}/comments",
-				new {controller = "Comment", action = "ListAll"}
-			);
-
-			routes.MapRoute(
-				"DownloadGame",
-				"game/{gameKey}/download",
-				new {controller = "Game", action = "Download"}
-			);
-
-			routes.MapRoute(
-				"CreatePublisher",
-				"publisher/new",
-				new {controller = "Publisher", action = "New"}
-			);
-
-			routes.MapRoute(
-				"DisplayPublisher",
-				"publisher/{companyName}",
-				new {controller = "Publisher", action = "Show"}
+				new { controller = "Games", action = "ListAll" }
 			);
 
 			routes.MapRoute(
 				"DisplayBasket",
 				"busket",
-				new { controller = "Order", action = "Show" }
+				new { controller = "Orders", action = "Show" }
+			);
+
+			routes.MapRoute(
+				"LeaveComment",
+				"games/{key}/comments",
+				new { controller = "Comments", action = "NewComment" }
+			);
+
+			routes.MapRoute(
+				"DisplayPublisher1",
+				"{controller}/{action}",
+				new { controller = "Games", action = "ListAll" },
+				new { action = "New|History|Update|Remove|ShowCount" }
+			);
+
+			routes.MapRoute(
+				"DefaultWithGameKey",
+				"{controller}/{key}/{action}",
+				new { action = "Show" }
 			);
 
 			routes.MapRoute(
 				"Default",
 				"{controller}/{action}",
-				new {controller = "Game", action = "ListAll"}
+				new { controller = "Games", action = "ListAll" }
 			);
 		}
 	}

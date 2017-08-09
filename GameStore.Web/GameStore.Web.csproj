@@ -1,4 +1,6 @@
-﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.3.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.3.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -46,10 +48,16 @@
     <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Bson, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.4.3\lib\net45\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.4.3\lib\net45\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.4.3\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -67,6 +75,9 @@
     </Reference>
     <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.Web.4.5.0\lib\net35\NLog.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -146,10 +157,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\CommentController.cs" />
-    <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\PublisherController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -164,11 +175,13 @@
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AllCommentsViewModel.cs" />
     <Compile Include="Models\AllGamesViewModel.cs" />
+    <Compile Include="Models\AllOrdersViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
-    <Compile Include="Models\FilterViewModel.cs" />
+    <Compile Include="Models\GameFilterViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />
+    <Compile Include="Models\OrderFilterViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PlatformTypeViewModel.cs" />
     <Compile Include="Models\PublisherViewModel.cs" />
@@ -184,18 +197,20 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Game\New.cshtml" />
-    <Content Include="Views\Game\Show.cshtml" />
-    <Content Include="Views\Comment\ListAll.cshtml" />
-    <Content Include="Views\Comment\New.cshtml" />
+    <Content Include="Views\Games\New.cshtml" />
+    <Content Include="Views\Games\Show.cshtml" />
+    <Content Include="Views\Comments\NewComment.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Views\Game\ShowCount.cshtml" />
-    <Content Include="Views\Publisher\Show.cshtml" />
-    <Content Include="Views\Publisher\New.cshtml" />
-    <Content Include="Views\Order\Show.cshtml" />
-    <Content Include="Views\Comment\ListAllChilds.cshtml" />
-    <Content Include="Views\Game\ListAll.cshtml" />
+    <Content Include="Views\Games\ShowCount.cshtml" />
+    <Content Include="Views\Publishers\Show.cshtml" />
+    <Content Include="Views\Publishers\New.cshtml" />
+    <Content Include="Views\Orders\Show.cshtml" />
+    <Content Include="Views\Comments\ListAllChilds.cshtml" />
+    <Content Include="Views\Games\ListAll.cshtml" />
+    <Content Include="Views\Orders\ListAll.cshtml" />
+    <Content Include="Views\Games\Update.cshtml" />
+    <Content Include="Views\Publishers\Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -205,9 +220,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
+      <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
+      <Name>GameStore.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameStore.Ninject\GameStore.Ninject.csproj">
+      <Project>{b8990c97-9d55-490e-8064-fc2bd1731338}</Project>
+      <Name>GameStore.Ninject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameStore.Services\GameStore.Services.csproj">
       <Project>{c5e410dd-69d9-4a8b-acab-1414ba91dcbf}</Project>
       <Name>GameStore.Services</Name>
@@ -244,6 +266,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.3.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.3.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.3.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

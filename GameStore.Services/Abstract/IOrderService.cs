@@ -1,13 +1,17 @@
-﻿using GameStore.Services.DTOs;
+﻿using GameStore.Services.Dtos;
+using GameStore.Services.DTOs;
+using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IOrderService
+	public interface IOrderService : IService
 	{
 		void Create(OrderDto orderDto);
 
-		void Edit(OrderDto orderDto, int gameId);
+		void Update(OrderDto orderDto, string gameKey);
 
 		OrderDto GetSingleBy(string customerId);
+
+		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
 	}
 }

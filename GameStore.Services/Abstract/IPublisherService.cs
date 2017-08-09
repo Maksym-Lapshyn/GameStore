@@ -3,14 +3,14 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IPublisherService
+	public interface IPublisherService : IService
 	{
 		PublisherDto GetSingleBy(string companyName);
 
 		void Create(PublisherDto publisherDto);
 
-		PublisherDto GetSingleBy(int publisherId);
-
 		IEnumerable<PublisherDto> GetAll();
+
+		void Update(PublisherDto publisherDto);
 	}
 }

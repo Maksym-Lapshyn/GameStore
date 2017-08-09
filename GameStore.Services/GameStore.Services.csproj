@@ -33,12 +33,12 @@
     <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,48 +49,39 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\ICommentService.cs" />
-    <Compile Include="Abstract\IFilter.cs" />
-    <Compile Include="Abstract\IFilterMapper.cs" />
     <Compile Include="Abstract\IGameService.cs" />
     <Compile Include="Abstract\IGenreService.cs" />
     <Compile Include="Abstract\IOrderService.cs" />
-    <Compile Include="Abstract\IPipeline.cs" />
     <Compile Include="Abstract\IPlatformTypeService.cs" />
     <Compile Include="Abstract\IPublisherService.cs" />
+    <Compile Include="Abstract\IService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
-    <Compile Include="Concrete\GamePipeline.cs" />
-    <Compile Include="Concrete\GameFilterMapper.cs" />
     <Compile Include="Concrete\GameService.cs" />
-    <Compile Include="Filters\DateOptionsFilter.cs" />
-    <Compile Include="Filters\GameNameFilter.cs" />
-    <Compile Include="Filters\GenreFilter.cs" />
     <Compile Include="Concrete\GenreService.cs" />
     <Compile Include="Concrete\OrderService.cs" />
     <Compile Include="Concrete\PlatformTypeService.cs" />
     <Compile Include="Concrete\PublisherService.cs" />
-    <Compile Include="DTOs\CommentDto.cs" />
-    <Compile Include="Enums\DateOptions.cs" />
-    <Compile Include="DTOs\FilterDto.cs" />
-    <Compile Include="DTOs\GameDto.cs" />
-    <Compile Include="DTOs\GenreDto.cs" />
-    <Compile Include="DTOs\OrderDetailsDto.cs" />
-    <Compile Include="DTOs\OrderDto.cs" />
-    <Compile Include="DTOs\PlatformTypeDto.cs" />
-    <Compile Include="DTOs\PublisherDto.cs" />
-    <Compile Include="Enums\SortOptions.cs" />
-    <Compile Include="Filters\MaxPriceFilter.cs" />
-    <Compile Include="Filters\MinPriceFilter.cs" />
-    <Compile Include="Filters\PlatformTypeFilter.cs" />
-    <Compile Include="Filters\PublisherFilter.cs" />
-    <Compile Include="Filters\SortOptionsFilter.cs" />
+    <Compile Include="Dtos\CommentDto.cs" />
+    <Compile Include="Dtos\GameFilterDto.cs" />
+    <Compile Include="Dtos\GameDto.cs" />
+    <Compile Include="Dtos\GenreDto.cs" />
+    <Compile Include="Dtos\OrderDetailsDto.cs" />
+    <Compile Include="Dtos\OrderDto.cs" />
+    <Compile Include="Dtos\OrderFilterDto.cs" />
+    <Compile Include="Dtos\PlatformTypeDto.cs" />
+    <Compile Include="Dtos\PublisherDto.cs" />
     <Compile Include="Infrastructure\ServiceProfile.cs" />
-    <Compile Include="Infrastructure\ServicesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
+      <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
+      <Name>GameStore.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
       <Project>{8a3889e4-a9ba-486d-b5c4-3a3c3ee0e824}</Project>
       <Name>GameStore.DAL</Name>

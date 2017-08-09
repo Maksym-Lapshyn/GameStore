@@ -4,9 +4,9 @@
 	{
 		public int Id { get; set; }
 
-		public int GameId { get; set; }
-
 		public GameDto Game { get; set; }
+
+		public string GameKey { get; set; }
 
 		public decimal Price { get; set; }
 

@@ -36,9 +36,26 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MongoDB.Bson.2.4.4\lib\net45\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MongoDB.Driver.2.4.4\lib\net45\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -49,10 +66,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IRepository.cs" />
-    <Compile Include="Abstract\IUnitOfWork.cs" />
-    <Compile Include="Concrete\Repository.cs" />
-    <Compile Include="Concrete\UnitOfWork.cs" />
+    <Compile Include="Abstract\ICopier.cs" />
+    <Compile Include="Abstract\Common\ICommentRepository.cs" />
+    <Compile Include="Abstract\Common\IGameRepository.cs" />
+    <Compile Include="Abstract\Common\IGenreRepository.cs" />
+    <Compile Include="Abstract\Common\IOrderRepository.cs" />
+    <Compile Include="Abstract\Common\IPlatformTypeRepository.cs" />
+    <Compile Include="Abstract\Common\IPublisherRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfCommentRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfGameRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfGenreRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfOrderRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfPlatformTypeRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfPublisherRepository.cs" />
+    <Compile Include="Abstract\IFilter.cs" />
+    <Compile Include="Abstract\IFilterMapper.cs" />
+    <Compile Include="Abstract\ILogContainer.cs" />
+    <Compile Include="Abstract\ILogger.cs" />
+    <Compile Include="Abstract\IPipeLine.cs" />
+    <Compile Include="Abstract\ISynchronizer.cs" />
+    <Compile Include="Abstract\Common\IUnitOfWork.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoOrderRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
+    <Compile Include="Concrete\Common\CommentRepository.cs" />
+    <Compile Include="Concrete\GameCopier.cs" />
+    <Compile Include="Concrete\GenreCopier.cs" />
+    <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
+    <Compile Include="Concrete\PublisherCopier.cs" />
+    <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfGameRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfGenreRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfOrderRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfPlatformTypeRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfPublisherRepository.cs" />
+    <Compile Include="Concrete\MongoGameLogger.cs" />
+    <Compile Include="Concrete\MongoGameSynchronizer.cs" />
+    <Compile Include="Concrete\MongoDb\MongoOrderRepository.cs" />
+    <Compile Include="Concrete\Common\GameRepository.cs" />
+    <Compile Include="Concrete\GameFilterMapper.cs" />
+    <Compile Include="Concrete\GamePipeline.cs" />
+    <Compile Include="Concrete\Common\GenreRepository.cs" />
+    <Compile Include="Concrete\MongoDb\MongoGameRepository.cs" />
+    <Compile Include="Concrete\MongoDb\MongoGenreRepository.cs" />
+    <Compile Include="Concrete\MongoDb\MongoPublisherRepository.cs" />
+    <Compile Include="Concrete\MongoDb\MongoShipperRepository.cs" />
+    <Compile Include="Concrete\Common\OrderRepository.cs" />
+    <Compile Include="Concrete\Common\PublisherRepository.cs" />
+    <Compile Include="Concrete\Common\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
@@ -63,12 +126,37 @@
     <Compile Include="Entities\OrderDetails.cs" />
     <Compile Include="Entities\PlatformType.cs" />
     <Compile Include="Entities\Publisher.cs" />
+    <Compile Include="Entities\Shipper.cs" />
+    <Compile Include="Concrete\Filters\DateOptionsFilter.cs" />
+    <Compile Include="Concrete\Filters\GameNameFilter.cs" />
+    <Compile Include="Concrete\Filters\GenreFilter.cs" />
+    <Compile Include="Concrete\Filters\MaxPriceFilter.cs" />
+    <Compile Include="Concrete\Filters\MinPriceFilter.cs" />
+    <Compile Include="Concrete\Filters\PlatformTypeFilter.cs" />
+    <Compile Include="Concrete\Filters\PublisherFilter.cs" />
+    <Compile Include="Concrete\Filters\SortOptionsFilter.cs" />
+    <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
+    <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
+    <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />
+    <Compile Include="Infrastructure\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\GameFilter.cs" />
+    <Compile Include="Concrete\GameLogContainer.cs" />
+    <Compile Include="Infrastructure\OrderFilter.cs" />
+    <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\StringOrInt32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
+      <Project>{2567104D-41D6-43B6-94FE-51F1FE8F6407}</Project>
+      <Name>GameStore.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

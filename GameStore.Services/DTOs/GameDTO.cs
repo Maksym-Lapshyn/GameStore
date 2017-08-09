@@ -10,17 +10,21 @@ namespace GameStore.Services.DTOs
 			GenresData = new List<GenreDto>();
 			PlatformTypesData = new List<PlatformTypeDto>();
 			PublishersData = new List<PublisherDto>();
-			GenresInput = new List<int>();
-			PlatformTypesInput = new List<int>();
+			GenresInput = new List<string>();
+			PlatformTypesInput = new List<string>();
 		}
 
 		public int Id { get; set; }
+
+		public string NorthwindId { get; set; }
 
 		public string Key { get; set; }
 
 		public string Name { get; set; }
 
 		public string Description { get; set; }
+
+		public bool IsUpdated { get; set; }
 
 		public decimal Price { get; set; }
 
@@ -42,10 +46,10 @@ namespace GameStore.Services.DTOs
 
 		public List<PublisherDto> PublishersData { get; set; }
 
-		public int PublisherInput { get; set; }
+		public string PublisherInput { get; set; }
 
-		public List<int> GenresInput { get; set; }
+		public List<string> GenresInput { get; set; }
 
-		public List<int> PlatformTypesInput { get; set; }
+		public List<string> PlatformTypesInput { get; set; }
 	}
 }

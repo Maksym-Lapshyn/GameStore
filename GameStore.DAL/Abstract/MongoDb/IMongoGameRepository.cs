@@ -1,0 +1,12 @@
+﻿using GameStore.DAL.Entities;
+using System.Linq;
+
+namespace GameStore.DAL.Abstract.MongoDb
+{
+	public interface IMongoGameRepository
+	{
+		IQueryable<Game> GetAll();
+
+		Game GetSingle(string gameKey);
+	}
+}

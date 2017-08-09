@@ -6,17 +6,33 @@ namespace GameStore.Web.Infrastructure.Helpers
 {
 	public static class CustomHelpers
 	{
-		public static MvcHtmlString CreateCheckbox(this HtmlHelper helper, string propertyName, string name, int id, List<int> selectedItems)
+		public static MvcHtmlString CreateCheckbox(this HtmlHelper helper, string propertyName, string name, List<string> selectedItems)
 		{
 			var div = new TagBuilder("div");
 
-			if (selectedItems.Contains(id))
+			if (selectedItems.Contains(name))
 			{
-				div.InnerHtml += $"<p><label for={name}><input type='checkbox' id={name} name={propertyName} value={id} checked /> " + name + "</label></p>";
+				div.InnerHtml += $"<p><label for=\"{name}\"><input type='checkbox' id=\"{name}\" name=\"{propertyName}\" value=\"{name}\" checked /> " + name + "</label></p>";
 			}
 			else
 			{
-				div.InnerHtml += $"<p><label for={name}><input type='checkbox' id={name} name={propertyName} value={id} /> " + name + "</label></p>";
+				div.InnerHtml += $"<p><label for=\"{name}\"><input type='checkbox' id=\"{name}\" name=\"{propertyName}\" value=\"{name}\" /> " + name + "</label></p>";
+			}
+
+			return new MvcHtmlString(div.InnerHtml);
+		}
+
+		public static MvcHtmlString CreateRadioButton(this HtmlHelper helper, string propertyName, string name, string selectedItem)
+		{
+			var div = new TagBuilder("div");
+
+			if (name == selectedItem)
+			{
+				div.InnerHtml += $"<p><label for=\"{name}\"><input type='radio' id=\"{name}\" name=\"{propertyName}\" value=\"{name}\" checked /> " + name + "</label></p>";
+			}
+			else
+			{
+				div.InnerHtml += $"<p><label for=\"{name}\"><input type='radio' id=\"{name}\" name=\"{propertyName}\" value=\"{name}\" /> " + name + "</label></p>";
 			}
 
 			return new MvcHtmlString(div.InnerHtml);

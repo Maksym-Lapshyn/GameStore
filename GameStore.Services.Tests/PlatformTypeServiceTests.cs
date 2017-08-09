@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
@@ -15,15 +15,15 @@ namespace GameStore.Services.Tests
 	{
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
-		private Mock<IUnitOfWork> _mockOfUow;
+		private Mock<IPlatformTypeRepository> _mockOfPlatformTypeRepository;
 		private PlatformTypeService _target;
 		private List<PlatformType> _platformTypes;
 		
 		[TestInitialize]
 		public void Initialize()
 		{
-			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new PlatformTypeService(_mockOfUow.Object, _mapper);
+			_mockOfPlatformTypeRepository = new Mock<IPlatformTypeRepository>();
+			_target = new PlatformTypeService(_mapper, _mockOfPlatformTypeRepository.Object);
 		}
 
 		[TestMethod]
@@ -36,7 +36,7 @@ namespace GameStore.Services.Tests
 				new PlatformType()
 			};
 
-			_mockOfUow.Setup(m => m.PlatformTypeRepository.Get()).Returns(_platformTypes.AsQueryable);
+			_mockOfPlatformTypeRepository.Setup(m => m.GetAll()).Returns(_platformTypes);
 
 			var result = _target.GetAll().ToList().Count;
 

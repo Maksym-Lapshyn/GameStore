@@ -3,7 +3,7 @@ using GameStore.Services.DTOs;
 
 namespace GameStore.Services.Abstract
 {
-	public interface ICommentService
+	public interface ICommentService : IService
 	{
 		IEnumerable<CommentDto> GetBy(string gameKey);
 

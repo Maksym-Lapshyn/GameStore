@@ -6,7 +6,14 @@ namespace GameStore.Web.Models
 {
 	public class PublisherViewModel
 	{
+		public PublisherViewModel()
+		{
+			Publishers = new List<PublisherViewModel>();
+		}
+
 		public int Id { get; set; }
+
+		public string NorthwindId { get; set; }
 
 		[Required]
 		[DisplayName("Company Name")]
@@ -19,6 +26,6 @@ namespace GameStore.Web.Models
 		[DisplayName("Home Page")]
 		public string HomePage { get; set; }
 
-		public List<GameViewModel> Games { get; set; }
+		public List<PublisherViewModel> Publishers { get; set; }
 	}
 }

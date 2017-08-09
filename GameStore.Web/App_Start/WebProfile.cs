@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Services.Dtos;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 
@@ -22,7 +23,9 @@ namespace GameStore.Web
 
 			CreateMap<OrderDetailsDto, OrderDetailsViewModel>().ReverseMap();
 
-			CreateMap<FilterDto, FilterViewModel>().ReverseMap();
+			CreateMap<GameFilterDto, GameFilterViewModel>().ReverseMap();
+
+			CreateMap<OrderFilterDto, OrderFilterViewModel>().ReverseMap();
 		}
 	}
 }

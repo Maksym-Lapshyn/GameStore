@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
@@ -15,15 +15,15 @@ namespace GameStore.Services.Tests
 	{
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
-		private Mock<IUnitOfWork> _unitOfUow;
+		private Mock<IGenreRepository> _mockOfGenreRepository;
 		private GenreService _target;
 		private List<Genre> _genres;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			_unitOfUow = new Mock<IUnitOfWork>();
-			_target = new GenreService(_unitOfUow.Object, _mapper);
+			_mockOfGenreRepository = new Mock<IGenreRepository>();
+			_target = new GenreService(_mapper, _mockOfGenreRepository.Object);
 		}
 
 		[TestMethod]
@@ -36,7 +36,7 @@ namespace GameStore.Services.Tests
 				new Genre()
 			};
 
-			_unitOfUow.Setup(m => m.GenreRepository.Get()).Returns(_genres.AsQueryable);
+			_mockOfGenreRepository.Setup(m => m.GetAll()).Returns(_genres);
 
 			var result = _target.GetAll().ToList().Count;
 

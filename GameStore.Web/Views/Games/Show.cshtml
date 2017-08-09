@@ -1,0 +1,52 @@
+﻿@model GameStore.Web.Models.GameViewModel
+
+@{
+	ViewBag.Title = "Show Game";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show Game</h1>
+<b>@Html.LabelFor(m => m.Key)</b>
+<p>@Html.DisplayFor(m => m.Key)</p>
+<b>@Html.LabelFor(m => m.Name)</b>
+<p>@Html.DisplayFor(m => m.Name)</p>
+<b>@Html.LabelFor(m => m.Description)</b>
+<p>@Html.DisplayFor(m => m.Description)</p>
+<b>@Html.LabelFor(m => m.Price)</b>
+<p>@Html.DisplayFor(m => m.Price)</p>
+<b>@Html.LabelFor(m => m.UnitsInStock)</b>
+<p>@Html.DisplayFor(m => m.UnitsInStock)</p>
+<b>@Html.LabelFor(m => m.Discontinued)</b>
+<p>@Html.DisplayFor(m => m.Discontinued)</p>
+
+@if (Model.PlatformTypesInput.Count != 0)
+{
+	<b>@Html.LabelFor(m => m.PlatformTypesInput)</b>
+	foreach (var platformType in Model.PlatformTypesInput)
+	{
+		<p>@platformType</p>
+	}
+}
+
+@if (Model.GenresInput.Count != 0)
+{
+	<b>@Html.LabelFor(m => m.GenresInput)</b>
+	foreach (var name in Model.GenresInput)
+	{
+		<p>@name</p>
+	}
+}
+
+@if (Model.PublisherInput != null)
+{
+	<b>@Html.LabelFor(m => m.PublisherInput)</b>
+	<p>@Html.ActionLink(Model.PublisherInput, "Show", "Publishers", new { key = Model.PublisherInput }, null)</p>
+}
+
+@Html.ActionLink("Download", "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
+
+@Html.ActionLink("Comments", "NewComment", "Comments", new { key = Model.Key }, new { @class = "btn btn-default" })
+
+@Html.ActionLink("Buy", "Buy", "Orders", new { key = Model.Key }, new { @class = "btn btn-default" })
+
+@Html.ActionLink("Update", "Update", "Games", new {key = Model.Key}, new { @class = "btn btn-default" })
