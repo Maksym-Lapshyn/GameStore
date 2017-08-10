@@ -14,5 +14,7 @@ namespace GameStore.Services.Abstract
 		void Update(PublisherDto publisherDto);
 
 		void Delete(string companyName);
+
+		bool Contains(string gameKey);
 	}
 }

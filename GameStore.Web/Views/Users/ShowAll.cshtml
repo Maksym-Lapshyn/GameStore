@@ -1,0 +1,16 @@
+﻿@model List<GameStore.Web.Models.UserViewModel>
+
+@{
+	ViewBag.Title = "Show All Users";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show All Users</h1>
+
+@foreach (var user in Model)
+{
+	<b>@Html.LabelFor(m => user.Name)</b>
+	<p>@Html.ActionLink(user.Name, "Show", "Users", new { key = user.Name }, null)</p>
+}
+
+@Html.ActionLink("Create new", "New", "Users", null, new { @class = "btn btn-default" })

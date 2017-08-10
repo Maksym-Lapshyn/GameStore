@@ -11,18 +11,21 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
+		private readonly IRoleRepository _roleRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public UserService(IMapper mapper, IUserRepository userRepository, IUnitOfWork unitOfWork)
+		public UserService(IMapper mapper, IUserRepository userRepository, IRoleRepository roleRepository, IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_userRepository = userRepository;
+			_roleRepository = roleRepository;
 			_unitOfWork = unitOfWork;
 		}
 
 		public void Create(UserDto userDto)
 		{
 			var user = _mapper.Map<UserDto, User>(userDto);
+			user = MapEmbeddedEntities(userDto, user);
 			_userRepository.Create(user);
 			_unitOfWork.Save();
 		}
@@ -45,6 +48,7 @@ namespace GameStore.Services.Concrete
 		{
 			var user = _userRepository.GetSingle(userDto.Name);
 			user = _mapper.Map(userDto, user);
+			user = MapEmbeddedEntities(userDto, user);
 			_userRepository.Update(user);
 			_unitOfWork.Save();
 		}
@@ -55,6 +59,13 @@ namespace GameStore.Services.Concrete
 			user.IsDeleted = true;
 			_userRepository.Update(user);
 			_unitOfWork.Save();
+		}
+
+		public User MapEmbeddedEntities(UserDto input, User result)
+		{
+			input.RolesInput.ForEach(r => result.Roles.Add(_roleRepository.GetSingle(r)));
+
+			return result;
 		}
 	}
 }

@@ -102,24 +102,6 @@ namespace GameStore.Services.Concrete
 			return _gameRepository.GetAll().Count();
 		}
 
-		public IEnumerable<GameDto> GetAll(string genreName)
-		{
-			var games = _gameRepository
-				.GetAll().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
-			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
-
-			return gameDtOs;
-		}
-
-		public IEnumerable<GameDto> GetAll(IEnumerable<string> platformTypeNames)
-		{
-			var allGames = _gameRepository.GetAll();
-			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game);
-			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
-
-			return gameDtOs;
-		}
-
 		private Game ConvertToPoco(Game game)
 		{
 			var gameDto = _mapper.Map<Game, GameDto>(game);
@@ -136,6 +118,11 @@ namespace GameStore.Services.Concrete
 			result.Publisher = _publisherRepository.GetSingle(input.PublisherInput);
 
 			return result;
+		}
+
+		public bool Contains(string gameKey)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

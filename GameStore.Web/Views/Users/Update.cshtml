@@ -9,6 +9,9 @@
 <h1>Update Genre</h1>
 @using (Html.BeginForm("Update", "Genres", FormMethod.Post))
 {
+	@Html.HiddenFor(m => m.Id)
+	@Html.HiddenFor(m => m.NorthwindId)
+	@Html.HiddenFor(m => m.IsDeleted)
 	<b>@Html.LabelFor(m => m.Name)</b>
 	<p>
 		@Html.DisplayFor(m => m.Name)

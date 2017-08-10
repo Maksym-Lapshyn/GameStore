@@ -54,6 +54,7 @@ namespace GameStore.Web.Controllers
 			return View(allOrdersModel);
 		}
 
+		[HttpPost]
 		public ActionResult History(AllOrdersViewModel allOrdersViewModel)
 		{
 			if (!ModelState.IsValid)

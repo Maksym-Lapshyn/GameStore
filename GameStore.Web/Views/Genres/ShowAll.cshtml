@@ -1,0 +1,16 @@
+﻿@model List<GameStore.Web.Models.GenreViewModel>
+
+@{
+	ViewBag.Title = "Show All Genres";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Show All Genres</h1>
+
+@foreach (var genre in Model)
+{
+	<b>@Html.LabelFor(m => genre.Name)</b>
+	<p>@Html.ActionLink(genre.Name, "Show", "Genres", new {key = genre.Name}, null)</p>
+}
+
+@Html.ActionLink("Create new", "New", "Genres", null, new { @class = "btn btn-default" })

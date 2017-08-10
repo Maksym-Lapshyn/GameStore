@@ -2,6 +2,7 @@
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using GameStore.Web.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
@@ -37,7 +38,7 @@ namespace GameStore.Web.Controllers
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
 			_roleService.Create(roleDto);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 
 		[HttpGet]
@@ -60,7 +61,7 @@ namespace GameStore.Web.Controllers
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
 			_roleService.Update(roleDto);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 
 		public ActionResult Show(string key)
@@ -75,7 +76,15 @@ namespace GameStore.Web.Controllers
 		{
 			_roleService.Delete(key);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
+		}
+
+		public ActionResult ShowAll()
+		{
+			var roleDtos = _roleService.GetAll();
+			var roleViewModels = _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(roleDtos);
+
+			return View(roleViewModels);
 		}
 	}
 }

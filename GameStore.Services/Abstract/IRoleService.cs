@@ -14,5 +14,7 @@ namespace GameStore.Services.Abstract
 		void Create(RoleDto role);
 
 		void Delete(string name);
+
+		bool Contains(string gameKey);
 	}
 }

@@ -4,6 +4,7 @@ using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -11,14 +12,17 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IMapper _mapper;
 		private readonly IGenreRepository _genreRepository;
+		private readonly IGameRepository _gameRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
 		public GenreService(IMapper mapper,
 			IGenreRepository genreRepository,
+			IGameRepository gameRepository,
 			IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_genreRepository = genreRepository;
+			_gameRepository = gameRepository;
 			_unitOfWork = unitOfWork;
 		}
 
@@ -51,6 +55,7 @@ namespace GameStore.Services.Concrete
 			var genre = _genreRepository.GetSingle(genreDto.Name);
 			genre = MapEmbeddedEntities(genreDto, genre);
 			genre = _mapper.Map(genreDto, genre);
+			genre.Games = _gameRepository.GetAll().Where(game => game.Genres.Any(g => g.Name == genreDto.Name)).ToList();
 			_genreRepository.Update(genre);
 			_unitOfWork.Save();
 		}

@@ -23,7 +23,7 @@ namespace GameStore.Web.Controllers
 
 			if (user != null)
 			{
-				return RedirectToAction("ListAll", "Games");
+				return RedirectToAction("ShowAll", "Games");
 			}
 
 			ModelState.AddModelError("Password", "Passwords do not match");
@@ -34,7 +34,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult Logout()
 		{
 			Auth.LogOut();
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 	}
 }

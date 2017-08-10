@@ -16,6 +16,7 @@ namespace GameStore.Services.Tests
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private Mock<IGenreRepository> _mockOfGenreRepository;
+		private Mock<IGameRepository> _mockOfGameRepository;
 		private Mock<IUnitOfWork> _mockOfUow;
 		private GenreService _target;
 		private List<Genre> _genres;
@@ -24,8 +25,9 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfGenreRepository = new Mock<IGenreRepository>();
+			_mockOfGameRepository = new Mock<IGameRepository>();
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new GenreService(_mapper, _mockOfGenreRepository.Object, _mockOfUow.Object);
+			_target = new GenreService(_mapper, _mockOfGenreRepository.Object, _mockOfGameRepository.Object, _mockOfUow.Object);
 		}
 
 		[TestMethod]

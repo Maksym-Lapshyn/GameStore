@@ -4,6 +4,7 @@ using GameStore.DAL.Abstract.Common;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -11,12 +12,14 @@ namespace GameStore.Services.Concrete
 	{
 		private readonly IMapper _mapper;
 		private readonly IRoleRepository _roleRepository;
+		private readonly IUserRepository _userRepository;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public RoleService(IMapper mapper, IRoleRepository roleRepository, IUnitOfWork unitOfWork)
+		public RoleService(IMapper mapper, IRoleRepository roleRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_roleRepository = roleRepository;
+			_userRepository = userRepository;
 			_unitOfWork = unitOfWork;
 		}
 
@@ -45,6 +48,7 @@ namespace GameStore.Services.Concrete
 		{
 			var role = _roleRepository.GetSingle(roleDto.Name);
 			role = _mapper.Map(roleDto, role);
+			role.Users = _userRepository.GetAll().Where(u => u.Roles.Any(r => r.Name == roleDto.Name)).ToList();
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
 		}

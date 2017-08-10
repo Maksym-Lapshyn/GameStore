@@ -23,15 +23,13 @@ namespace GameStore.Authentification.Concrete
 			_userIdentity.User = repository.GetSingle(name);
 		}
 
-		public bool IsInRole(string roles)
+		public bool IsInRole(string accessLevels)
 		{
 			if (_userIdentity.User?.Name != null)
 			{
-				var rolesArray = roles.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-				return rolesArray.Any(
-					r =>
-						string.Equals(Enum.GetName(typeof(AccessLevel), _userIdentity.User.Role.AccessLevel), r,
-							StringComparison.CurrentCultureIgnoreCase));
+				var accessLevelsArray = accessLevels.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+				return accessLevelsArray.Any(roleName => _userIdentity.User.Roles.
+					Any(role => string.Equals(Enum.GetName(typeof(AccessLevel), role.AccessLevel), roleName, StringComparison.CurrentCultureIgnoreCase)));
 			}
 
 			return false;

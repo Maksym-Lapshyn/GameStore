@@ -39,7 +39,7 @@ namespace GameStore.Web.Controllers
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
 			_genreService.Create(genreDto);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 
 		[HttpGet]
@@ -62,7 +62,7 @@ namespace GameStore.Web.Controllers
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
 			_genreService.Update(genreDto);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 
 		public ActionResult Show(string key)
@@ -77,7 +77,15 @@ namespace GameStore.Web.Controllers
 		{
 			_genreService.Delete(key);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
+		}
+
+		public ActionResult ShowAll()
+		{
+			var genreDtos = _genreService.GetAll();
+			var genreViewModels = _mapper.Map<IEnumerable<GenreDto>, IEnumerable<GenreViewModel>>(genreDtos);
+
+			return View(genreViewModels);
 		}
 
 		private List<GenreViewModel> GetGenres()

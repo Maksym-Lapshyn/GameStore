@@ -14,5 +14,7 @@ namespace GameStore.Services.Abstract
 		void Update(UserDto userDto);
 
 		void Delete(string name);
+
+		bool Contains(string gameKey);
 	}
 }

@@ -1,17 +1,24 @@
-﻿@model GameStore.Web.Models.GenreViewModel
+﻿@model GameStore.Web.Models.UserViewModel
 
 @{
-	ViewBag.Title = "Show Genre";
+	ViewBag.Title = "Show User";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Show Genre</h1>
+<h1>Show User</h1>
 <b>@Html.LabelFor(m => m.Name)</b>
 <p>@Html.DisplayFor(m => m.Name)</p>
-@if (Model.ParentGenreInput != null)
+<b>@Html.LabelFor(m => m.RolesInput)</b>
+@if (Model.RolesInput.Count != 0)
 {
-	<b>@Html.LabelFor(m => m.ParentGenreInput)</b>
-	<p>@Html.DisplayFor(m => m.ParentGenreInput)</p>
+	foreach (var name in Model.RolesInput)
+	{
+		<p>@Html.ActionLink(name, "Show", "Roles", new { key = name }, null)</p>
+	}
+}
+else
+{
+	<p>Guest</p>
 }
 
-@Html.ActionLink("Update", "Update", "Genres", new { key = Model.Name }, new { @class = "btn btn-default" })
+@Html.ActionLink("Update", "Update", "Users", new { key = Model.Name }, new { @class = "btn btn-default" })

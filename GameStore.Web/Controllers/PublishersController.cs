@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using GameStore.Web.Models;
@@ -35,7 +36,7 @@ namespace GameStore.Web.Controllers
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
 			_publisherService.Create(publisherDto);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 
 		[HttpGet]
@@ -58,7 +59,7 @@ namespace GameStore.Web.Controllers
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
 			_publisherService.Update(publisherDto);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 
 		public ActionResult Show(string key)
@@ -73,7 +74,15 @@ namespace GameStore.Web.Controllers
 		{
 			_publisherService.Delete(key);
 
-			return RedirectToAction("ListAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
+		}
+
+		public ActionResult ShowAll()
+		{
+			var publisherDtos = _publisherService.GetAll();
+			var publisherViewModel = _mapper.Map<IEnumerable<PublisherDto>, IEnumerable<PublisherViewModel>>(publisherDtos);
+
+			return View(publisherViewModel);
 		}
 	}
 }

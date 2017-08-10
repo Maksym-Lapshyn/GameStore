@@ -14,7 +14,7 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"GetAllGames",
 				"games",
-				new { controller = "Games", action = "ListAll" }
+				new { controller = "Games", action = "ShowAll" }
 			);
 
 			routes.MapRoute(
@@ -32,7 +32,7 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"DisplayPublisher1",
 				"{controller}/{action}",
-				new { controller = "Games", action = "ListAll" },
+				new { controller = "Games", action = "ShowAll" },
 				new { action = "New|History|Update|Remove|ShowCount" }
 			);
 
@@ -45,7 +45,7 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"Default",
 				"{controller}/{action}",
-				new { controller = "Games", action = "ListAll" }
+				new { controller = "Games", action = "ShowAll" }
 			);
 		}
 	}

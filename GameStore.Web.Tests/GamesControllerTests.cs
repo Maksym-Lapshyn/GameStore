@@ -130,7 +130,7 @@ namespace GameStore.Web.Tests
 		{
 			var model = new AllGamesViewModel();
 
-			var result = ((ViewResult)_target.ListAll(model)).Model;
+			var result = ((ViewResult)_target.ShowAll(model)).Model;
 
 			Assert.IsInstanceOfType(result, typeof(AllGamesViewModel));
 		}

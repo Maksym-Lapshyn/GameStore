@@ -4,6 +4,7 @@ using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -12,14 +13,17 @@ namespace GameStore.Services.Concrete
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IPublisherRepository _publisherRepository;
+		private readonly IGameRepository _gameRepository;
 
 		public PublisherService(IUnitOfWork unitOfWork,
 			IMapper mapper,
-			IPublisherRepository publisherRepository)
+			IPublisherRepository publisherRepository,
+			IGameRepository gameRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_publisherRepository = publisherRepository;
+			_gameRepository = gameRepository;
 		}
 
 		public void Create(PublisherDto publisherDto)
@@ -49,6 +53,7 @@ namespace GameStore.Services.Concrete
 		{
 			var publisher = _publisherRepository.GetSingle(publisherDto.CompanyName);
 			_mapper.Map(publisherDto, publisher);
+			publisher.Games = _gameRepository.GetAll().Where(g => g.Publisher.CompanyName == publisher.CompanyName).ToList();
 			_publisherRepository.Update(publisher);
 			_unitOfWork.Save();
 		}

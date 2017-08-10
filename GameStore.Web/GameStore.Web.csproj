@@ -215,9 +215,9 @@
     <Content Include="Views\Publishers\Show.cshtml" />
     <Content Include="Views\Publishers\New.cshtml" />
     <Content Include="Views\Orders\Show.cshtml" />
-    <Content Include="Views\Comments\ListAllChilds.cshtml" />
-    <Content Include="Views\Games\ListAll.cshtml" />
-    <Content Include="Views\Orders\ListAll.cshtml" />
+    <Content Include="Views\Comments\ShowAllChilds.cshtml" />
+    <Content Include="Views\Games\ShowAll.cshtml" />
+    <Content Include="Views\Orders\History.cshtml" />
     <Content Include="Views\Games\Update.cshtml" />
     <Content Include="Views\Publishers\Update.cshtml" />
     <Content Include="Views\Genres\New.cshtml" />
@@ -230,6 +230,10 @@
     <Content Include="Views\Roles\New.cshtml" />
     <Content Include="Views\Roles\Show.cshtml" />
     <Content Include="Views\Roles\Update.cshtml" />
+    <Content Include="Views\Genres\ShowAll.cshtml" />
+    <Content Include="Views\Publishers\ShowAll.cshtml" />
+    <Content Include="Views\Roles\ShowAll.cshtml" />
+    <Content Include="Views\Users\ShowAll.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,4 +1,6 @@
-﻿namespace GameStore.Common.Entities
+﻿using System.Collections.Generic;
+
+namespace GameStore.Common.Entities
 {
 	public class User : BaseEntity
 	{
@@ -6,6 +8,6 @@
 
 		public string Password { get; set; }
 		
-		public virtual Role Role { get; set; }
+		public virtual ICollection<Role> Roles { get; set; }
 	}
 }

@@ -2,13 +2,13 @@
 @model GameStore.Web.Models.AllGamesViewModel
 
 @{
-	ViewBag.Title = "List All";
+	ViewBag.Title = "Show All Games";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>List All</h1>
+<h1>Show All Games</h1>
 
-@using (Html.BeginForm("ListAll", "Games", FormMethod.Get, new { id = "gameForm" }))
+@using (Html.BeginForm("ShowAll", "Games", FormMethod.Get, new { id = "gameForm" }))
 {
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -110,7 +110,7 @@
 		<div class="panel-footer">
 			<p>
 				<button type="button" class="btn btn-default" id="applyFilter">Filter</button>
-				@Html.ActionLink("Reset", "ListAll", null, new { @class = "btn btn-warning" })
+				@Html.ActionLink("Reset", "ShowAll", null, new { @class = "btn btn-warning" })
 			</p>
 		</div>
 	</div>
@@ -123,9 +123,9 @@
 {
 	<b>@Html.LabelFor(m => game.Key)</b>
 	<p>@Html.DisplayFor(m => game.Key)</p>
-		<b>@Html.LabelFor(m => game.Name)</b>
-		<p>@Html.ActionLink(game.Name, "Show", "Games", new { key = game.Key }, null)</p>
-		<b>@Html.LabelFor(m => game.Description)</b>
+	<b>@Html.LabelFor(m => game.Name)</b>
+	<p>@Html.ActionLink(game.Name, "Show", "Games", new { key = game.Key }, null)</p>
+		/*<b>@Html.LabelFor(m => game.Description)</b>
 		<p>@Html.DisplayFor(m => game.Description)</p>
 		<b>@Html.LabelFor(m => game.Price)</b>
 		<p>@Html.DisplayFor(m => game.Price)</p>
@@ -168,10 +168,12 @@
 	else
 	{
 		<p>Unknown</p>
-	}
+	}*/
 
 	<hr />
 }
+
+@Html.ActionLink("Create new", "New", "Games", null, new { @class = "btn btn-default" })
 
 @if (Model.EndPage > 1)
 {

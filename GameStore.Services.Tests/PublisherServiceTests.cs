@@ -19,6 +19,7 @@ namespace GameStore.Services.Tests
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 		private Mock<IUnitOfWork> _mockOfUow;
 		private Mock<IPublisherRepository> _mockOfPublisherRepository;
+		private Mock<IGameRepository> _mockOfGameRepository;
 		private PublisherService _target;
 		private List<Publisher> _publishers;
 
@@ -27,7 +28,8 @@ namespace GameStore.Services.Tests
 		{
 			_mockOfUow = new Mock<IUnitOfWork>();
 			_mockOfPublisherRepository = new Mock<IPublisherRepository>();
-			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfPublisherRepository.Object);
+			_mockOfGameRepository = new Mock<IGameRepository>();
+			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfPublisherRepository.Object, _mockOfGameRepository.Object);
 		}
 
 		[TestMethod]

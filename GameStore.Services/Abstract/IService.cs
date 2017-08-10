@@ -8,12 +8,14 @@ namespace GameStore.Services.Abstract
 	{
 		void Create(T dto);
 
-		T GetSingle(Func<T, bool> predicate = null);
+		T GetSingle(Func<T, bool> predicate);
 
 		IEnumerable<T> GetAll(Func<T, bool> predicate = null);
 
 		void Update(T userDto);
 
 		void Delete(string name);
+
+		bool Contains(string gameKey);
 	}
 }

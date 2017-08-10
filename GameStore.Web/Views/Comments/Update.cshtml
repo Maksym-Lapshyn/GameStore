@@ -1,5 +1,4 @@
-﻿@using GameStore.Web.Infrastructure.Helpers
-@model GameStore.Web.Models.CommentViewModel
+﻿@model GameStore.Web.Models.CommentViewModel
 
 @{
 	ViewBag.Title = "Update Comment";
@@ -11,6 +10,8 @@
 {
 	@Html.HiddenFor(m => m.GameKey)
 	@Html.HiddenFor(m => m.Id)
+	@Html.HiddenFor(m => m.NorthwindId)
+	@Html.HiddenFor(m => m.IsDeleted)
 	@Html.HiddenFor(m => m.ParentCommentId)
 	<b>@Html.LabelFor(m => m.Name)</b>
 	<p>

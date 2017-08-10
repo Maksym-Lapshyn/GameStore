@@ -55,7 +55,7 @@ namespace GameStore.Web.Controllers
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(gameViewModel);
 			_gameService.Create(gameDto);
 
-			return RedirectToAction("ListAll");
+			return RedirectToAction("ShowAll");
 		}
 
 		[HttpGet]
@@ -81,7 +81,7 @@ namespace GameStore.Web.Controllers
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(gameViewModel);
 			_gameService.Update(gameDto);
 
-			return RedirectToAction("ListAll");
+			return RedirectToAction("ShowAll");
 		}
 
 		public ActionResult Show(string key)
@@ -93,7 +93,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ListAll(AllGamesViewModel model)
+		public ActionResult ShowAll(AllGamesViewModel model)
 		{
 			if (!ModelState.IsValid && model.FilterIsChanged)
 			{
@@ -128,7 +128,7 @@ namespace GameStore.Web.Controllers
 		{
 			_gameService.Delete(key);
 
-			return RedirectToAction("ListAll");
+			return RedirectToAction("ShowAll");
 		}
 
 		[OutputCache(Duration = 60)]

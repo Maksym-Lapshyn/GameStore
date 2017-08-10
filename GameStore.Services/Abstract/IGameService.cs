@@ -5,10 +5,6 @@ namespace GameStore.Services.Abstract
 {
 	public interface IGameService
 	{
-		IEnumerable<GameDto> GetAll(string genreName);
-
-		IEnumerable<GameDto> GetAll(IEnumerable<string> platformTypeNames);
-
 		int GetCount(GameFilterDto gameFilter = null);
 
 		GameDto GetSingle(string gameKey);
@@ -20,5 +16,7 @@ namespace GameStore.Services.Abstract
 		void Delete(string gameKey);
 
 		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null);
+
+		bool Contains(string gameKey);
 	}
 }
