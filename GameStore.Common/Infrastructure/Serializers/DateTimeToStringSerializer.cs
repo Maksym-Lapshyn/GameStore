@@ -1,9 +1,9 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using System;
+﻿using System;
 using System.Globalization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 
-namespace GameStore.DAL.Infrastructure.Serializers
+namespace GameStore.Common.Infrastructure.Serializers
 {
 	public class DateTimeToStringSerializer : IBsonSerializer
 	{

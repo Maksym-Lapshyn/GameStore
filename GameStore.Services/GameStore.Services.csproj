@@ -55,7 +55,6 @@
     <Compile Include="Abstract\IPlatformTypeService.cs" />
     <Compile Include="Abstract\IPublisherService.cs" />
     <Compile Include="Abstract\IRoleService.cs" />
-    <Compile Include="Abstract\IService.cs" />
     <Compile Include="Abstract\IUserService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
     <Compile Include="Concrete\GameService.cs" />

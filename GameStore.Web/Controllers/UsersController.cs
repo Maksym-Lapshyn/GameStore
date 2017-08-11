@@ -93,7 +93,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult ShowAll()
 		{
 			var userDtos = _userService.GetAll();
-			var userViewModels = _mapper.Map<IEnumerable<UserDto>, IEnumerable<UserViewModel>>(userDtos);
+			var userViewModels = _mapper.Map<IEnumerable<UserDto>, List<UserViewModel>>(userDtos);
 
 			return View(userViewModels);
 		}

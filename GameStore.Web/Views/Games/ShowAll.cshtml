@@ -1,5 +1,5 @@
 ﻿@using GameStore.Web.Infrastructure.Helpers
-@model GameStore.Web.Models.AllGamesViewModel
+@model GameStore.Web.Models.CompositeGamesViewModel
 
 @{
 	ViewBag.Title = "Show All Games";
@@ -173,7 +173,7 @@
 	<hr />
 }
 
-@Html.ActionLink("Create new", "New", "Games", null, new { @class = "btn btn-default" })
+<p>@Html.ActionLink("Create new", "New", "Games", null, new { @class = "btn btn-default" })</p>
 
 @if (Model.EndPage > 1)
 {

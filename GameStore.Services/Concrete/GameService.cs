@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
@@ -61,7 +61,7 @@ namespace GameStore.Services.Concrete
 
 		public GameDto GetSingle(string gameKey)
 		{
-			var game = _gameRepository.GetSingle(gameKey);
+			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
 			game = ConvertToPoco(game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
@@ -113,16 +113,16 @@ namespace GameStore.Services.Concrete
 
 		private Game MapEmbeddedEntities(GameDto input, Game result)
 		{
-			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(n)));
-			input.PlatformTypesInput.ForEach(p => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p)));
-			result.Publisher = _publisherRepository.GetSingle(input.PublisherInput);
+			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(g => g.Name == n)));
+			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.Type == t)));
+			result.Publisher = _publisherRepository.GetSingle(p => p.CompanyName == input.PublisherInput);
 
 			return result;
 		}
 
 		public bool Contains(string gameKey)
 		{
-			throw new NotImplementedException();
+			return _gameRepository.Contains(g => g.Key == gameKey);
 		}
 	}
 }

@@ -179,9 +179,9 @@
     <Compile Include="Infrastructure\Helpers\CustomHelpers.cs" />
     <Compile Include="Infrastructure\Modules\AuthHttpModule.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
-    <Compile Include="Models\AllCommentsViewModel.cs" />
-    <Compile Include="Models\AllGamesViewModel.cs" />
-    <Compile Include="Models\AllOrdersViewModel.cs" />
+    <Compile Include="Models\CompositeCommentsViewModel.cs" />
+    <Compile Include="Models\CompositeGamesViewModel.cs" />
+    <Compile Include="Models\CompositeOrdersViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\GameFilterViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />

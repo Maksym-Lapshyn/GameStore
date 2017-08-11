@@ -8,9 +8,9 @@ namespace GameStore.Authentification.Abstract
 	{
 		HttpContext HttpContext { get; set; }
 
-		User Login(string userName, string password, bool isPersistent);
+		User Login(string login, string password, bool isPersistent);
 
-		User Login(string userName);
+		User Login(string login);
 
 		void LogOut();
 

@@ -1,7 +1,7 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
-using GameStore.DAL.Entities;
 
 namespace GameStore.DAL.Concrete
 {
@@ -20,7 +20,7 @@ namespace GameStore.DAL.Concrete
 		{
 			if (!string.IsNullOrEmpty(game.NorthwindId) && !game.IsUpdated && game.Id != default(int))
 			{
-				var gameFromMongo = _mongoRepository.GetSingle(game.Key);
+				var gameFromMongo = _mongoRepository.GetSingle(g => g.Key == game.Key);
 				game.Name = gameFromMongo.Name;
 				game.Price = gameFromMongo.Price;
 				game.UnitsInStock = gameFromMongo.UnitsInStock;

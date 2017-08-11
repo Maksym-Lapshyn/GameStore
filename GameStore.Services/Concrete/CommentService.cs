@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace GameStore.Services.Concrete
 
 			if (comment.ParentCommentId != null)
 			{
-				comment.ParentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
+				comment.ParentComment = _commentRepository.GetSingle(c => c.ParentCommentId.Value == comment.ParentCommentId.Value);
 				_commentRepository.Update(comment);
 			}
 			/*
@@ -44,7 +44,7 @@ namespace GameStore.Services.Concrete
 			}*/
 			else
 			{
-				var game = _gameRepository.GetSingle(comment.GameKey);
+				var game = _gameRepository.GetSingle(g => g.Key == comment.GameKey);
 				game.Comments.Add(comment);
 				_gameRepository.Update(game);
 			}
@@ -74,7 +74,7 @@ namespace GameStore.Services.Concrete
 
 			if (comment.ParentCommentId != null)
 			{
-				comment.ParentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
+				comment.ParentComment = _commentRepository.GetSingle(c => c.ParentCommentId.Value == comment.ParentCommentId.Value);
 			}
 
 			_commentRepository.Update(comment);
@@ -83,7 +83,7 @@ namespace GameStore.Services.Concrete
 
 		public CommentDto GetSingle(int id)
 		{
-			return _mapper.Map<Comment, CommentDto>(_commentRepository.GetSingle(id));
+			return _mapper.Map<Comment, CommentDto>(_commentRepository.GetSingle(c => c.Id == id));
 		}
 	}
 }

@@ -1,10 +1,9 @@
-﻿using GameStore.DAL.Infrastructure.Serializers;
+﻿using GameStore.Common.Infrastructure.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
-using GameStore.Common.Entities;
 
-namespace GameStore.DAL.Entities
+namespace GameStore.Common.Entities
 {
 	[BsonIgnoreExtraElements]
 	public class OrderDetails : BaseEntity

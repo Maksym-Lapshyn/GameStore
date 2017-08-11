@@ -1,19 +1,15 @@
-﻿using GameStore.Common.Entities;
-using GameStore.DAL.Infrastructure.Serializers;
+﻿using GameStore.Common.Infrastructure.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GameStore.DAL.Entities
+namespace GameStore.Common.Entities
 {
 	[BsonIgnoreExtraElements]
 	public class Game : BaseEntity
 	{
-		[StringLength(450)]
-		[Index(IsUnique = true)]
 		[BsonElement("ProductID")]
 		[BsonSerializer(typeof(Int32ToStringSerializer))]
 		public string Key { get; set; }

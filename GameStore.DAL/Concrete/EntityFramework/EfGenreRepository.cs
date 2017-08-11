@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
+using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -15,19 +17,19 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context = context;
 		}
 
-		public IQueryable<Genre> GetAll()
+		public IQueryable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null)
 		{
-			return _context.Genres;
+			return predicate != null ? _context.Genres.Where(predicate) : _context.Genres;
 		}
 
-		public Genre GetSingle(string name)
+		public Genre GetSingle(Expression<Func<Genre, bool>> predicate)
 		{
-			return _context.Genres.First(g => g.Name == name);
+			return _context.Genres.First(predicate);
 		}
 
-		public bool Contains(string name)
+		public bool Contains(Expression<Func<Genre, bool>> predicate)
 		{
-			return _context.Genres.Any(g => g.Name == name);
+			return _context.Genres.Any(predicate);
 		}
 
 		public void Insert(Genre genre)

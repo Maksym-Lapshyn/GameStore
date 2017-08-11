@@ -1,8 +1,8 @@
-﻿using System;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using System;
 
-namespace GameStore.DAL.Infrastructure.Serializers
+namespace GameStore.Common.Infrastructure.Serializers
 {
 	public class Int32ToStringSerializer : IBsonSerializer
 	{
@@ -17,8 +17,7 @@ namespace GameStore.DAL.Infrastructure.Serializers
 
 		public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
 		{
-            int result;
-			if (int.TryParse(value.ToString(), out result))
+			if (int.TryParse(value.ToString(), out int result))
 			{
 				context.Writer.WriteInt32(result);
 			}

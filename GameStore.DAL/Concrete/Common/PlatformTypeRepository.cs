@@ -1,7 +1,9 @@
-﻿using GameStore.DAL.Abstract.Common;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
-using GameStore.DAL.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -14,19 +16,19 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository = efRepository;
 		}
 
-		public PlatformType GetSingle(string type)
+		public PlatformType GetSingle(Expression<Func<PlatformType, bool>> predicate)
 		{
-			return _efRepository.GetSingle(type);
+			return _efRepository.GetSingle(predicate);
 		}
 
-		public IEnumerable<PlatformType> GetAll()
+		public IEnumerable<PlatformType> GetAll(Expression<Func<PlatformType, bool>> predicate = null)
 		{
-			return _efRepository.GetAll();
+			return _efRepository.GetAll(predicate);
 		}
 
-		public bool Contains(string type)
+		public bool Contains(Expression<Func<PlatformType, bool>> predicate)
 		{
-			return _efRepository.Contains(type);
+			return _efRepository.Contains(predicate);
 		}
 
 		public void Insert(PlatformType platformType)

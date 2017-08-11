@@ -1,7 +1,9 @@
 ﻿using GameStore.DAL.Abstract.MongoDb;
-using GameStore.DAL.Entities;
 using MongoDB.Driver;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
+using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
@@ -16,9 +18,11 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_orderDetailsCollection = database.GetCollection<OrderDetails>("order-details");
 		}
 
-		public IQueryable<Order> GetAll()
+		public IQueryable<Order> GetAll(Expression<Func<Order, bool>> predicate = null)
 		{
-			var orders = _orderCollection.AsQueryable().ToList();
+			var orders = predicate != null
+				? _orderCollection.AsQueryable().Where(predicate).ToList()
+				: _orderCollection.AsQueryable().ToList();
 
 			for (var i = 0; i < orders.Count; i++)
 			{
@@ -28,9 +32,9 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return orders.AsQueryable();
 		}
 
-		public Order GetSingle(string customerId)
+		public Order GetSingle(Expression<Func<Order, bool>> predicate)
 		{
-			var order = _orderCollection.AsQueryable().First(o => o.CustomerId == customerId);
+			var order = _orderCollection.AsQueryable().First(predicate);
 			order = GetEmbeddedDocuments(order);
 
 			return order;
@@ -43,9 +47,9 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return order;
 		}
 
-		public bool Contains(string customerId)
+		public bool Contains(Expression<Func<Order, bool>> predicate)
 		{
-			return _orderCollection.AsQueryable().Any(o => o.CustomerId == customerId);
+			return _orderCollection.AsQueryable().Any(predicate);
 		}
 	}
 }

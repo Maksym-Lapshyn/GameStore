@@ -126,14 +126,6 @@
     <Compile Include="Concrete\Common\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
-    <Compile Include="Entities\Comment.cs" />
-    <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\Genre.cs" />
-    <Compile Include="Entities\Order.cs" />
-    <Compile Include="Entities\OrderDetails.cs" />
-    <Compile Include="Entities\PlatformType.cs" />
-    <Compile Include="Entities\Publisher.cs" />
-    <Compile Include="Entities\Shipper.cs" />
     <Compile Include="Concrete\Filters\DateOptionsFilter.cs" />
     <Compile Include="Concrete\Filters\GameNameFilter.cs" />
     <Compile Include="Concrete\Filters\GenreFilter.cs" />
@@ -149,10 +141,6 @@
     <Compile Include="Infrastructure\GameFilter.cs" />
     <Compile Include="Concrete\GameLogContainer.cs" />
     <Compile Include="Infrastructure\OrderFilter.cs" />
-    <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
-    <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
-    <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
-    <Compile Include="Infrastructure\Serializers\StringOrInt32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

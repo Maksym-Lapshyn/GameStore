@@ -1,12 +1,12 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
-using GameStore.DAL.Infrastructure;
 using GameStore.DAL.Infrastructure.Extensions;
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -22,14 +22,14 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_logger = logger;
 		}
 
-		public IQueryable<Game> GetAll(GameFilter filter = null)
+		public IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null)
 		{
-			return _context.Games;
+			return predicate != null ? _context.Games.Where(predicate) : _context.Games;
 		}
 
-		public Game GetSingle(string gameKey)
+		public Game GetSingle(Expression<Func<Game, bool>> predicate)
 		{
-			return _context.Games.First(g => g.Key == gameKey);
+			return _context.Games.First(predicate);
 		}
 
 		public void Insert(Game game)
@@ -60,9 +60,9 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			//_context.SaveChanges();
 		}
 
-		public bool Contains(string gameKey)
+		public bool Contains(Expression<Func<Game, bool>> predicate)
 		{
-			return _context.Games.Any(g => g.Key == gameKey);
+			return _context.Games.Any(predicate);
 		}
 
 		private GameLogContainer CreateContainer(string action, Game newGame, Game oldGame = null)

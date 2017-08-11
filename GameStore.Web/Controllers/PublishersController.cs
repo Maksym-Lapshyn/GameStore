@@ -26,14 +26,14 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult New(PublisherViewModel publisherViewModel)
+		public ActionResult New(PublisherViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{
-				return View(publisherViewModel);
+				return View(model);
 			}
 
-			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
+			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
 			_publisherService.Create(publisherDto);
 
 			return RedirectToAction("ShowAll", "Games");
@@ -49,14 +49,14 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Update(PublisherViewModel publisherViewModel)
+		public ActionResult Update(PublisherViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{
-				return View(publisherViewModel);
+				return View(model);
 			}
 
-			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(publisherViewModel);
+			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
 			_publisherService.Update(publisherDto);
 
 			return RedirectToAction("ShowAll", "Games");
@@ -64,13 +64,13 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult Show(string key)
 		{
-			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingle(key));
+			var model = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingle(key));
 
-			return View(publisherViewModel);
+			return View(model);
 		}
 
 		[HttpPost]
-		public ActionResult Remove(string key)
+		public ActionResult Delete(string key)
 		{
 			_publisherService.Delete(key);
 
@@ -80,9 +80,9 @@ namespace GameStore.Web.Controllers
 		public ActionResult ShowAll()
 		{
 			var publisherDtos = _publisherService.GetAll();
-			var publisherViewModel = _mapper.Map<IEnumerable<PublisherDto>, IEnumerable<PublisherViewModel>>(publisherDtos);
+			var model = _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(publisherDtos);
 
-			return View(publisherViewModel);
+			return View(model);
 		}
 	}
 }

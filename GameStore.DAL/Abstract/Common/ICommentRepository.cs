@@ -1,5 +1,7 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Abstract.Common
 {
@@ -7,9 +9,9 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		void Insert(Comment comment);
 
-		Comment GetSingle(int commentId);
+		Comment GetSingle(Expression<Func<Comment, bool>> predicate);
 
-		IEnumerable<Comment> GetAll();
+		IEnumerable<Comment> GetAll(Expression<Func<Comment, bool>> predicate = null);
 
 		void Update(Comment comment);
 	}

@@ -1,8 +1,9 @@
-﻿using GameStore.DAL.Abstract.MongoDb;
-using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.MongoDb;
 using MongoDB.Driver;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
@@ -19,9 +20,11 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_genreCollection = database.GetCollection<Genre>("categories");
 		}
 
-		public IQueryable<Game> GetAll()
+		public IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null)
 		{
-			var games = _gameCollection.AsQueryable().ToList();
+			var games = predicate != null 
+				? _gameCollection.AsQueryable().Where(predicate).ToList()
+				: _gameCollection.AsQueryable().ToList();
 
 			for (var i = 0; i < games.Count; i++)
 			{
@@ -33,12 +36,17 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return games.AsQueryable();
 		}
 
-		public Game GetSingle(string gameKey)
+		public Game GetSingle(Expression<Func<Game, bool>> predicate)
 		{
-			var game =  _gameCollection.Find(g => g.Key == gameKey).Single();
+			var game =  _gameCollection.Find(predicate).Single();
 			game = GetEmbeddedDocuments(game);
 
 			return game;
+		}
+
+		public bool Contains(Expression<Func<Game, bool>> predicate)
+		{
+			return _gameCollection.AsQueryable().Any(predicate);
 		}
 
 		private Game GetEmbeddedDocuments(Game game)

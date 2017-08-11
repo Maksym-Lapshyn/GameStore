@@ -129,39 +129,5 @@ namespace GameStore.Services.Tests
 
 			Assert.AreEqual(games.Count, 3);
 		}
-
-		[TestMethod]
-		public void GetBy_ReturnsAllGames_WhenValidGenreIsPassed()
-		{
-			_games = new List<Game>
-			{
-				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } },
-				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } },
-				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } }
-			};
-
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
-
-			var result = _target.GetAll(ValidString).ToList().Count;
-
-			Assert.AreEqual(result, 3);
-		}
-
-		[TestMethod]
-		public void GetBy_ReturnsAllGames_WhenValidPlatformTypeIsPassed()
-		{
-			_games = new List<Game>
-			{
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } },
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } },
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } }
-			};
-
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
-
-			var result = _target.GetAll(new List<string> { ValidString }).ToList().Count;
-
-			Assert.AreEqual(result, 3);
-		}
 	}
 }

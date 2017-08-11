@@ -1,15 +1,17 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfPublisherRepository
 	{
-		Publisher GetSingle(string companyName);
+		Publisher GetSingle(Expression<Func<Publisher, bool>> predicate);
 
-		IQueryable<Publisher> GetAll();
+		IQueryable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null);
 
-		bool Contains(string companyName);
+		bool Contains(Expression<Func<Publisher, bool>> predicate);
 
 		void Insert(Publisher publisher);
 

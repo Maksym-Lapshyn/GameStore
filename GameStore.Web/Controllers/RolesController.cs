@@ -82,7 +82,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult ShowAll()
 		{
 			var roleDtos = _roleService.GetAll();
-			var roleViewModels = _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(roleDtos);
+			var roleViewModels = _mapper.Map<IEnumerable<RoleDto>, List<RoleViewModel>>(roleDtos);
 
 			return View(roleViewModels);
 		}

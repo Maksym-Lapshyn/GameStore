@@ -1,5 +1,5 @@
-﻿using GameStore.DAL.Abstract;
-using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using System;
 
 namespace GameStore.DAL.Concrete

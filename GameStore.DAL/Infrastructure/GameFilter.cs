@@ -1,5 +1,5 @@
-﻿using GameStore.Common.Enums;
-using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 using System.Collections.Generic;
 
 namespace GameStore.DAL.Infrastructure

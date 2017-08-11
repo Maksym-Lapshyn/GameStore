@@ -2,7 +2,6 @@
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using System;
-using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
@@ -11,7 +10,7 @@ namespace GameStore.Authentification.Concrete
 {
 	public class Authentication : IAuthentication
 	{
-		private const string CookieName = "GameStoreAuthentication";
+		private const string CookieName = "GameStore_Authentication";
 		private readonly IUserRepository _repository;
 		private IPrincipal _currentUser;
 
@@ -22,25 +21,29 @@ namespace GameStore.Authentification.Concrete
 			_repository = repository;
 		}
 
-		public User Login(string userName, string password, bool isPersistent)
+		public User Login(string login, string password, bool isPersistent)
 		{
-			var user = _repository.Contains(userName, password) ? _repository.GetSingle(userName, password) : null;
+			var user = _repository.Contains(u => u.Login == login && u.Password == password.GetHashCode().ToString()) 
+				? _repository.GetSingle(u => u.Login == login && u.Password == password.GetHashCode().ToString()) 
+				: null;
 
 			if (user != null)
 			{
-				CreateCookie(userName, isPersistent);
+				CreateCookie(login, isPersistent);
 			}
 
 			return user;
 		}
 
-		public User Login(string userName)
+		public User Login(string login)
 		{
-			var user = _repository.GetAll().FirstOrDefault(u => string.Compare(u.Name, userName, StringComparison.OrdinalIgnoreCase) == 0);
+			var user = _repository.Contains(u => u.Login == login)
+				? _repository.GetSingle(u => u.Login == login)
+				: null;
 
 			if (user != null)
 			{
-				CreateCookie(userName);
+				CreateCookie(login);
 			}
 
 			return user;
@@ -70,7 +73,7 @@ namespace GameStore.Authentification.Concrete
 				if (!string.IsNullOrEmpty(cookie?.Value))
 				{
 					var ticket = FormsAuthentication.Decrypt(cookie.Value);
-					_currentUser = new UserProvider(ticket.Name, _repository);
+					_currentUser = new UserProvider(ticket?.Name, _repository);
 				}
 				else
 				{

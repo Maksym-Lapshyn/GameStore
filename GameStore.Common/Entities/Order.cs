@@ -1,17 +1,17 @@
-﻿using GameStore.DAL.Infrastructure.Serializers;
+﻿using GameStore.Common.Enums;
+using GameStore.Common.Infrastructure.Serializers;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using GameStore.Common.Entities;
 
-namespace GameStore.DAL.Entities
+namespace GameStore.Common.Entities
 {
 	[BsonIgnoreExtraElements]
 	public class Order : BaseEntity
 	{
 		[BsonElement("CustomerID")]
-		public string CustomerId { get; set; }
+		public string NorthwindCustomerId { get; set; }
 
 		[BsonElement("OrderID")]
 		[NotMapped]
@@ -19,7 +19,15 @@ namespace GameStore.DAL.Entities
 
 		[BsonSerializer(typeof(DateTimeToStringSerializer))]
 		[Column(TypeName = "datetime2")]
-		public DateTime OrderDate { get; set; }
+		public DateTime OrderedDate { get; set; }
+
+		[BsonSerializer(typeof(DateTimeToStringSerializer))]
+		[Column(TypeName = "datetime2")]
+		public DateTime? ShippedDate { get; set; }
+
+		public OrderStatus OrderStatus { get; set; }
+
+		public virtual User User { get; set; }
 
 		public virtual ICollection<OrderDetails> OrderDetails { get; set; }
 	}

@@ -2,9 +2,9 @@
 
 namespace GameStore.Web.Models
 {
-	public class AllGamesViewModel
+	public class CompositeGamesViewModel
 	{
-		public AllGamesViewModel()
+		public CompositeGamesViewModel()
 		{
 			Games = new List<GameViewModel>();
 		}

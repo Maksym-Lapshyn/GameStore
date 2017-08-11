@@ -60,7 +60,7 @@ namespace GameStore.Web.Models
 		[CannotBeEmpty]
 		public List<string> GenresInput { get; set; }
 
-		[DisplayName("PlatformTypes")]
+		[DisplayName("Platform Types")]
 		[CannotBeEmpty]
 		public List<string> PlatformTypesInput { get; set; }
 	}

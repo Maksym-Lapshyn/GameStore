@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GameStore.Common.Entities;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Dtos;
 using GameStore.Services.DTOs;

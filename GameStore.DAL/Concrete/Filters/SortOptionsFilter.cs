@@ -1,6 +1,6 @@
-﻿using GameStore.Common.Enums;
+﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 using GameStore.DAL.Abstract;
-using GameStore.DAL.Entities;
 using System.Linq;
 
 namespace GameStore.DAL.Concrete.Filters

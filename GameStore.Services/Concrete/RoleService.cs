@@ -32,7 +32,7 @@ namespace GameStore.Services.Concrete
 
 		public RoleDto GetSingle(string name)
 		{
-			var role = _roleRepository.GetSingle(name);
+			var role = _roleRepository.GetSingle(r => r.Name == name);
 			var roleDto = _mapper.Map<Role, RoleDto>(role);
 
 			return roleDto;
@@ -46,19 +46,23 @@ namespace GameStore.Services.Concrete
 
 		public void Update(RoleDto roleDto)
 		{
-			var role = _roleRepository.GetSingle(roleDto.Name);
+			var role = _roleRepository.GetSingle(r => r.Id == roleDto.Id);
 			role = _mapper.Map(roleDto, role);
-			role.Users = _userRepository.GetAll().Where(u => u.Roles.Any(r => r.Name == roleDto.Name)).ToList();
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
 		}
 
 		public void Delete(string name)
 		{
-			var role = _roleRepository.GetSingle(name);
+			var role = _roleRepository.GetSingle(r => r.Name == name);
 			role.IsDeleted = true;
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
+		}
+
+		public bool Contains(string name)
+		{
+			return _roleRepository.Contains(r => r.Name == name);
 		}
 	}
 }

@@ -1,8 +1,10 @@
 ﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -15,14 +17,14 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository = efRepository;
 		}
 
-		public Role GetSingle(string name)
+		public Role GetSingle(Expression<Func<Role, bool>> predicate)
 		{
-			return _efRepository.GetSingle(name);
+			return _efRepository.GetSingle(predicate);
 		}
 
-		public IEnumerable<Role> GetAll()
+		public IEnumerable<Role> GetAll(Expression<Func<Role, bool>> predicate = null)
 		{
-			return _efRepository.GetAll().ToList();
+			return _efRepository.GetAll(predicate).ToList();
 		}
 
 		public void Update(Role role)
@@ -38,6 +40,11 @@ namespace GameStore.DAL.Concrete.Common
 		public void Delete(string name)
 		{
 			_efRepository.Delete(name);
+		}
+
+		public bool Contains(Expression<Func<Role, bool>> predicate)
+		{
+			return _efRepository.Contains(predicate);
 		}
 	}
 }

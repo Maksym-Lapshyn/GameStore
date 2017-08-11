@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -36,7 +35,7 @@ namespace GameStore.Services.Concrete
 
 		public GenreDto GetSingle(string name)
 		{
-			var genre = _genreRepository.GetSingle(name);
+			var genre = _genreRepository.GetSingle(g => g.Name == name);
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
 			return genreDto;
@@ -52,10 +51,9 @@ namespace GameStore.Services.Concrete
 
 		public void Update(GenreDto genreDto)
 		{
-			var genre = _genreRepository.GetSingle(genreDto.Name);
+			var genre = _genreRepository.GetSingle(g => g.Name == genreDto.Name);
 			genre = MapEmbeddedEntities(genreDto, genre);
 			genre = _mapper.Map(genreDto, genre);
-			genre.Games = _gameRepository.GetAll().Where(game => game.Genres.Any(g => g.Name == genreDto.Name)).ToList();
 			_genreRepository.Update(genre);
 			_unitOfWork.Save();
 		}
@@ -66,11 +64,16 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
+		public bool Contains(string name)
+		{
+			return _genreRepository.Contains(g => g.Name == name);
+		}
+
 		private Genre MapEmbeddedEntities(GenreDto input, Genre result)
 		{
 			if (input.ParentGenreInput != null)
 			{
-				result.ParentGenre = _genreRepository.GetSingle(input.ParentGenreInput);
+				result.ParentGenre = _genreRepository.GetSingle(g => g.Name == input.ParentGenreInput);
 			}
 
 			return result;

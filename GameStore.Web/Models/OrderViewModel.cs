@@ -1,6 +1,7 @@
 ﻿using GameStore.Common.Entities;
 using System;
 using System.Collections.Generic;
+using GameStore.Common.Enums;
 
 namespace GameStore.Web.Models
 {
@@ -11,9 +12,17 @@ namespace GameStore.Web.Models
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}
 
-		public string CustomerId { get; set; }
+		public string NorthwindCustomerId { get; set; }
 
-		public DateTime Date { get; set; }
+		public int OrderId { get; set; }
+
+		public DateTime OrderedDate { get; set; }
+
+		public DateTime? ShippedDate { get; set; }
+
+		public OrderStatus OrderStatus { get; set; }
+
+		public User User { get; set; }
 
 		public List<OrderDetailsViewModel> OrderDetails { get; set; }
 	}

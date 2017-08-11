@@ -1,12 +1,14 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.DAL.Infrastructure.Comparers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -34,10 +36,10 @@ namespace GameStore.DAL.Concrete.Common
 			_copier = copier;
 		}
 
-		public IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null)
+		public IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null)
 		{
-			var efQuery = _efRepository.GetAll();
-			var mongoQuery = _mongoRepository.GetAll();
+			var efQuery = _efRepository.GetAll(predicate);
+			var mongoQuery = _mongoRepository.GetAll(predicate);
 
 			if (filter != null)
 			{
@@ -63,9 +65,9 @@ namespace GameStore.DAL.Concrete.Common
 			return totalList;
 		}
 
-		public Game GetSingle(string gameKey)
+		public Game GetSingle(Expression<Func<Game, bool>> predicate)
 		{
-			return !_efRepository.Contains(gameKey) ? _copier.Copy(_mongoRepository.GetSingle(gameKey)) : _synchronizer.Synchronize(_efRepository.GetSingle(gameKey));
+			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate));
 		}
 
 		public void Insert(Game game)
@@ -83,9 +85,9 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository.Update(game);
 		}
 
-		public bool Contains(string gameKey)
+		public bool Contains(Expression<Func<Game, bool>> predicate)
 		{
-			return _efRepository.Contains(gameKey);
+			return !_efRepository.Contains(predicate) ? _efRepository.Contains(predicate) : _mongoRepository.Contains(predicate);
 		}
 	}
 }

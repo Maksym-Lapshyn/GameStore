@@ -1,7 +1,6 @@
-﻿using GameStore.Common.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace GameStore.DAL.Entities
+namespace GameStore.Common.Entities
 {
 	public class Comment : BaseEntity
 	{

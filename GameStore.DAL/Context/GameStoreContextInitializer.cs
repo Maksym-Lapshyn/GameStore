@@ -1,8 +1,8 @@
-﻿using GameStore.DAL.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Context
 {

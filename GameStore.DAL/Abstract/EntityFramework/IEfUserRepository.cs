@@ -1,15 +1,17 @@
-﻿using System.Linq;
-using GameStore.Common.Entities;
+﻿using GameStore.Common.Entities;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfUserRepository
 	{
-		User GetSingle(string name, string password = null);
+		User GetSingle(Expression<Func<User, bool>> predicate);
 
-		bool Contains(string name, string password);
+		bool Contains(Expression<Func<User, bool>> predicate);
 
-		IQueryable<User> GetAll();
+		IQueryable<User> GetAll(Expression<Func<User, bool>> predicate = null);
 
 		void Update(User user);
 

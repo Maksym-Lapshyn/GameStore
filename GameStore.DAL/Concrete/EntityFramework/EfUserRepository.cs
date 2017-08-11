@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -15,19 +17,19 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context = context;
 		}
 
-		public User GetSingle(string name, string password = null)
+		public User GetSingle(Expression<Func<User, bool>> predicate)
 		{
-			return password != null ? _context.Users.First(u => u.Name.ToLower() == name.ToLower()) : _context.Users.First(u => u.Name == name);
+			return _context.Users.First(predicate);
 		}
 
-		public bool Contains(string name, string password)
+		public bool Contains(Expression<Func<User, bool>> predicate)
 		{
-			return _context.Users.Any(u => u.Name.ToLower() == name.ToLower());
+			return _context.Users.Any(predicate);
 		}
 
-		public IQueryable<User> GetAll()
+		public IQueryable<User> GetAll(Expression<Func<User, bool>> predicate = null)
 		{
-			return _context.Users.AsQueryable();
+			return predicate != null ? _context.Users.Where(predicate) : _context.Users;
 		}
 
 		public void Update(User user)
@@ -42,7 +44,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Delete(string name)
 		{
-			var user = _context.Users.First(u => u.Name == name);
+			var user = _context.Users.First(u => u.Login == name);
 			user.IsDeleted = true;
 			_context.Entry(user).State = EntityState.Modified;
 		}

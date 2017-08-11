@@ -1,6 +1,7 @@
-﻿using System;
+﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
+using System;
 using System.Collections.Generic;
-using GameStore.Common.Entities;
 
 namespace GameStore.Services.DTOs
 {
@@ -11,9 +12,17 @@ namespace GameStore.Services.DTOs
 			OrderDetails = new List<OrderDetailsDto>();
 		}
 
-		public string CustomerId { get; set; }
+		public string NorthwindCustomerId { get; set; }
 
-		public DateTime Date { get; set; }
+		public int OrderId { get; set; }
+
+		public DateTime OrderedDate { get; set; }
+
+		public DateTime? ShippedDate { get; set; }
+
+		public OrderStatus OrderStatus { get; set; }
+
+		public User User { get; set; }
 
 		public IEnumerable<OrderDetailsDto> OrderDetails { get; set; }
 	}

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -8,6 +7,7 @@ using GameStore.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.Common.Entities;
 
 namespace GameStore.Services.Concrete
 {
@@ -32,7 +32,7 @@ namespace GameStore.Services.Concrete
 		public void Create(OrderDto orderDto)
 		{
 			var order = _mapper.Map<OrderDto, Order>(orderDto);
-			order.OrderDate = DateTime.UtcNow;
+			order.OrderedDate = DateTime.UtcNow;
 			Map(order);
 			_orderRepository.Insert(order);
 			_unitOfWork.Save();
@@ -46,13 +46,13 @@ namespace GameStore.Services.Concrete
 			{
 				order = new Order
 				{
-					CustomerId = customerId,
-					OrderDate = DateTime.UtcNow
+					NorthwindCustomerId = customerId,
+					OrderedDate = DateTime.UtcNow
 				};
 			}
 			else
 			{
-				order = _orderRepository.GetSingle(customerId);
+				order = _orderRepository.GetSingle(o => o.NorthwindCustomerId == customerId);
 			}
 
 			var orderDto = _mapper.Map<Order, OrderDto>(order);

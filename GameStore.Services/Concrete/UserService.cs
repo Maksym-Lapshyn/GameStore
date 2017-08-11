@@ -32,7 +32,7 @@ namespace GameStore.Services.Concrete
 
 		public UserDto GetSingle(string name)
 		{
-			var user = _userRepository.GetSingle(name);
+			var user = _userRepository.GetSingle(u => u.Login == name);
 			var userDto = _mapper.Map<User, UserDto>(user);
 
 			return userDto;
@@ -46,7 +46,7 @@ namespace GameStore.Services.Concrete
 
 		public void Update(UserDto userDto)
 		{
-			var user = _userRepository.GetSingle(userDto.Name);
+			var user = _userRepository.GetSingle(u => u.Id == userDto.Id);
 			user = _mapper.Map(userDto, user);
 			user = MapEmbeddedEntities(userDto, user);
 			_userRepository.Update(user);
@@ -55,15 +55,20 @@ namespace GameStore.Services.Concrete
 
 		public void Delete(string name)
 		{
-			var user = _userRepository.GetSingle(name);
+			var user = _userRepository.GetSingle(u => u.Login == name);
 			user.IsDeleted = true;
 			_userRepository.Update(user);
 			_unitOfWork.Save();
 		}
 
-		public User MapEmbeddedEntities(UserDto input, User result)
+		public bool Contains(string name)
 		{
-			input.RolesInput.ForEach(r => result.Roles.Add(_roleRepository.GetSingle(r)));
+			return _userRepository.Contains(u => u.Login == name);
+		}
+
+		private User MapEmbeddedEntities(UserDto input, User result)
+		{
+			input.RolesInput.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
 
 			return result;
 		}

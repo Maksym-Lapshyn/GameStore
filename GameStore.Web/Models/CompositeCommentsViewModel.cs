@@ -2,9 +2,9 @@
 
 namespace GameStore.Web.Models
 {
-	public class AllCommentsViewModel
+	public class CompositeCommentsViewModel
 	{
-		public AllCommentsViewModel()
+		public CompositeCommentsViewModel()
 		{
 			Comments = new List<CommentViewModel>();
 		}

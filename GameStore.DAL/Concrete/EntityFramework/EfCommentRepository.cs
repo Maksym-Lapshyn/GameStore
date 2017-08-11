@@ -1,8 +1,10 @@
-﻿using GameStore.DAL.Abstract.EntityFramework;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
+using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -20,14 +22,14 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context.Comments.Add(comment);
 		}
 
-		public Comment GetSingle(int commentId)
+		public Comment GetSingle(Expression<Func<Comment, bool>> predicate)
 		{
-			return _context.Comments.First(c => c.Id == commentId);
+			return _context.Comments.First(predicate);
 		}
 
-		public IQueryable<Comment> GetAll()
+		public IQueryable<Comment> GetAll(Expression<Func<Comment, bool>> predicate = null)
 		{
-			return _context.Comments;
+			return predicate != null ? _context.Comments.Where(predicate) : _context.Comments;
 		}
 
 		public void Update(Comment comment)

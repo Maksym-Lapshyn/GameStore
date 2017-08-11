@@ -5,7 +5,6 @@ using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
@@ -14,7 +13,6 @@ namespace GameStore.Web.Controllers
 	{
 		private readonly IOrderService _orderService;
 		private readonly IMapper _mapper;
-		private const string CookieKey = "customerId";
 
 		public OrdersController(IOrderService orderService,
 			IMapper mapper)
@@ -39,10 +37,15 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("Show");
 		}
 
+		public ActionResult ShowAll()
+		{
+
+		}
+
 		[HttpGet]
 		public ActionResult History()
 		{
-			var allOrdersModel = new AllOrdersViewModel
+			var allOrdersModel = new CompositeOrdersViewModel
 			{
 				Filter = new OrderFilterViewModel
 				{
@@ -55,42 +58,17 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult History(AllOrdersViewModel allOrdersViewModel)
+		public ActionResult History(CompositeOrdersViewModel compositeOrdersViewModel)
 		{
 			if (!ModelState.IsValid)
 			{
-				return View(allOrdersViewModel);
+				return View(compositeOrdersViewModel);
 			}
 
-			var filterDto = _mapper.Map<OrderFilterViewModel, OrderFilterDto>(allOrdersViewModel.Filter);
-			allOrdersViewModel.Orders = _mapper.Map<IEnumerable<OrderDto>, List<OrderViewModel>>(_orderService.GetAll(filterDto));
+			var filterDto = _mapper.Map<OrderFilterViewModel, OrderFilterDto>(compositeOrdersViewModel.Filter);
+			compositeOrdersViewModel.Orders = _mapper.Map<IEnumerable<OrderDto>, List<OrderViewModel>>(_orderService.GetAll(filterDto));
 
-			return View(allOrdersViewModel);
-		}
-
-		private OrderViewModel GetOrder()
-		{
-			OrderViewModel orderViewModel;
-
-			if (Request.Cookies[CookieKey] != null)
-			{
-				var orderDto = _orderService.GetSingle(Request.Cookies[CookieKey].Value);
-				orderViewModel = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
-
-				return orderViewModel;
-			}
-
-			var customerId = Guid.NewGuid().ToString();
-			Response.Cookies.Add(new HttpCookie(CookieKey, customerId));
-			orderViewModel = new OrderViewModel
-			{
-				CustomerId = customerId
-			};
-
-			_orderService.Create(_mapper.Map<OrderViewModel, OrderDto>(orderViewModel));
-			orderViewModel = _mapper.Map<OrderDto, OrderViewModel>(_orderService.GetSingle(customerId));
-
-			return orderViewModel;
+			return View(compositeOrdersViewModel);
 		}
 	}
 }

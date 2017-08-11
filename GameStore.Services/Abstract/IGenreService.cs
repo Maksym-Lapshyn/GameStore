@@ -15,6 +15,6 @@ namespace GameStore.Services.Abstract
 
 		void Delete(string name);
 
-		bool Contains(string gameKey);
+		bool Contains(string name);
 	}
 }

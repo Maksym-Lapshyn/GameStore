@@ -40,6 +40,7 @@
       <HintPath>..\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
@@ -53,11 +54,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\Game.cs" />
+    <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\OrderDetails.cs" />
+    <Compile Include="Entities\PlatformType.cs" />
+    <Compile Include="Entities\Publisher.cs" />
+    <Compile Include="Entities\Shipper.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\DateOptions.cs" />
+    <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Enums\AccessLevel.cs" />
+    <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\StringOrInt32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

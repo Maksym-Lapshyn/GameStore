@@ -11,7 +11,7 @@ namespace GameStore.Services.Dtos
 			RolesInput = new List<string>();
 		}
 
-		public string Name { get; set; }
+		public string Email { get; set; }
 
 		public List<RoleDto> RolesData { get; set; }
 

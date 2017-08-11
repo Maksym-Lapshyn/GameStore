@@ -5,11 +5,11 @@ using GameStore.DAL.Concrete;
 using GameStore.DAL.Concrete.EntityFramework;
 using GameStore.DAL.Concrete.MongoDb;
 using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
 using MongoDB.Driver;
 using Ninject.Modules;
 using Ninject.Web.Common;
 using System.Linq;
+using GameStore.Common.Entities;
 
 namespace GameStore.Ninject.Modules
 {

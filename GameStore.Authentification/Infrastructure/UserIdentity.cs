@@ -8,7 +8,7 @@ namespace GameStore.Authentification.Infrastructure
 	{
 		public User User { get; set; }
 
-		public string Name => User?.Name;
+		public string Name => User != null ? User.Login : "Guest";
 
 		public string AuthenticationType => typeof(User).ToString();
 

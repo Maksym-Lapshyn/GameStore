@@ -1,11 +1,13 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure.Comparers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -24,22 +26,22 @@ namespace GameStore.DAL.Concrete.Common
 			_copier = copier;
 		}
 
-		public IEnumerable<Genre> GetAll()
+		public IEnumerable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null)
 		{
-			var efList = _efRepository.GetAll().ToList();
-			var mongoList = _mongoRepository.GetAll().ToList();
+			var efList = _efRepository.GetAll(predicate).ToList();
+			var mongoList = _mongoRepository.GetAll(predicate).ToList();
 
 			return efList.Union(mongoList, new GenreEqualityComparer());
 		}
 
-		public Genre GetSingle(string name)
+		public Genre GetSingle(Expression<Func<Genre, bool>> predicate)
 		{
-			return !_efRepository.Contains(name) ? _copier.Copy(_mongoRepository.GetSingle(name)) : _efRepository.GetSingle(name);
+			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _efRepository.GetSingle(predicate);
 		}
 
-		public bool Contains(string name)
+		public bool Contains(Expression<Func<Genre, bool>> predicate)
 		{
-			return _efRepository.Contains(name);
+			return _efRepository.Contains(predicate);
 		}
 
 		public void Insert(Genre genre)

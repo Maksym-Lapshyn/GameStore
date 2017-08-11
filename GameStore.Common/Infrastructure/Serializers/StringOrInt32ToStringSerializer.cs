@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-using System;
 
-namespace GameStore.DAL.Infrastructure.Serializers
+namespace GameStore.Common.Infrastructure.Serializers
 {
 	public class StringOrInt32ToStringSerializer : IBsonSerializer
 	{

@@ -1,9 +1,10 @@
 ﻿using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
-using GameStore.DAL.Infrastructure;
+using System;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Linq.Expressions;
+using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -21,14 +22,14 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context.Orders.Add(order);
 		}
 
-		public IQueryable<Order> GetAll(OrderFilter orderFilter = null)
+		public IQueryable<Order> GetAll(Expression<Func<Order, bool>> predicate = null)
 		{
-			return _context.Orders;
+			return predicate != null ? _context.Orders.Where(predicate) : _context.Orders;
 		}
 
-		public Order GetSingle(string customerId)
+		public Order GetSingle(Expression<Func<Order, bool>> predicate)
 		{
-			return _context.Orders.First(o => o.CustomerId == customerId);
+			return _context.Orders.First(predicate);
 		}
 
 		public void Update(Order order)
@@ -36,9 +37,9 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context.Orders.AddOrUpdate(order);
 		}
 
-		public bool Contains(string customerId)
+		public bool Contains(Expression<Func<Order, bool>> predicate)
 		{
-			return _context.Orders.Any(o => o.CustomerId == customerId);
+			return _context.Orders.Any(predicate);
 		}
 	}
 }

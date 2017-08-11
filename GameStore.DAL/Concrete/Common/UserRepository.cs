@@ -1,8 +1,10 @@
 ﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -15,19 +17,19 @@ namespace GameStore.DAL.Concrete.Common
 			_userRepository = userRepository;
 		}
 
-		public User GetSingle(string name, string password = null)
+		public User GetSingle(Expression<Func<User, bool>> predicate)
 		{
-			return _userRepository.GetSingle(name, password);
+			return _userRepository.GetSingle(predicate);
 		}
 
-		public bool Contains(string name, string password)
+		public bool Contains(Expression<Func<User, bool>> predicate = null)
 		{
-			return _userRepository.Contains(name, password);
+			return _userRepository.Contains(predicate);
 		}
 
-		public IEnumerable<User> GetAll()
+		public IEnumerable<User> GetAll(Expression<Func<User, bool>> predicate = null)
 		{
-			return _userRepository.GetAll().ToList();
+			return _userRepository.GetAll(predicate).ToList();
 		}
 
 		public void Update(User user)

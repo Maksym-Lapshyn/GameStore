@@ -1,6 +1,4 @@
-﻿using GameStore.Common.Entities;
-
-namespace GameStore.DAL.Entities
+﻿namespace GameStore.Common.Entities
 {
 	public class Shipper : BaseEntity
 	{

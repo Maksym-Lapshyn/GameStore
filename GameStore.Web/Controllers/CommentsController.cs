@@ -24,7 +24,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult NewComment(string key)
 		{
-			var model = new AllCommentsViewModel
+			var model = new CompositeCommentsViewModel
 			{
 				NewComment = new CommentViewModel
 				{
@@ -38,7 +38,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult NewComment(AllCommentsViewModel model)
+		public ActionResult NewComment(CompositeCommentsViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{

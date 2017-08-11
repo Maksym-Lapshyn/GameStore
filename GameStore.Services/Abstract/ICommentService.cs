@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using GameStore.Services.DTOs;
+﻿using GameStore.Services.DTOs;
+using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
 {

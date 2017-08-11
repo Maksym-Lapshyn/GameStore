@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using GameStore.Common.Entities;
+﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -15,14 +17,14 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context = context;
 		}
 
-		public Role GetSingle(string name)
+		public Role GetSingle(Expression<Func<Role, bool>> predicate)
 		{
-			return _context.Roles.First(r => r.Name == name);
+			return _context.Roles.First(predicate);
 		}
 
-		public IQueryable<Role> GetAll()
+		public IQueryable<Role> GetAll(Expression<Func<Role, bool>> predicate = null)
 		{
-			return _context.Roles.AsQueryable();
+			return predicate != null ? _context.Roles.Where(predicate) : _context.Roles;
 		}
 
 		public void Update(Role role)
@@ -40,6 +42,11 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			var role = _context.Roles.First(r => r.Name == name);
 			role.IsDeleted = true;
 			_context.Entry(role).State = EntityState.Modified;
+		}
+
+		public bool Contains(Expression<Func<Role, bool>> predicate)
+		{
+			return _context.Roles.Any(predicate);
 		}
 	}
 }

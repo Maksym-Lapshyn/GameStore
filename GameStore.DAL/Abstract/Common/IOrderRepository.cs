@@ -1,6 +1,8 @@
-﻿using GameStore.DAL.Entities;
-using GameStore.DAL.Infrastructure;
+﻿using GameStore.DAL.Infrastructure;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Abstract.Common
 {
@@ -8,12 +10,12 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		void Insert(Order order);
 
-		IEnumerable<Order> GetAll(OrderFilter orderFilter = null);
+		IEnumerable<Order> GetAll(OrderFilter orderFilter = null, Expression<Func<Order, bool>> predicate = null);
 
-		Order GetSingle(string customerId);
+		Order GetSingle(Expression<Func<Order, bool>> predicate);
 
 		void Update(Order order);
 
-		bool Contains(string customerId);
+		bool Contains(Expression<Func<Order, bool>> predicate);
 	}
 }

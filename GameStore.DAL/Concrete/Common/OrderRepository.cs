@@ -1,10 +1,12 @@
 ﻿using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -24,10 +26,10 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository.Insert(order);
 		}
 
-		public IEnumerable<Order> GetAll(OrderFilter orderFilter = null)
+		public IEnumerable<Order> GetAll(OrderFilter orderFilter = null, Expression<Func<Order, bool>> predicate = null)
 		{
-			var efQuery = _efRepository.GetAll();
-			var mongoQuery = _mongoRepository.GetAll();
+			var efQuery = _efRepository.GetAll(predicate);
+			var mongoQuery = _mongoRepository.GetAll(predicate);
 
 			if (orderFilter != null)
 			{
@@ -42,9 +44,9 @@ namespace GameStore.DAL.Concrete.Common
 			return efList.Union(mongoList);
 		}
 
-		public Order GetSingle(string customerId)
+		public Order GetSingle(Expression<Func<Order, bool>> predicate)
 		{
-			return _efRepository.Contains(customerId) ? _efRepository.GetSingle(customerId) : _mongoRepository.GetSingle(customerId);
+			return _efRepository.Contains(predicate) ? _efRepository.GetSingle(predicate) : _mongoRepository.GetSingle(predicate);
 		}
 
 		public void Update(Order order)
@@ -52,14 +54,14 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository.Update(order);
 		}
 
-		public bool Contains(string customerId)
+		public bool Contains(Expression<Func<Order, bool>> predicate)
 		{
-			return _efRepository.Contains(customerId) || _mongoRepository.Contains(customerId);
+			return _efRepository.Contains(predicate) || _mongoRepository.Contains(predicate);
 		}
 
 		private IQueryable<Order> Filter(IQueryable<Order> orders, OrderFilter orderFilter)
 		{
-			return orders.Where(o => o.OrderDate > orderFilter.From).Where(o => o.OrderDate < orderFilter.To);
+			return orders.Where(o => o.OrderedDate > orderFilter.From).Where(o => o.OrderedDate < orderFilter.To);
 		}
 	}
 }

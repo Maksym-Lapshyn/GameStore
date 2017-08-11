@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using GameStore.Common.Entities;
-using MongoDB.Bson.Serialization.Attributes;
 
-namespace GameStore.DAL.Entities
+namespace GameStore.Common.Entities
 {
 	[BsonIgnoreExtraElements]
 	public class Genre : BaseEntity
 	{
-		[StringLength(450)]
-		[Index(IsUnique = true)]
 		[BsonElement("CategoryName")]
 		public string Name { get; set; }
 

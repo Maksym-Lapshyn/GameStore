@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
 using GameStore.Services.DTOs;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -35,7 +34,7 @@ namespace GameStore.Services.Concrete
 
 		public PublisherDto GetSingle(string companyName)
 		{
-			var publisher = _publisherRepository.GetSingle(companyName);
+			var publisher = _publisherRepository.GetSingle(p => p.CompanyName == companyName);
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;
@@ -51,9 +50,8 @@ namespace GameStore.Services.Concrete
 
 		public void Update(PublisherDto publisherDto)
 		{
-			var publisher = _publisherRepository.GetSingle(publisherDto.CompanyName);
+			var publisher = _publisherRepository.GetSingle(p => p.Id == publisherDto.Id);
 			_mapper.Map(publisherDto, publisher);
-			publisher.Games = _gameRepository.GetAll().Where(g => g.Publisher.CompanyName == publisher.CompanyName).ToList();
 			_publisherRepository.Update(publisher);
 			_unitOfWork.Save();
 		}
@@ -62,6 +60,11 @@ namespace GameStore.Services.Concrete
 		{
 			_publisherRepository.Delete(companyName);
 			_unitOfWork.Save();
+		}
+
+		public bool Contains(string companyName)
+		{
+			return _publisherRepository.Contains(p => p.CompanyName == companyName);
 		}
 	}
 }

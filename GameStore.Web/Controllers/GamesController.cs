@@ -45,14 +45,15 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult New(GameViewModel gameViewModel)
+		public ActionResult New(GameViewModel model)
 		{
+			CheckIfGameKeyIsUnique(model.Key);
 			if (!ModelState.IsValid)
 			{
-				return View(gameViewModel);
+				return View(model);
 			}
 
-			var gameDto = _mapper.Map<GameViewModel, GameDto>(gameViewModel);
+			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
 			_gameService.Create(gameDto);
 
 			return RedirectToAction("ShowAll");
@@ -62,23 +63,24 @@ namespace GameStore.Web.Controllers
 		public ActionResult Update(string key)
 		{
 			var gameDto = _gameService.GetSingle(key);
-			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
-			gameViewModel.GenresData = GetGenres();
-			gameViewModel.PublisherData = GetPublishers();
-			gameViewModel.PlatformTypesData = GetPlatformTypes();
+			var model = _mapper.Map<GameDto, GameViewModel>(gameDto);
+			model.GenresData = GetGenres();
+			model.PublisherData = GetPublishers();
+			model.PlatformTypesData = GetPlatformTypes();
 
-			return View(gameViewModel);
+			return View(model);
 		}
 
 		[HttpPost]
-		public ActionResult Update(GameViewModel gameViewModel)
+		public ActionResult Update(GameViewModel model)
 		{
+			CheckIfGameKeyIsUnique(model.Key);
 			if (!ModelState.IsValid)
 			{
-				return View(gameViewModel);
+				return View(model);
 			}
 
-			var gameDto = _mapper.Map<GameViewModel, GameDto>(gameViewModel);
+			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
 			_gameService.Update(gameDto);
 
 			return RedirectToAction("ShowAll");
@@ -93,7 +95,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ShowAll(AllGamesViewModel model)
+		public ActionResult ShowAll(CompositeGamesViewModel model)
 		{
 			if (!ModelState.IsValid && model.FilterIsChanged)
 			{
@@ -124,7 +126,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Remove(string key)
+		public ActionResult Delete(string key)
 		{
 			_gameService.Delete(key);
 
@@ -152,7 +154,7 @@ namespace GameStore.Web.Controllers
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
 
-		private AllGamesViewModel UpdateGames(AllGamesViewModel model)
+		private CompositeGamesViewModel UpdateGames(CompositeGamesViewModel model)
 		{
 			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);
 			var itemsToTake = model.PageSize;
@@ -161,7 +163,7 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		private AllGamesViewModel UpdateFilterDate(AllGamesViewModel model)
+		private CompositeGamesViewModel UpdateFilterDate(CompositeGamesViewModel model)
 		{
 			model.Filter.PlatformTypesData = GetPlatformTypes();
 			model.Filter.GenresData = GetGenres();
@@ -170,7 +172,7 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		private AllGamesViewModel UpdatePagination(AllGamesViewModel model)
+		private CompositeGamesViewModel UpdatePagination(CompositeGamesViewModel model)
 		{
 			model.StartPage = model.CurrentPage - 5;
 			model.EndPage = model.CurrentPage + 4;
@@ -194,7 +196,7 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		private AllGamesViewModel UpdateChangedModel(AllGamesViewModel model)
+		private CompositeGamesViewModel UpdateChangedModel(CompositeGamesViewModel model)
 		{
 			model.CurrentPage = DefaultPage;
 			model.TotalItems = _gameService.GetCount(_mapper.Map<GameFilterViewModel, GameFilterDto>(model.FilterState));
@@ -204,7 +206,7 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		private AllGamesViewModel UpdateNewModel(AllGamesViewModel model)
+		private CompositeGamesViewModel UpdateNewModel(CompositeGamesViewModel model)
 		{
 			model.Filter = new GameFilterViewModel();
 			model.CurrentPage = DefaultPage;
@@ -215,7 +217,7 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		private AllGamesViewModel UpdateInvalidModel(AllGamesViewModel model)
+		private CompositeGamesViewModel UpdateInvalidModel(CompositeGamesViewModel model)
 		{
 			model.FilterIsChanged = false;
 			model = UpdateGames(model);
@@ -243,6 +245,16 @@ namespace GameStore.Web.Controllers
 		private List<PublisherViewModel> GetPublishers()
 		{
 			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
+		}
+
+		private void CheckIfGameKeyIsUnique(string gameKey)
+		{
+			if (!_gameService.Contains(gameKey))
+			{
+				return;
+			}
+
+			ModelState.AddModelError("Key", "Game with such key already exists");
 		}
 	}
 }
