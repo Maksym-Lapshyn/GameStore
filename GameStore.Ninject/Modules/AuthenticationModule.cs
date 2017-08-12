@@ -1,5 +1,7 @@
 ﻿using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Concrete.Common;
+using GameStore.DAL.Abstract.EntityFramework;
+using GameStore.DAL.Concrete.EntityFramework;
 using Ninject.Modules;
 
 namespace GameStore.Ninject.Modules
@@ -8,7 +10,8 @@ namespace GameStore.Ninject.Modules
 	{
 		public override void Load()
 		{
-			Bind<IUserRepository>().To<UserRepository>();
+			//Bind<IUserRepository>().To<UserRepository>();
+            //Bind<IEfUserRepository>().To<EfUserRepository>();
 		}
 	}
 }

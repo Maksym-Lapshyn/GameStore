@@ -11,7 +11,7 @@ namespace GameStore.Common.Entities
 	public class Order : BaseEntity
 	{
 		[BsonElement("CustomerID")]
-		public string NorthwindCustomerId { get; set; }
+		public string UserLogin { get; set; }
 
 		[BsonElement("OrderID")]
 		[NotMapped]
@@ -19,15 +19,14 @@ namespace GameStore.Common.Entities
 
 		[BsonSerializer(typeof(DateTimeToStringSerializer))]
 		[Column(TypeName = "datetime2")]
-		public DateTime OrderedDate { get; set; }
+		public DateTime DateOrdered { get; set; }
 
-		[BsonSerializer(typeof(DateTimeToStringSerializer))]
+		[BsonSerializer(typeof(NullableDateTimeToStringSerializer))]
 		[Column(TypeName = "datetime2")]
-		public DateTime? ShippedDate { get; set; }
+        [BsonElement("ShippedDate")]
+        public DateTime? DateShipped { get; set; }
 
 		public OrderStatus OrderStatus { get; set; }
-
-		public virtual User User { get; set; }
 
 		public virtual ICollection<OrderDetails> OrderDetails { get; set; }
 	}

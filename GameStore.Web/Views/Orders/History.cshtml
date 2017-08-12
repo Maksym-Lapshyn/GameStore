@@ -29,10 +29,10 @@
 {
 	foreach (var order in Model.Orders)
 	{
-		<b>@Html.LabelFor(m => order.CustomerId)</b>
-		<p>@Html.DisplayFor(m => order.CustomerId)</p>
-		<b>@Html.LabelFor(m => order.Date)</b>
-		<p>@Html.DisplayFor(m => order.Date)</p>
+		<b>@Html.LabelFor(m => order.UserLogin)</b>
+		<p>@Html.DisplayFor(m => order.UserLogin)</p>
+		<b>@Html.LabelFor(m => order.DateOrdered)</b>
+		<p>@Html.DisplayFor(m => order.DateOrdered)</p>
 		<h3>Order details</h3>
 
 		foreach (var detail in order.OrderDetails)

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
-using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -21,25 +20,28 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
-		public ActionResult Show()
+		public ActionResult Show(string key)
 		{
-			var order = GetOrder();
+            var orderDto = _orderService.GetSingle(key);
+            var model = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
 
-			return View(order);
+			return View(model);
 		}
 
-		public ActionResult Buy(string key)
-		{
-			var orderViewModel = GetOrder();
-			var orderDto = _mapper.Map<OrderViewModel, OrderDto>(orderViewModel);
-			_orderService.Update(orderDto, key);
-
-			return RedirectToAction("Show");
-		}
+        [HttpPost]
+		public ActionResult Update(OrderViewModel model)
+        {
+            var orderDto = _mapper.Map<OrderViewModel, OrderDto>(model);
+            _orderService.Update(orderDto);
+            return View();
+        }
 
 		public ActionResult ShowAll()
 		{
+            var orderDtos = _orderService.GetAll();
+            var model = _mapper.Map<IEnumerable<OrderDto>, List<OrderViewModel>>(orderDtos);
 
+            return View(model);
 		}
 
 		[HttpGet]

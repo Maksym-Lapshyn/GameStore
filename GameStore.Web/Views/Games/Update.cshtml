@@ -17,12 +17,10 @@
 			@Html.HiddenFor(m => m.IsDeleted)
 			@Html.HiddenFor(m => m.IsUpdated)
 			<b>@Html.LabelFor(m => m.Key)</b>
-			<p>@Html.DisplayFor(m => m.Key)</p>
-			<b>@Html.LabelFor(m => m.Key)</b>
 			<p>
-				@Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.Key)
-			</p>
+                @Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Key)
+            </p>
 			<b>@Html.LabelFor(m => m.Name)</b>
 			<p>
 				@Html.TextBoxFor(m => m.Name, new {@class = "form-control"})

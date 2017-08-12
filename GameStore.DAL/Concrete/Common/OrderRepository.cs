@@ -61,7 +61,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		private IQueryable<Order> Filter(IQueryable<Order> orders, OrderFilter orderFilter)
 		{
-			return orders.Where(o => o.OrderedDate > orderFilter.From).Where(o => o.OrderedDate < orderFilter.To);
+			return orders.Where(o => o.DateOrdered > orderFilter.From).Where(o => o.DateOrdered < orderFilter.To);
 		}
 	}
 }

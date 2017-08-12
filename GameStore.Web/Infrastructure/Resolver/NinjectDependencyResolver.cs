@@ -48,8 +48,11 @@ namespace GameStore.Web.Infrastructure.Resolver
 			_kernel.Bind<IGenreService>().To<GenreService>();
 			_kernel.Bind<IPlatformTypeService>().To<PlatformTypeService>();
 			_kernel.Bind<IOrderService>().To<OrderService>();
-			_kernel.Bind<ILogger>().To<Logger>();
+            _kernel.Bind<IUserService>().To<UserService>();
+            _kernel.Bind<IRoleService>().To<RoleService>();
+            _kernel.Bind<ILogger>().To<Logger>();
 			_kernel.Bind<IAuthentication>().To<Authentication>();
-		}
+
+        }
 	}
 }

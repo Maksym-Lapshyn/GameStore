@@ -46,8 +46,7 @@ namespace GameStore.Services.Concrete
 
 		public void Update(UserDto userDto)
 		{
-			var user = _userRepository.GetSingle(u => u.Id == userDto.Id);
-			user = _mapper.Map(userDto, user);
+            var user = _mapper.Map<UserDto, User>(userDto);
 			user = MapEmbeddedEntities(userDto, user);
 			_userRepository.Update(user);
 			_unitOfWork.Save();
@@ -68,7 +67,10 @@ namespace GameStore.Services.Concrete
 
 		private User MapEmbeddedEntities(UserDto input, User result)
 		{
-			input.RolesInput.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
+            if (input.RolesInput != null)
+            {
+                input.RolesInput.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
+            }
 
 			return result;
 		}

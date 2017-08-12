@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Web.Models;
 using System.Web.Mvc;
 
@@ -104,7 +104,7 @@ namespace GameStore.Web.Controllers
 				return;
 			}
 
-			ModelState.AddModelError("Key", "Genre with such name already exists");
+			ModelState.AddModelError("Name", "Genre with such name already exists");
 		}
 	}
 }

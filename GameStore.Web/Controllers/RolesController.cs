@@ -30,7 +30,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(RoleViewModel model)
 		{
-			if (!ModelState.IsValid)
+            CheckIfNameIsUnique(model.Name);
+
+            if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -53,7 +55,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(RoleViewModel model)
 		{
-			if (!ModelState.IsValid)
+            CheckIfNameIsUnique(model.Name);
+
+            if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -86,5 +90,15 @@ namespace GameStore.Web.Controllers
 
 			return View(roleViewModels);
 		}
-	}
+
+        private void CheckIfNameIsUnique(string name)
+        {
+            if (!_roleService.Contains(name))
+            {
+                return;
+            }
+
+            ModelState.AddModelError("Name", "Role with such name already exists");
+        }
+    }
 }

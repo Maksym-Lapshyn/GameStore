@@ -38,7 +38,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(UserViewModel model)
 		{
-			if (!ModelState.IsValid)
+            CheckIfLoginIsUnique(model.Login);
+
+            if (!ModelState.IsValid)
 			{
 				model.RolesData = GetRoles();
 				return View(model);
@@ -63,7 +65,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(UserViewModel model)
 		{
-			if (!ModelState.IsValid)
+            CheckIfLoginIsUnique(model.Login);
+
+            if (!ModelState.IsValid)
 			{
 				model.RolesData = GetRoles();
 				return View(model);
@@ -102,5 +106,15 @@ namespace GameStore.Web.Controllers
 		{
 			return _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(_roleService.GetAll()).ToList();
 		}
-	}
+
+        private void CheckIfLoginIsUnique(string login)
+        {
+            if (!_userService.Contains(login))
+            {
+                return;
+            }
+
+            ModelState.AddModelError("Login", "User with such login already exists");
+        }
+    }
 }

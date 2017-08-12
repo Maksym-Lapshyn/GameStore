@@ -1,5 +1,4 @@
 ﻿using GameStore.Services.Dtos;
-using GameStore.Services.DTOs;
 using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
@@ -8,9 +7,11 @@ namespace GameStore.Services.Abstract
 	{
 		void Create(OrderDto orderDto);
 
-		void Update(OrderDto orderDto, string gameKey);
+		void Update(OrderDto orderDtoy);
 
-		OrderDto GetSingle(string customerId);
+        bool Contains(string userLogin);
+
+		OrderDto GetSingle(string userLogin);
 
 		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
 	}

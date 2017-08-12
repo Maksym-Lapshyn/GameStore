@@ -2,7 +2,7 @@
 using GameStore.Common.Enums;
 using System.Collections.Generic;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
 	public class GameFilterDto : BaseEntity
 	{

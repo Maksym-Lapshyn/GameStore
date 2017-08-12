@@ -12,17 +12,15 @@ namespace GameStore.Web.Models
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}
 
-		public string NorthwindCustomerId { get; set; }
+        public string UserLogin { get; set; }
 
-		public int OrderId { get; set; }
+        public int OrderId { get; set; }
 
-		public DateTime OrderedDate { get; set; }
+        public DateTime DateOrdered { get; set; }
 
-		public DateTime? ShippedDate { get; set; }
+        public DateTime? DateShipped { get; set; }
 
 		public OrderStatus OrderStatus { get; set; }
-
-		public User User { get; set; }
 
 		public List<OrderDetailsViewModel> OrderDetails { get; set; }
 	}

@@ -28,18 +28,19 @@ namespace GameStore.Ninject.Modules
 
 		public override void Load()
 		{
-			Bind<GameStoreContext>().ToSelf().InRequestScope().WithConstructorArgument(_efConnectionString);
+            Bind<GameStoreContext>().ToSelf().InRequestScope().WithConstructorArgument(_efConnectionString);
 			Bind<IMongoDatabase>().ToMethod(ctx => new MongoClient(_mongoConnectionString).GetDatabase(_mongoDatabaseName));
 
-			Bind<IEfGameRepository>().To<EfGameRepository>();
+            Bind<IEfGameRepository>().To<EfGameRepository>();
 			Bind<IEfCommentRepository>().To<EfCommentRepository>();
 			Bind<IEfGenreRepository>().To<EfGenreRepository>();
 			Bind<IEfOrderRepository>().To<EfOrderRepository>();
 			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>();
 			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
 			Bind<IEfUserRepository>().To<EfUserRepository>();
-			
-			Bind<IMongoGameRepository>().To<MongoGameRepository>();
+            Bind<IEfRoleRepository>().To<EfRoleRepository>();
+
+            Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
 			Bind<IMongoGenreRepository>().To<MongoGenreRepository>();
 			Bind<IMongoPublisherRepository>().To<MongoPublisherRepository>();

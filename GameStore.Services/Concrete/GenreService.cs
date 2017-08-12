@@ -2,7 +2,7 @@
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using System.Collections.Generic;
 
 namespace GameStore.Services.Concrete
@@ -51,10 +51,10 @@ namespace GameStore.Services.Concrete
 
 		public void Update(GenreDto genreDto)
 		{
-			var genre = _genreRepository.GetSingle(g => g.Name == genreDto.Name);
-			genre = MapEmbeddedEntities(genreDto, genre);
+			var genre = _genreRepository.GetSingle(g => g.Id == genreDto.Id);
 			genre = _mapper.Map(genreDto, genre);
-			_genreRepository.Update(genre);
+            genre = MapEmbeddedEntities(genreDto, genre);
+            _genreRepository.Update(genre);
 			_unitOfWork.Save();
 		}
 

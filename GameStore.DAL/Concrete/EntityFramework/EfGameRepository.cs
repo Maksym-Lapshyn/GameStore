@@ -50,14 +50,13 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Game game)
 		{
-			var oldGame = _context.Games.First(g => g.Key == game.Key);
+			var oldGame = _context.Games.First(g => g.Id == game.Id);
 			var container = CreateContainer("Update", game, oldGame);
 			_logger.LogChange(container);
 			game = MergeGenres(game);
 			game = MergePlatformTypes(game);
 			game = MergePublisher(game);
 			MergePlainProperties(game);
-			//_context.SaveChanges();
 		}
 
 		public bool Contains(Expression<Func<Game, bool>> predicate)
@@ -81,7 +80,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		private Game MergeGenres(Game game)
 		{
-			var existingGame = _context.Games.First(g => g.Key == game.Key);
+			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			var deletedGenres = existingGame.Genres.Except(game.Genres, g => g.Id).ToList();
 			var addedGenres = game.Genres.Except(existingGame.Genres, g => g.Id).ToList();
 			deletedGenres.ForEach(g => existingGame.Genres.Remove(g));
@@ -101,7 +100,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		private Game MergePlatformTypes(Game game)
 		{
-			var existingGame = _context.Games.First(g => g.Key == game.Key);
+			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			var deletedPlatformTypes = existingGame.PlatformTypes.Except(game.PlatformTypes, p => p.Id).ToList();
 			var addedPlatformTypes = game.PlatformTypes.Except(existingGame.PlatformTypes, p => p.Id).ToList();
 			deletedPlatformTypes.ForEach(p => existingGame.PlatformTypes.Remove(p));
@@ -121,7 +120,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		private Game MergePublisher(Game game)
 		{
-			var existingGame = _context.Games.First(g => g.Key == game.Key);
+			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			if (_context.Entry(game.Publisher).State == EntityState.Detached)
 			{
 				_context.Publishers.Attach(game.Publisher);
@@ -134,7 +133,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		private void MergePlainProperties(Game game)
 		{
-			var existingGame = _context.Games.First(g => g.Key == game.Key);
+			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			_context.Entry(existingGame).CurrentValues.SetValues(game);
 			_context.Entry(existingGame).State = EntityState.Modified;
 		}

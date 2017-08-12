@@ -1,7 +1,7 @@
 ﻿using GameStore.Common.Entities;
 using System.Collections.Generic;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
 	public class GenreDto : BaseEntity
 	{

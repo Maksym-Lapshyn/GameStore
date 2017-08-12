@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -47,7 +47,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(GameViewModel model)
 		{
-			CheckIfGameKeyIsUnique(model.Key);
+			CheckIfKeyIsUnique(model.Key);
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -74,7 +74,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(GameViewModel model)
 		{
-			CheckIfGameKeyIsUnique(model.Key);
+			CheckIfKeyIsUnique(model.Key);
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -247,9 +247,9 @@ namespace GameStore.Web.Controllers
 			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
 		}
 
-		private void CheckIfGameKeyIsUnique(string gameKey)
+		private void CheckIfKeyIsUnique(string key)
 		{
-			if (!_gameService.Contains(gameKey))
+			if (!_gameService.Contains(key))
 			{
 				return;
 			}

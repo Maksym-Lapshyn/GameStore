@@ -71,6 +71,7 @@
     <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
+    <Compile Include="Infrastructure\Serializers\NullableDateTimeToStringSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\StringOrInt32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

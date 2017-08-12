@@ -1,5 +1,4 @@
 ﻿using GameStore.Common.Entities;
-using GameStore.Web.Infrastructure.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,17 +10,19 @@ namespace GameStore.Web.Models
 		{
 			RolesData = new List<RoleViewModel>();
 			RolesInput = new List<string>();
+            Orders = new List<OrderViewModel>();
 		}
 
 		[Required]
-		public string Email { get; set; }
+		public string Login { get; set; }
 
 		[Required]
 		public string Password { get; set; }
 
 		public List<RoleViewModel> RolesData { get; set; }
 
-		[CannotBeEmpty]
 		public List<string> RolesInput { get; set; }
-	}
+
+        public List<OrderViewModel> Orders { get; set; }
+    }
 }

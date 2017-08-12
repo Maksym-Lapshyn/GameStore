@@ -2,7 +2,6 @@
 using GameStore.Common.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Dtos;
-using GameStore.Services.DTOs;
 using System.Linq;
 
 namespace GameStore.Services.Infrastructure

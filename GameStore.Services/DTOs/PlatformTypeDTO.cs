@@ -1,7 +1,7 @@
 ﻿using GameStore.Common.Entities;
 using System.Collections.Generic;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
 	public class PlatformTypeDto : BaseEntity
 	{
@@ -12,6 +12,6 @@ namespace GameStore.Services.DTOs
 
 		public string Type { get; set; }
 
-		public IEnumerable<GameDto> Games { get; set; }
+		public List<GameDto> Games { get; set; }
 	}
 }

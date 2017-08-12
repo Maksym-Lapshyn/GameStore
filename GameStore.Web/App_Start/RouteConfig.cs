@@ -33,8 +33,8 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"",
 				"{controller}/{action}",
-				new { controller = "Games", action = "ShowAll" },
-				new { action = "New|History|Update|Delete|ShowCount" }
+				null,
+				new { action = "New|History|Update|Delete|ShowCount|Login|Register" }
 			);
 
 			routes.MapRoute(

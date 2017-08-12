@@ -9,12 +9,17 @@ namespace GameStore.Services.Dtos
 		{
 			RolesData = new List<RoleDto>();
 			RolesInput = new List<string>();
+            Orders = new List<OrderDto>();
 		}
 
-		public string Email { get; set; }
+        public string Login { get; set; }
 
-		public List<RoleDto> RolesData { get; set; }
+        public string Password { get; set; }
 
-		public List<string> RolesInput { get; set; }
-	}
+        public List<string> RolesInput { get; set; }
+
+        public List<RoleDto> RolesData { get; set; }
+
+        public List<OrderDto> Orders { get; set; }
+    }
 }

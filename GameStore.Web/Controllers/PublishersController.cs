@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Web.Models;
 using System.Web.Mvc;
 
@@ -28,7 +28,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(PublisherViewModel model)
 		{
-			if (!ModelState.IsValid)
+            CheckIfCompanyNameIsUnique(model.CompanyName);
+
+            if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -51,7 +53,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(PublisherViewModel model)
 		{
-			if (!ModelState.IsValid)
+            CheckIfCompanyNameIsUnique(model.CompanyName);
+
+            if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -84,5 +88,15 @@ namespace GameStore.Web.Controllers
 
 			return View(model);
 		}
-	}
+
+        private void CheckIfCompanyNameIsUnique(string companyName)
+        {
+            if (!_publisherService.Contains(companyName))
+            {
+                return;
+            }
+
+            ModelState.AddModelError("CompanyName", "Publisher with such company name already exists");
+        }
+    }
 }

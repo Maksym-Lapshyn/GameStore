@@ -3,7 +3,7 @@ using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

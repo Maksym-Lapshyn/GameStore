@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GameStore.Services.Dtos;
-using GameStore.Services.DTOs;
 using GameStore.Web.Models;
 
 namespace GameStore.Web

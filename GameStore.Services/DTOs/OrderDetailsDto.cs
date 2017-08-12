@@ -1,6 +1,6 @@
 ﻿using GameStore.Common.Entities;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
 	public class OrderDetailsDto : BaseEntity
 	{

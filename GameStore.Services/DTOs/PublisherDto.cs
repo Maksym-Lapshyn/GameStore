@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameStore.Common.Entities;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
 	public class PublisherDto : BaseEntity
 	{
@@ -16,6 +16,6 @@ namespace GameStore.Services.DTOs
 
 		public string HomePage { get; set; }
 
-		public IEnumerable<GameDto> Games { get; set; }
+		public List<GameDto> Games { get; set; }
 	}
 }

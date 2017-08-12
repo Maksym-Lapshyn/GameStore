@@ -1,4 +1,4 @@
-﻿using GameStore.Services.DTOs;
+﻿using GameStore.Services.Dtos;
 using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
