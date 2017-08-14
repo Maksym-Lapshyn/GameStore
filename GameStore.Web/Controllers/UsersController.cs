@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
-using GameStore.Common.Entities;
+﻿using AutoMapper;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using GameStore.Web.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
@@ -38,9 +37,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(UserViewModel model)
 		{
-            CheckIfLoginIsUnique(model.Login);
+			CheckIfLoginIsUnique(model.Login);
 
-            if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				model.RolesData = GetRoles();
 				return View(model);
@@ -65,9 +64,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(UserViewModel model)
 		{
-            CheckIfLoginIsUnique(model.Login);
+			CheckIfLoginIsUnique(model.Login);
 
-            if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				model.RolesData = GetRoles();
 				return View(model);
@@ -107,14 +106,14 @@ namespace GameStore.Web.Controllers
 			return _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(_roleService.GetAll()).ToList();
 		}
 
-        private void CheckIfLoginIsUnique(string login)
-        {
-            if (!_userService.Contains(login))
-            {
-                return;
-            }
+		private void CheckIfLoginIsUnique(string login)
+		{
+			if (!_userService.Contains(login))
+			{
+				return;
+			}
 
-            ModelState.AddModelError("Login", "User with such login already exists");
-        }
-    }
+			ModelState.AddModelError("Login", "User with such login already exists");
+		}
+	}
 }

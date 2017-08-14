@@ -10,9 +10,6 @@ namespace GameStore.Common.Entities
 	[BsonIgnoreExtraElements]
 	public class Order : BaseEntity
 	{
-		[BsonElement("CustomerID")]
-		public string UserLogin { get; set; }
-
 		[BsonElement("OrderID")]
 		[NotMapped]
 		public int OrderId { get; set; }
@@ -23,10 +20,14 @@ namespace GameStore.Common.Entities
 
 		[BsonSerializer(typeof(NullableDateTimeToStringSerializer))]
 		[Column(TypeName = "datetime2")]
-        [BsonElement("ShippedDate")]
-        public DateTime? DateShipped { get; set; }
+		[BsonElement("ShippedDate")]
+		public DateTime? DateShipped { get; set; }
 
 		public OrderStatus OrderStatus { get; set; }
+
+		public int? UserId { get; set; }
+
+		public virtual User User { get; set; }
 
 		public virtual ICollection<OrderDetails> OrderDetails { get; set; }
 	}

@@ -1,11 +1,11 @@
-﻿using System;
-using GameStore.Common.Entities;
+﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
+using GameStore.DAL.Infrastructure.Extensions;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using GameStore.DAL.Infrastructure.Extensions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -35,8 +35,8 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(User user)
 		{
-            user = MergeRoles(user);
-            MergePlainProperties(user);
+			user = MergeRoles(user);
+			MergePlainProperties(user);
 		}
 
 		public void Create(User user)
@@ -51,31 +51,31 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context.Entry(user).State = EntityState.Modified;
 		}
 
-        private User MergeRoles(User user)
-        {
-            var existingUser = _context.Users.First(u => u.Id == user.Id);
-            var deletedRoles = existingUser.Roles.Except(user.Roles, r => r.Id).ToList();
-            var addedRoles = user.Roles.Except(existingUser.Roles, r => r.Id).ToList();
-            deletedRoles.ForEach(r => existingUser.Roles.Remove(r));
+		private User MergeRoles(User user)
+		{
+			var existingUser = _context.Users.First(u => u.Id == user.Id);
+			var deletedRoles = existingUser.Roles.Except(user.Roles, r => r.Id).ToList();
+			var addedRoles = user.Roles.Except(existingUser.Roles, r => r.Id).ToList();
+			deletedRoles.ForEach(r => existingUser.Roles.Remove(r));
 
-            foreach (var r in addedRoles)
-            {
-                if (_context.Entry(r).State == EntityState.Detached)
-                {
-                    _context.Roles.Attach(r);
-                }
+			foreach (var r in addedRoles)
+			{
+				if (_context.Entry(r).State == EntityState.Detached)
+				{
+					_context.Roles.Attach(r);
+				}
 
-                existingUser.Roles.Add(r);
-            }
+				existingUser.Roles.Add(r);
+			}
 
-            return user;
-        }
+			return user;
+		}
 
-        private void MergePlainProperties(User user)
-        {
-            var existingUser = _context.Users.First(g => g.Id == user.Id);
-            _context.Entry(existingUser).CurrentValues.SetValues(user);
-            _context.Entry(existingUser).State = EntityState.Modified;
-        }
-    }
+		private void MergePlainProperties(User user)
+		{
+			var existingUser = _context.Users.First(g => g.Id == user.Id);
+			_context.Entry(existingUser).CurrentValues.SetValues(user);
+			_context.Entry(existingUser).State = EntityState.Modified;
+		}
+	}
 }

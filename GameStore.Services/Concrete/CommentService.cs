@@ -68,22 +68,15 @@ namespace GameStore.Services.Concrete
 			return commentDtos;
 		}
 
-		public void Update(CommentDto commentDto)
-		{
-			var comment = _mapper.Map<CommentDto, Comment>(commentDto);
-
-			if (comment.ParentCommentId != null)
-			{
-				comment.ParentComment = _commentRepository.GetSingle(c => c.ParentCommentId.Value == comment.ParentCommentId.Value);
-			}
-
-			_commentRepository.Update(comment);
-			_unitOfWork.Save();
-		}
-
 		public CommentDto GetSingle(int id)
 		{
 			return _mapper.Map<Comment, CommentDto>(_commentRepository.GetSingle(c => c.Id == id));
+		}
+
+		public void Delete(int id)
+		{
+			_commentRepository.Delete(id);
+			_unitOfWork.Save();
 		}
 	}
 }

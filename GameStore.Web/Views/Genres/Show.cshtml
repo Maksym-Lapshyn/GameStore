@@ -1,11 +1,11 @@
 ﻿@model GameStore.Web.Models.GenreViewModel
 
 @{
-	ViewBag.Title = "Show Genre";
+	ViewBag.Title = "Genre";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Show Genre</h1>
+<h1>Genre</h1>
 <b>@Html.LabelFor(m => m.Name)</b>
 <p>@Html.DisplayFor(m => m.Name)</p>
 @if (Model.ParentGenreInput != null)

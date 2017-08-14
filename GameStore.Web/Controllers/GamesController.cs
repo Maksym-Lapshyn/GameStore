@@ -47,7 +47,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(GameViewModel model)
 		{
-			CheckIfKeyIsUnique(model.Key);
+			CheckIfKeyIsUnique(model);
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -74,7 +74,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(GameViewModel model)
 		{
-			CheckIfKeyIsUnique(model.Key);
+			CheckIfKeyIsUnique(model);
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -247,14 +247,19 @@ namespace GameStore.Web.Controllers
 			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
 		}
 
-		private void CheckIfKeyIsUnique(string key)
+		private void CheckIfKeyIsUnique(GameViewModel model)
 		{
-			if (!_gameService.Contains(key))
+			if (!_gameService.Contains(model.Key))
 			{
 				return;
 			}
 
-			ModelState.AddModelError("Key", "Game with such key already exists");
+			var existingGame = _gameService.GetSingle(model.Key);
+
+			if (existingGame.Id != model.Id)
+			{
+				ModelState.AddModelError("Key", "Game with such key already exists");
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Common.Abstract;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using GameStore.Services.Abstract;
@@ -9,23 +10,32 @@ namespace GameStore.Services.Concrete
 {
 	public class UserService : IUserService
 	{
+		private const string DefaultRoleName = "User";
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
 		private readonly IRoleRepository _roleRepository;
+		private readonly IHasher<string> _hasher;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public UserService(IMapper mapper, IUserRepository userRepository, IRoleRepository roleRepository, IUnitOfWork unitOfWork)
+		public UserService(IMapper mapper,
+			IUserRepository userRepository,
+			IRoleRepository roleRepository,
+			IHasher<string> hasher,
+			IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_userRepository = userRepository;
 			_roleRepository = roleRepository;
+			_hasher = hasher;
 			_unitOfWork = unitOfWork;
 		}
 
 		public void Create(UserDto userDto)
 		{
+			AddDefaultRoleInput(userDto);
 			var user = _mapper.Map<UserDto, User>(userDto);
 			user = MapEmbeddedEntities(userDto, user);
+			user.Password = _hasher.GenerateHash(user.Password);
 			_userRepository.Create(user);
 			_unitOfWork.Save();
 		}
@@ -46,8 +56,10 @@ namespace GameStore.Services.Concrete
 
 		public void Update(UserDto userDto)
 		{
-            var user = _mapper.Map<UserDto, User>(userDto);
+			AddDefaultRoleInput(userDto);
+			var user = _mapper.Map<UserDto, User>(userDto);
 			user = MapEmbeddedEntities(userDto, user);
+			user.Password = _userRepository.GetSingle(u => u.Id == userDto.Id).Password;
 			_userRepository.Update(user);
 			_unitOfWork.Save();
 		}
@@ -67,12 +79,17 @@ namespace GameStore.Services.Concrete
 
 		private User MapEmbeddedEntities(UserDto input, User result)
 		{
-            if (input.RolesInput != null)
-            {
-                input.RolesInput.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
-            }
+			input.RolesInput?.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
 
 			return result;
+		}
+
+		private void AddDefaultRoleInput(UserDto user)
+		{
+			if (user.RolesInput.Count == 0)
+			{
+				user.RolesInput.Add(DefaultRoleName);
+			}
 		}
 	}
 }

@@ -12,6 +12,7 @@ namespace GameStore.Services.Concrete
 {
 	public class GameService : IGameService
 	{
+		private const string DefaultGenreName = "Other";
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IGameRepository _gameRepository;
@@ -36,6 +37,7 @@ namespace GameStore.Services.Concrete
 
 		public void Create(GameDto gameDto)
 		{
+			AddDefaultGenreInput(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			MapEmbeddedEntities(gameDto, game);
 			game.ViewsCount = 0;
@@ -46,6 +48,7 @@ namespace GameStore.Services.Concrete
 
 		public void Update(GameDto gameDto)
 		{
+			AddDefaultGenreInput(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
 			game = MapEmbeddedEntities(gameDto, game);
@@ -102,6 +105,11 @@ namespace GameStore.Services.Concrete
 			return _gameRepository.GetAll().Count();
 		}
 
+		public bool Contains(string gameKey)
+		{
+			return _gameRepository.Contains(g => g.Key == gameKey);
+		}
+
 		private Game ConvertToPoco(Game game)
 		{
 			var gameDto = _mapper.Map<Game, GameDto>(game);
@@ -120,9 +128,12 @@ namespace GameStore.Services.Concrete
 			return result;
 		}
 
-		public bool Contains(string gameKey)
+		private void AddDefaultGenreInput(GameDto game)
 		{
-			return _gameRepository.Contains(g => g.Key == gameKey);
+			if (game.GenresInput.Count == 0)
+			{
+				game.GenresInput.Add(DefaultGenreName);
+			}
 		}
 	}
 }

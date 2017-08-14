@@ -1,16 +1,20 @@
 ﻿@model List<GameStore.Web.Models.RoleViewModel>
 
 @{
-	ViewBag.Title = "Show All Roles";
+	ViewBag.Title = "All Roles";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Show All Roles</h1>
+<h1>All Roles</h1>
 
+<hr />
 @foreach (var role in Model)
 {
 	<b>@Html.LabelFor(m => role.Name)</b>
 	<p>@Html.ActionLink(role.Name, "Show", "Roles", new { key = role.Name }, null)</p>
+	<hr />
 }
 
-@Html.ActionLink("Create new", "New", "Roles", null, new { @class = "btn btn-default" })
+<p>
+	@Html.ActionLink("Create new", "New", "Roles", null, new {@class = "btn btn-default"})
+</p>

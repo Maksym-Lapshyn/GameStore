@@ -34,7 +34,7 @@ namespace GameStore.Web
 				"",
 				"{controller}/{action}",
 				null,
-				new { action = "New|History|Update|Delete|ShowCount|Login|Register" }
+				new { action = "New|History|Update|Delete|ShowCount|Login|Register|Buy" }
 			);
 
 			routes.MapRoute(

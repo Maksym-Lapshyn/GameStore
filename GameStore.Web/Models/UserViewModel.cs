@@ -10,7 +10,7 @@ namespace GameStore.Web.Models
 		{
 			RolesData = new List<RoleViewModel>();
 			RolesInput = new List<string>();
-            Orders = new List<OrderViewModel>();
+			Orders = new List<OrderViewModel>();
 		}
 
 		[Required]
@@ -23,6 +23,6 @@ namespace GameStore.Web.Models
 
 		public List<string> RolesInput { get; set; }
 
-        public List<OrderViewModel> Orders { get; set; }
-    }
+		public List<OrderViewModel> Orders { get; set; }
+	}
 }

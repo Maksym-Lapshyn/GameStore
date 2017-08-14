@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using GameStore.Web.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
@@ -28,9 +28,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(PublisherViewModel model)
 		{
-            CheckIfCompanyNameIsUnique(model.CompanyName);
+			CheckIfCompanyNameIsUnique(model);
 
-            if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -53,9 +53,9 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(PublisherViewModel model)
 		{
-            CheckIfCompanyNameIsUnique(model.CompanyName);
+			CheckIfCompanyNameIsUnique(model);
 
-            if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
@@ -89,14 +89,19 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-        private void CheckIfCompanyNameIsUnique(string companyName)
-        {
-            if (!_publisherService.Contains(companyName))
-            {
-                return;
-            }
+		private void CheckIfCompanyNameIsUnique(PublisherViewModel model)
+		{
+			if (!_publisherService.Contains(model.CompanyName))
+			{
+				return;
+			}
 
-            ModelState.AddModelError("CompanyName", "Publisher with such company name already exists");
-        }
-    }
+			var existingPublisher = _publisherService.GetSingle(model.CompanyName);
+
+			if (existingPublisher.Id != model.Id)
+			{
+				ModelState.AddModelError("CompanyName", "Publisher with such company name already exists");
+			}
+		}
+	}
 }

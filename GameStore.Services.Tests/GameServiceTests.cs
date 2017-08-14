@@ -37,7 +37,7 @@ namespace GameStore.Services.Tests
 			_mockOfUow = new Mock<IUnitOfWork>();
 			_target = new GameService(_mockOfUow.Object, _mapper, _mockOfGameRepository.Object, _mockOfPublisherRepository.Object,
 				_mockOfGenreRepository.Object, _mockOfPlatformTypeRepository.Object);
-			_mockOfGameRepository.Setup(m => m.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
+			//_mockOfGameRepository.Setup(m => m.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
 			_mockOfPublisherRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new Publisher());
 			_mockOfPlatformTypeRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new PlatformType());
 			_mockOfGenreRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new Genre());

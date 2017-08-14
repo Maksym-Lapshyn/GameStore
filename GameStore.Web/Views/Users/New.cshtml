@@ -9,10 +9,10 @@
 <h1>New User</h1>
 @using (Html.BeginForm("New", "Users", FormMethod.Post))
 {
-	<b>@Html.LabelFor(m => m.Name)</b>
+	<b>@Html.LabelFor(m => m.Login)</b>
 	<p>
-		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-		@Html.ValidationMessageFor(m => m.Name)
+		@Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Login)
 	</p>
 	<b>@Html.LabelFor(m => m.RolesInput)</b>
 	<p>

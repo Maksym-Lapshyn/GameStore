@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IHasher.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Enums\AccessLevel.cs" />
+    <Compile Include="Concrete\Md5Hasher.cs" />
     <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
@@ -78,5 +80,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,7 +13,7 @@ namespace GameStore.Web.Models
 		}
 
 		[Required]
-		[DisplayName("Genre Name")]
+		[DisplayName("Name")]
 		public string Name { get; set; }
 
 		public List<GenreViewModel> ParentGenreData { get; set; }

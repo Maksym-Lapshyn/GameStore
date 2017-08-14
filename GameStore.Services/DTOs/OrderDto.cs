@@ -12,15 +12,17 @@ namespace GameStore.Services.Dtos
 			OrderDetails = new List<OrderDetailsDto>();
 		}
 
-        public string UserLogin { get; set; }
+		public int OrderId { get; set; }
 
-        public int OrderId { get; set; }
+		public DateTime DateOrdered { get; set; }
 
-        public DateTime DateOrdered { get; set; }
-
-        public DateTime? DateShipped { get; set; }
+		public DateTime? DateShipped { get; set; }
 
 		public OrderStatus OrderStatus { get; set; }
+
+		public int? UserId { get; set; }
+
+		public virtual UserDto User { get; set; }
 
 		public List<OrderDetailsDto> OrderDetails { get; set; }
 	}

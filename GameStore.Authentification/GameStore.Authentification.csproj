@@ -44,7 +44,7 @@
     <Compile Include="Abstract\IAuthentication.cs" />
     <Compile Include="Abstract\IUserProvider.cs" />
     <Compile Include="Concrete\Authentication.cs" />
-    <Compile Include="Infrastructure\UserIdentity.cs" />
+    <Compile Include="Infrastructure\UserIdentityProvider.cs" />
     <Compile Include="Concrete\UserProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

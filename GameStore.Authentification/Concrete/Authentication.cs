@@ -5,6 +5,7 @@ using System;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
+using GameStore.Common.Abstract;
 
 namespace GameStore.Authentification.Concrete
 {
@@ -12,19 +13,21 @@ namespace GameStore.Authentification.Concrete
 	{
 		private const string CookieName = "GameStore_Authentication";
 		private readonly IUserRepository _repository;
+		private readonly IHasher<string> _hasher;
 		private IPrincipal _currentUser;
 
 		public HttpContext HttpContext { get; set; }
 
-		public Authentication(IUserRepository repository)
+		public Authentication(IUserRepository repository, IHasher<string> hasher)
 		{
 			_repository = repository;
+			_hasher = hasher;
 		}
 
 		public User Login(string login, string password, bool isPersistent)
 		{
-			var user = _repository.Contains(u => u.Login == login && u.Password == password.GetHashCode().ToString()) 
-				? _repository.GetSingle(u => u.Login == login && u.Password == password.GetHashCode().ToString()) 
+			var user = _repository.Contains(u => u.Login == login && u.Password == _hasher.GenerateHash(password)) 
+				? _repository.GetSingle(u => u.Login == login && u.Password == _hasher.GenerateHash(password)) 
 				: null;
 
 			if (user != null)

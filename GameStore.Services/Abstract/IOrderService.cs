@@ -9,9 +9,11 @@ namespace GameStore.Services.Abstract
 
 		void Update(OrderDto orderDtoy);
 
-        bool Contains(string userLogin);
+		void Buy(int orderId, string gameKey);
 
-		OrderDto GetSingle(string userLogin);
+		bool ContainsActive(int userId);
+
+		OrderDto GetSingleActive(int userId);
 
 		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
 	}

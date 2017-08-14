@@ -4,7 +4,7 @@ using System.Security.Principal;
 
 namespace GameStore.Authentification.Infrastructure
 {
-	public class UserIdentity : IIdentity, IUserProvider
+	public class UserIdentityProvider : IIdentity, IUserProvider
 	{
 		public User User { get; set; }
 

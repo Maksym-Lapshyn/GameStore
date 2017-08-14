@@ -1,13 +1,13 @@
 ﻿@model GameStore.Web.Models.UserViewModel
 
 @{
-	ViewBag.Title = "Show User";
+	ViewBag.Title = "User";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Show User</h1>
-<b>@Html.LabelFor(m => m.Name)</b>
-<p>@Html.DisplayFor(m => m.Name)</p>
+<h1>User</h1>
+<b>@Html.LabelFor(m => m.Login)</b>
+<p>@Html.DisplayFor(m => m.Login)</p>
 <b>@Html.LabelFor(m => m.RolesInput)</b>
 @if (Model.RolesInput.Count != 0)
 {
@@ -21,4 +21,4 @@ else
 	<p>Guest</p>
 }
 
-@Html.ActionLink("Update", "Update", "Users", new { key = Model.Name }, new { @class = "btn btn-default" })
+@Html.ActionLink("Update", "Update", "Users", new { key = Model.Login }, new { @class = "btn btn-default" })

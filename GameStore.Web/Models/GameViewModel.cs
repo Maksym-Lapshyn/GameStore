@@ -53,11 +53,9 @@ namespace GameStore.Web.Models
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
 		[DisplayName("Publisher")]
-		[Required]
 		public string PublisherInput { get; set; }
 
 		[DisplayName("Genres")]
-		[CannotBeEmpty]
 		public List<string> GenresInput { get; set; }
 
 		[DisplayName("Platform Types")]

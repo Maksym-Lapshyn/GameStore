@@ -56,27 +56,11 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[HttpGet]
-		public ActionResult Update(int id)
+		public ActionResult Delete(int key)
 		{
-			var dto = _commentService.GetSingle(id);
-			var model = _mapper.Map<CommentDto, CommentViewModel>(dto);
+			_commentService.Delete(key);
 
-			return View(model);
-		}
-
-		[HttpPost]
-		public ActionResult Update(CommentViewModel model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-
-			var dto = _mapper.Map<CommentViewModel, CommentDto>(model);
-			_commentService.Update(dto);
-
-			return View("NewComment", model.GameKey);
+			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Games");
 		}
 
 		private List<CommentViewModel> GetComments(string key)

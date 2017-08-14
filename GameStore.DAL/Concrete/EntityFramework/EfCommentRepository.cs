@@ -36,5 +36,12 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			_context.Entry(comment).State = EntityState.Modified;
 		}
+
+		public void Delete(int id)
+		{
+			var comment = _context.Comments.First(c => c.Id == id);
+			comment.IsDeleted = true;
+			_context.Entry(comment).State = EntityState.Modified;
+		}
 	}
 }

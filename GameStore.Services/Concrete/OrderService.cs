@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
@@ -6,7 +7,7 @@ using GameStore.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 
 namespace GameStore.Services.Concrete
 {
@@ -37,17 +38,20 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public OrderDto GetSingle(string userLogin)
+		public OrderDto GetSingleActive(int userId)
 		{
-            var order = _orderRepository.GetSingle(o => o.UserLogin == userLogin);
-            var orderDto = _mapper.Map<Order, OrderDto>(order);
+			var order = _orderRepository.GetSingle(o => o.UserId == userId && o.OrderStatus == OrderStatus.Active);
+			var orderDto = _mapper.Map<Order, OrderDto>(order);
 
 			return orderDto;
 		}
 
-        public void Update(OrderDto orderDto)
+		public void Update(OrderDto orderDto)
 		{
-            var order = _orderRepository;
+			var order = _orderRepository.GetSingle(o => o.Id == orderDto.Id);
+			order = _mapper.Map(orderDto, order);
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
 		}
 
 		public IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null)
@@ -66,12 +70,36 @@ namespace GameStore.Services.Concrete
 			return _mapper.Map<IEnumerable<Order>, List<OrderDto>>(orders);
 		}
 
-        public bool Contains(string userLogin)
-        {
-            return _orderRepository.Contains(o => o.UserLogin == userLogin);
-        }
+		public bool ContainsActive(int userId)
+		{
+			return _orderRepository.Contains(o => o.UserId == userId && o.OrderStatus == OrderStatus.Active);
+		}
 
-        private void Map(Order output)
+		public void Buy(int orderId, string gameKey)
+		{
+			var order = _orderRepository.GetSingle(o => o.Id == orderId && o.OrderStatus == OrderStatus.Active);
+
+			if (order.OrderDetails.Any(o => o.GameKey == gameKey))
+			{
+				var orderDetails = order.OrderDetails.First(o => o.GameKey == gameKey);
+				orderDetails.Quantity++;
+				orderDetails.Price = orderDetails.Game.Price * orderDetails.Quantity;
+			}
+
+			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
+			order.OrderDetails.Add(new OrderDetails
+			{
+				Game = game,
+				GameKey = gameKey,
+				Price = game.Price,
+				Quantity = 1
+			});
+
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
+		}
+
+		private void Map(Order output)
 		{
 			output.OrderDetails.ToList().ForEach(o =>
 			{
@@ -79,5 +107,5 @@ namespace GameStore.Services.Concrete
 				o.Price = o.Game.Price;
 			});
 		}
-    }
+	}
 }

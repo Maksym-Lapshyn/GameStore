@@ -1,11 +1,11 @@
 ﻿@model GameStore.Web.Models.GameViewModel
 
 @{
-	ViewBag.Title = "Show Game";
+	ViewBag.Title = "Game";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Show Game</h1>
+<h1>Game</h1>
 <b>@Html.LabelFor(m => m.Key)</b>
 <p>@Html.DisplayFor(m => m.Key)</p>
 <b>@Html.LabelFor(m => m.Name)</b>
@@ -29,6 +29,7 @@
 }
 
 <b>@Html.LabelFor(m => m.GenresInput)</b>
+
 @if (Model.GenresInput.Count != 0)
 {
 	foreach (var name in Model.GenresInput)
@@ -42,6 +43,7 @@ else
 }
 
 <b>@Html.LabelFor(m => m.PublisherInput)</b>
+
 @if (Model.PublisherInput != null)
 {
 	<p>@Html.ActionLink(Model.PublisherInput, "Show", "Publishers", new { key = Model.PublisherInput }, null)</p>

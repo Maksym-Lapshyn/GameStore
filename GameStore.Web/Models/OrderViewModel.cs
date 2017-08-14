@@ -1,7 +1,7 @@
 ﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 using System;
 using System.Collections.Generic;
-using GameStore.Common.Enums;
 
 namespace GameStore.Web.Models
 {
@@ -12,15 +12,17 @@ namespace GameStore.Web.Models
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}
 
-        public string UserLogin { get; set; }
+		public int OrderId { get; set; }
 
-        public int OrderId { get; set; }
+		public DateTime DateOrdered { get; set; }
 
-        public DateTime DateOrdered { get; set; }
-
-        public DateTime? DateShipped { get; set; }
+		public DateTime? DateShipped { get; set; }
 
 		public OrderStatus OrderStatus { get; set; }
+
+		public int? UserId { get; set; }
+
+		public virtual UserViewModel User { get; set; }
 
 		public List<OrderDetailsViewModel> OrderDetails { get; set; }
 	}

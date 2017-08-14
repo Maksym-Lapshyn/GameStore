@@ -36,5 +36,9 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository.Update(comment);
 		}
 
+		public void Delete(int id)
+		{
+			_efRepository.Delete(id);
+		}
 	}
 }

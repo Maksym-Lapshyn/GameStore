@@ -30,7 +30,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(GenreViewModel model)
 		{
-			CheckIfNameIsUnique(model.Name);
+			CheckIfNameIsUnique(model);
 			if (!ModelState.IsValid)
 			{
 				model.ParentGenreData = GetGenres();
@@ -56,7 +56,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(GenreViewModel model)
 		{
-			CheckIfNameIsUnique(model.Name);
+			CheckIfNameIsUnique(model);
 			if (!ModelState.IsValid)
 			{
 				model.ParentGenreData = GetGenres();
@@ -97,14 +97,19 @@ namespace GameStore.Web.Controllers
 			return _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
 		}
 
-		private void CheckIfNameIsUnique(string name)
+		private void CheckIfNameIsUnique(GenreViewModel model)
 		{
-			if (!_genreService.Contains(name))
+			if (!_genreService.Contains(model.Name))
 			{
 				return;
 			}
 
-			ModelState.AddModelError("Name", "Genre with such name already exists");
+			var existingGenre = _genreService.GetSingle(model.Name);
+
+			if (existingGenre.Id != model.Id)
+			{
+				ModelState.AddModelError("Name", "Genre with such name already exists");
+			}
 		}
 	}
 }

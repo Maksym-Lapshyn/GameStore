@@ -59,7 +59,8 @@ namespace GameStore.DAL.Context
 			var fps = new Genre { Name = "FPS", ParentGenre = strategy};
 			var tps = new Genre { Name = "TPS", ParentGenre = strategy };
 			var subMisc = new Genre { Name = "Misc(Sub-genre)", ParentGenre = strategy };
-			context.Genres.AddRange(new List<Genre> { rts, tbs, rally, arcade, formula, offRoad, fps, tps, subMisc, strategy, rpg, adventure, puzzleAndSkill, misc });
+			var other = new Genre {Name = "Other"};
+			context.Genres.AddRange(new List<Genre> { rts, tbs, rally, arcade, formula, offRoad, fps, tps, subMisc, strategy, rpg, adventure, puzzleAndSkill, misc, other });
 			context.SaveChanges();
 			var mobile = new PlatformType { Type = "Mobile" };
 			var browser = new PlatformType { Type = "Browser" };

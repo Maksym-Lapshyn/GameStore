@@ -53,8 +53,8 @@ namespace GameStore.Services.Concrete
 		{
 			var genre = _genreRepository.GetSingle(g => g.Id == genreDto.Id);
 			genre = _mapper.Map(genreDto, genre);
-            genre = MapEmbeddedEntities(genreDto, genre);
-            _genreRepository.Update(genre);
+			genre = MapEmbeddedEntities(genreDto, genre);
+			_genreRepository.Update(genre);
 			_unitOfWork.Save();
 		}
 
