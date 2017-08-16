@@ -46,11 +46,11 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Register()
 		{
-			return View(new UserViewModel());
+			return View(new RegisterViewModel());
 		}
 
 		[HttpPost]
-		public ActionResult Register(UserViewModel model)
+		public ActionResult Register(RegisterViewModel model)
 		{
 			if (_userService.Contains(model.Login))
 			{
@@ -62,7 +62,7 @@ namespace GameStore.Web.Controllers
 				return View(model);
 			}
 
-			var userDto = _mapper.Map<UserViewModel, UserDto>(model);
+			var userDto = new UserDto {Login = model.Login, Password = model.Login};
 			_userService.Create(userDto);
 			Auth.Login(model.Login, model.Password, true);
 

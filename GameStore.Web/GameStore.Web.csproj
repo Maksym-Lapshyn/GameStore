@@ -193,6 +193,7 @@
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PlatformTypeViewModel.cs" />
     <Compile Include="Models\PublisherViewModel.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -215,7 +216,7 @@
     <Content Include="Views\Games\ShowCount.cshtml" />
     <Content Include="Views\Publishers\Show.cshtml" />
     <Content Include="Views\Publishers\New.cshtml" />
-    <Content Include="Views\Orders\Show.cshtml" />
+    <Content Include="Views\Orders\ShowActive.cshtml" />
     <Content Include="Views\Comments\ShowAllChilds.cshtml" />
     <Content Include="Views\Games\ShowAll.cshtml" />
     <Content Include="Views\Orders\History.cshtml" />
@@ -236,6 +237,7 @@
     <Content Include="Views\Users\ShowAll.cshtml" />
     <Content Include="Views\Accounts\Login.cshtml" />
     <Content Include="Views\Accounts\Register.cshtml" />
+    <Content Include="Views\Orders\ShowAll.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -247,9 +249,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameStore.Authentification\GameStore.Authentification.csproj">
+    <ProjectReference Include="..\GameStore.Authentification\GameStore.Authentication.csproj">
       <Project>{21ababd0-fa79-4693-b6f0-f7e6458f5af3}</Project>
-      <Name>GameStore.Authentification</Name>
+      <Name>GameStore.Authentication</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
       <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>

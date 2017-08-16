@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
@@ -31,6 +34,7 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult New()
 		{
@@ -44,6 +48,7 @@ namespace GameStore.Web.Controllers
 			return View(gameViewModel);
 		}
 
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult New(GameViewModel model)
 		{
@@ -59,6 +64,7 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("ShowAll");
 		}
 
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
@@ -71,6 +77,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult Update(GameViewModel model)
 		{
@@ -125,12 +132,13 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult Delete(string key)
 		{
 			_gameService.Delete(key);
 
-			return RedirectToAction("ShowAll");
+			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Games");
 		}
 
 		[OutputCache(Duration = 60)]
@@ -229,7 +237,9 @@ namespace GameStore.Web.Controllers
 		{
 			var filterDto = _mapper.Map<GameFilterViewModel, GameFilterDto>(filter);
 
-			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(_gameService.GetAll(filterDto, itemsToSkip, itemsToTake));
+			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(User.Identity.IsAuthenticated && CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.Manager) 
+				? _gameService.GetAll(filterDto, itemsToSkip, itemsToTake) 
+				: _gameService.GetAll(filterDto, itemsToSkip, itemsToTake, false));
 		}
 
 		private List<PlatformTypeViewModel> GetPlatformTypes()

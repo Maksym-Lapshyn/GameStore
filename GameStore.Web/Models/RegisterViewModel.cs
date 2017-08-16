@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
-	public class LoginViewModel
+	public class RegisterViewModel
 	{
 		[Required]
 		public string Login { get; set; }
@@ -11,7 +11,9 @@ namespace GameStore.Web.Models
 		[Required]
 		public string Password { get; set; }
 
-		[DisplayName("Stay in the system")]
-		public bool IsPersistent { get; set; }
+		[Required]
+		[DisplayName("Confirm password")]
+		[Compare("Password", ErrorMessage = "Passwords do not match")]
+		public string PasswordConfirmation { get; set; }
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using GameStore.Common.Entities;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
@@ -21,6 +22,7 @@ namespace GameStore.Web.Models
 
 		public List<RoleViewModel> RolesData { get; set; }
 
+		[DisplayName("Roles")]
 		public List<string> RolesInput { get; set; }
 
 		public List<OrderViewModel> Orders { get; set; }

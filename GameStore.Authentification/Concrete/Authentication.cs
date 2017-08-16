@@ -1,11 +1,11 @@
 ﻿using GameStore.Authentification.Abstract;
+using GameStore.Common.Abstract;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using System;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
-using GameStore.Common.Abstract;
 
 namespace GameStore.Authentification.Concrete
 {
@@ -17,6 +17,7 @@ namespace GameStore.Authentification.Concrete
 		private IPrincipal _currentUser;
 
 		public HttpContext HttpContext { get; set; }
+		public User User => ((IUserProvider)CurrentUser.Identity).User;
 
 		public Authentication(IUserRepository repository, IHasher<string> hasher)
 		{
@@ -26,27 +27,14 @@ namespace GameStore.Authentification.Concrete
 
 		public User Login(string login, string password, bool isPersistent)
 		{
-			var user = _repository.Contains(u => u.Login == login && u.Password == _hasher.GenerateHash(password)) 
-				? _repository.GetSingle(u => u.Login == login && u.Password == _hasher.GenerateHash(password)) 
+			var hashedPassword = _hasher.GenerateHash(password);
+			var user = _repository.Contains(u => u.Login == login && u.Password == hashedPassword) 
+				? _repository.GetSingle(u => u.Login == login && u.Password == hashedPassword) 
 				: null;
 
 			if (user != null)
 			{
 				CreateCookie(login, isPersistent);
-			}
-
-			return user;
-		}
-
-		public User Login(string login)
-		{
-			var user = _repository.Contains(u => u.Login == login)
-				? _repository.GetSingle(u => u.Login == login)
-				: null;
-
-			if (user != null)
-			{
-				CreateCookie(login);
 			}
 
 			return user;

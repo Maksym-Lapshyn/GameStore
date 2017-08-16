@@ -21,7 +21,7 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"",
 				"busket",
-				new { controller = "Orders", action = "Show" }
+				new { controller = "Orders", action = "ShowActive" }
 			);
 
 			routes.MapRoute(
@@ -34,12 +34,12 @@ namespace GameStore.Web
 				"",
 				"{controller}/{action}",
 				null,
-				new { action = "New|History|Update|Delete|ShowCount|Login|Register|Buy" }
+				new { action = "New|History|Update|Delete|ShowCount|Login|Logout|Register|ShowAll|Buy" }
 			);
 
 			routes.MapRoute(
 				"",
-				"{controller}/{key}/{action}",
+				"{controller}/{*key}",
 				new { action = "Show" }
 			);
 

@@ -1,13 +1,15 @@
 ﻿using GameStore.Authentification.Abstract;
-using GameStore.Common.Entities;
+using Ninject;
 using System.Web.Mvc;
+using GameStore.Common.Entities;
 
 namespace GameStore.Web.Controllers
 {
 	public class BaseController : Controller
 	{
+		[Inject]
 		public IAuthentication Auth { get; set; }
 
-		public User CurrentUser => ((IUserProvider) Auth.CurrentUser.Identity).User;
+		public User CurrentUser => Auth.User;
 	}
 }

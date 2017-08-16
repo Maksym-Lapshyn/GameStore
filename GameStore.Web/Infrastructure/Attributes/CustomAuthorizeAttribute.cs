@@ -1,31 +1,40 @@
-﻿using GameStore.Common.Enums;
+﻿using GameStore.Authentification.Abstract;
+using GameStore.Common.Enums;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Infrastructure.Attributes
 {
 	public class CustomAuthorizeAttribute : AuthorizeAttribute
 	{
-		public AccessLevel AccessLevel { get; set; }
+		private readonly AccessLevel[] _accessLevels;
+		private readonly IAuthentication _auth;
+		private readonly AuthorizationMode _mode;
 
-		public override void OnAuthorization(AuthorizationContext filterContext)
+		public CustomAuthorizeAttribute(AuthorizationMode mode, params AccessLevel[] accessLevels)
 		{
-			if (AccessLevel != 0)
-			{
-				Roles = AccessLevel.ToString();
-			}
-
-			base.OnAuthorization(filterContext);
+			_accessLevels = accessLevels;
+			_mode = mode;
+			_auth = DependencyResolver.Current.GetService<IAuthentication>();
 		}
 
-		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+			if (_mode == AuthorizationMode.Allow)
 			{
-				filterContext.HttpContext.Response.StatusCode = 401;
+				return httpContext.User.Identity.IsAuthenticated && _auth.User.Roles.Any(r => _accessLevels.Contains(r.AccessLevel));
+				//attribute allows access
 			}
 
-			filterContext.HttpContext.Response.StatusCode = 403;
-			base.HandleUnauthorizedRequest(filterContext);
+			if (httpContext.User.Identity.IsAuthenticated)
+			{
+				return  !_auth.User.Roles.Any(r => _accessLevels.Contains(r.AccessLevel));
+				//attribute forbids access
+			}
+
+			return true;
+			//attribute grants access to unauthorized user
 		}
 	}
 }

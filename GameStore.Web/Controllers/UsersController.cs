@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
+	[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Administrator)]
 	public class UsersController : Controller
 	{
 		private readonly IUserService _userService;
@@ -37,7 +40,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult New(UserViewModel model)
 		{
-			CheckIfLoginIsUnique(model.Login);
+			CheckIfLoginIsUnique(model);
 
 			if (!ModelState.IsValid)
 			{
@@ -48,7 +51,7 @@ namespace GameStore.Web.Controllers
 			var userDto = _mapper.Map<UserViewModel, UserDto>(model);
 			_userService.Create(userDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Users");
 		}
 
 		[HttpGet]
@@ -64,7 +67,7 @@ namespace GameStore.Web.Controllers
 		[HttpPost]
 		public ActionResult Update(UserViewModel model)
 		{
-			CheckIfLoginIsUnique(model.Login);
+			CheckIfLoginIsUnique(model);
 
 			if (!ModelState.IsValid)
 			{
@@ -75,7 +78,7 @@ namespace GameStore.Web.Controllers
 			var roleDto = _mapper.Map<UserViewModel, UserDto>(model);
 			_userService.Update(roleDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Users");
 		}
 
 		public ActionResult Show(string key)
@@ -90,7 +93,7 @@ namespace GameStore.Web.Controllers
 		{
 			_userService.Delete(key);
 
-			return RedirectToAction("ShowAll", "Games");
+			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Users");
 		}
 
 		public ActionResult ShowAll()
@@ -106,14 +109,19 @@ namespace GameStore.Web.Controllers
 			return _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(_roleService.GetAll()).ToList();
 		}
 
-		private void CheckIfLoginIsUnique(string login)
+		private void CheckIfLoginIsUnique(UserViewModel user)
 		{
-			if (!_userService.Contains(login))
+			if (!_userService.Contains(user.Login))
 			{
 				return;
 			}
 
-			ModelState.AddModelError("Login", "User with such login already exists");
+			var existingUser = _userService.GetSingle(user.Login);
+
+			if (existingUser.Id != user.Id)
+			{
+				ModelState.AddModelError("Login", "User with such login already exists");
+			}
 		}
 	}
 }

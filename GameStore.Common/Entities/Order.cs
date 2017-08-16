@@ -16,6 +16,7 @@ namespace GameStore.Common.Entities
 
 		[BsonSerializer(typeof(DateTimeToStringSerializer))]
 		[Column(TypeName = "datetime2")]
+		[BsonElement("OrderDate")]
 		public DateTime DateOrdered { get; set; }
 
 		[BsonSerializer(typeof(NullableDateTimeToStringSerializer))]

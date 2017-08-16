@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using GameStore.Common.Abstract;
 using GameStore.Common.Concrete;
+using Ninject.Web.Common;
 
 namespace GameStore.Web.Infrastructure.Resolver
 {
@@ -53,7 +54,7 @@ namespace GameStore.Web.Infrastructure.Resolver
 			_kernel.Bind<IUserService>().To<UserService>();
 			_kernel.Bind<IRoleService>().To<RoleService>();
 			_kernel.Bind<ILogger>().To<Logger>();
-			_kernel.Bind<IAuthentication>().To<Authentication>();
+			_kernel.Bind<IAuthentication>().To<Authentication>().InRequestScope();
 			_kernel.Bind<IHasher<string>>().To<Md5Hasher>();
 		}
 	}

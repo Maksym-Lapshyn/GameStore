@@ -17,16 +17,19 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IOrderRepository _orderRepository;
 		private readonly IGameRepository _gameRepository;
+		private readonly IUserRepository _userRepository;
 
 		public OrderService(IUnitOfWork unitOfWork,
 			IMapper mapper,
 			IOrderRepository orderRepository,
-			IGameRepository gameRepository)
+			IGameRepository gameRepository,
+			IUserRepository userRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_orderRepository = orderRepository;
 			_gameRepository = gameRepository;
+			_userRepository = userRepository;
 		}
 
 		public void Create(OrderDto orderDto)
@@ -40,7 +43,24 @@ namespace GameStore.Services.Concrete
 
 		public OrderDto GetSingleActive(int userId)
 		{
-			var order = _orderRepository.GetSingle(o => o.UserId == userId && o.OrderStatus == OrderStatus.Active);
+			Order order;
+
+			if (!_orderRepository.Contains(o => o.UserId == userId && o.OrderStatus == OrderStatus.Active))
+			{
+				order = new Order
+				{
+					User = _userRepository.GetSingle(u => u.Id == userId),
+					UserId = userId,
+					OrderDetails = new List<OrderDetails>(),
+					DateOrdered = DateTime.UtcNow,
+					OrderStatus = OrderStatus.Active
+				};
+
+				_orderRepository.Insert(order);
+				_unitOfWork.Save();
+			}
+
+			order = _orderRepository.GetSingle(o => o.UserId == userId && o.OrderStatus == OrderStatus.Active);
 			var orderDto = _mapper.Map<Order, OrderDto>(order);
 
 			return orderDto;
@@ -75,7 +95,7 @@ namespace GameStore.Services.Concrete
 			return _orderRepository.Contains(o => o.UserId == userId && o.OrderStatus == OrderStatus.Active);
 		}
 
-		public void Buy(int orderId, string gameKey)
+		public void BuyItem(int orderId, string gameKey)
 		{
 			var order = _orderRepository.GetSingle(o => o.Id == orderId && o.OrderStatus == OrderStatus.Active);
 
@@ -99,6 +119,20 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
+		public void DeleteItem(int orderId, string gameKey)
+		{
+			var order = _orderRepository.GetSingle(o => o.Id == orderId && o.OrderStatus == OrderStatus.Active);
+
+			if (order.OrderDetails.Any(o => o.GameKey == gameKey))
+			{
+				var orderDetails = order.OrderDetails.First(o => o.GameKey == gameKey);
+				order.OrderDetails.Remove(orderDetails);
+			}
+
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
+		}
+
 		private void Map(Order output)
 		{
 			output.OrderDetails.ToList().ForEach(o =>
@@ -107,5 +141,7 @@ namespace GameStore.Services.Concrete
 				o.Price = o.Game.Price;
 			});
 		}
+
+
 	}
 }

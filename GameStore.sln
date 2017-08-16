@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Ninject", "GameSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.DAL.Tests", "GameStore.DAL.Tests\GameStore.DAL.Tests.csproj", "{7CC9F095-1D53-4412-AF2D-8A8853D91B74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Authentification", "GameStore.Authentification\GameStore.Authentification.csproj", "{21ABABD0-FA79-4693-B6F0-F7E6458F5AF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Authentication", "GameStore.Authentification\GameStore.Authentication.csproj", "{21ABABD0-FA79-4693-B6F0-F7E6458F5AF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

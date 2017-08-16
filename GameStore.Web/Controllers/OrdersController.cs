@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	[CustomAuthorize(AccessLevel = AccessLevel.User | AccessLevel.Manager)]
 	public class OrdersController : BaseController
 	{
 		private readonly IOrderService _orderService;
@@ -26,36 +25,44 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
-		public ActionResult Show()
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
+		public ActionResult ShowActive()
 		{
-			OrderDto orderDto;
-			OrderViewModel model;
-
-			if (_orderService.ContainsActive(CurrentUser.Id))
-			{
-				orderDto = _orderService.GetSingleActive(CurrentUser.Id);
-				model = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
-
-				return View(model);
-			}
-
-			orderDto = CreateNewOrder();
-			model = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
+			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
+			var model = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
 
 			return View(model);
 		}
 
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager, AccessLevel.Moderator, AccessLevel.Administrator)]
 		public ActionResult Buy(string key)
 		{
-			var orderDto = _orderService.ContainsActive(CurrentUser.Id) 
-				? _orderService.GetSingleActive(CurrentUser.Id) 
-				: CreateNewOrder();
-			_orderService.Buy(orderDto.Id, key);
+			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
+			_orderService.BuyItem(orderDto.Id, key);
 
-			return Request.UrlReferrer == null ? RedirectToAction("ShowAll", "Games") : RedirectToAction(Request.UrlReferrer.ToString());
+			if (Request.UrlReferrer != null)
+			{
+				return Redirect(Request.UrlReferrer.AbsolutePath);
+			}
+
+			return RedirectToAction("ShowActive", "Orders");
 		}
 
-		[CustomAuthorize(AccessLevel = AccessLevel.User)]
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager, AccessLevel.Moderator, AccessLevel.Administrator)]
+		public ActionResult DeleteDetails(string key)
+		{
+			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
+			_orderService.DeleteItem(orderDto.Id, key);
+
+			if (Request.UrlReferrer != null)
+			{
+				return Redirect(Request.UrlReferrer.AbsolutePath);
+			}
+
+			return RedirectToAction("ShowActive", "Orders");
+		}
+
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
 		[HttpPost]
 		public ActionResult Update(OrderViewModel model)
 		{
@@ -64,7 +71,7 @@ namespace GameStore.Web.Controllers
 			return View();
 		}
 
-		[CustomAuthorize(AccessLevel = AccessLevel.Manager)]
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult History()
 		{
@@ -80,7 +87,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AccessLevel = AccessLevel.Manager)]
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult History(CompositeOrdersViewModel model)
 		{
@@ -95,7 +102,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AccessLevel = AccessLevel.Manager)]
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult ShowAll()
 		{
@@ -111,7 +118,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AccessLevel = AccessLevel.Manager)]
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult ShowAll(CompositeOrdersViewModel model)
 		{
@@ -129,16 +136,6 @@ namespace GameStore.Web.Controllers
 			model.Orders = _mapper.Map<IEnumerable<OrderDto>, List<OrderViewModel>>(_orderService.GetAll(filterDto));
 
 			return View(model);
-		}
-
-		private OrderDto CreateNewOrder()
-		{
-			var userDto = _userService.GetSingle(CurrentUser.Login);
-			var orderDto = new OrderDto { OrderStatus = OrderStatus.Active, User = userDto };
-			_orderService.Create(orderDto);
-			orderDto = _orderService.GetSingleActive(CurrentUser.Id);
-
-			return orderDto;
 		}
 	}
 }

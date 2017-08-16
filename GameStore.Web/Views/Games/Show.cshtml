@@ -1,4 +1,5 @@
-﻿@model GameStore.Web.Models.GameViewModel
+﻿@using GameStore.Common.Enums
+@model GameStore.Web.Models.GameViewModel
 
 @{
 	ViewBag.Title = "Game";
@@ -34,7 +35,7 @@
 {
 	foreach (var name in Model.GenresInput)
 	{
-		<p>@Html.ActionLink(name, "Show", "Genres", new { key = name }, null)</p>
+		<p>@name</p>
 	}
 }
 else
@@ -46,15 +47,26 @@ else
 
 @if (Model.PublisherInput != null)
 {
-	<p>@Html.ActionLink(Model.PublisherInput, "Show", "Publishers", new { key = Model.PublisherInput }, null)</p>
+	<p>@Model.PublisherInput</p>
 }
 else
 {
 	<p>Unknown</p>
 }
 
-@Html.ActionLink("Download", "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
-@Html.ActionLink("Comments", "NewComment", "Comments", new { key = Model.Key }, new { @class = "btn btn-default" })
-@Html.ActionLink("Buy", "Buy", "Orders", new { key = Model.Key }, new { @class = "btn btn-default" })
-@Html.ActionLink("Update", "Update", "Games", new { key = Model.Key }, new { @class = "btn btn-default" })
-@Html.ActionLink("Delete", "Delete", "Games", new { key = Model.Key }, new { @class = "btn btn-danger" })
+@if (User.Identity.IsAuthenticated)
+{
+	@Html.ActionLink("Download", "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
+	@Html.ActionLink("Buy", "Buy", "Orders", new { key = Model.Key }, new { @class = "btn btn-default" })
+}
+
+@if (!User.Identity.IsAuthenticated || User.Identity.IsAuthenticated && !User.IsInRole(AccessLevel.Administrator.ToString()))
+{
+	@Html.ActionLink("Comments", "NewComment", "Comments", new { key = Model.Key }, new { @class = "btn btn-default" })
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(AccessLevel.Manager.ToString()))
+{
+	@Html.ActionLink("Update", "Update", "Games", new { key = Model.Key }, new { @class = "btn btn-default" })
+	@Html.ActionLink("Delete", "Delete", "Games", new { key = Model.Key }, new { @class = "btn btn-danger" })
+}

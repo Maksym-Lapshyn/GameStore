@@ -14,6 +14,11 @@
 		@Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.Login)
 	</p>
+	<b>@Html.LabelFor(m => m.Password)</b>
+	<p>
+		@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Password)
+	</p>
 	<b>@Html.LabelFor(m => m.RolesInput)</b>
 	<p>
 		@foreach (var role in Model.RolesData)

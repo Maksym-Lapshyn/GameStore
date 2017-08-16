@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,6 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	[OutputCache(Duration = 60, VaryByHeader = "get;post")]
 	public class CommentsController : BaseController
 	{
 		private readonly ICommentService _commentService;
@@ -21,6 +22,7 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
+		[CustomAuthorize(AuthorizationMode.Forbid, AccessLevel.Administrator)]
 		[HttpGet]
 		public ActionResult NewComment(string key)
 		{
@@ -37,6 +39,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
+		[CustomAuthorize(AuthorizationMode.Forbid, AccessLevel.Administrator)]
 		[HttpPost]
 		public ActionResult NewComment(CompositeCommentsViewModel model)
 		{
@@ -56,11 +59,12 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Moderator)]
 		public ActionResult Delete(int key)
 		{
 			_commentService.Delete(key);
 
-			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Games");
+			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("NewComment", "Comments", new { key });
 		}
 
 		private List<CommentViewModel> GetComments(string key)

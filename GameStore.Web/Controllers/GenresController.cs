@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
+using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
+	[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 	public class GenresController : BaseController
 	{
 		private readonly IGenreService _genreService;
@@ -40,7 +43,7 @@ namespace GameStore.Web.Controllers
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
 			_genreService.Create(genreDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Genres");
 		}
 
 		[HttpGet]
@@ -66,7 +69,7 @@ namespace GameStore.Web.Controllers
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
 			_genreService.Update(genreDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Genres");
 		}
 
 		public ActionResult Show(string key)
@@ -81,7 +84,7 @@ namespace GameStore.Web.Controllers
 		{
 			_genreService.Delete(key);
 
-			return RedirectToAction("ShowAll", "Games");
+			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Genres");
 		}
 
 		public ActionResult ShowAll()

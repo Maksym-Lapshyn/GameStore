@@ -29,11 +29,12 @@ namespace GameStore.Services.Concrete
 		public void Create(CommentDto commentDto)
 		{
 			var comment = _mapper.Map<CommentDto, Comment>(commentDto);
+			var game = _gameRepository.GetSingle(g => g.Key == comment.GameKey);
 
 			if (comment.ParentCommentId != null)
 			{
-				comment.ParentComment = _commentRepository.GetSingle(c => c.ParentCommentId.Value == comment.ParentCommentId.Value);
-				_commentRepository.Update(comment);
+				comment.ParentComment = _commentRepository.GetSingle(c => c.Id == comment.ParentCommentId.Value);
+				//_commentRepository.Update(comment);
 			}
 			/*
 			if (comment.ParentCommentId != null)
@@ -44,11 +45,12 @@ namespace GameStore.Services.Concrete
 			}*/
 			else
 			{
-				var game = _gameRepository.GetSingle(g => g.Key == comment.GameKey);
-				game.Comments.Add(comment);
-				_gameRepository.Update(game);
+				//var game = _gameRepository.GetSingle(g => g.Key == comment.GameKey);
+				
 			}
-			
+			game.Comments.Add(comment);
+			_gameRepository.Update(game);
+
 			_unitOfWork.Save();
 		}
 

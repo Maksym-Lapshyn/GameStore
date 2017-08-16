@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace GameStore.Common.Entities
 {
@@ -12,6 +13,7 @@ namespace GameStore.Common.Entities
 
 		public int? ParentCommentId { get; set; }
 
+		[BsonIgnore]
 		public virtual Comment ParentComment { get; set; }
 
 		public virtual ICollection<Comment> ChildComments { get; set; }

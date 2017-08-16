@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
+	[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
 	public class PublishersController : BaseController
 	{
 		private readonly IPublisherService _publisherService;
@@ -38,7 +41,7 @@ namespace GameStore.Web.Controllers
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
 			_publisherService.Create(publisherDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Publishers");
 		}
 
 		[HttpGet]
@@ -63,7 +66,7 @@ namespace GameStore.Web.Controllers
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
 			_publisherService.Update(publisherDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Publishers");
 		}
 
 		public ActionResult Show(string key)
@@ -78,7 +81,7 @@ namespace GameStore.Web.Controllers
 		{
 			_publisherService.Delete(key);
 
-			return RedirectToAction("ShowAll", "Games");
+			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Publishers");
 		}
 
 		public ActionResult ShowAll()

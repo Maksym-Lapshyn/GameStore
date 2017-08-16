@@ -1,13 +1,13 @@
 ﻿@model GameStore.Web.Models.CompositeOrdersViewModel
 
 @{
-	ViewBag.Title = "Show History";
+	ViewBag.Title = "All Orders";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Show History</h1>
+<h1>All Orders</h1>
 <hr />
-@using (Html.BeginForm("History", "Orders", FormMethod.Post))
+@using (Html.BeginForm("ShowAll", "Orders", FormMethod.Post))
 {
 	<b>@Html.LabelFor(m => m.Filter.From)</b>
 	<p>
@@ -49,5 +49,5 @@
 		}
 	}
 
-	<hr/>
+	<hr />
 }

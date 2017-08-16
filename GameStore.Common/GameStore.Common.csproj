@@ -65,6 +65,7 @@
     <Compile Include="Entities\Shipper.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\AuthorizationMode.cs" />
     <Compile Include="Enums\DateOptions.cs" />
     <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\SortOptions.cs" />

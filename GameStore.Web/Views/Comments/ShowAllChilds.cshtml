@@ -1,13 +1,23 @@
-﻿@model List<GameStore.Web.Models.CommentViewModel>
+﻿@using GameStore.Common.Enums
+@model List<GameStore.Web.Models.CommentViewModel>
 
 @foreach (var comment in @Model)
 {
+	if (comment.IsDeleted && (!User.Identity.IsAuthenticated || !User.IsInRole(AccessLevel.Moderator.ToString())))
+	{
+		continue;
+	}
+
 	<b>@Html.LabelFor(m => comment.Name):</b>
 	<p>@Html.DisplayFor(m => comment.Name)</p>
 	<b>@Html.LabelFor(m => comment.Body):</b>
 	<p>@Html.DisplayFor(m => comment.Body)</p>
 	<p>
 		<button data-id=@comment.Id data-name=@comment.Name class="reply btn btn-default">Reply</button>
+		@if (User.Identity.IsAuthenticated && !User.IsInRole(AccessLevel.Moderator.ToString()))
+		{
+			@Html.ActionLink("Delete", "Delete", "Comments", new { key = comment.Id }, new { @class = "btn btn-danger" })
+		}
 	</p>
 
 	if (comment.ChildComments.Count != 0)

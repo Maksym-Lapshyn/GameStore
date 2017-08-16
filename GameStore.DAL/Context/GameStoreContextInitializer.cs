@@ -1,13 +1,17 @@
-﻿using System;
+﻿using GameStore.Common.Concrete;
+using GameStore.Common.Entities;
+using GameStore.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Context
 {
 	public class GameStoreContextInitializer : CreateDatabaseIfNotExists<GameStoreContext>
 	{
+		private readonly Md5Hasher _hasher = new Md5Hasher();
+
 		private void SeedRandomGames(GameStoreContext context)
 		{
 			var genres = context.Genres.ToList();
@@ -343,6 +347,49 @@ namespace GameStore.DAL.Context
 			};
 
 			context.Games.AddRange(new List<Game> { halflife, callOfDuty, dots, mario, fifa15, assassinsCreed, granTurismo, battleToads, fable, goldenAxe, diablo});
+			context.SaveChanges();
+
+			var admin = new User
+			{
+				Login = "admin",
+				Password = _hasher.GenerateHash("admin"),
+				Roles = new List<Role>
+				{
+					new Role {Name = "Administrator", AccessLevel = AccessLevel.Administrator}
+				}
+			};
+
+			var manager = new User
+			{
+				Login = "manager",
+				Password = _hasher.GenerateHash("manager"),
+				Roles = new List<Role>
+				{
+					new Role { Name = "Manager", AccessLevel = AccessLevel.Manager }
+				}
+			};
+
+			var moderator = new User
+			{
+				Login = "moderator",
+				Password = _hasher.GenerateHash("moderator"),
+				Roles = new List<Role>
+				{
+					new Role { Name = "Moderator", AccessLevel = AccessLevel.Moderator }
+				}
+			};
+
+			var user = new User
+			{
+				Login = "user",
+				Password = _hasher.GenerateHash("user"),
+				Roles = new List<Role>
+				{
+					new Role { Name = "User", AccessLevel = AccessLevel.User }
+				}
+			};
+;
+			context.Users.AddRange(new List<User> {admin, manager, moderator, user});
 			context.SaveChanges();
 			SeedRandomGames(context);
 			base.Seed(context);

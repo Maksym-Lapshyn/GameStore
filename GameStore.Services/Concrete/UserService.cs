@@ -14,18 +14,21 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
 		private readonly IRoleRepository _roleRepository;
+		private readonly IOrderRepository _orderRepository;
 		private readonly IHasher<string> _hasher;
 		private readonly IUnitOfWork _unitOfWork;
 
 		public UserService(IMapper mapper,
 			IUserRepository userRepository,
 			IRoleRepository roleRepository,
+			IOrderRepository orderRepository,
 			IHasher<string> hasher,
 			IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_userRepository = userRepository;
 			_roleRepository = roleRepository;
+			_orderRepository = orderRepository;
 			_hasher = hasher;
 			_unitOfWork = unitOfWork;
 		}
@@ -79,7 +82,11 @@ namespace GameStore.Services.Concrete
 
 		private User MapEmbeddedEntities(UserDto input, User result)
 		{
-			input.RolesInput?.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
+			if (input.RolesInput.Count != 0)
+			{
+				result.Roles = new List<Role>();
+				input.RolesInput.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
+			}
 
 			return result;
 		}

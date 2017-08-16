@@ -35,7 +35,7 @@ namespace GameStore.Services.Concrete
 
 		public GenreDto GetSingle(string name)
 		{
-			var genre = _genreRepository.GetSingle(g => g.Name == name);
+			var genre = _genreRepository.GetSingle(g => g.Name.ToLower() == name.ToLower());
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
 			return genreDto;

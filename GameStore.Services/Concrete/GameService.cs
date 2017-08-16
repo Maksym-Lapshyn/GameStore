@@ -74,18 +74,22 @@ namespace GameStore.Services.Concrete
 			return gameDto;
 		}
 
-		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null)
+		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null, bool addDeleted = true)
 		{
 			IEnumerable<Game> games;
 
 			if (filterDto != null)
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
-				games = _gameRepository.GetAll(filter, itemsToSkip, itemsToTake);
+				games = addDeleted 
+					? _gameRepository.GetAll(filter, itemsToSkip, itemsToTake) 
+					: _gameRepository.GetAll(filter, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 			else
 			{
-				games = _gameRepository.GetAll(null, itemsToSkip, itemsToTake);
+				games = addDeleted
+					? _gameRepository.GetAll(null, itemsToSkip, itemsToTake)
+					: _gameRepository.GetAll(null, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 
 			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);

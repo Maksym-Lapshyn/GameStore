@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
+	[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Administrator)]
 	public class RolesController : BaseController
 	{
 		private readonly IRoleService _roleService;
@@ -40,7 +43,7 @@ namespace GameStore.Web.Controllers
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
 			_roleService.Create(roleDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Roles");
 		}
 
 		[HttpGet]
@@ -65,7 +68,7 @@ namespace GameStore.Web.Controllers
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
 			_roleService.Update(roleDto);
 
-			return RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Roles");
 		}
 
 		public ActionResult Show(string key)
@@ -80,7 +83,7 @@ namespace GameStore.Web.Controllers
 		{
 			_roleService.Delete(key);
 
-			return RedirectToAction("ShowAll", "Games");
+			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Roles");
 		}
 
 		public ActionResult ShowAll()

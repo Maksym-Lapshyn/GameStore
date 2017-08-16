@@ -9,7 +9,9 @@ namespace GameStore.Services.Abstract
 
 		void Update(OrderDto orderDtoy);
 
-		void Buy(int orderId, string gameKey);
+		void BuyItem(int orderId, string gameKey);
+
+		void DeleteItem(int orderId, string gameKey);
 
 		bool ContainsActive(int userId);
 

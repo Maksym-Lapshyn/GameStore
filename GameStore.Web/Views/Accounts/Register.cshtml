@@ -1,4 +1,4 @@
-﻿@model GameStore.Web.Models.UserViewModel
+﻿@model GameStore.Web.Models.RegisterViewModel
 
 @{
 	ViewBag.Title = "Register";
@@ -6,7 +6,7 @@
 }
 
 <h1>Register</h1>
-@using (Html.BeginForm("Login", "Accounts", FormMethod.Post))
+@using (Html.BeginForm("Register", "Accounts", FormMethod.Post))
 {
 	<b>@Html.LabelFor(m => m.Login)</b>
 	<p>
@@ -17,6 +17,11 @@
 	<p>
 		@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.Password)
+	</p>
+	<b>@Html.LabelFor(m => m.PasswordConfirmation)</b>
+	<p>
+		@Html.PasswordFor(m => m.PasswordConfirmation, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.PasswordConfirmation)
 	</p>
 	<button type="submit" class="btn btn-default">Register</button>
 }
