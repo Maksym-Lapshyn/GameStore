@@ -9,6 +9,7 @@
 <b>@Html.LabelFor(m => m.Login)</b>
 <p>@Html.DisplayFor(m => m.Login)</p>
 <b>@Html.LabelFor(m => m.RolesInput)</b>
+
 @if (Model.RolesInput.Count != 0)
 {
 	foreach (var name in Model.RolesInput)
@@ -21,4 +22,14 @@ else
 	<p>Guest</p>
 }
 
-@Html.ActionLink("Update", "Update", "Users", new { key = Model.Login }, new { @class = "btn btn-default" })
+<b>@Html.LabelFor(m => m.IsDeleted)</b>
+<p>@Html.DisplayFor(m => m.IsDeleted)</p>
+
+<p>
+	@Html.ActionLink("Update", "Update", "Users", new { key = Model.Login }, new { @class = "btn btn-default" })
+
+	@if (!Model.IsDeleted)
+	{
+		@Html.ActionLink("Delete", "Delete", "Users", new { key = Model.Login }, new { @class = "btn btn-danger" })
+	}
+</p>

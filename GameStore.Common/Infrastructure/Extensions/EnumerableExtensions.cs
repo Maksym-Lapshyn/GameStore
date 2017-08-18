@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameStore.DAL.Infrastructure.Extensions
+namespace GameStore.Common.Infrastructure.Extensions
 {
 	public static class EnumerableExtensions
 	{

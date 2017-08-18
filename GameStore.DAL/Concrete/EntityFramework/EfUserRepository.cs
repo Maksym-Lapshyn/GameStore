@@ -1,7 +1,7 @@
 ﻿using GameStore.Common.Entities;
+using GameStore.Common.Infrastructure.Extensions;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
-using GameStore.DAL.Infrastructure.Extensions;
 using System;
 using System.Data.Entity;
 using System.Linq;

@@ -83,7 +83,7 @@ namespace GameStore.Web.Controllers
 		{
 			_roleService.Delete(key);
 
-			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Roles");
+			return RedirectToAction("ShowAll", "Roles");
 		}
 
 		public ActionResult ShowAll()

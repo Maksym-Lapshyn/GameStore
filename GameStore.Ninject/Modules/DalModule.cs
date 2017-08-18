@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Concrete;
@@ -9,7 +10,6 @@ using MongoDB.Driver;
 using Ninject.Modules;
 using Ninject.Web.Common;
 using System.Linq;
-using GameStore.Common.Entities;
 
 namespace GameStore.Ninject.Modules
 {
@@ -28,19 +28,19 @@ namespace GameStore.Ninject.Modules
 
 		public override void Load()
 		{
-            Bind<GameStoreContext>().ToSelf().InRequestScope().WithConstructorArgument(_efConnectionString);
+			Bind<GameStoreContext>().ToSelf().InRequestScope().WithConstructorArgument(_efConnectionString);
 			Bind<IMongoDatabase>().ToMethod(ctx => new MongoClient(_mongoConnectionString).GetDatabase(_mongoDatabaseName));
 
-            Bind<IEfGameRepository>().To<EfGameRepository>();
+			Bind<IEfGameRepository>().To<EfGameRepository>();
 			Bind<IEfCommentRepository>().To<EfCommentRepository>();
 			Bind<IEfGenreRepository>().To<EfGenreRepository>();
 			Bind<IEfOrderRepository>().To<EfOrderRepository>();
 			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>();
 			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
 			Bind<IEfUserRepository>().To<EfUserRepository>();
-            Bind<IEfRoleRepository>().To<EfRoleRepository>();
+			Bind<IEfRoleRepository>().To<EfRoleRepository>();
 
-            Bind<IMongoGameRepository>().To<MongoGameRepository>();
+			Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
 			Bind<IMongoGenreRepository>().To<MongoGenreRepository>();
 			Bind<IMongoPublisherRepository>().To<MongoPublisherRepository>();

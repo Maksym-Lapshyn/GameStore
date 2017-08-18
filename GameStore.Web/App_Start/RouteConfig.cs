@@ -21,26 +21,31 @@ namespace GameStore.Web
 			routes.MapRoute(
 				"",
 				"busket",
-				new { controller = "Orders", action = "ShowActive" }
+				new { controller = "Orders", action = "Busket" }
 			);
 
 			routes.MapRoute(
 				"",
 				"games/{key}/comments",
-				new { controller = "Comments", action = "NewComment" }
+				new { controller = "Comments", action = "New" }
 			);
 
 			routes.MapRoute(
 				"",
 				"{controller}/{action}",
 				null,
-				new { action = "New|History|Update|Delete|ShowCount|Login|Logout|Register|ShowAll|Buy" }
+				new { action = "New|History|Update|ShowCount|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails" }
 			);
 
 			routes.MapRoute(
 				"",
 				"{controller}/{*key}",
 				new { action = "Show" }
+			);
+
+			routes.MapRoute(
+				"",
+				"{controller}/{key}/{action}"
 			);
 
 			routes.MapRoute(

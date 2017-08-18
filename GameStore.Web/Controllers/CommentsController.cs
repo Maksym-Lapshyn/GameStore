@@ -6,6 +6,7 @@ using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
@@ -13,26 +14,31 @@ namespace GameStore.Web.Controllers
 	public class CommentsController : BaseController
 	{
 		private readonly ICommentService _commentService;
+		private readonly IGameService _gameService;
 		private readonly IMapper _mapper;
 
 		public CommentsController(ICommentService commentService,
+			IGameService gameService,
 			IMapper mapper)
 		{
 			_commentService = commentService;
+			_gameService = gameService;
 			_mapper = mapper;
 		}
 
 		[CustomAuthorize(AuthorizationMode.Forbid, AccessLevel.Administrator)]
 		[HttpGet]
-		public ActionResult NewComment(string key)
+		public ActionResult New(string key)
 		{
 			var model = new CompositeCommentsViewModel
 			{
 				NewComment = new CommentViewModel
 				{
+					Name = User.Identity.Name,
 					GameKey = key
 				},
 
+				GameIsDeleted = _gameService.GetSingle(key).IsDeleted,
 				Comments = GetComments(key)
 			};
 
@@ -41,8 +47,12 @@ namespace GameStore.Web.Controllers
 
 		[CustomAuthorize(AuthorizationMode.Forbid, AccessLevel.Administrator)]
 		[HttpPost]
-		public ActionResult NewComment(CompositeCommentsViewModel model)
+		public ActionResult New(CompositeCommentsViewModel model)
 		{
+			if (model.GameIsDeleted)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+			}
 			if (!ModelState.IsValid)
 			{
 				model.Comments = GetComments(model.NewComment.GameKey);
@@ -52,11 +62,14 @@ namespace GameStore.Web.Controllers
 
 			var dto = _mapper.Map<CommentViewModel, CommentDto>(model.NewComment);
 			_commentService.Create(dto);
+			/*model.Comments = GetComments(model.NewComment.GameKey);
+			model.NewComment = new CommentViewModel
+			{
+				Name = User.Identity.Name,
+				GameKey = model.NewComment.GameKey
+			};*/
 
-			model.Comments = GetComments(model.NewComment.GameKey);
-			model.NewComment = new CommentViewModel();
-
-			return View(model);
+			return RedirectToAction("New", new { key = model.NewComment.GameKey });
 		}
 
 		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Moderator)]
@@ -64,7 +77,7 @@ namespace GameStore.Web.Controllers
 		{
 			_commentService.Delete(key);
 
-			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("NewComment", "Comments", new { key });
+			return RedirectToAction("New", "Comments", new { key });
 		}
 
 		private List<CommentViewModel> GetComments(string key)

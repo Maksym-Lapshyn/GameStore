@@ -34,7 +34,7 @@ namespace GameStore.Services.Concrete
 
 		public PublisherDto GetSingle(string companyName)
 		{
-			var publisher = _publisherRepository.GetSingle(p => p.CompanyName == companyName);
+			var publisher = _publisherRepository.GetSingle(p => p.CompanyName.ToLower() == companyName.ToLower());
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;

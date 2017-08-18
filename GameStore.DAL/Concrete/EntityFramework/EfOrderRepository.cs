@@ -1,6 +1,7 @@
 ﻿using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
 using System;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
@@ -34,7 +35,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Order order)
 		{
-			_context.Orders.AddOrUpdate(order);
+			_context.Entry(order).State = EntityState.Modified;
 		}
 
 		public bool Contains(Expression<Func<Order, bool>> predicate)

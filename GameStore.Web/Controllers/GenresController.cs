@@ -25,7 +25,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult New()
 		{
-			var model = new GenreViewModel {ParentGenreData = new List<GenreViewModel>()};
+			var model = new GenreViewModel {ParentGenreData = GetGenres()};
 
 			return View(model);
 		}
@@ -84,7 +84,7 @@ namespace GameStore.Web.Controllers
 		{
 			_genreService.Delete(key);
 
-			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Genres");
+			return RedirectToAction("ShowAll", "Genres");
 		}
 
 		public ActionResult ShowAll()

@@ -1,18 +1,25 @@
 ﻿@model List<GameStore.Web.Models.UserViewModel>
 
 @{
-	ViewBag.Title = "All Users";
+	ViewBag.Title = "Users";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>All Users</h1>
-
+<h1>Users</h1>
 <hr />
-@foreach (var user in Model)
+
+@if (Model.Count != 0)
 {
-	<b>@Html.LabelFor(m => user.Login)</b>
-	<p>@Html.ActionLink(user.Login, "Show", "Users", new { key = user.Login }, null)</p>
-	<hr />
+	foreach (var user in Model)
+	{
+		<b>@Html.LabelFor(m => user.Login)</b>
+		<p>@Html.ActionLink(user.Login, "Show", "Users", new { key = user.Login }, null)</p>
+		<hr />
+	}
+}
+else
+{
+	<p>There are no users in the system</p>
 }
 
 <p>

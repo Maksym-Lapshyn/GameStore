@@ -14,13 +14,13 @@ namespace GameStore.Services.Dtos
 
 		public int OrderId { get; set; }
 
-		public DateTime DateOrdered { get; set; }
+		public DateTime? DateOrdered { get; set; }
 
 		public DateTime? DateShipped { get; set; }
 
 		public OrderStatus OrderStatus { get; set; }
 
-		public int? UserId { get; set; }
+		public decimal TotalPrice { get; set; }
 
 		public virtual UserDto User { get; set; }
 

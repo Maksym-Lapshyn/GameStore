@@ -5,17 +5,21 @@ namespace GameStore.Services.Abstract
 {
 	public interface IOrderService
 	{
-		void Create(OrderDto orderDto);
+		void AddDetails(int orderId, string gameKey);
 
-		void Update(OrderDto orderDtoy);
+		void DeleteDetails(int orderId, string gameKey);
 
-		void BuyItem(int orderId, string gameKey);
+		void Confirm(int orderId);
 
-		void DeleteItem(int orderId, string gameKey);
+		void Ship(int orderId);
+
+		OrderDto GetSingleActive(int userId);
+
+		void CreateActive(int userId);
 
 		bool ContainsActive(int userId);
 
-		OrderDto GetSingleActive(int userId);
+		OrderDto GetSingle(int orderId);
 
 		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
 	}

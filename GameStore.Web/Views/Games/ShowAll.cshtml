@@ -3,13 +3,13 @@
 @model GameStore.Web.Models.CompositeGamesViewModel
 
 @{
-	ViewBag.Title = "All Games";
+	ViewBag.Title = "Games";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>All Games</h1>
+<h1>Games</h1>
 <hr />
-<p><button class="btn btn-primary" data-toggle="collapse" data-target="#filter">Filter games <span class="caret"></span></button></p>
+<p><button class="btn btn-default" data-toggle="collapse" data-target="#filter">Filter games <span class="caret"></span></button></p>
 <div id="filter" class="collapse">
 	@using (Html.BeginForm("ShowAll", "Games", FormMethod.Get, new { id = "gameForm" }))
 	{
@@ -53,12 +53,12 @@
 				</p>
 				<b>@Html.LabelFor(m => m.Filter.MinPrice)</b>
 				<p>
-					@Html.TextBoxFor(m => m.Filter.MinPrice, new { @class = "form-control" })
+					@Html.TextBoxFor(m => m.Filter.MinPrice, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
 					@Html.ValidationMessageFor(m => m.Filter.MinPrice)
 				</p>
 				<b>@Html.LabelFor(m => m.Filter.MaxPrice)</b>
 				<p>
-					@Html.TextBoxFor(m => m.Filter.MaxPrice, new { @class = "form-control" })
+					@Html.TextBoxFor(m => m.Filter.MaxPrice, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
 					@Html.ValidationMessageFor(m => m.Filter.MaxPrice)
 				</p>
 				<b>@Html.LabelFor(m => m.Filter.DateOptions)</b>
@@ -112,18 +112,25 @@
 			<div class="panel-footer">
 				<p>
 					<button type="button" class="btn btn-default" id="applyFilter">Filter</button>
-					@Html.ActionLink("Reset", "ShowAll", null, new { @class = "btn btn-primary" })
+					@Html.ActionLink("Reset", "ShowAll", null, new { @class = "btn btn-danger" })
 				</p>
 			</div>
 		</div>
 	}
 </div>
 
-@foreach (var game in Model.Games)
+@if (Model.Games.Count != 0)
 {
-	<b>@Html.LabelFor(m => game.Name)</b>
-	<p>@Html.ActionLink(game.Name, "Show", "Games", new { key = game.Key }, null)</p>
-	<hr />
+	foreach (var game in Model.Games)
+	{
+		<b>@Html.LabelFor(m => game.Name)</b>
+		<p>@Html.ActionLink(game.Name, "Show", "Games", new { key = game.Key }, null)</p>
+		<hr />
+	}
+}
+else
+{
+	<p>There are no games that match your filter</p>
 }
 
 @if (User.Identity.IsAuthenticated && User.IsInRole(AccessLevel.Manager.ToString()))

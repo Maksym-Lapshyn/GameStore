@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Abstract.Common;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Infrastructure;
@@ -6,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Concrete.Common
 {

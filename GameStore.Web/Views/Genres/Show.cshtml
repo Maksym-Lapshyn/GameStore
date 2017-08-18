@@ -8,11 +8,19 @@
 <h1>Genre</h1>
 <b>@Html.LabelFor(m => m.Name)</b>
 <p>@Html.DisplayFor(m => m.Name)</p>
+<b>@Html.LabelFor(m => m.IsDeleted)</b>
+<p>@Html.DisplayFor(m => m.IsDeleted)</p>
 @if (Model.ParentGenreInput != null)
 {
 	<b>@Html.LabelFor(m => m.ParentGenreInput)</b>
 	<p>@Html.DisplayFor(m => m.ParentGenreInput)</p>
 }
 
-@Html.ActionLink("Update", "Update", "Genres", new { key = Model.Name }, new { @class = "btn btn-default" })
-@Html.ActionLink("Delete", "Delete", "Genres", new { key = Model.Name}, new { @class = "btn btn-danger" })
+<p>
+	@Html.ActionLink("Update", "Update", "Genres", new {key = Model.Name}, new {@class = "btn btn-default"})
+
+	@if (!Model.IsDeleted)
+	{
+		@Html.ActionLink("Delete", "Delete", "Genres", new { key = Model.Name }, new { @class = "btn btn-danger" })
+	}
+</p>

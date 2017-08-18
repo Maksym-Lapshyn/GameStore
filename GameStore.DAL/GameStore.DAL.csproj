@@ -134,10 +134,6 @@
     <Compile Include="Concrete\Filters\PlatformTypeFilter.cs" />
     <Compile Include="Concrete\Filters\PublisherFilter.cs" />
     <Compile Include="Concrete\Filters\SortOptionsFilter.cs" />
-    <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
-    <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
-    <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />
-    <Compile Include="Infrastructure\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\GameFilter.cs" />
     <Compile Include="Concrete\GameLogContainer.cs" />
     <Compile Include="Infrastructure\OrderFilter.cs" />

@@ -210,14 +210,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Games\New.cshtml" />
     <Content Include="Views\Games\Show.cshtml" />
-    <Content Include="Views\Comments\NewComment.cshtml" />
+    <Content Include="Views\Comments\New.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Games\ShowCount.cshtml" />
     <Content Include="Views\Publishers\Show.cshtml" />
     <Content Include="Views\Publishers\New.cshtml" />
-    <Content Include="Views\Orders\ShowActive.cshtml" />
-    <Content Include="Views\Comments\ShowAllChilds.cshtml" />
+    <Content Include="Views\Orders\Busket.cshtml" />
+    <Content Include="Views\Comments\ShowChilds.cshtml" />
     <Content Include="Views\Games\ShowAll.cshtml" />
     <Content Include="Views\Orders\History.cshtml" />
     <Content Include="Views\Games\Update.cshtml" />
@@ -238,6 +238,7 @@
     <Content Include="Views\Accounts\Login.cshtml" />
     <Content Include="Views\Accounts\Register.cshtml" />
     <Content Include="Views\Orders\ShowAll.cshtml" />
+    <Content Include="Views\Orders\Show.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

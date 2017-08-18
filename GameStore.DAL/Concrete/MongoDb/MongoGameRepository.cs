@@ -23,7 +23,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 		public IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null)
 		{
 			var games = predicate != null 
-				? _gameCollection.AsQueryable().Where(predicate).ToList()
+				? _gameCollection.AsQueryable().Where(predicate.Compile()).ToList()
 				: _gameCollection.AsQueryable().ToList();
 
 			for (var i = 0; i < games.Count; i++)

@@ -1,7 +1,7 @@
-﻿using GameStore.Common.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GameStore.Common.Entities;
 
-namespace GameStore.DAL.Infrastructure.Comparers
+namespace GameStore.Common.Infrastructure.Comparers
 {
 	public class GameEqualityComparer : IEqualityComparer<Game>
 	{

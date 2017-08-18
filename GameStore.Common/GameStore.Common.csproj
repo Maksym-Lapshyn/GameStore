@@ -71,6 +71,10 @@
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Enums\AccessLevel.cs" />
     <Compile Include="Concrete\Md5Hasher.cs" />
+    <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
+    <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
+    <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />
+    <Compile Include="Infrastructure\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />

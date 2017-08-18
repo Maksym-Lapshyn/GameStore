@@ -28,8 +28,8 @@ namespace GameStore.Authentification.Concrete
 		public User Login(string login, string password, bool isPersistent)
 		{
 			var hashedPassword = _hasher.GenerateHash(password);
-			var user = _repository.Contains(u => u.Login == login && u.Password == hashedPassword) 
-				? _repository.GetSingle(u => u.Login == login && u.Password == hashedPassword) 
+			var user = _repository.Contains(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false) 
+				? _repository.GetSingle(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false) 
 				: null;
 
 			if (user != null)

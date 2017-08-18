@@ -81,8 +81,8 @@ namespace GameStore.Services.Concrete
 			if (filterDto != null)
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
-				games = addDeleted 
-					? _gameRepository.GetAll(filter, itemsToSkip, itemsToTake) 
+				games = addDeleted
+					? _gameRepository.GetAll(filter, itemsToSkip, itemsToTake)
 					: _gameRepository.GetAll(filter, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 			else

@@ -14,5 +14,14 @@
 <p>
 	@Html.DisplayFor(m => m.AccessLevel)
 </p>
-@Html.ActionLink("Update", "Update", "Roles", new { key = Model.Name }, new { @class = "btn btn-default" })
-@Html.ActionLink("Delete", "Delete", "Roles", new { key = Model.Name }, new { @class = "btn btn-danger" })
+<b>@Html.LabelFor(m => m.IsDeleted)</b>
+<p>@Html.DisplayFor(m => m.IsDeleted)</p>
+
+<p>
+	@Html.ActionLink("Update", "Update", "Roles", new { key = Model.Name }, new { @class = "btn btn-default" })
+
+	@if (!Model.IsDeleted)
+	{
+		@Html.ActionLink("Delete", "Delete", "Roles", new { key = Model.Name }, new { @class = "btn btn-danger" })
+	}
+</p>

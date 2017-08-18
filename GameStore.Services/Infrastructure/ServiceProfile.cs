@@ -20,7 +20,7 @@ namespace GameStore.Services.Infrastructure
 			CreateMap<GameDto, Game>();
 
 			CreateMap<Genre, GenreDto>()
-				.ForMember(dto => dto.ParentGenreInput, option => option.MapFrom(entity => !entity.IsDeleted && entity.ParentGenre.Name != entity.Name ? entity : null));
+				.ForMember(dto => dto.ParentGenreInput, option => option.MapFrom(entity => !entity.IsDeleted && entity.ParentGenre.Name != entity.Name ? entity.Name : null));
 
 			CreateMap<GenreDto, Genre>();
 

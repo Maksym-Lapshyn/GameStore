@@ -11,7 +11,7 @@
 {
 	<b>@Html.LabelFor(m => m.Name)</b>
 	<p>
-		@Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.Name)
 	</p>
 	<b>@Html.LabelFor(m => m.AccessLevel)</b>

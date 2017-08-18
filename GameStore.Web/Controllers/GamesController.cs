@@ -138,7 +138,7 @@ namespace GameStore.Web.Controllers
 		{
 			_gameService.Delete(key);
 
-			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Games");
+			return RedirectToAction("ShowAll", "Games");
 		}
 
 		[OutputCache(Duration = 60)]

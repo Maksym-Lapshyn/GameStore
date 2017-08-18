@@ -1,10 +1,10 @@
 ﻿using GameStore.Common.Entities;
+using GameStore.Common.Infrastructure.Comparers;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Infrastructure;
-using GameStore.DAL.Infrastructure.Comparers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

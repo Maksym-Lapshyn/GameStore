@@ -93,7 +93,7 @@ namespace GameStore.Web.Controllers
 		{
 			_userService.Delete(key);
 
-			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Users");
+			return RedirectToAction("ShowAll", "Users");
 		}
 
 		public ActionResult ShowAll()

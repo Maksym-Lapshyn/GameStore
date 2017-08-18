@@ -6,6 +6,7 @@ using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
@@ -14,61 +15,97 @@ namespace GameStore.Web.Controllers
 	{
 		private readonly IOrderService _orderService;
 		private readonly IUserService _userService;
+		private readonly IGameService _gameService;
 		private readonly IMapper _mapper;
 
 		public OrdersController(IOrderService orderService,
 			IUserService userService,
+			IGameService gameService,
 			IMapper mapper)
 		{
 			_orderService = orderService;
 			_userService = userService;
+			_gameService = gameService;
 			_mapper = mapper;
 		}
 
 		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
-		public ActionResult ShowActive()
+		public ActionResult Busket()
 		{
+			if (!_orderService.ContainsActive(CurrentUser.Id))
+			{
+				return View(new OrderViewModel());
+			}
+
 			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
 			var model = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
 
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager, AccessLevel.Moderator, AccessLevel.Administrator)]
-		public ActionResult Buy(string key)
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
+		[HttpPost]
+		public ActionResult Confirm(int orderId)
 		{
-			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
-			_orderService.BuyItem(orderDto.Id, key);
+			_orderService.Confirm(orderId);
 
-			if (Request.UrlReferrer != null)
-			{
-				return Redirect(Request.UrlReferrer.AbsolutePath);
-			}
-
-			return RedirectToAction("ShowActive", "Orders");
-		}
-
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager, AccessLevel.Moderator, AccessLevel.Administrator)]
-		public ActionResult DeleteDetails(string key)
-		{
-			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
-			_orderService.DeleteItem(orderDto.Id, key);
-
-			if (Request.UrlReferrer != null)
-			{
-				return Redirect(Request.UrlReferrer.AbsolutePath);
-			}
-
-			return RedirectToAction("ShowActive", "Orders");
+			return RedirectToAction("Busket", "Orders");
 		}
 
 		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
 		[HttpPost]
-		public ActionResult Update(OrderViewModel model)
+		public ActionResult Buy(string gameKey)
 		{
-			var orderDto = _mapper.Map<OrderViewModel, OrderDto>(model);
-			_orderService.Update(orderDto);
-			return View();
+			if (!_orderService.ContainsActive(CurrentUser.Id))
+			{
+				_orderService.CreateActive(CurrentUser.Id);
+			}
+
+			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
+			_orderService.AddDetails(orderDto.Id, gameKey);
+
+			return RedirectToAction("Busket", "Orders");
+		}
+
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager)]
+		[HttpPost]
+		public ActionResult AddDetails(int orderId, string gameKey)
+		{
+			_orderService.AddDetails(orderId, gameKey);
+
+			return CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.User) 
+				? RedirectToAction("Show", "Orders", new { key = orderId }) 
+				: RedirectToAction("Busket", "Orders");
+		}
+
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager)]
+		[HttpPost]
+		public ActionResult DeleteDetails(int orderId, string gameKey)
+		{
+			_orderService.AddDetails(orderId, gameKey);
+
+			return CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.User) 
+				? RedirectToAction("Show", "Orders", new { key = orderId }) 
+				: RedirectToAction("Busket", "Orders");
+		}
+
+		#region Manager's actions
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		public ActionResult Show(int key)
+		{
+			var orderDto = _orderService.GetSingle(key);
+			var model = _mapper.Map<OrderDto, OrderViewModel>(orderDto);
+
+			return View(model);
+		}
+
+		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[HttpPost]
+		public ActionResult Ship(int orderId)
+		{
+			_orderService.Ship(orderId);
+
+			return RedirectToAction("Show", "Orders", new { key = orderId });
 		}
 
 		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
@@ -137,5 +174,6 @@ namespace GameStore.Web.Controllers
 
 			return View(model);
 		}
+		#endregion
 	}
 }

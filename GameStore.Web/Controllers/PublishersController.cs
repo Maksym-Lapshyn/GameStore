@@ -81,7 +81,7 @@ namespace GameStore.Web.Controllers
 		{
 			_publisherService.Delete(key);
 
-			return Request.UrlReferrer != null ? RedirectToAction(Request.UrlReferrer.ToString()) : RedirectToAction("ShowAll", "Publishers");
+			return RedirectToAction("ShowAll", "Publishers");
 		}
 
 		public ActionResult ShowAll()

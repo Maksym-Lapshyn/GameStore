@@ -14,10 +14,12 @@ namespace GameStore.Common.Entities
 		[NotMapped]
 		public int OrderId { get; set; }
 
-		[BsonSerializer(typeof(DateTimeToStringSerializer))]
+		[BsonSerializer(typeof(NullableDateTimeToStringSerializer))]
 		[Column(TypeName = "datetime2")]
 		[BsonElement("OrderDate")]
-		public DateTime DateOrdered { get; set; }
+		public DateTime? DateOrdered { get; set; }
+
+		public decimal TotalPrice { get; set; }
 
 		[BsonSerializer(typeof(NullableDateTimeToStringSerializer))]
 		[Column(TypeName = "datetime2")]
@@ -25,8 +27,6 @@ namespace GameStore.Common.Entities
 		public DateTime? DateShipped { get; set; }
 
 		public OrderStatus OrderStatus { get; set; }
-
-		public int? UserId { get; set; }
 
 		public virtual User User { get; set; }
 

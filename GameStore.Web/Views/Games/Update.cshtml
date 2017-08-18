@@ -7,6 +7,8 @@
 }
 
 <h1>Update Game</h1>
+<hr/>
+
 @using (Html.BeginForm("Update", "Games", FormMethod.Post))
 {
 	<div class="panel panel-default">
@@ -18,9 +20,9 @@
 			@Html.HiddenFor(m => m.IsUpdated)
 			<b>@Html.LabelFor(m => m.Key)</b>
 			<p>
-                @Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Key)
-            </p>
+				@Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.Key)
+			</p>
 			<b>@Html.LabelFor(m => m.Name)</b>
 			<p>
 				@Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
@@ -28,22 +30,22 @@
 			</p>
 			<b>@Html.LabelFor(m => m.Description)</b>
 			<p>
-				@Html.TextBoxFor(m => m.Description, new {@class = "form-control"})
+				@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
 				@Html.ValidationMessageFor(m => m.Description)
 			</p>
 			<b>@Html.LabelFor(m => m.Price)</b>
 			<p>
-				@Html.TextBoxFor(m => m.Price, new {@class = "form-control"})
+				@Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
 				@Html.ValidationMessageFor(m => m.Price)
 			</p>
 			<b>@Html.LabelFor(m => m.DatePublished)</b>
 			<p>
-				@Html.TextBoxFor(m => m.DatePublished, new {@class = "form-control"})
+				@Html.TextBoxFor(m => m.DatePublished, new { @class = "form-control", type = "date" })
 				@Html.ValidationMessageFor(m => m.DatePublished)
 			</p>
 			<b>@Html.LabelFor(m => m.UnitsInStock)</b>
 			<p>
-				@Html.TextBoxFor(m => m.UnitsInStock, new {@class = "form-control"})
+				@Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "nubmer", step = "1", min = "0" })
 			</p>
 			<p>
 				@Html.CheckBoxFor(m => m.Discontinued)
