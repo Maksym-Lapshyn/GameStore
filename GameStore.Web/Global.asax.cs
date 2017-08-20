@@ -15,7 +15,8 @@ namespace GameStore.Web
 
 		}
 
-		public override void Init()
+        //test routing
+		/*public override void Init()
 		{
 			base.Init();
 			AcquireRequestState += ShowRouteValues;
@@ -27,6 +28,6 @@ namespace GameStore.Web
 			if (context == null)
 				return;
 			var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(context));
-		}
+		}*/
 	}
 }

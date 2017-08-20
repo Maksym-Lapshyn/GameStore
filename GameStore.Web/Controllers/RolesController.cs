@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Administrator)]
+	[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Administrator)]
 	public class RolesController : BaseController
 	{
 		private readonly IRoleService _roleService;

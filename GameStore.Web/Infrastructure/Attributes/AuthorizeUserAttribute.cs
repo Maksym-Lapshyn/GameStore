@@ -6,13 +6,13 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Infrastructure.Attributes
 {
-	public class CustomAuthorizeAttribute : AuthorizeAttribute
+	public class AuthorizeUserAttribute : AuthorizeAttribute
 	{
 		private readonly AccessLevel[] _accessLevels;
 		private readonly IAuthentication _auth;
 		private readonly AuthorizationMode _mode;
 
-		public CustomAuthorizeAttribute(AuthorizationMode mode, params AccessLevel[] accessLevels)
+		public AuthorizeUserAttribute(AuthorizationMode mode, params AccessLevel[] accessLevels)
 		{
 			_accessLevels = accessLevels;
 			_mode = mode;
@@ -36,5 +36,5 @@ namespace GameStore.Web.Infrastructure.Attributes
 			return true;
 			//attribute grants access to unauthorized user
 		}
-	}
+    }
 }

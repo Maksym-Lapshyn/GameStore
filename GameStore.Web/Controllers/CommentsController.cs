@@ -26,7 +26,7 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[CustomAuthorize(AuthorizationMode.Forbid, AccessLevel.Administrator)]
+		[AuthorizeUser(AuthorizationMode.Forbid, AccessLevel.Administrator)]
 		[HttpGet]
 		public ActionResult New(string key)
 		{
@@ -45,7 +45,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Forbid, AccessLevel.Administrator)]
+		[AuthorizeUser(AuthorizationMode.Forbid, AccessLevel.Administrator)]
 		[HttpPost]
 		public ActionResult New(CompositeCommentsViewModel model)
 		{
@@ -72,7 +72,7 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("New", new { key = model.NewComment.GameKey });
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Moderator)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Moderator)]
 		public ActionResult Delete(int key)
 		{
 			_commentService.Delete(key);

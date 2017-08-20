@@ -34,7 +34,7 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult New()
 		{
@@ -48,7 +48,7 @@ namespace GameStore.Web.Controllers
 			return View(gameViewModel);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult New(GameViewModel model)
 		{
@@ -64,7 +64,7 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("ShowAll");
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
@@ -77,7 +77,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult Update(GameViewModel model)
 		{
@@ -132,7 +132,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult Delete(string key)
 		{

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+	[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 	public class PublishersController : BaseController
 	{
 		private readonly IPublisherService _publisherService;

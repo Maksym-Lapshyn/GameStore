@@ -170,7 +170,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
-    <Compile Include="Infrastructure\Attributes\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\AuthorizeUserAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\CannotBeEmptyAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\RequiredLengthIfNotNullAttribute.cs" />
     <Compile Include="Infrastructure\Concrete\Logger.cs" />

@@ -29,7 +29,8 @@ namespace GameStore.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
+        #region User's actions
+        [AuthorizeUser(AuthorizationMode.Allow, AccessLevel.User)]
 		public ActionResult Busket()
 		{
 			if (!_orderService.ContainsActive(CurrentUser.Id))
@@ -43,7 +44,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.User)]
 		[HttpPost]
 		public ActionResult Confirm(int orderId)
 		{
@@ -52,7 +53,7 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("Busket", "Orders");
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User)]
+        [AuthorizeUser(AuthorizationMode.Allow, AccessLevel.User)]
 		[HttpPost]
 		public ActionResult Buy(string gameKey)
 		{
@@ -66,8 +67,9 @@ namespace GameStore.Web.Controllers
 
 			return RedirectToAction("Busket", "Orders");
 		}
+        #endregion
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager)]
+        [AuthorizeUser(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult AddDetails(int orderId, string gameKey)
 		{
@@ -78,11 +80,11 @@ namespace GameStore.Web.Controllers
 				: RedirectToAction("Busket", "Orders");
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.User, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult DeleteDetails(int orderId, string gameKey)
 		{
-			_orderService.AddDetails(orderId, gameKey);
+			_orderService.DeleteDetails(orderId, gameKey);
 
 			return CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.User) 
 				? RedirectToAction("Show", "Orders", new { key = orderId }) 
@@ -90,7 +92,7 @@ namespace GameStore.Web.Controllers
 		}
 
 		#region Manager's actions
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public ActionResult Show(int key)
 		{
 			var orderDto = _orderService.GetSingle(key);
@@ -99,7 +101,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult Ship(int orderId)
 		{
@@ -108,7 +110,7 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("Show", "Orders", new { key = orderId });
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult History()
 		{
@@ -124,7 +126,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult History(CompositeOrdersViewModel model)
 		{
@@ -139,7 +141,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpGet]
 		public ActionResult ShowAll()
 		{
@@ -155,7 +157,7 @@ namespace GameStore.Web.Controllers
 			return View(model);
 		}
 
-		[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		[HttpPost]
 		public ActionResult ShowAll(CompositeOrdersViewModel model)
 		{

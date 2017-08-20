@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
-	[CustomAuthorize(AuthorizationMode.Allow, AccessLevel.Administrator)]
+	[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Administrator)]
 	public class UsersController : Controller
 	{
 		private readonly IUserService _userService;
