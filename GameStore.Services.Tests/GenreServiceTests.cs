@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -40,7 +40,7 @@ namespace GameStore.Services.Tests
 				new Genre()
 			};
 
-			_mockOfGenreRepository.Setup(m => m.GetAll()).Returns(_genres);
+			_mockOfGenreRepository.Setup(m => m.GetAll(null)).Returns(_genres);
 
 			var result = _target.GetAll().ToList().Count;
 

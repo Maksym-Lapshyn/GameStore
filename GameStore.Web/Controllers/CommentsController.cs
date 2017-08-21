@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -19,7 +20,9 @@ namespace GameStore.Web.Controllers
 
 		public CommentsController(ICommentService commentService,
 			IGameService gameService,
-			IMapper mapper)
+			IMapper mapper, 
+			IAuthentication authentication)
+			: base(authentication)
 		{
 			_commentService = commentService;
 			_gameService = gameService;
@@ -53,6 +56,7 @@ namespace GameStore.Web.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 			}
+
 			if (!ModelState.IsValid)
 			{
 				model.Comments = GetComments(model.NewComment.GameKey);

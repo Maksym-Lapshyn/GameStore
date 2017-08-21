@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -16,7 +17,9 @@ namespace GameStore.Web.Controllers
 		private readonly IMapper _mapper;
 
 		public PublishersController(IPublisherService publisherService,
-			IMapper mapper)
+			IMapper mapper,
+			IAuthentication authentication)
+			: base(authentication)
 		{
 			_publisherService = publisherService;
 			_mapper = mapper;

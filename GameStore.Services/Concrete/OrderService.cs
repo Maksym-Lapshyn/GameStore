@@ -87,21 +87,18 @@ namespace GameStore.Services.Concrete
 			else
 			{
 				var game = _gameRepository.GetSingle(g => g.Key == gameKey);
-				order.OrderDetails.Add(new OrderDetails
+				var orderDetails = new OrderDetails
 				{
 					Game = game,
 					GameKey = gameKey,
 					Price = game.Price,
 					Quantity = 1
-				});
+				};
+
+				order.OrderDetails.Add(orderDetails);
 			}
 
-			order.TotalPrice = 0;
-
-			foreach (var orderDetails in order.OrderDetails)
-			{
-				order.TotalPrice += orderDetails.Price;
-			}
+			order.TotalPrice = CalculateTotalPrice(order);
 
 			_orderRepository.Update(order);
 			_unitOfWork.Save();
@@ -126,12 +123,7 @@ namespace GameStore.Services.Concrete
 				}
 			}
 
-			order.TotalPrice = 0;
-
-			foreach (var orderDetails in order.OrderDetails)
-			{
-				order.TotalPrice += orderDetails.Price;
-			}
+			order.TotalPrice = CalculateTotalPrice(order);
 
 			_orderRepository.Update(order);
 			_unitOfWork.Save();
@@ -161,6 +153,11 @@ namespace GameStore.Services.Concrete
 			order.DateShipped = DateTime.UtcNow;
 			_orderRepository.Update(order);
 			_unitOfWork.Save();
+		}
+
+		private decimal CalculateTotalPrice(Order order)
+		{
+			return order.OrderDetails.Sum(orderDetails => orderDetails.Price);
 		}
 	}
 }

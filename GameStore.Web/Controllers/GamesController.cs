@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -25,7 +26,9 @@ namespace GameStore.Web.Controllers
 			IGenreService genreService,
 			IPlatformTypeService platformTypeService,
 			IPublisherService publisherService,
-			IMapper mapper)
+			IMapper mapper,
+			IAuthentication authentication)
+			: base(authentication)
 		{
 			_gameService = gameService;
 			_genreService = genreService;
@@ -238,8 +241,8 @@ namespace GameStore.Web.Controllers
 			var filterDto = _mapper.Map<GameFilterViewModel, GameFilterDto>(filter);
 
 			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(User.Identity.IsAuthenticated && CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.Manager) 
-				? _gameService.GetAll(filterDto, itemsToSkip, itemsToTake) 
-				: _gameService.GetAll(filterDto, itemsToSkip, itemsToTake, false));
+				? _gameService.GetAll(filterDto, itemsToSkip, itemsToTake, true)
+				: _gameService.GetAll(filterDto, itemsToSkip, itemsToTake));
 		}
 
 		private List<PlatformTypeViewModel> GetPlatformTypes()

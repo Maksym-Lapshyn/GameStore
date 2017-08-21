@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using GameStore.Web.Controllers;
@@ -6,12 +7,8 @@ using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using System.Security.Principal;
 using System.Web.Mvc;
-using System.Web.Mvc.Filters;
-using GameStore.Common.Abstract;
-using GameStore.Common.Concrete;
-using GameStore.Common.Entities;
-using GameStore.Common.Enums;
 
 namespace GameStore.Web.Tests
 {
@@ -20,6 +17,8 @@ namespace GameStore.Web.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
+		private const int DefaultItemsToSkip = 0;
+		private const int DefaultItemsToTake = 10;
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
 		private List<GameDto> _games;
@@ -28,6 +27,9 @@ namespace GameStore.Web.Tests
 		private Mock<IGenreService> _mockOfGenreService;
 		private Mock<IPlatformTypeService> _mockOfPlatformTypeService;
 		private Mock<IPublisherService> _mockOfPublisherService;
+		private Mock<IAuthentication> _mockOfAuthentication;
+		private Mock<ControllerContext> _mockOfControllerContext;
+		private Mock<IPrincipal> _mockOfPrincipal;
 
 		[TestInitialize]
 		public void Initialize()
@@ -41,7 +43,10 @@ namespace GameStore.Web.Tests
 			_mockOfPlatformTypeService = new Mock<IPlatformTypeService>();
 			_mockOfGenreService = new Mock<IGenreService>();
 			_mockOfPublisherService = new Mock<IPublisherService>();
-			_target = new GamesController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper);
+			_mockOfAuthentication = new Mock<IAuthentication>();
+			_mockOfControllerContext = new Mock<ControllerContext>();
+			_mockOfPrincipal = new Mock<IPrincipal>();
+			_target = new GamesController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper, _mockOfAuthentication.Object);
 			_games = new List<GameDto>();
 			_mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>())).Callback<GameDto>(g => _games.Add(g));
 			_mockOfGameService.Setup(m => m.GetSingle(ValidString)).Returns(new GameDto());

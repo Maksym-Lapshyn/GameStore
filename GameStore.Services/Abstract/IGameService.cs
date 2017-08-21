@@ -15,7 +15,7 @@ namespace GameStore.Services.Abstract
 
 		void Delete(string gameKey);
 
-		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null, bool addDeleted = true);
+		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false);
 
 		bool Contains(string gameKey);
 	}

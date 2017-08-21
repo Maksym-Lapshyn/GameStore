@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,7 +36,7 @@ namespace GameStore.Services.Tests
 				new PlatformType()
 			};
 
-			_mockOfPlatformTypeRepository.Setup(m => m.GetAll()).Returns(_platformTypes);
+			_mockOfPlatformTypeRepository.Setup(m => m.GetAll(null)).Returns(_platformTypes);
 
 			var result = _target.GetAll().ToList().Count;
 

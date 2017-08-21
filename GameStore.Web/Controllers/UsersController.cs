@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -11,7 +12,7 @@ using System.Web.Mvc;
 namespace GameStore.Web.Controllers
 {
 	[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Administrator)]
-	public class UsersController : Controller
+	public class UsersController : BaseController
 	{
 		private readonly IUserService _userService;
 		private readonly IRoleService _roleService;
@@ -19,7 +20,9 @@ namespace GameStore.Web.Controllers
 
 		public UsersController(IUserService userService,
 			IRoleService roleService,
-			IMapper mapper)
+			IMapper mapper,
+			IAuthentication authentication)
+			: base(authentication)
 		{
 			_userService = userService;
 			_roleService = roleService;

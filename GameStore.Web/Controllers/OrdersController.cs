@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -21,7 +22,9 @@ namespace GameStore.Web.Controllers
 		public OrdersController(IOrderService orderService,
 			IUserService userService,
 			IGameService gameService,
-			IMapper mapper)
+			IMapper mapper, 
+			IAuthentication authentication)
+			: base(authentication)
 		{
 			_orderService = orderService;
 			_userService = userService;

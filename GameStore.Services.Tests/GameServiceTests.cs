@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -37,10 +37,9 @@ namespace GameStore.Services.Tests
 			_mockOfUow = new Mock<IUnitOfWork>();
 			_target = new GameService(_mockOfUow.Object, _mapper, _mockOfGameRepository.Object, _mockOfPublisherRepository.Object,
 				_mockOfGenreRepository.Object, _mockOfPlatformTypeRepository.Object);
-			//_mockOfGameRepository.Setup(m => m.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
-			_mockOfPublisherRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new Publisher());
-			_mockOfPlatformTypeRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new PlatformType());
-			_mockOfGenreRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new Genre());
+			_mockOfPublisherRepository.Setup(m => m.GetSingle(p => p.CompanyName == ValidString)).Returns(new Publisher());
+			_mockOfPlatformTypeRepository.Setup(m => m.GetSingle(p => p.Type == ValidString)).Returns(new PlatformType());
+			_mockOfGenreRepository.Setup(m => m.GetSingle(g => g.Name == ValidString)).Returns(new Genre());
 			
 		}
 
@@ -73,7 +72,7 @@ namespace GameStore.Services.Tests
 				new Game { Id = TestInt, Name = ValidString }
 			};
 
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
+			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
 			_target.Update(new GameDto
 			{
@@ -94,7 +93,7 @@ namespace GameStore.Services.Tests
 				new Game { Key = ValidString }
 			};
 
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
+			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games[0] = g);
 
 			_target.Update(new GameDto
@@ -123,7 +122,7 @@ namespace GameStore.Services.Tests
 				new Game()
 			};
 
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
+			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
 
 			var games = _target.GetAll().ToList();
 

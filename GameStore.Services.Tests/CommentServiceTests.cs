@@ -1,13 +1,15 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.Services.Tests
 {
@@ -39,10 +41,24 @@ namespace GameStore.Services.Tests
 		[TestMethod]
 		public void Create_UpdatesParentComment_WhenCommentWithParentCommentIdIsPassed()
 		{
-			var newComment = new CommentDto { ParentCommentId = TestInt, GameKey = ValidString };
-			var parentComment = new Comment { Id = TestInt, ChildComments = new List<Comment>() };
-			_comments = new List<Comment> { new Comment() };
-			_mockOfCommentRepository.Setup(m => m.GetSingle(It.IsAny<int>())).Returns(parentComment);
+			var newComment = new CommentDto
+			{
+				ParentCommentId = TestInt,
+				GameKey = ValidString
+			};
+
+			var parentComment = new Comment
+			{
+				Id = TestInt,
+				ChildComments = new List<Comment>()
+			};
+
+			_comments = new List<Comment>
+			{
+				new Comment()
+			};
+
+			_mockOfCommentRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Comment, bool>>>())).Returns(parentComment);
 			_mockOfCommentRepository.Setup(m => m.Update(It.IsAny<Comment>())).Callback<Comment>(c => _comments[0] = c);
 
 			_target.Create(newComment);
@@ -53,10 +69,22 @@ namespace GameStore.Services.Tests
 		[TestMethod]
 		public void Create_UpdatesGame_WhenCommentWithoutParentCommentIdIsPassed()
 		{
-			var newComment = new CommentDto { GameKey = ValidString };
-			var game = new Game { Key = ValidString };
-			_games = new List<Game> { new Game() };
-			_mockOfGameRepository.Setup(m => m.GetSingle(ValidString)).Returns(game);
+			var newComment = new CommentDto
+			{
+				GameKey = ValidString
+			};
+
+			var game = new Game
+			{
+				Key = ValidString
+			};
+
+			_games = new List<Game>
+			{
+				new Game()
+			};
+
+			_mockOfGameRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Game, bool>>>())).Returns(game);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games[0] = g);
 
 			_target.Create(newComment);
@@ -67,10 +95,24 @@ namespace GameStore.Services.Tests
 		[TestMethod]
 		public void Create_CallsSaveOnce_WhenCommentWithParentCommentIdIsPassed()
 		{
-			var newComment = new CommentDto { ParentCommentId = TestInt, GameKey = ValidString };
-			var parentComment = new Comment { Id = TestInt, ChildComments = new List<Comment>() };
-			_comments = new List<Comment> { new Comment() };
-			_mockOfCommentRepository.Setup(m => m.GetSingle(It.IsAny<int>())).Returns(parentComment);
+			var newComment = new CommentDto
+			{
+				ParentCommentId = TestInt,
+				GameKey = ValidString
+			};
+
+			var parentComment = new Comment
+			{
+				Id = TestInt,
+				ChildComments = new List<Comment>()
+			};
+
+			_comments = new List<Comment>
+			{
+				new Comment()
+			};
+
+			_mockOfCommentRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Comment, bool>>>())).Returns(parentComment);
 			_mockOfCommentRepository.Setup(m => m.Update(It.IsAny<Comment>())).Callback<Comment>(c => _comments[0] = c);
 
 			_target.Create(newComment);
@@ -81,10 +123,22 @@ namespace GameStore.Services.Tests
 		[TestMethod]
 		public void Create_CallsSaveOnce_WhenCommentWithoutParentCommentIdIsPassed()
 		{
-			var newComment = new CommentDto { GameKey = ValidString };
-			var game = new Game { Key = ValidString };
-			_games = new List<Game> { new Game() };
-			_mockOfGameRepository.Setup(m => m.GetSingle(ValidString)).Returns(game);
+			var newComment = new CommentDto
+			{
+				GameKey = ValidString
+			};
+
+			var game = new Game
+			{
+				Key = ValidString
+			};
+
+			_games = new List<Game>
+			{
+				new Game()
+			};
+
+			_mockOfGameRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Game, bool>>>())).Returns(game);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games[0] = g);
 
 			_target.Create(newComment);
@@ -102,7 +156,7 @@ namespace GameStore.Services.Tests
 				new Comment()
 			};
 
-			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
+			_mockOfCommentRepository.Setup(m => m.GetAll(null)).Returns(_comments);
 
 			var result = _target.GetAll().ToList().Count;
 
@@ -130,7 +184,7 @@ namespace GameStore.Services.Tests
 				}
 			};
 
-			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
+			_mockOfCommentRepository.Setup(m => m.GetAll(null)).Returns(_comments);
 
 			var result = _target.GetAll(ValidString).ToList().Count;
 
@@ -158,7 +212,7 @@ namespace GameStore.Services.Tests
 				}
 			};
 
-			_mockOfCommentRepository.Setup(m => m.GetAll()).Returns(_comments);
+			_mockOfCommentRepository.Setup(m => m.GetAll(null)).Returns(_comments);
 
 			var result = _target.GetAll(InValidString).ToList().Count;
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -16,7 +17,9 @@ namespace GameStore.Web.Controllers
 		private readonly IMapper _mapper;
 
 		public GenresController(IGenreService genreService,
-			IMapper mapper)
+			IMapper mapper,
+			IAuthentication authentication)
+			: base(authentication)
 		{
 			_genreService = genreService;
 			_mapper = mapper;

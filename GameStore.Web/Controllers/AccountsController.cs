@@ -3,6 +3,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using GameStore.Web.Models;
 using System.Web.Mvc;
+using GameStore.Authentification.Abstract;
 
 namespace GameStore.Web.Controllers
 {
@@ -11,7 +12,10 @@ namespace GameStore.Web.Controllers
 		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
 
-		public AccountsController(IUserService userService, IMapper mapper)
+		public AccountsController(IUserService userService,
+			IMapper mapper,
+			IAuthentication authentication)
+			:base(authentication)
 		{
 			_userService = userService;
 			_mapper = mapper;
