@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Web.Controllers;
 using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

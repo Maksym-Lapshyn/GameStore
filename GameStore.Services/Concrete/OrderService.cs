@@ -47,7 +47,7 @@ namespace GameStore.Services.Concrete
 
 		public bool ContainsActive(int userId)
 		{
-			return !_orderRepository.Contains(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
+			return _orderRepository.Contains(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
 		}
 
 		public OrderDto GetSingleActive(int userId)
@@ -147,18 +147,20 @@ namespace GameStore.Services.Concrete
 
 		public void Confirm(int orderId)
 		{
-			var order = _orderRepository.GetSingle(o => o.OrderId == orderId);
+			var order = _orderRepository.GetSingle(o => o.Id == orderId);
 			order.DateOrdered = DateTime.UtcNow;
 			order.OrderStatus = OrderStatus.Paid;
 			_orderRepository.Update(order);
+			_unitOfWork.Save();
 		}
 
 		public void Ship(int orderId)
 		{
-			var order = _orderRepository.GetSingle(o => o.OrderId == orderId);
+			var order = _orderRepository.GetSingle(o => o.Id == orderId);
 			order.OrderStatus = OrderStatus.Shipped;
 			order.DateShipped = DateTime.UtcNow;
 			_orderRepository.Update(order);
+			_unitOfWork.Save();
 		}
 	}
 }

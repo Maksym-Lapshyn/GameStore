@@ -9,18 +9,19 @@ namespace GameStore.Web.Infrastructure.Attributes
 	public class AuthorizeUserAttribute : AuthorizeAttribute
 	{
 		private readonly AccessLevel[] _accessLevels;
-		private readonly IAuthentication _auth;
 		private readonly AuthorizationMode _mode;
+		private IAuthentication _auth;
 
 		public AuthorizeUserAttribute(AuthorizationMode mode, params AccessLevel[] accessLevels)
 		{
 			_accessLevels = accessLevels;
 			_mode = mode;
-			_auth = DependencyResolver.Current.GetService<IAuthentication>();
+			
 		}
 
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
+			_auth = DependencyResolver.Current.GetService<IAuthentication>();
 			if (_mode == AuthorizationMode.Allow)
 			{
 				return httpContext.User.Identity.IsAuthenticated && _auth.User.Roles.Any(r => _accessLevels.Contains(r.AccessLevel));
@@ -36,5 +37,5 @@ namespace GameStore.Web.Infrastructure.Attributes
 			return true;
 			//attribute grants access to unauthorized user
 		}
-    }
+	}
 }

@@ -1,4 +1,5 @@
-﻿@model GameStore.Web.Models.OrderViewModel
+﻿@using GameStore.Common.Enums
+@model GameStore.Web.Models.OrderViewModel
 
 @{
 	ViewBag.Title = "Order";
@@ -52,26 +53,32 @@
 			@Html.DisplayFor(m => detail.Quantity)
 		</p>
 
-		using (Html.BeginForm("AddDetails", "Orders", FormMethod.Post))
+		if (Model.OrderStatus != OrderStatus.Shipped)
 		{
-			<input type="hidden" name="orderId" value=@Model.Id />
-			<input type="hidden" name="gameKey" value=@detail.GameKey />
-			<button type="submit" class="btn btn-default">Add unit</button>
-		}
+			using (Html.BeginForm("AddDetails", "Orders", FormMethod.Post))
+			{
+				<input type="hidden" name="orderId" value=@Model.Id />
+				<input type="hidden" name="gameKey" value=@detail.GameKey />
+				<button type="submit" class="btn btn-default">Add unit</button>
+			}
 
-		using (Html.BeginForm("DeleteDetails", "Orders", FormMethod.Post))
-		{
-			<input type="hidden" name="orderId" value=@Model.Id />
-			<input type="hidden" name="gameKey" value=@detail.GameKey />
-			<button type="submit" class="btn btn-default">Delete unit</button>
+			using (Html.BeginForm("DeleteDetails", "Orders", FormMethod.Post))
+			{
+				<input type="hidden" name="orderId" value=@Model.Id />
+				<input type="hidden" name="gameKey" value=@detail.GameKey />
+				<button type="submit" class="btn btn-default">Delete unit</button>
+			}
 		}
 
 		<hr />
 	}
 
-	using (Html.BeginForm("Ship", "Orders", FormMethod.Post))
+	if (Model.OrderStatus != OrderStatus.Shipped)
 	{
-		<input type="hidden" name="orderId" value=@Model.Id />
-		<button type="submit" class="btn btn-default">Ship</button>
+		using (Html.BeginForm("Ship", "Orders", FormMethod.Post))
+		{
+			<input type="hidden" name="orderId" value=@Model.Id />
+			<button type="submit" class="btn btn-default">Ship</button>
+		}
 	}
 }

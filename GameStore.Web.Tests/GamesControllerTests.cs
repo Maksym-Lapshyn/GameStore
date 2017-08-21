@@ -1,12 +1,17 @@
 ﻿using AutoMapper;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Web.Controllers;
 using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Mvc.Filters;
+using GameStore.Common.Abstract;
+using GameStore.Common.Concrete;
+using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 
 namespace GameStore.Web.Tests
 {
@@ -126,24 +131,14 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void ListAll_SendsListOfGamesToView()
-		{
-			var model = new AllGamesViewModel();
-
-			var result = ((ViewResult)_target.ShowAll(model)).Model;
-
-			Assert.IsInstanceOfType(result, typeof(AllGamesViewModel));
-		}
-
-		[TestMethod]
-		public void Remove_DeletesGame_WhenValidGameIdIsPassed()
+		public void Delete_DeletesGame_WhenValidGameIdIsPassed()
 		{
 			_games = new List<GameDto>
 			{
 				new GameDto {Key = ValidString }
 			};
 
-			_target.Remove(ValidString);
+			_target.Delete(ValidString);
 			var result = _games.Count;
 
 			Assert.AreEqual(result, 0);

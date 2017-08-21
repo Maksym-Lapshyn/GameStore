@@ -64,19 +64,19 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void GetAllGames_CallsRightControllerAndAction_WhenValidRouteIsPassed()
 		{
-			TestRouteMatch("~/games", "Games", "ListAll");
+			TestRouteMatch("~/games", "Games", "ShowAll");
 		}
 
 		[TestMethod]
 		public void DeleteGame_CallsRightControllerAndAction_WhenValidRouteIsPassed()
 		{
-			TestRouteMatch("~/games/remove", "Games", "Remove", "POST");
+			TestRouteMatch("~/games/delete", "Games", "Delete", "POST");
 		}
 
 		[TestMethod]
 		public void GetAllComments_CallsRightControllerAndAction_WhenValidRouteIsPassed()
 		{
-			TestRouteMatch("~/games/{gameKey}/comments", "Comments", "NewComment");
+			TestRouteMatch("~/games/{gameKey}/comments", "Comments", "New");
 		}
 
 		[TestMethod]
@@ -98,9 +98,9 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void DisplayBasket_CallsRightControllerAndAction_WhenValidRouteIsPassed()
+		public void DisplayBusket_CallsRightControllerAndAction_WhenValidRouteIsPassed()
 		{
-			TestRouteMatch("~/busket", "Orders", "Show");
+			TestRouteMatch("~/busket", "Orders", "Busket");
 		}
 	}
 }

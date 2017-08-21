@@ -15,7 +15,7 @@ namespace GameStore.Web
 				"",
 				"{controller}",
 				new { action = "ShowAll" },
-				new { controller = "Games/Genres/Publishers/Roles/Users"}
+				new { controller = "Games|Comments|Publishers|Genres|Orders|Roles|Users|" }
 			);
 
 			routes.MapRoute(
@@ -34,18 +34,18 @@ namespace GameStore.Web
 				"",
 				"{controller}/{action}",
 				null,
-				new { action = "New|History|Update|ShowCount|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails" }
+				new { action = "New|History|Update|ShowCount|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails|Buy" }
+			);
+
+			routes.MapRoute(
+				"",
+				"{controller}/{key}/{action}"
 			);
 
 			routes.MapRoute(
 				"",
 				"{controller}/{*key}",
 				new { action = "Show" }
-			);
-
-			routes.MapRoute(
-				"",
-				"{controller}/{key}/{action}"
 			);
 
 			routes.MapRoute(
