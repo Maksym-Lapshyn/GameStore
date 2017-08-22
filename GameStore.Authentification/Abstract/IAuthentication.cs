@@ -6,7 +6,7 @@ namespace GameStore.Authentification.Abstract
 {
 	public interface IAuthentication
 	{
-		HttpContext HttpContext { get; set; }
+		HttpContextBase HttpContext { get; set; }
 
 		User User { get; }
 

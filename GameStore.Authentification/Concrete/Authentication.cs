@@ -11,12 +11,12 @@ namespace GameStore.Authentification.Concrete
 {
 	public class Authentication : IAuthentication
 	{
-		private const string CookieName = "GameStore_Authentication";
+		private const string CookieName = "__GAMESTORE_AUTH";
 		private readonly IUserRepository _repository;
 		private readonly IHasher<string> _hasher;
 		private IPrincipal _currentUser;
 
-		public HttpContext HttpContext { get; set; }
+		public HttpContextBase HttpContext { get; set; }
 		public User User => ((IUserProvider)CurrentUser.Identity).User;
 
 		public Authentication(IUserRepository repository, IHasher<string> hasher)

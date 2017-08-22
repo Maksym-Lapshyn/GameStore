@@ -18,7 +18,7 @@ namespace GameStore.Authentification.Concrete
 
 		public UserProvider(string login, IUserRepository repository)
 		{
-			_userIdentity = new UserIdentityProvider {User = repository.GetAll(u => u.Login == login).FirstOrDefault()};
+			_userIdentity = new UserIdentityProvider {User = repository.GetSingle(u => u.Login == login)};
 		}
 
 		public bool IsInRole(string role)

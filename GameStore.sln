@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Services", "GameStore.Services\GameStore.Services.csproj", "{C5E410DD-69D9-4A8B-ACAB-1414BA91DCBF}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.DAL.Tests", "GameStore.DAL.Tests\GameStore.DAL.Tests.csproj", "{7CC9F095-1D53-4412-AF2D-8A8853D91B74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Authentication", "GameStore.Authentification\GameStore.Authentication.csproj", "{21ABABD0-FA79-4693-B6F0-F7E6458F5AF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Authentication.Tests", "GameStore.Authentication.Tests\GameStore.Authentication.Tests.csproj", "{E5AA27DF-69C9-4085-9C55-2F0A506FB922}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,8 +65,15 @@ Global
 		{21ABABD0-FA79-4693-B6F0-F7E6458F5AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21ABABD0-FA79-4693-B6F0-F7E6458F5AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21ABABD0-FA79-4693-B6F0-F7E6458F5AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5AA27DF-69C9-4085-9C55-2F0A506FB922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AA27DF-69C9-4085-9C55-2F0A506FB922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AA27DF-69C9-4085-9C55-2F0A506FB922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AA27DF-69C9-4085-9C55-2F0A506FB922}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2145E510-CE17-4E4B-A98A-E260666CF093}
 	EndGlobalSection
 EndGlobal

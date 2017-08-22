@@ -21,7 +21,7 @@ namespace GameStore.Web.Infrastructure.Modules
 			var app = (HttpApplication) source;
 			var context = app.Context;
 			var auth = DependencyResolver.Current.GetService<IAuthentication>();
-			auth.HttpContext = context;
+			auth.HttpContext = new HttpContextWrapper(context);
 			context.User = auth.CurrentUser;
 		}
 	}
