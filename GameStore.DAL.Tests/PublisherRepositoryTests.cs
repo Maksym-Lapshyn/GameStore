@@ -1,9 +1,11 @@
-﻿using GameStore.DAL.Abstract;
+﻿using System;
+using System.Linq.Expressions;
+using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Concrete.Common;
-using GameStore.DAL.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -31,10 +33,10 @@ namespace GameStore.DAL.Tests
 		[TestMethod]
 		public void GetSingle_ClonesGenre_WhenNonExistingCompanyNameIsPassed()
 		{
-			_mockOfEfRepository.Setup(m => m.Contains(InvalidString)).Returns(false);
+			_mockOfEfRepository.Setup(m => m.Contains(It.IsAny<Expression<Func<Publisher, bool>>>())).Returns(false);
 			_mockOfCloner.Setup(m => m.Copy(It.IsAny<Publisher>())).Returns<Publisher>(g => new Publisher { CompanyName = ValidString });
 
-			var result = _target.GetSingle(InvalidString);
+			var result = _target.GetSingle(p => p.CompanyName == InvalidString);
 
 			Assert.AreEqual(ValidString, result.CompanyName);
 		}
@@ -42,10 +44,10 @@ namespace GameStore.DAL.Tests
 		[TestMethod]
 		public void GetSingle_ReturnsGenreFromEfRepository_WhenNonExistingGenreNameIsPassed()
 		{
-			_mockOfEfRepository.Setup(m => m.Contains(ValidString)).Returns(true);
-			_mockOfEfRepository.Setup(m => m.GetSingle(ValidString)).Returns(new Publisher() { CompanyName = ValidString });
+			_mockOfEfRepository.Setup(m => m.Contains(It.IsAny<Expression<Func<Publisher, bool>>>())).Returns(true);
+			_mockOfEfRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Publisher, bool>>>())).Returns(new Publisher() { CompanyName = ValidString });
 
-			var result = _target.GetSingle(ValidString);
+			var result = _target.GetSingle(p => p.CompanyName == ValidString);
 
 			Assert.AreEqual(ValidString, result.CompanyName);
 		}

@@ -1,8 +1,8 @@
-﻿using GameStore.Common.Enums;
+﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Concrete;
 using GameStore.DAL.Concrete.Filters;
-using GameStore.DAL.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

@@ -34,20 +34,8 @@ namespace GameStore.Services.Concrete
 			if (comment.ParentCommentId != null)
 			{
 				comment.ParentComment = _commentRepository.GetSingle(c => c.Id == comment.ParentCommentId.Value);
-				//_commentRepository.Update(comment);
 			}
-			/*
-			if (comment.ParentCommentId != null)
-			{
-				var parentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
-				parentComment.ChildComments.Add(comment);
-				_commentRepository.Update(parentComment);
-			}*/
-			else
-			{
-				//var game = _gameRepository.GetSingle(g => g.Key == comment.GameKey);
-				
-			}
+
 			game.Comments.Add(comment);
 			_gameRepository.Update(game);
 

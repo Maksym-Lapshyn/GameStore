@@ -111,22 +111,5 @@ namespace GameStore.Services.Tests
 
 			_mockOfGameRepository.Verify(m => m.Delete(ValidString), Times.Once);
 		}
-
-		[TestMethod]
-		public void GetAll_ReturnsAllGames()
-		{
-			_games = new List<Game>
-			{
-				new Game(),
-				new Game(),
-				new Game()
-			};
-
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
-
-			var games = _target.GetAll().ToList();
-
-			Assert.AreEqual(games.Count, 3);
-		}
 	}
 }

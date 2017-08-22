@@ -1,13 +1,15 @@
-﻿using GameStore.DAL.Abstract;
+﻿using System;
+using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Concrete.Common;
-using GameStore.DAL.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Tests
 {
@@ -56,7 +58,7 @@ namespace GameStore.DAL.Tests
 			};
 
 			_mockOfEfRepository.Setup(m => m.GetAll(null)).Returns(_efGames.AsQueryable());
-			_mockOfMongoRepository.Setup(m => m.GetAll()).Returns(_mongoGames.AsQueryable);
+			_mockOfMongoRepository.Setup(m => m.GetAll(It.IsAny<Expression<Func<Game,bool>>>())).Returns(_mongoGames.AsQueryable);
 			_mockOfSynchronizer.Setup(m => m.Synchronize(It.IsAny<Game>())).Returns<Game>(g => g);
 
 			var result = _target.GetAll();
@@ -82,7 +84,7 @@ namespace GameStore.DAL.Tests
 			};
 
 			_mockOfEfRepository.Setup(m => m.GetAll(null)).Returns(_efGames.AsQueryable());
-			_mockOfMongoRepository.Setup(m => m.GetAll()).Returns(_mongoGames.AsQueryable);
+			_mockOfMongoRepository.Setup(m => m.GetAll(It.IsAny<Expression<Func<Game, bool>>>())).Returns(_mongoGames.AsQueryable);
 			_mockOfSynchronizer.Setup(m => m.Synchronize(It.IsAny<Game>())).Returns<Game>(g => g);
 
 			var result = _target.GetAll();
@@ -112,7 +114,7 @@ namespace GameStore.DAL.Tests
 			};
 
 			_mockOfEfRepository.Setup(m => m.GetAll(null)).Returns(_efGames.AsQueryable());
-			_mockOfMongoRepository.Setup(m => m.GetAll()).Returns(_mongoGames.AsQueryable);
+			_mockOfMongoRepository.Setup(m => m.GetAll(It.IsAny<Expression<Func<Game, bool>>>())).Returns(_mongoGames.AsQueryable);
 			_mockOfSynchronizer.Setup(m => m.Synchronize(It.IsAny<Game>())).Returns<Game>(g => g);
 
 			var result = _target.GetAll(null, 4, 4).ToList();
@@ -142,7 +144,7 @@ namespace GameStore.DAL.Tests
 			};
 
 			_mockOfEfRepository.Setup(m => m.GetAll(null)).Returns(_efGames.AsQueryable());
-			_mockOfMongoRepository.Setup(m => m.GetAll()).Returns(_mongoGames.AsQueryable);
+			_mockOfMongoRepository.Setup(m => m.GetAll(It.IsAny<Expression<Func<Game, bool>>>())).Returns(_mongoGames.AsQueryable);
 			_mockOfSynchronizer.Setup(m => m.Synchronize(It.IsAny<Game>())).Returns<Game>(g => g);
 
 			var result = _target.GetAll(null, 0, 4);
@@ -172,7 +174,7 @@ namespace GameStore.DAL.Tests
 			};
 
 			_mockOfEfRepository.Setup(m => m.GetAll(null)).Returns(_efGames.AsQueryable());
-			_mockOfMongoRepository.Setup(m => m.GetAll()).Returns(_mongoGames.AsQueryable);
+			_mockOfMongoRepository.Setup(m => m.GetAll(It.IsAny<Expression<Func<Game, bool>>>())).Returns(_mongoGames.AsQueryable);
 			_mockOfSynchronizer.Setup(m => m.Synchronize(It.IsAny<Game>())).Returns<Game>(g => g);
 
 			var result = _target.GetAll(null, 4, 4).ToList();
@@ -184,10 +186,10 @@ namespace GameStore.DAL.Tests
 		[TestMethod]
 		public void GetSingle_ClonesGame_WhenNonExistingGameKeyIsPassed()
 		{
-			_mockOfEfRepository.Setup(m => m.Contains(InvalidString)).Returns(false);
+			_mockOfEfRepository.Setup(m => m.Contains(It.IsAny<Expression<Func<Game, bool>>>())).Returns(false);
 			_mockOfCloner.Setup(m => m.Copy(It.IsAny<Game>())).Returns<Game>(g => new Game{Key = ValidString});
 
-			var result = _target.GetSingle(InvalidString);
+			var result = _target.GetSingle(g => g.Key == InvalidString);
 
 			Assert.AreEqual(ValidString, result.Key);
 		}
@@ -195,11 +197,11 @@ namespace GameStore.DAL.Tests
 		[TestMethod]
 		public void GetSingle_SynchronizesGame_WhenNonExistingGameKeyIsPassed()
 		{
-			_mockOfEfRepository.Setup(m => m.Contains(ValidString)).Returns(true);
+			_mockOfEfRepository.Setup(m => m.Contains(It.IsAny<Expression<Func<Game, bool>>>())).Returns(true);
 			_mockOfSynchronizer.Setup(m => m.Synchronize(It.IsAny<Game>())).Returns<Game>(g => new Game { Key = ValidString });
-			_mockOfEfRepository.Setup(m => m.GetSingle(ValidString)).Returns(new Game());
+			_mockOfEfRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Game, bool>>>())).Returns(new Game());
 
-			var result = _target.GetSingle(ValidString);
+			var result = _target.GetSingle(g => g.Key == InvalidString);
 
 			Assert.AreEqual(ValidString, result.Key);
 		}
