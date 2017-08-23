@@ -199,7 +199,7 @@
     <value>Введите ключ игры</value>
   </data>
   <data name="GameName" xml:space="preserve">
-    <value>Название жанра</value>
+    <value>Название игры</value>
   </data>
   <data name="GameNameIsRequired" xml:space="preserve">
     <value>Введите название жанра</value>
@@ -452,5 +452,20 @@
   </data>
   <data name="Other" xml:space="preserve">
     <value>Другой</value>
+  </data>
+  <data name="GameWithSuchKeyAlreadyExists" xml:space="preserve">
+    <value>Игра с таким ключем уже существует</value>
+  </data>
+  <data name="GenreWithSuchNameAlreadyExists" xml:space="preserve">
+    <value>Жанр с таким названием уже существует</value>
+  </data>
+  <data name="PublisherWithSuchCompanyNameAlreadyExists" xml:space="preserve">
+    <value>Издатель с таким названием компании уже существует</value>
+  </data>
+  <data name="RoleWithSuchNameAlreadyExists" xml:space="preserve">
+    <value>Роль с таким названием уже существует</value>
+  </data>
+  <data name="UserWithSuchLoginAlreadyExists" xml:space="preserve">
+    <value>Пользователь с таким логином уже существует</value>
   </data>
 </root>

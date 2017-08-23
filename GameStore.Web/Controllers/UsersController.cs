@@ -3,6 +3,7 @@ using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.App_LocalResources;
 using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
@@ -123,7 +124,7 @@ namespace GameStore.Web.Controllers
 
 			if (existingUser.Id != user.Id)
 			{
-				ModelState.AddModelError("Login", "User with such login already exists");
+				ModelState.AddModelError("Login", GlobalResource.UserWithSuchLoginAlreadyExists);
 			}
 		}
 	}

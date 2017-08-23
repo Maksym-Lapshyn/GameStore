@@ -3,6 +3,7 @@ using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.App_LocalResources;
 using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
@@ -106,7 +107,7 @@ namespace GameStore.Web.Controllers
 
 			if (existingPublisher.Id != model.Id)
 			{
-				ModelState.AddModelError("CompanyName", "Publisher with such company name already exists");
+				ModelState.AddModelError("CompanyName", GlobalResource.PublisherWithSuchCompanyNameAlreadyExists);
 			}
 		}
 	}

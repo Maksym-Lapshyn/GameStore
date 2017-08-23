@@ -340,6 +340,15 @@ namespace GameStore.Web.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Game with such key already exists.
+        /// </summary>
+        public static string GameWithSuchKeyAlreadyExists {
+            get {
+                return ResourceManager.GetString("GameWithSuchKeyAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Genre name.
         /// </summary>
         public static string GenreName {
@@ -363,6 +372,15 @@ namespace GameStore.Web.App_LocalResources {
         public static string Genres {
             get {
                 return ResourceManager.GetString("Genres", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Genre with such name already exists.
+        /// </summary>
+        public static string GenreWithSuchNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("GenreWithSuchNameAlreadyExists", resourceCulture);
             }
         }
         
@@ -700,6 +718,15 @@ namespace GameStore.Web.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publisher with such company name already exists.
+        /// </summary>
+        public static string PublisherWithSuchCompanyNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("PublisherWithSuchCompanyNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quantity.
         /// </summary>
         public static string Quantity {
@@ -759,6 +786,15 @@ namespace GameStore.Web.App_LocalResources {
         public static string RolesInputCannotBeEmpty {
             get {
                 return ResourceManager.GetString("RolesInputCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role with such name already exists.
+        /// </summary>
+        public static string RoleWithSuchNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("RoleWithSuchNameAlreadyExists", resourceCulture);
             }
         }
         
@@ -1056,6 +1092,15 @@ namespace GameStore.Web.App_LocalResources {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with such login already exists.
+        /// </summary>
+        public static string UserWithSuchLoginAlreadyExists {
+            get {
+                return ResourceManager.GetString("UserWithSuchLoginAlreadyExists", resourceCulture);
             }
         }
         

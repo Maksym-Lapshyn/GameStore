@@ -453,4 +453,19 @@
   <data name="Other" xml:space="preserve">
     <value>Other</value>
   </data>
+  <data name="GameWithSuchKeyAlreadyExists" xml:space="preserve">
+    <value>Game with such key already exists</value>
+  </data>
+  <data name="GenreWithSuchNameAlreadyExists" xml:space="preserve">
+    <value>Genre with such name already exists</value>
+  </data>
+  <data name="PublisherWithSuchCompanyNameAlreadyExists" xml:space="preserve">
+    <value>Publisher with such company name already exists</value>
+  </data>
+  <data name="RoleWithSuchNameAlreadyExists" xml:space="preserve">
+    <value>Role with such name already exists</value>
+  </data>
+  <data name="UserWithSuchLoginAlreadyExists" xml:space="preserve">
+    <value>User with such login already exists</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ using GameStore.Authentification.Abstract;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.App_LocalResources;
 using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System;
@@ -105,7 +106,6 @@ namespace GameStore.Web.Controllers
 			return View(gameViewModel);
 		}
 
-		[HttpGet]
 		public ActionResult ShowAll(CompositeGamesViewModel model)
 		{
 			if (!ModelState.IsValid && model.FilterIsChanged)
@@ -264,7 +264,7 @@ namespace GameStore.Web.Controllers
 
 			if (existingGame.Id != model.Id)
 			{
-				ModelState.AddModelError("Key", "Game with such key already exists");
+				ModelState.AddModelError("Key", GlobalResource.GameWithSuchKeyAlreadyExists);
 			}
 		}
 	}
