@@ -2,11 +2,13 @@
 @model GameStore.Web.Models.RoleViewModel
 
 @{
-	ViewBag.Title = "New Role";
+	ViewBag.Title = GlobalResource.NewRole;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>New Role</h1>
+<h1>@GlobalResource.NewRole</h1>
+<hr/>
+
 @using (Html.BeginForm("New", "Roles", FormMethod.Post))
 {
 	<b>@Html.LabelFor(m => m.Name)</b>
@@ -19,5 +21,5 @@
 		@Html.CreateRadioButtonGroup("AccessLevel", Model.AccessLevel)
 		@Html.ValidationMessageFor(m => m.AccessLevel)
 	</p>
-	<p><button type="submit" class="btn btn-default">Create</button></p>
+	<p><button type="submit" class="btn btn-default">@GlobalResource.ToCreate</button></p>
 }

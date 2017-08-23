@@ -1,8 +1,8 @@
 ﻿using GameStore.Common.Entities;
+using GameStore.Web.App_LocalResources;
 using GameStore.Web.Infrastructure.Attributes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
@@ -15,24 +15,29 @@ namespace GameStore.Web.Models
 			PlatformTypesInput = new List<string>();
 		}
 
-		[Required]
+		[Required(ErrorMessageResourceName = "GameKeyIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "GameKey", ResourceType = typeof(GlobalResource))]
 		public string Key { get; set; }
 
-		[Required]
+		[Required(ErrorMessageResourceName = "GameNameIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "GameName", ResourceType = typeof(GlobalResource))]
 		public string Name { get; set; }
 
 		[DataType("MultilineText")]
-		[Required]
+		[Required(ErrorMessageResourceName = "DescriptionIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "GameDescription", ResourceType = typeof(GlobalResource))]
 		public string Description { get; set; }
 
-		[Required]
-		[Range(0.1, double.MaxValue)]
+		[Required(ErrorMessageResourceName = "PriceIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "Price", ResourceType = typeof(GlobalResource))]
+		[Range(0.1, double.MaxValue, ErrorMessageResourceName = "PriceShouldBeGreaterThanZero", ErrorMessageResourceType = typeof(GlobalResource))]
 		public decimal Price { get; set; }
 
+		[Display(Name = "DateAdded", ResourceType = typeof(GlobalResource))]
 		public DateTime DateAdded { get; set; }
 
-		[DisplayName("Date published")]
-		[Required]
+		[Required(ErrorMessageResourceName = "DatePublishedIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "DatePublished", ResourceType = typeof(GlobalResource))]
 		public DateTime DatePublished { get; set; }
 
 		public int ViewsCount { get; set; }
@@ -41,9 +46,10 @@ namespace GameStore.Web.Models
 
 		public int CommentsCount { get; set; }
 
-		[DisplayName("Units in stock")]
+		[Display(Name = "UnitsInStock", ResourceType = typeof(GlobalResource))]
 		public short UnitsInStock { get; set; }
 
+		[Display(Name = "Discontinued", ResourceType = typeof(GlobalResource))]
 		public bool Discontinued { get; set; }
 
 		public List<PublisherViewModel> PublisherData { get; set; }
@@ -52,14 +58,14 @@ namespace GameStore.Web.Models
 
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
-		[DisplayName("Publisher")]
+		[Display(Name = "Publisher", ResourceType = typeof(GlobalResource))]
 		public string PublisherInput { get; set; }
 
-		[DisplayName("Genres")]
+		[Display(Name = "Genres", ResourceType = typeof(GlobalResource))]
 		public List<string> GenresInput { get; set; }
 
-		[DisplayName("Platform Types")]
-		[CannotBeEmpty]
+		[Display(Name = "PlatformTypes", ResourceType = typeof(GlobalResource))]
+		[CannotBeEmpty(ErrorMessageResourceName = "PlatformTypesInputCannotBeEmpty", ErrorMessageResourceType = typeof(GlobalResource))]
 		public List<string> PlatformTypesInput { get; set; }
 	}
 }

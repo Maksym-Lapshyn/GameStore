@@ -1,7 +1,8 @@
-﻿using GameStore.Web.Infrastructure.Attributes;
+﻿using GameStore.Common.Enums;
+using GameStore.Web.App_LocalResources;
+using GameStore.Web.Infrastructure.Attributes;
 using System.Collections.Generic;
-using System.ComponentModel;
-using GameStore.Common.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
@@ -17,35 +18,35 @@ namespace GameStore.Web.Models
 			PublishersInput = new List<string>();
 		}
 
-		[DisplayName("Genres")]
 		public List<GenreViewModel> GenresData { get; set; }
 
+		[Display(Name = "Genres", ResourceType = typeof(GlobalResource))]
 		public List<string> GenresInput { get; set; }
 
-		[DisplayName("Platform types")]
 		public List<PlatformTypeViewModel> PlatformTypesData { get; set; }
 
+		[Display(Name = "PlatformTypes", ResourceType = typeof(GlobalResource))]
 		public List<string> PlatformTypesInput { get; set; }
 
-		[DisplayName("Publishers")]
 		public List<PublisherViewModel> PublishersData { get; set; }
 
+		[Display(Name = "Publishers", ResourceType = typeof(GlobalResource))]
 		public List<string> PublishersInput { get; set; }
 
-		[DisplayName("Sort by")]
+		[Display(Name = "ToSortBy", ResourceType = typeof(GlobalResource))]
 		public SortOptions SortOptions { get; set; }
 
-		[DisplayName("Minimum price")]
+		[Display(Name = "MinimumPrice", ResourceType = typeof(GlobalResource))]
 		public decimal MinPrice { get; set; }
 
-		[DisplayName("Maximum price")]
+		[Display(Name = "MaximumPrice", ResourceType = typeof(GlobalResource))]
 		public decimal MaxPrice { get; set; }
 
-		[DisplayName("Published date")]
+		[Display(Name = "DatePublished", ResourceType = typeof(GlobalResource))]
 		public DateOptions DateOptions { get; set; }
 
-		[RequiredLengthIfNotNull(3)]
-		[DisplayName("Name")]
+		[RequiredLengthIfNotNull(3, ErrorMessageResourceName = "GameNameShouldBeLongerThanThreeCharacters", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "GameName", ResourceType = typeof(GlobalResource))]
 		public string GameName { get; set; }
 	}
 }

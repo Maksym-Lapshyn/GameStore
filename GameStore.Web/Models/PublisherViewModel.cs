@@ -1,20 +1,21 @@
 ﻿using GameStore.Common.Entities;
-using System.ComponentModel;
+using GameStore.Web.App_LocalResources;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
 	public class PublisherViewModel : BaseEntity
 	{
-		[Required]
-		[DisplayName("Company Name")]
+		[Required(ErrorMessageResourceName = "CompanyNameIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "CompanyName", ResourceType = typeof(GlobalResource))]
 		public string CompanyName { get; set; }
 
-		[Required]
+		[Required(ErrorMessageResourceName = "PublisherDescriptionIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "PublisherDescription", ResourceType = typeof(GlobalResource))]
 		public string Description { get; set; }
 
-		[Required]
-		[DisplayName("Home Page")]
+		[Required(ErrorMessageResourceName = "HomePageIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "HomePage", ResourceType = typeof(GlobalResource))]
 		public string HomePage { get; set; }
 	}
 }

@@ -1,11 +1,13 @@
 ﻿@model GameStore.Web.Models.PublisherViewModel
 
 @{
-	ViewBag.Title = "Update Publisher";
+	ViewBag.Title = GlobalResource.UpdateOfPublisher;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Update Publisher</h1>
+<h1>@GlobalResource.UpdateOfPublisher</h1>
+<hr/>
+
 @using (Html.BeginForm("Update", "Publishers", FormMethod.Post))
 {
 	@Html.HiddenFor(m => m.Id)
@@ -26,7 +28,5 @@
 		@Html.TextBoxFor(m => m.HomePage, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.HomePage)
 	</p>
-	@Html.HiddenFor(m => m.Id)
-	@Html.HiddenFor(m => m.NorthwindId)
-	<p><button type="submit" class="btn btn-default">Update</button></p>
+	<p><button type="submit" class="btn btn-default">@GlobalResource.ToUpdate</button></p>
 }

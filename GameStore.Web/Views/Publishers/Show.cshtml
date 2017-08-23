@@ -1,11 +1,12 @@
 ﻿@model GameStore.Web.Models.PublisherViewModel
 
 @{
-	ViewBag.Title = "Publisher";
+	ViewBag.Title = Model.CompanyName;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Publisher</h1>
+<h1>@Model.CompanyName</h1>
+<hr/>
 <b>@Html.LabelFor(m => m.CompanyName)</b>
 <p>@Html.DisplayFor(model => model.CompanyName)</p>
 <b>@Html.LabelFor(m => m.Description)</b>
@@ -16,10 +17,10 @@
 <p>@Html.DisplayFor(m => m.IsDeleted)</p>
 
 <p>
-	@Html.ActionLink("Update", "Update", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-default" })
+	@Html.ActionLink(GlobalResource.ToUpdate, "Update", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-default" })
 
 	@if (!Model.IsDeleted)
 	{
-		@Html.ActionLink("Delete", "Delete", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-danger" })
+		@Html.ActionLink(GlobalResource.ToDelete, "Delete", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-danger" })
 	}
 </p>

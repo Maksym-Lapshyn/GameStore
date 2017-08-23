@@ -1,19 +1,21 @@
-﻿using System.ComponentModel;
+﻿using GameStore.Web.App_LocalResources;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
 	public class RegisterViewModel
 	{
-		[Required]
+		[Required(ErrorMessageResourceName = "LoginIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "Login", ResourceType = typeof(GlobalResource))]
 		public string Login { get; set; }
 
-		[Required]
+		[Required(ErrorMessageResourceName = "Password", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "Password", ResourceType = typeof(GlobalResource))]
 		public string Password { get; set; }
 
-		[Required]
-		[DisplayName("Confirm password")]
-		[Compare("Password", ErrorMessage = "Passwords do not match")]
+		[Required(ErrorMessageResourceName = "PasswordConfirmationIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "PasswordConfirmation", ResourceType = typeof(GlobalResource))]
+		[Compare("Password", ErrorMessageResourceName = "PasswordsDoNotMatch", ErrorMessageResourceType = typeof(GlobalResource))]
 		public string PasswordConfirmation { get; set; }
 	}
 }

@@ -10,7 +10,7 @@ namespace GameStore.DAL.Context
 {
 	public class GameStoreContextInitializer : CreateDatabaseIfNotExists<GameStoreContext>
 	{
-		private readonly Md5Hasher _hasher = new Md5Hasher();
+		private readonly Md5HashGenerator _hashGenerator = new Md5HashGenerator();
 
 		private void SeedRandomGames(GameStoreContext context)
 		{
@@ -364,7 +364,7 @@ namespace GameStore.DAL.Context
 			var admin = new User
 			{
 				Login = "admin",
-				Password = _hasher.GenerateHash("admin"),
+				Password = _hashGenerator.Generate("admin"),
 				Roles = new List<Role>
 				{
 					new Role {Name = "Administrator", AccessLevel = AccessLevel.Administrator}
@@ -374,7 +374,7 @@ namespace GameStore.DAL.Context
 			var manager = new User
 			{
 				Login = "manager",
-				Password = _hasher.GenerateHash("manager"),
+				Password = _hashGenerator.Generate("manager"),
 				Roles = new List<Role>
 				{
 					new Role { Name = "Manager", AccessLevel = AccessLevel.Manager }
@@ -384,7 +384,7 @@ namespace GameStore.DAL.Context
 			var moderator = new User
 			{
 				Login = "moderator",
-				Password = _hasher.GenerateHash("moderator"),
+				Password = _hashGenerator.Generate("moderator"),
 				Roles = new List<Role>
 				{
 					new Role { Name = "Moderator", AccessLevel = AccessLevel.Moderator }
@@ -394,7 +394,7 @@ namespace GameStore.DAL.Context
 			var user = new User
 			{
 				Login = "user",
-				Password = _hasher.GenerateHash("user"),
+				Password = _hashGenerator.Generate("user"),
 				Roles = new List<Role>
 				{
 					new Role { Name = "User", AccessLevel = AccessLevel.User }

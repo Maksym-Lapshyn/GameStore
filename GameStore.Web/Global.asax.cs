@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -15,7 +14,7 @@ namespace GameStore.Web
 
 		}
 
-        //test routing
+		//test routing
 		/*public override void Init()
 		{
 			base.Init();

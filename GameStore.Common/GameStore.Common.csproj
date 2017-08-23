@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IHasher.cs" />
+    <Compile Include="Abstract\IHashGenerator.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Enums\AccessLevel.cs" />
-    <Compile Include="Concrete\Md5Hasher.cs" />
+    <Compile Include="Concrete\Md5HashGenerator.cs" />
     <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />

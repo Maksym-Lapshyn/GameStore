@@ -13,45 +13,57 @@ namespace GameStore.Web
 
 			routes.MapRoute(
 				"",
-				"{controller}",
+				"{lang}/{controller}",
 				new { action = "ShowAll" },
-				new { controller = "Games|Comments|Publishers|Genres|Orders|Roles|Users|" }
+				new
+				{
+					controller = "Games|Comments|Publishers|Genres|Orders|Roles|Users|",
+					lang = "en|ru"
+				}
 			);
 
 			routes.MapRoute(
 				"",
-				"busket",
-				new { controller = "Orders", action = "Busket" }
+				"{lang}/busket",
+				new { controller = "Orders", action = "Busket" },
+				new { lang = "en|ru" }
 			);
 
 			routes.MapRoute(
 				"",
-				"games/{key}/comments",
-				new { controller = "Comments", action = "New" }
+				"{lang}/games/{key}/comments",
+				new { controller = "Comments", action = "New" },
+				new { lang = "en|ru" }
 			);
 
 			routes.MapRoute(
 				"",
-				"{controller}/{action}",
+				"{lang}/{controller}/{action}",
 				null,
-				new { action = "New|History|Update|ShowCount|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails|Buy" }
+				new
+				{
+					action = "New|History|Update|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails|Buy",
+					lang = "en|ru"
+				}
 			);
 
 			routes.MapRoute(
 				"",
-				"{controller}/{key}/{action}"
+				"{lang}/{controller}/{key}/{action}",
+				new { lang = "en|ru" }
 			);
 
 			routes.MapRoute(
 				"",
-				"{controller}/{*key}",
-				new { action = "Show" }
+				"{lang}/{controller}/{*key}",
+				new { action = "Show" },
+				new { lang = "en|ru" }
 			);
 
 			routes.MapRoute(
 				"Default",
 				"{controller}/{action}",
-				new { controller = "Games", action = "ShowAll" }
+				new { controller = "Games", action = "ShowAll", lang = "en" }
 			);
 		}
 	}

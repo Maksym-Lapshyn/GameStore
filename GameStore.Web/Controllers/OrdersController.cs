@@ -121,8 +121,8 @@ namespace GameStore.Web.Controllers
 			{
 				Filter = new OrderFilterViewModel
 				{
-					From = DateTime.UtcNow,
-					To = DateTime.UtcNow
+					BeginningDate = DateTime.UtcNow,
+					EndingDate = DateTime.UtcNow
 				}
 			};
 
@@ -152,8 +152,8 @@ namespace GameStore.Web.Controllers
 			{
 				Filter = new OrderFilterViewModel
 				{
-					From = DateTime.UtcNow,
-					To = DateTime.UtcNow
+					BeginningDate = DateTime.UtcNow,
+					EndingDate = DateTime.UtcNow
 				}
 			};
 
@@ -169,9 +169,9 @@ namespace GameStore.Web.Controllers
 				return View(model);
 			}
 
-			if (model.Filter.From < DateTime.UtcNow.AddDays(-30))
+			if (model.Filter.BeginningDate < DateTime.UtcNow.AddDays(-30))
 			{
-				model.Filter.From = DateTime.UtcNow.AddDays(-30);
+				model.Filter.BeginningDate = DateTime.UtcNow.AddDays(-30);
 			}
 
 			var filterDto = _mapper.Map<OrderFilterViewModel, OrderFilterDto>(model.Filter);

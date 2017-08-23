@@ -145,14 +145,6 @@ namespace GameStore.Web.Controllers
 			return RedirectToAction("ShowAll", "Games");
 		}
 
-		[OutputCache(Duration = 60)]
-		public ActionResult ShowCount()
-		{
-			var count = _gameService.GetCount();
-
-			return PartialView(count);
-		}
-
 		public FileResult Download(string key)
 		{
 			var path = Server.MapPath("~/file.pdf");

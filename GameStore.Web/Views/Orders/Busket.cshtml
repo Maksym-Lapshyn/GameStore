@@ -1,18 +1,18 @@
 ﻿@model GameStore.Web.Models.OrderViewModel
 
 @{
-	ViewBag.Title = "Busket";
+	ViewBag.Title = GlobalResource.Basket;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Busket</h1>
+<h1>@GlobalResource.Basket</h1>
 <hr />
 
 @if (Model.OrderDetails.Count > 0)
 {
 	<b>@Html.LabelFor(m => m.TotalPrice)</b>
 	<p>@Html.DisplayFor(m => m.TotalPrice)</p>
-	<h3>Order details</h3>
+	<h3>@GlobalResource.OrderDetails</h3>
 
 	foreach (var detail in Model.OrderDetails)
 	{
@@ -33,14 +33,14 @@
 			{
 				<input type="hidden" name="orderId" value=@Model.Id />
 				<input type="hidden" name="gameKey" value=@detail.GameKey />
-				<button type="submit" class="btn btn-default">Add item</button>
+				<button type="submit" class="btn btn-default">@GlobalResource.ToAddItem</button>
 			}
 
 			@using (Html.BeginForm("DeleteDetails", "Orders", FormMethod.Post))
 			{
 				<input type="hidden" name="orderId" value=@Model.Id />
 				<input type="hidden" name="gameKey" value=@detail.GameKey />
-				<button type="submit" class="btn btn-default">Delete item</button>
+				<button type="submit" class="btn btn-default">@GlobalResource.ToDeleteItem</button>
 			}
 		</p>
 		<hr />
@@ -49,10 +49,10 @@
 	using (Html.BeginForm("Confirm", "Orders", FormMethod.Post))
 	{
 		<input type="hidden" name="orderId" value=@Model.Id />
-		<button type="submit" class="btn btn-default">Confirm</button>
+		<button type="submit" class="btn btn-default">@GlobalResource.ToConfirm</button>
 	}
 }
 else
 {
-	<p>Your busket is empty!</p>
+	<p>Your basket is empty!</p>
 }

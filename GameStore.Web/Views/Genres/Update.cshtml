@@ -2,11 +2,11 @@
 @model GameStore.Web.Models.GenreViewModel
 
 @{
-	ViewBag.Title = "Update Genre";
+	ViewBag.Title = GlobalResource.UpdateOfGenre;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Update Genre</h1>
+<h1>@GlobalResource.UpdateOfGenre</h1>
 <hr/>
 
 @using (Html.BeginForm("Update", "Genres", FormMethod.Post))
@@ -26,5 +26,5 @@
 			@Html.CreateRadioButton("ParentGenreInput", genre.Name, Model.ParentGenreInput)
 		}
 	</p>
-	<p><button type="submit" class="btn btn-default">Update</button></p>
+	<p><button type="submit" class="btn btn-default">@GlobalResource.ToUpdate</button></p>
 }

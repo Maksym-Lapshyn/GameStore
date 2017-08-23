@@ -1,12 +1,11 @@
 ﻿@model List<GameStore.Web.Models.RoleViewModel>
 
 @{
-	ViewBag.Title = "Roles";
+	ViewBag.Title = GlobalResource.Roles;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Roles</h1>
-
+<h1>@GlobalResource.Roles</h1>
 <hr />
 
 @if (Model.Count != 0)
@@ -20,9 +19,9 @@
 }
 else
 {
-	<p>There are no roles in the system</p>
+	<p>@GlobalResource.ThereAreNoRolesInTheSystem</p>
 }
 
 <p>
-	@Html.ActionLink("Create new", "New", "Roles", null, new {@class = "btn btn-default"})
+	@Html.ActionLink(GlobalResource.ToCreate, "New", "Roles", null, new {@class = "btn btn-default"})
 </p>

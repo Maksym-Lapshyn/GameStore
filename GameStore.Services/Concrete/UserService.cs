@@ -16,21 +16,21 @@ namespace GameStore.Services.Concrete
 		private readonly IUserRepository _userRepository;
 		private readonly IRoleRepository _roleRepository;
 		private readonly IOrderRepository _orderRepository;
-		private readonly IHasher<string> _hasher;
+		private readonly IHashGenerator<string> _hashGenerator;
 		private readonly IUnitOfWork _unitOfWork;
 
 		public UserService(IMapper mapper,
 			IUserRepository userRepository,
 			IRoleRepository roleRepository,
 			IOrderRepository orderRepository,
-			IHasher<string> hasher,
+			IHashGenerator<string> hashGenerator,
 			IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_userRepository = userRepository;
 			_roleRepository = roleRepository;
 			_orderRepository = orderRepository;
-			_hasher = hasher;
+			_hashGenerator = hashGenerator;
 			_unitOfWork = unitOfWork;
 		}
 
@@ -39,7 +39,7 @@ namespace GameStore.Services.Concrete
 			AddDefaultRoleInput(userDto);
 			var user = _mapper.Map<UserDto, User>(userDto);
 			user = MapEmbeddedEntities(userDto, user);
-			user.Password = _hasher.GenerateHash(user.Password);
+			user.Password = _hashGenerator.Generate(user.Password);
 			_userRepository.Create(user);
 			_unitOfWork.Save();
 		}

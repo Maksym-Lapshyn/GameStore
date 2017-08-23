@@ -2,11 +2,11 @@
 @model GameStore.Web.Models.GameViewModel
 
 @{
-	ViewBag.Title = "Update Game";
+	ViewBag.Title = GlobalResource.UpdateGame;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Update Game</h1>
+<h1>@GlobalResource.UpdateGame</h1>
 <hr/>
 
 @using (Html.BeginForm("Update", "Games", FormMethod.Post))
@@ -101,8 +101,8 @@
 				@Html.HiddenFor(m => m.PublisherData[i].HomePage)
 			}
 
-			<button type="submit" class="btn btn-default">Update</button>
-			@Html.ActionLink("Back", "Show", "Games", new {key = Model.Key}, new {@class = "btn btn-primary"})
+			<button type="submit" class="btn btn-default">@GlobalResource.ToUpdate</button>
+			@Html.ActionLink(GlobalResource.Back, "Show", "Games", new {key = Model.Key}, new {@class = "btn btn-primary"})
 		</div>
 	</div>
 }
