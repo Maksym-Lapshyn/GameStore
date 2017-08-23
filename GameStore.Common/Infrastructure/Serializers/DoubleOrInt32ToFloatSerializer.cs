@@ -6,6 +6,8 @@ namespace GameStore.Common.Infrastructure.Serializers
 {
 	public class DoubleOrInt32ToFloatSerializer : IBsonSerializer
 	{
+		public Type ValueType => typeof(float);
+
 		object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
 			if (context.Reader.CurrentBsonType == BsonType.Double)
@@ -20,7 +22,5 @@ namespace GameStore.Common.Infrastructure.Serializers
 		{
 			context.Writer.WriteDouble((double)value);
 		}
-
-		public Type ValueType => typeof(float);
 	}
 }

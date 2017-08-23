@@ -1,13 +1,10 @@
-﻿using System;
-
-namespace GameStore.Common.Enums
+﻿namespace GameStore.Common.Enums
 {
-	[Flags]
 	public enum AccessLevel
 	{
-		Administrator,
+		User,
 		Manager,
 		Moderator,
-		User
+		Administrator
 	}
 }

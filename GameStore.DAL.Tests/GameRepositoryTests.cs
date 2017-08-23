@@ -18,6 +18,7 @@ namespace GameStore.DAL.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
+
 		private Mock<IPipeline<IQueryable<Game>>> _mockOfPipeline;
 		private Mock<IFilterMapper> _mockOfMapper;
 		private Mock<ISynchronizer<Game>> _mockOfSynchronizer;

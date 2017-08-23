@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAuthentication.cs" />
+    <Compile Include="Abstract\IUserIdentityProvider.cs" />
     <Compile Include="Abstract\IUserProvider.cs" />
     <Compile Include="Concrete\Authentication.cs" />
     <Compile Include="Infrastructure\UserIdentityProvider.cs" />

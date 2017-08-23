@@ -1,10 +1,9 @@
 ﻿using GameStore.Authentification.Abstract;
 using GameStore.Common.Entities;
-using System.Security.Principal;
 
 namespace GameStore.Authentification.Infrastructure
 {
-	public class UserIdentityProvider : IIdentity, IUserProvider
+	public class UserIdentityProvider : IUserIdentityProvider
 	{
 		public User User { get; set; }
 

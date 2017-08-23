@@ -16,6 +16,7 @@ namespace GameStore.Authentication.Tests
 		private const string CookieName = "__GAMESTORE_AUTH";
 		private const string TestString = "test";
 		private const string DefaultUserName = "Guest";
+
 		private Mock<IUserRepository> _mockOfUserRepository;
 		private Mock<IHasher<string>> _mockOfHasher;
 		private Mock<HttpContextBase> _mockOfContext;

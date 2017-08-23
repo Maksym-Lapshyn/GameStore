@@ -7,9 +7,11 @@ namespace GameStore.Common.Infrastructure.Serializers
 {
 	public class DateTimeToStringSerializer : IBsonSerializer
 	{
-        private const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
+		private const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
 
-        object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+		public Type ValueType => typeof(DateTime);
+
+		object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
 			if (context.Reader.CurrentBsonType == BsonType.Null)
 			{
@@ -32,7 +34,5 @@ namespace GameStore.Common.Infrastructure.Serializers
 		{
 			return DateTime.ParseExact(dateString, DateFormat, CultureInfo.InvariantCulture);
 		}
-
-		public Type ValueType => typeof(DateTime);
 	}
 }

@@ -13,6 +13,7 @@ namespace GameStore.Services.Concrete
 	public class GameService : IGameService
 	{
 		private const string DefaultGenreName = "Other";
+
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IGameRepository _gameRepository;

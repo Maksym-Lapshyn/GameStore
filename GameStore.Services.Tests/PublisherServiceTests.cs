@@ -17,8 +17,10 @@ namespace GameStore.Services.Tests
 	public class PublisherServiceTests
 	{
 		private const string TestString = "test";
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+
 		private Mock<IUnitOfWork> _mockOfUow;
 		private Mock<IPublisherRepository> _mockOfPublisherRepository;
 		private Mock<IGameRepository> _mockOfGameRepository;

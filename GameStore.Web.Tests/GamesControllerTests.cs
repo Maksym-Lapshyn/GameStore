@@ -19,8 +19,10 @@ namespace GameStore.Web.Tests
 		private const string InvalidString = "testtest";
 		private const int DefaultItemsToSkip = 0;
 		private const int DefaultItemsToTake = 10;
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+
 		private List<GameDto> _games;
 		private GamesController _target;
 		private Mock<IGameService> _mockOfGameService;

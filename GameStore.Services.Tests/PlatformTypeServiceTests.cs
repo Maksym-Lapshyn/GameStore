@@ -15,6 +15,7 @@ namespace GameStore.Services.Tests
 	{
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+
 		private Mock<IPlatformTypeRepository> _mockOfPlatformTypeRepository;
 		private PlatformTypeService _target;
 		private List<PlatformType> _platformTypes;

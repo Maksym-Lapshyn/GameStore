@@ -16,6 +16,7 @@ namespace GameStore.Web.Controllers
 	{
 		private const int DefaultPageSize = 10;
 		private const int DefaultPage = 1;
+
 		private readonly IGameService _gameService;
 		private readonly IGenreService _genreService;
 		private readonly IPlatformTypeService _platformTypeService;

@@ -1,11 +1,10 @@
-﻿using GameStore.DAL.Abstract.EntityFramework;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
 using System;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
-using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {

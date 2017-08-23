@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using GameStore.Authentification.Abstract;
 using GameStore.Authentification.Concrete;
+using GameStore.Common.Abstract;
+using GameStore.Common.Concrete;
 using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
 using GameStore.Web.Infrastructure.Abstract;
 using GameStore.Web.Infrastructure.Concrete;
 using Ninject;
+using Ninject.Web.Common;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using GameStore.Common.Abstract;
-using GameStore.Common.Concrete;
-using Ninject.Web.Common;
 
 namespace GameStore.Web.Infrastructure.Resolver
 {

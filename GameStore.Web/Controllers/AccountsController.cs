@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using GameStore.Web.Models;
 using System.Web.Mvc;
-using GameStore.Authentification.Abstract;
 
 namespace GameStore.Web.Controllers
 {

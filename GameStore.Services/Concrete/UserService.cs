@@ -11,6 +11,7 @@ namespace GameStore.Services.Concrete
 	public class UserService : IUserService
 	{
 		private const string DefaultRoleName = "User";
+
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
 		private readonly IRoleRepository _roleRepository;

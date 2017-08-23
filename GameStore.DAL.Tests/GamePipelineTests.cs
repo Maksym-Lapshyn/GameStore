@@ -16,7 +16,9 @@ namespace GameStore.DAL.Tests
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
 		private const int ValidInt = 10;
+
 		private readonly IPipeline<IQueryable<Game>> _target = new GamePipeline();
+
 		private IQueryable<Game> _games;
 
 		[TestMethod]

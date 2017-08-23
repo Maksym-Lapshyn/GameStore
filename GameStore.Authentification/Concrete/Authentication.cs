@@ -11,19 +11,20 @@ namespace GameStore.Authentification.Concrete
 {
 	public class Authentication : IAuthentication
 	{
+		public Authentication(IUserRepository repository, IHasher<string> hasher)
+		{
+			_repository = repository;
+			_hasher = hasher;
+		}
+
 		private const string CookieName = "__GAMESTORE_AUTH";
+
 		private readonly IUserRepository _repository;
 		private readonly IHasher<string> _hasher;
 		private IPrincipal _currentUser;
 
 		public HttpContextBase HttpContext { get; set; }
 		public User User => ((IUserProvider)CurrentUser.Identity).User;
-
-		public Authentication(IUserRepository repository, IHasher<string> hasher)
-		{
-			_repository = repository;
-			_hasher = hasher;
-		}
 
 		public User Login(string login, string password, bool isPersistent)
 		{

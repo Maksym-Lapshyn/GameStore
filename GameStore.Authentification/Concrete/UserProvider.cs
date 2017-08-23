@@ -1,4 +1,5 @@
-﻿using GameStore.Authentification.Infrastructure;
+﻿using GameStore.Authentification.Abstract;
+using GameStore.Authentification.Infrastructure;
 using GameStore.DAL.Abstract.Common;
 using System.Linq;
 using System.Security.Principal;
@@ -7,7 +8,7 @@ namespace GameStore.Authentification.Concrete
 {
 	public class UserProvider : IPrincipal
 	{
-		private readonly UserIdentityProvider _userIdentity;
+		private readonly IUserIdentityProvider _userIdentity;
 
 		public IIdentity Identity => _userIdentity;
 

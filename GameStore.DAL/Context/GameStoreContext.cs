@@ -1,10 +1,15 @@
-using System.Data.Entity;
 using GameStore.Common.Entities;
+using System.Data.Entity;
 
 namespace GameStore.DAL.Context
 {
 	public class GameStoreContext : DbContext
 	{
+		static GameStoreContext()
+		{
+			Database.SetInitializer(new GameStoreContextInitializer());
+		}
+
 		public GameStoreContext(string connectionString)
 		: base(connectionString)
 		{
@@ -28,10 +33,5 @@ namespace GameStore.DAL.Context
 		public DbSet<User> Users { get; set; }
 
 		public DbSet<Role> Roles { get; set; }
-
-		static GameStoreContext()
-		{
-			Database.SetInitializer(new GameStoreContextInitializer());
-		}
 	}
 }

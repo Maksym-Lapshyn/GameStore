@@ -4,7 +4,6 @@ using GameStore.DAL.Abstract.Common;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GameStore.Services.Concrete
 {

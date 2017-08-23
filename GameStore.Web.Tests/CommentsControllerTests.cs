@@ -18,8 +18,10 @@ namespace GameStore.Web.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+
 		private Mock<ICommentService> _mockOfCommentService;
 		private Mock<IGameService> _mockOfGameService;
 		private Mock<IAuthentication> _mockOfAuthentication;

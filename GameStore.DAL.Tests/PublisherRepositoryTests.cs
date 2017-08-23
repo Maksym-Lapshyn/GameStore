@@ -16,6 +16,7 @@ namespace GameStore.DAL.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
+
 		private Mock<ICopier<Publisher>> _mockOfCloner;
 		private Mock<IEfPublisherRepository> _mockOfEfRepository;
 		private Mock<IMongoPublisherRepository> _mockOfMongoRepository;

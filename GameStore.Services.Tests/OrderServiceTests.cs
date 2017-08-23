@@ -19,7 +19,9 @@ namespace GameStore.Services.Tests
 		private const string ValidString = "test";
 		private const int ValidInt = 10;
 		private const int InvalidInt = 0;
+
 		private readonly IMapper _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+
 		private Mock<IUnitOfWork> _mockOfUow;
 		private Mock<IOrderRepository> _mockOfOrderRepository;
 		private Mock<IGameRepository> _mockOfGameRepository;

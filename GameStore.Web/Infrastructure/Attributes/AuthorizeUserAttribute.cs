@@ -10,6 +10,7 @@ namespace GameStore.Web.Infrastructure.Attributes
 	{
 		private readonly AccessLevel[] _accessLevels;
 		private readonly AuthorizationMode _mode;
+
 		private IAuthentication _auth;
 
 		public AuthorizeUserAttribute(AuthorizationMode mode, params AccessLevel[] accessLevels)

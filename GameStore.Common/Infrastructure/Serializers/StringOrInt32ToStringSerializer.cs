@@ -6,6 +6,8 @@ namespace GameStore.Common.Infrastructure.Serializers
 {
 	public class StringOrInt32ToStringSerializer : IBsonSerializer
 	{
+		public Type ValueType => typeof(string);
+
 		object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
 			return context.Reader.CurrentBsonType == BsonType.String ? context.Reader.ReadString() : context.Reader.ReadInt32().ToString();
@@ -15,7 +17,5 @@ namespace GameStore.Common.Infrastructure.Serializers
 		{
 			context.Writer.WriteString(value.ToString());
 		}
-
-		public Type ValueType => typeof(string);
 	}
 }

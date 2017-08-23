@@ -5,39 +5,40 @@ using MongoDB.Bson.Serialization;
 
 namespace GameStore.Common.Infrastructure.Serializers
 {
-    class NullableDateTimeToStringSerializer : IBsonSerializer
-    {
-        private const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
-        private const string DefaultDateString = "NULL";
+	class NullableDateTimeToStringSerializer : IBsonSerializer
+	{
+		private const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
+		private const string DefaultDateString = "NULL";
 
-        object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
-        {
-            var result = context.Reader.CurrentBsonType == BsonType.String
-                ? ParseDateTime(context.Reader.ReadString())
-                : DateTime.UtcNow;
+		public Type ValueType => typeof(DateTime?);
 
-            return result;
-        }
+		object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+		{
+			var result = context.Reader.CurrentBsonType == BsonType.String
+				? ParseDateTime(context.Reader.ReadString())
+				: DateTime.UtcNow;
 
-        public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
-        {
-            var date = (DateTime?)value;
+			return result;
+		}
 
-            if (!date.HasValue)
-            {
-                context.Writer.WriteString(DefaultDateString);
-            }
+		public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
+		{
+			var date = (DateTime?)value;
 
-            context.Writer.WriteString((date.Value).ToString(DateFormat));
-        }
+			if (!date.HasValue)
+			{
+				context.Writer.WriteString(DefaultDateString);
+			}
 
-        private DateTime? ParseDateTime(string dateString)
-        {
-            DateTime date;
-            var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
-            return !result ? null : (DateTime?)date;
-        }
+			context.Writer.WriteString((date.Value).ToString(DateFormat));
+		}
 
-        public Type ValueType => typeof(DateTime?);
-    }
+		private DateTime? ParseDateTime(string dateString)
+		{
+			DateTime date;
+			var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+
+			return !result ? null : (DateTime?)date;
+		}
+	}
 }

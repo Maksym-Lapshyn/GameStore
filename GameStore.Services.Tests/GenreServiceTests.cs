@@ -15,6 +15,7 @@ namespace GameStore.Services.Tests
 	{
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+
 		private Mock<IGenreRepository> _mockOfGenreRepository;
 		private Mock<IGameRepository> _mockOfGameRepository;
 		private Mock<IUnitOfWork> _mockOfUow;
