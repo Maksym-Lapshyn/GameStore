@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract;
-using GameStore.DAL.Entities;
+using System.Linq;
 
 namespace GameStore.DAL.Concrete.Filters
 {

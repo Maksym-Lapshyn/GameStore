@@ -1,7 +1,9 @@
-﻿using GameStore.DAL.Abstract.Common;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
-using GameStore.DAL.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
 {
@@ -19,19 +21,24 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository.Insert(comment);
 		}
 
-		public Comment GetSingle(int commentId)
+		public Comment GetSingle(Expression<Func<Comment, bool>> predicate)
 		{
-			return _efRepository.GetSingle(commentId);
+			return _efRepository.GetSingle(predicate);
 		}
 
-		public IEnumerable<Comment> GetAll()
+		public IEnumerable<Comment> GetAll(Expression<Func<Comment, bool>> predicate = null)
 		{
-			return _efRepository.GetAll();
+			return _efRepository.GetAll(predicate);
 		}
 
 		public void Update(Comment comment)
 		{
 			_efRepository.Update(comment);
+		}
+
+		public void Delete(int id)
+		{
+			_efRepository.Delete(id);
 		}
 	}
 }

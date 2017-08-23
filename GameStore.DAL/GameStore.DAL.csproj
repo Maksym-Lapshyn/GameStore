@@ -66,6 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Common\IRoleRepository.cs" />
+    <Compile Include="Abstract\Common\IUserRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfRoleRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IEfUserRepository.cs" />
     <Compile Include="Abstract\ICopier.cs" />
     <Compile Include="Abstract\Common\ICommentRepository.cs" />
     <Compile Include="Abstract\Common\IGameRepository.cs" />
@@ -92,6 +96,10 @@
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
     <Compile Include="Concrete\Common\CommentRepository.cs" />
+    <Compile Include="Concrete\Common\RoleRepository.cs" />
+    <Compile Include="Concrete\Common\UserRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfRoleRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\EfUserRepository.cs" />
     <Compile Include="Concrete\GameCopier.cs" />
     <Compile Include="Concrete\GenreCopier.cs" />
     <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
@@ -118,15 +126,6 @@
     <Compile Include="Concrete\Common\UnitOfWork.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
-    <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\Comment.cs" />
-    <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\Genre.cs" />
-    <Compile Include="Entities\Order.cs" />
-    <Compile Include="Entities\OrderDetails.cs" />
-    <Compile Include="Entities\PlatformType.cs" />
-    <Compile Include="Entities\Publisher.cs" />
-    <Compile Include="Entities\Shipper.cs" />
     <Compile Include="Concrete\Filters\DateOptionsFilter.cs" />
     <Compile Include="Concrete\Filters\GameNameFilter.cs" />
     <Compile Include="Concrete\Filters\GenreFilter.cs" />
@@ -135,17 +134,9 @@
     <Compile Include="Concrete\Filters\PlatformTypeFilter.cs" />
     <Compile Include="Concrete\Filters\PublisherFilter.cs" />
     <Compile Include="Concrete\Filters\SortOptionsFilter.cs" />
-    <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
-    <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
-    <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />
-    <Compile Include="Infrastructure\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\GameFilter.cs" />
     <Compile Include="Concrete\GameLogContainer.cs" />
     <Compile Include="Infrastructure\OrderFilter.cs" />
-    <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
-    <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />
-    <Compile Include="Infrastructure\Serializers\Int32ToStringSerializer.cs" />
-    <Compile Include="Infrastructure\Serializers\StringOrInt32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

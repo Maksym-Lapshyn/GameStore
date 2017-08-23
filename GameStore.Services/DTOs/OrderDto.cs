@@ -1,23 +1,29 @@
-﻿using System;
+﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
+using System;
 using System.Collections.Generic;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
-	public class OrderDto
+	public class OrderDto : BaseEntity
 	{
 		public OrderDto()
 		{
 			OrderDetails = new List<OrderDetailsDto>();
 		}
 
-		public int Id { get; set; }
+		public int OrderId { get; set; }
 
-		public bool IsDeleted { get; set; }
+		public DateTime? DateOrdered { get; set; }
 
-		public string CustomerId { get; set; }
+		public DateTime? DateShipped { get; set; }
 
-		public DateTime Date { get; set; }
+		public OrderStatus OrderStatus { get; set; }
 
-		public IEnumerable<OrderDetailsDto> OrderDetails { get; set; }
+		public decimal TotalPrice { get; set; }
+
+		public virtual UserDto User { get; set; }
+
+		public List<OrderDetailsDto> OrderDetails { get; set; }
 	}
 }

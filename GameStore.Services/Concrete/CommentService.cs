@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,20 +29,16 @@ namespace GameStore.Services.Concrete
 		public void Create(CommentDto commentDto)
 		{
 			var comment = _mapper.Map<CommentDto, Comment>(commentDto);
+			var game = _gameRepository.GetSingle(g => g.Key == comment.GameKey);
 
 			if (comment.ParentCommentId != null)
 			{
-				var parentComment = _commentRepository.GetSingle(comment.ParentCommentId.Value);
-				parentComment.ChildComments.Add(comment);
-				_commentRepository.Update(parentComment);
+				comment.ParentComment = _commentRepository.GetSingle(c => c.Id == comment.ParentCommentId.Value);
 			}
-			else
-			{
-				var game = _gameRepository.GetSingle(comment.GameKey);
-				game.Comments.Add(comment);
-				_gameRepository.Update(game);
-			}
-			
+
+			game.Comments.Add(comment);
+			_gameRepository.Update(game);
+
 			_unitOfWork.Save();
 		}
 
@@ -54,12 +50,23 @@ namespace GameStore.Services.Concrete
 			return commentDtos;
 		}
 
-		public IEnumerable<CommentDto> GetBy(string gameKey)
+		public IEnumerable<CommentDto> GetAll(string gameKey)
 		{
 			var comments = _commentRepository.GetAll().Where(c => c.GameKey == gameKey && c.ParentCommentId == null);
 			var commentDtos = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDto>>(comments);
 
 			return commentDtos;
+		}
+
+		public CommentDto GetSingle(int id)
+		{
+			return _mapper.Map<Comment, CommentDto>(_commentRepository.GetSingle(c => c.Id == id));
+		}
+
+		public void Delete(int id)
+		{
+			_commentRepository.Delete(id);
+			_unitOfWork.Save();
 		}
 	}
 }

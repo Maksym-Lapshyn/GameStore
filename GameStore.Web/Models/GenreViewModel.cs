@@ -1,23 +1,24 @@
-﻿using GameStore.Services.DTOs;
+﻿using GameStore.Common.Entities;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
-	public class GenreViewModel
+	public class GenreViewModel : BaseEntity
 	{
 		public GenreViewModel()
 		{
-			Games = new List<GameViewModel>();
+			ParentGenreData = new List<GenreViewModel>();
 		}
 
-		public int Id { get; set; }
-
+		[Required]
+		[DisplayName("Name")]
 		public string Name { get; set; }
 
-		public List<GenreViewModel> ChildGenres { get; set; }
+		public List<GenreViewModel> ParentGenreData { get; set; }
 
-		public GenreDto ParentGenre { get; set; }
-
-		public List<GameViewModel> Games { get; set; }
+		[DisplayName("Parent Genre")]
+		public string ParentGenreInput { get; set; }
 	}
 }

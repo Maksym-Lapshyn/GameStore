@@ -1,14 +1,15 @@
-﻿using GameStore.DAL.Entities;
-using GameStore.DAL.Infrastructure;
+﻿using GameStore.Common.Entities;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfGameRepository
 	{
-		IQueryable<Game> GetAll(GameFilter filter = null);
+		IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null);
 
-		Game GetSingle(string gameKey);
+		Game GetSingle(Expression<Func<Game, bool>> predicate);
 
 		void Insert(Game game);
 
@@ -16,6 +17,6 @@ namespace GameStore.DAL.Abstract.EntityFramework
 
 		void Update(Game game);
 
-		bool Contains(string gameKey);
+		bool Contains(Expression<Func<Game, bool>> predicate);
 	}
 }

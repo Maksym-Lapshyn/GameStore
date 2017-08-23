@@ -14,6 +14,8 @@ namespace GameStore.Ninject.Modules
 			Bind<IOrderRepository>().To<OrderRepository>();
 			Bind<IPlatformTypeRepository>().To<PlatformTypeRepository>();
 			Bind<ICommentRepository>().To<CommentRepository>();
+			Bind<IUserRepository>().To<UserRepository>();
+			Bind<IRoleRepository>().To<RoleRepository>();
 			Bind<IUnitOfWork>().To<UnitOfWork>();
 		}
 	}

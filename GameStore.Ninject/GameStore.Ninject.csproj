@@ -79,6 +79,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
+      <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
+      <Name>GameStore.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
       <Project>{8a3889e4-a9ba-486d-b5c4-3a3c3ee0e824}</Project>
       <Name>GameStore.DAL</Name>

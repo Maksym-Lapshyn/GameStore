@@ -1,4 +1,4 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
 using System.Linq;
 
 namespace GameStore.DAL.Abstract.MongoDb

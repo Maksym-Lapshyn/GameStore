@@ -1,173 +1,149 @@
-﻿@using GameStore.Web.Infrastructure.Helpers
-@model GameStore.Web.Models.AllGamesViewModel
+﻿@using GameStore.Common.Enums
+@using GameStore.Web.Infrastructure.Helpers
+@model GameStore.Web.Models.CompositeGamesViewModel
 
 @{
-	ViewBag.Title = "Show All";
+	ViewBag.Title = "Games";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>List All</h1>
-
-@using (Html.BeginForm("ShowAll", "Games", FormMethod.Get, new { id = "gameForm" }))
-{
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2>Filter</h2>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-lg-4">
-					<b>@Html.LabelFor(m => m.Filter.GenresData)</b>
-					<p>
-						@foreach (var genre in Model.Filter.GenresData)
-						{
-							@Html.CreateCheckbox("Filter.GenresInput", genre.Name, Model.Filter.GenresInput)
-						}
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<b>@Html.LabelFor(m => m.Filter.PlatformTypesData)</b>
-					<p>
-						@foreach (var platformType in Model.Filter.PlatformTypesData)
-						{
-							@Html.CreateCheckbox("Filter.PlatformTypesInput", platformType.Type, Model.Filter.PlatformTypesInput)
-						}
-					</p>
-				</div>
-				<div class="col-sm-4">
-					<b>@Html.LabelFor(m => m.Filter.PublishersData)</b>
-					<p>
-						@foreach (var publisher in Model.Filter.PublishersData)
-						{
-							@Html.CreateCheckbox("Filter.PublishersInput", publisher.CompanyName, Model.Filter.PublishersInput)
-						}
-					</p>
-				</div>
-			</div>
-			<b>@Html.LabelFor(m => m.Filter.SortOptions)</b>
-			<p>
-				@Html.EnumDropDownListFor(m => m.Filter.SortOptions, new { @class = "form-control" })
-			</p>
-			<b>@Html.LabelFor(m => m.Filter.MinPrice)</b>
-			<p>
-				@Html.TextBoxFor(m => m.Filter.MinPrice, new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.Filter.MinPrice)
-			</p>
-			<b>@Html.LabelFor(m => m.Filter.MaxPrice)</b>
-			<p>
-				@Html.TextBoxFor(m => m.Filter.MaxPrice, new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.Filter.MaxPrice)
-			</p>
-			<b>@Html.LabelFor(m => m.Filter.DateOptions)</b>
-			<p>
-				@Html.CreateRadioButtonGroup("Filter.DateOptions", Model.Filter.DateOptions)
-			</p>
-			<b>@Html.LabelFor(m => m.Filter.GameName)</b>
-			<p>
-				@Html.TextBoxFor(m => m.Filter.GameName, new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.Filter.GameName)
-			</p>
-
-			<b>@Html.LabelFor(m => m.PageSize)</b>
-			<p>
-				@Html.DropDownListFor(m => m.PageSize, new List<SelectListItem>
-				{
-					new SelectListItem {Selected = true, Text = "10", Value = "10"},
-					new SelectListItem {Text = "20", Value = "20"},
-					new SelectListItem {Text = "50", Value = "50"},
-					new SelectListItem {Text = "100", Value = "100"},
-					new SelectListItem {Text = "All", Value = "0"}
-				}, new { @class = "form-control" })
-			</p>
-			<input type="hidden" id="CurrentPage" name="CurrentPage" value=@Model.CurrentPage />
-			<input type="hidden" id="TotalItems" name="TotalItems" value=@Model.TotalItems />
-			<input type="hidden" id="TotalPages" name="TotalPages" value=@Model.TotalPages />
-			<input type="hidden" id="EndPage" name="EndPage" value=@Model.EndPage />
-			<input type="hidden" id="StartPage" name="StartPage" value=@Model.StartPage />
-			<input type="hidden" id="FilterIsChanged" name="FilterIsChanged" value=@Model.FilterIsChanged />
-			<input type="hidden" id="FilterState.DateOptions" name="FilterState.DateOptions" value=@Model.FilterState.DateOptions />
-			<input type="hidden" id="FilterState.GameName" name="FilterState.GameName" value=@Model.FilterState.GameName />
-			<input type="hidden" id="FilterState.MaxPrice" name="FilterState.MaxPrice" value=@Model.FilterState.MaxPrice />
-			<input type="hidden" id="FilterState.MinPrice" name="FilterState.MinPrice" value=@Model.FilterState.MinPrice />
-			<input type="hidden" id="FilterState.SortOptions" name="FilterState.SortOptions" value=@Model.FilterState.SortOptions />
-
-			@for (var i = 0; i < Model.FilterState.GenresInput.Count; i++)
-			{
-				@Html.HiddenFor(m => m.FilterState.GenresInput[i])
-			}
-			
-			@for (var i = 0; i < Model.FilterState.PublishersInput.Count; i++)
-			{
-				@Html.HiddenFor(m => m.FilterState.PublishersInput[i])
-			}
-			
-			@for (var i = 0; i < Model.FilterState.PlatformTypesInput.Count; i++)
-			{
-				@Html.HiddenFor(m => m.FilterState.PlatformTypesInput[i])
-			}
-
-		</div>
-		<div class="panel-footer">
-			<p>
-				<button type="button" class="btn btn-default" id="applyFilter">Filter</button>
-				@Html.ActionLink("Reset", "ListAll", null, new { @class = "btn btn-warning" })
-			</p>
-		</div>
-	</div>
-}
-
-<h2>Games</h2>
+<h1>Games</h1>
 <hr />
+<p><button class="btn btn-default" data-toggle="collapse" data-target="#filter">Filter games <span class="caret"></span></button></p>
+<div id="filter" class="collapse">
+	@using (Html.BeginForm("ShowAll", "Games", FormMethod.Get, new { id = "gameForm" }))
+	{
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Filter games</h2>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-4">
+						<b>@Html.LabelFor(m => m.Filter.GenresData)</b>
+						<p>
+							@foreach (var genre in Model.Filter.GenresData)
+							{
+								@Html.CreateCheckbox("Filter.GenresInput", genre.Name, Model.Filter.GenresInput)
+							}
+						</p>
+					</div>
+					<div class="col-lg-4">
+						<b>@Html.LabelFor(m => m.Filter.PlatformTypesData)</b>
+						<p>
+							@foreach (var platformType in Model.Filter.PlatformTypesData)
+							{
+								@Html.CreateCheckbox("Filter.PlatformTypesInput", platformType.Type, Model.Filter.PlatformTypesInput)
+							}
+						</p>
+					</div>
+					<div class="col-sm-4">
+						<b>@Html.LabelFor(m => m.Filter.PublishersData)</b>
+						<p>
+							@foreach (var publisher in Model.Filter.PublishersData)
+							{
+								@Html.CreateCheckbox("Filter.PublishersInput", publisher.CompanyName, Model.Filter.PublishersInput)
+							}
+						</p>
+					</div>
+				</div>
+				<b>@Html.LabelFor(m => m.Filter.SortOptions)</b>
+				<p>
+					@Html.EnumDropDownListFor(m => m.Filter.SortOptions, new { @class = "form-control" })
+				</p>
+				<b>@Html.LabelFor(m => m.Filter.MinPrice)</b>
+				<p>
+					@Html.TextBoxFor(m => m.Filter.MinPrice, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+					@Html.ValidationMessageFor(m => m.Filter.MinPrice)
+				</p>
+				<b>@Html.LabelFor(m => m.Filter.MaxPrice)</b>
+				<p>
+					@Html.TextBoxFor(m => m.Filter.MaxPrice, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+					@Html.ValidationMessageFor(m => m.Filter.MaxPrice)
+				</p>
+				<b>@Html.LabelFor(m => m.Filter.DateOptions)</b>
+				<p>
+					@Html.CreateRadioButtonGroup("Filter.DateOptions", Model.Filter.DateOptions)
+				</p>
+				<b>@Html.LabelFor(m => m.Filter.GameName)</b>
+				<p>
+					@Html.TextBoxFor(m => m.Filter.GameName, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.Filter.GameName)
+				</p>
 
-@foreach (var game in Model.Games)
+				<b>@Html.LabelFor(m => m.PageSize)</b>
+				<p>
+					@Html.DropDownListFor(m => m.PageSize, new List<SelectListItem>
+					{
+						new SelectListItem {Selected = true, Text = "10", Value = "10"},
+						new SelectListItem {Text = "20", Value = "20"},
+						new SelectListItem {Text = "50", Value = "50"},
+						new SelectListItem {Text = "100", Value = "100"},
+						new SelectListItem {Text = "All", Value = "0"}
+					}, new { @class = "form-control" })
+				</p>
+				<input type="hidden" id="CurrentPage" name="CurrentPage" value=@Model.CurrentPage />
+				<input type="hidden" id="TotalItems" name="TotalItems" value=@Model.TotalItems />
+				<input type="hidden" id="TotalPages" name="TotalPages" value=@Model.TotalPages />
+				<input type="hidden" id="EndPage" name="EndPage" value=@Model.EndPage />
+				<input type="hidden" id="StartPage" name="StartPage" value=@Model.StartPage />
+				<input type="hidden" id="FilterIsChanged" name="FilterIsChanged" value=@Model.FilterIsChanged />
+				<input type="hidden" id="FilterState.DateOptions" name="FilterState.DateOptions" value=@Model.FilterState.DateOptions />
+				<input type="hidden" id="FilterState.GameName" name="FilterState.GameName" value=@Model.FilterState.GameName />
+				<input type="hidden" id="FilterState.MaxPrice" name="FilterState.MaxPrice" value=@Model.FilterState.MaxPrice />
+				<input type="hidden" id="FilterState.MinPrice" name="FilterState.MinPrice" value=@Model.FilterState.MinPrice />
+				<input type="hidden" id="FilterState.SortOptions" name="FilterState.SortOptions" value=@Model.FilterState.SortOptions />
+
+				@for (var i = 0; i < Model.FilterState.GenresInput.Count; i++)
+				{
+					@Html.HiddenFor(m => m.FilterState.GenresInput[i])
+				}
+
+				@for (var i = 0; i < Model.FilterState.PublishersInput.Count; i++)
+				{
+					@Html.HiddenFor(m => m.FilterState.PublishersInput[i])
+				}
+
+				@for (var i = 0; i < Model.FilterState.PlatformTypesInput.Count; i++)
+				{
+					@Html.HiddenFor(m => m.FilterState.PlatformTypesInput[i])
+				}
+			</div>
+			<div class="panel-footer">
+				<p>
+					<button type="button" class="btn btn-default" id="applyFilter">Filter</button>
+					@Html.ActionLink("Reset", "ShowAll", null, new { @class = "btn btn-danger" })
+				</p>
+			</div>
+		</div>
+	}
+</div>
+
+@if (Model.Games.Count != 0)
 {
-	<b>@Html.LabelFor(m => game.Key)</b>
-	<p>@Html.DisplayFor(m => game.Key)</p>
+	foreach (var game in Model.Games)
+	{
 		<b>@Html.LabelFor(m => game.Name)</b>
 		<p>@Html.ActionLink(game.Name, "Show", "Games", new { key = game.Key }, null)</p>
-		<b>@Html.LabelFor(m => game.Description)</b>
-		<p>@Html.DisplayFor(m => game.Description)</p>
-		<b>@Html.LabelFor(m => game.Price)</b>
-		<p>@Html.DisplayFor(m => game.Price)</p>
-		<b>@Html.LabelFor(m => game.UnitsInStock)</b>
-		<p>@Html.DisplayFor(m => game.UnitsInStock)</p>
-		<b>@Html.LabelFor(m => game.Discontinued)</b>
-		<p>@Html.DisplayFor(m => game.Discontinued)</p>
-
-	if (game.PlatformTypesInput.Count != 0)
-	{
-		<b>@Html.LabelFor(m => game.PlatformTypesInput)</b>
-
-		foreach (var platformType in game.PlatformTypesInput)
-		{
-			<p>@platformType</p>
-		}
+		<hr />
 	}
-
-	if (game.GenresInput.Count != 0)
-	{
-		<b>@Html.LabelFor(m => game.GenresInput)</b>
-
-		foreach (var name in game.GenresInput)
-		{
-			<p>@name</p>
-		}
-	}
-
-	if (game.PublisherInput != null)
-	{
-		<b>@Html.LabelFor(m => game.PublisherInput)</b>
-		<p>@Html.ActionLink(game.PublisherInput, "Show", "Publishers", new { key = game.PublisherInput }, null)</p>
-	}
-
-	<hr />
 }
+else
+{
+	<p>There are no games that match your filter</p>
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(AccessLevel.Manager.ToString()))
+{
+	<p>@Html.ActionLink("Create new", "New", "Games", null, new { @class = "btn btn-default" })</p>
+}
+
 
 @if (Model.EndPage > 1)
 {
 	<ul class="pagination">
 		@if (Model.CurrentPage > 1)
-		{
+				{
 			<li>
 				<a data-page="1" class="changePage">First</a>
 			</li>
@@ -175,17 +151,17 @@
 			<li>
 				<a data-page=@(Model.CurrentPage - 1) class="changePage">Previous</a>
 			</li>
-		}
+				}
 
 		@for (var page = Model.StartPage; page <= Model.EndPage; page++)
-		{
+				{
 			<li class="@(page == Model.CurrentPage ? "active" : string.Empty)">
 				<a data-page="@page" class="changePage">@page</a>
 			</li>
-		}
+				}
 
 		@if (Model.CurrentPage < Model.TotalPages)
-		{
+				{
 			<li>
 				<a data-page=@(Model.CurrentPage + 1) class="changePage">Next</a>
 			</li>
@@ -193,7 +169,7 @@
 			<li>
 				<a data-page=@Model.TotalPages class="changePage">Last</a>
 			</li>
-		}
+				}
 	</ul>
 }
 

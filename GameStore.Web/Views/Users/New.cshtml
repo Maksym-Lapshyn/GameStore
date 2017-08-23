@@ -1,0 +1,31 @@
+﻿@using GameStore.Web.Infrastructure.Helpers
+@model GameStore.Web.Models.UserViewModel
+
+@{
+	ViewBag.Title = "New User";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>New User</h1>
+@using (Html.BeginForm("New", "Users", FormMethod.Post))
+{
+	<b>@Html.LabelFor(m => m.Login)</b>
+	<p>
+		@Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Login)
+	</p>
+	<b>@Html.LabelFor(m => m.Password)</b>
+	<p>
+		@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Password)
+	</p>
+	<b>@Html.LabelFor(m => m.RolesInput)</b>
+	<p>
+		@foreach (var role in Model.RolesData)
+		{
+			@Html.CreateCheckbox("RolesInput", role.Name, Model.RolesInput)
+		}
+		@Html.ValidationMessageFor(m => m.RolesInput)
+	</p>
+	<p><button type="submit" class="btn btn-default">Create</button></p>
+}

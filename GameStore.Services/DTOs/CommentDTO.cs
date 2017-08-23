@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
+using GameStore.Common.Entities;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
-	public class CommentDto
+	public class CommentDto : BaseEntity
 	{
 		public CommentDto()
 		{
 			ChildComments = new List<CommentDto>();
 		}
-
-		public int Id { get; set; }
 
 		public string Name { get; set; }
 
@@ -19,6 +18,6 @@ namespace GameStore.Services.DTOs
 
 		public int? ParentCommentId { get; set; }
 
-		public IEnumerable<CommentDto> ChildComments { get; set; }
+		public List<CommentDto> ChildComments { get; set; }
 	}
 }

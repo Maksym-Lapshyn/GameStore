@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -17,8 +17,10 @@ namespace GameStore.Services.Tests
 		private const int TestInt = 10;
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+
 		private Mock<IUnitOfWork> _mockOfUow;
 		private Mock<IGameRepository> _mockOfGameRepository;
 		private Mock<IPublisherRepository> _mockOfPublisherRepository;
@@ -37,10 +39,9 @@ namespace GameStore.Services.Tests
 			_mockOfUow = new Mock<IUnitOfWork>();
 			_target = new GameService(_mockOfUow.Object, _mapper, _mockOfGameRepository.Object, _mockOfPublisherRepository.Object,
 				_mockOfGenreRepository.Object, _mockOfPlatformTypeRepository.Object);
-			_mockOfGameRepository.Setup(m => m.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
-			_mockOfPublisherRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new Publisher());
-			_mockOfPlatformTypeRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new PlatformType());
-			_mockOfGenreRepository.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new Genre());
+			_mockOfPublisherRepository.Setup(m => m.GetSingle(p => p.CompanyName == ValidString)).Returns(new Publisher());
+			_mockOfPlatformTypeRepository.Setup(m => m.GetSingle(p => p.Type == ValidString)).Returns(new PlatformType());
+			_mockOfGenreRepository.Setup(m => m.GetSingle(g => g.Name == ValidString)).Returns(new Genre());
 			
 		}
 
@@ -52,7 +53,7 @@ namespace GameStore.Services.Tests
 
 			_target.Create(new GameDto());
 
-			Assert.AreEqual(_games.Count, 1);
+			Assert.AreEqual(1, _games.Count);
 		}
 
 		[TestMethod]
@@ -73,7 +74,7 @@ namespace GameStore.Services.Tests
 				new Game { Id = TestInt, Name = ValidString }
 			};
 
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
+			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
 			_target.Update(new GameDto
 			{
@@ -94,7 +95,7 @@ namespace GameStore.Services.Tests
 				new Game { Key = ValidString }
 			};
 
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
+			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games[0] = g);
 
 			_target.Update(new GameDto
@@ -111,57 +112,6 @@ namespace GameStore.Services.Tests
 			_target.Delete(ValidString);
 
 			_mockOfGameRepository.Verify(m => m.Delete(ValidString), Times.Once);
-		}
-
-		[TestMethod]
-		public void GetAll_ReturnsAllGames()
-		{
-			_games = new List<Game>
-			{
-				new Game(),
-				new Game(),
-				new Game()
-			};
-
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
-
-			var games = _target.GetAll().ToList();
-
-			Assert.AreEqual(games.Count, 3);
-		}
-
-		[TestMethod]
-		public void GetBy_ReturnsAllGames_WhenValidGenreIsPassed()
-		{
-			_games = new List<Game>
-			{
-				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } },
-				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } },
-				new Game {Genres = new List<Genre> {new Genre {Name = ValidString } } }
-			};
-
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
-
-			var result = _target.GetBy(ValidString).ToList().Count;
-
-			Assert.AreEqual(result, 3);
-		}
-
-		[TestMethod]
-		public void GetBy_ReturnsAllGames_WhenValidPlatformTypeIsPassed()
-		{
-			_games = new List<Game>
-			{
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } },
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } },
-				new Game {PlatformTypes = new List<PlatformType> {new PlatformType {Type = ValidString } } }
-			};
-
-			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null)).Returns(_games);
-
-			var result = _target.GetBy(new List<string> { ValidString }).ToList().Count;
-
-			Assert.AreEqual(result, 3);
 		}
 	}
 }

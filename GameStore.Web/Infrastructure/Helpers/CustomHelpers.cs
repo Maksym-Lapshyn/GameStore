@@ -38,13 +38,13 @@ namespace GameStore.Web.Infrastructure.Helpers
 			return new MvcHtmlString(div.InnerHtml);
 		}
 
-		public static MvcHtmlString CreateRadioButtonGroup(this HtmlHelper helper, string propertyName, Enum dateOptions)
+		public static MvcHtmlString CreateRadioButtonGroup(this HtmlHelper helper, string propertyName, Enum value)
 		{
 			var div = new TagBuilder("div");
 
-			foreach (var option in Enum.GetNames(dateOptions.GetType()))
+			foreach (var option in Enum.GetNames(value.GetType()))
 			{
-				if (option == dateOptions.ToString())
+				if (option == value.ToString())
 				{
 					div.InnerHtml += $"<p><label for={option}><input type='radio' id={option} name={propertyName} value={option} checked /> " + option + "</label></p>";
 				}

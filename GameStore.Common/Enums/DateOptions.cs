@@ -1,4 +1,6 @@
-﻿namespace GameStore.Common.Enums
+﻿using System.ComponentModel;
+
+namespace GameStore.Common.Enums
 {
 	public enum DateOptions
 	{

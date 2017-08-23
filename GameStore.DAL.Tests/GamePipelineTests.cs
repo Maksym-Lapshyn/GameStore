@@ -1,8 +1,8 @@
-﻿using GameStore.Common.Enums;
+﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Concrete;
 using GameStore.DAL.Concrete.Filters;
-using GameStore.DAL.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,9 @@ namespace GameStore.DAL.Tests
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
 		private const int ValidInt = 10;
+
 		private readonly IPipeline<IQueryable<Game>> _target = new GamePipeline();
+
 		private IQueryable<Game> _games;
 
 		[TestMethod]

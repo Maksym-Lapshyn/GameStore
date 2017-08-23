@@ -1,23 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.Common.Entities;
+using System.Collections.Generic;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
-	public class GenreDto
+	public class GenreDto : BaseEntity
 	{
 		public GenreDto()
 		{
-			ChildGenres = new List<GenreDto>();
-			Games = new List<GameDto>();
+			ParentGenreData = new List<GenreDto>();
 		}
-
-		public int Id { get; set; }
 
 		public string Name { get; set; }
 
-		public IEnumerable<GenreDto> ChildGenres { get; set; }
+		public List<GenreDto> ParentGenreData { get; set; }
 
-		public GenreDto ParentGenre { get; set; }
-
-		public IEnumerable<GameDto> Games { get; set; }
+		public string ParentGenreInput { get; set; }
 	}
 }

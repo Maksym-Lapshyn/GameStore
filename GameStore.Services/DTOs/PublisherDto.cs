@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
+using GameStore.Common.Entities;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
-	public class PublisherDto
+	public class PublisherDto : BaseEntity
 	{
 		public PublisherDto()
 		{
 			Games = new List<GameDto>();
 		}
-
-		public int Id { get; set; }
-
-		public string NorthwindId { get; set; }
 
 		public string CompanyName { get; set; }
 
@@ -19,6 +16,6 @@ namespace GameStore.Services.DTOs
 
 		public string HomePage { get; set; }
 
-		public IEnumerable<GameDto> Games { get; set; }
+		public List<GameDto> Games { get; set; }
 	}
 }

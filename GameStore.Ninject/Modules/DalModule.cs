@@ -1,11 +1,11 @@
-﻿using GameStore.DAL.Abstract;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Concrete;
 using GameStore.DAL.Concrete.EntityFramework;
 using GameStore.DAL.Concrete.MongoDb;
 using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
 using MongoDB.Driver;
 using Ninject.Modules;
 using Ninject.Web.Common;
@@ -37,7 +37,9 @@ namespace GameStore.Ninject.Modules
 			Bind<IEfOrderRepository>().To<EfOrderRepository>();
 			Bind<IEfPlatformTypeRepository>().To<EfPlatformTypeRepository>();
 			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
-			
+			Bind<IEfUserRepository>().To<EfUserRepository>();
+			Bind<IEfRoleRepository>().To<EfRoleRepository>();
+
 			Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
 			Bind<IMongoGenreRepository>().To<MongoGenreRepository>();

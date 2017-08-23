@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,8 @@ namespace GameStore.Services.Concrete
 {
 	public class GameService : IGameService
 	{
+		private const string DefaultGenreName = "Other";
+
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IGameRepository _gameRepository;
@@ -36,6 +38,7 @@ namespace GameStore.Services.Concrete
 
 		public void Create(GameDto gameDto)
 		{
+			AddDefaultGenreInput(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			MapEmbeddedEntities(gameDto, game);
 			game.ViewsCount = 0;
@@ -46,6 +49,7 @@ namespace GameStore.Services.Concrete
 
 		public void Update(GameDto gameDto)
 		{
+			AddDefaultGenreInput(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
 			game = MapEmbeddedEntities(gameDto, game);
@@ -59,9 +63,9 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public GameDto GetSingleBy(string gameKey)
+		public GameDto GetSingle(string gameKey)
 		{
-			var game = _gameRepository.GetSingle(gameKey);
+			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
 			game = ConvertToPoco(game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
@@ -71,18 +75,22 @@ namespace GameStore.Services.Concrete
 			return gameDto;
 		}
 
-		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null)
+		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false)
 		{
 			IEnumerable<Game> games;
 
 			if (filterDto != null)
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
-				games = _gameRepository.GetAll(filter, itemsToSkip, itemsToTake);
+				games = allowDeleted
+					? _gameRepository.GetAll(filter, itemsToSkip, itemsToTake)
+					: _gameRepository.GetAll(filter, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 			else
 			{
-				games = _gameRepository.GetAll(null, itemsToSkip, itemsToTake);
+				games = allowDeleted
+					? _gameRepository.GetAll(null, itemsToSkip, itemsToTake)
+					: _gameRepository.GetAll(null, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 
 			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
@@ -102,22 +110,9 @@ namespace GameStore.Services.Concrete
 			return _gameRepository.GetAll().Count();
 		}
 
-		public IEnumerable<GameDto> GetBy(string genreName)
+		public bool Contains(string gameKey)
 		{
-			var games = _gameRepository
-				.GetAll().Where(game => game.Genres.Any(genre => genre.Name.ToLower() == genreName.ToLower()));
-			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
-
-			return gameDtOs;
-		}
-
-		public IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames)
-		{
-			var allGames = _gameRepository.GetAll();
-			var matchedGames = (from game in allGames from type in game.PlatformTypes where platformTypeNames.Contains(type.Type) select game);
-			var gameDtOs = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(matchedGames);
-
-			return gameDtOs;
+			return _gameRepository.Contains(g => g.Key == gameKey);
 		}
 
 		private Game ConvertToPoco(Game game)
@@ -131,11 +126,19 @@ namespace GameStore.Services.Concrete
 
 		private Game MapEmbeddedEntities(GameDto input, Game result)
 		{
-			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(n)));
-			input.PlatformTypesInput.ForEach(p => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p)));
-			result.Publisher = _publisherRepository.GetSingle(input.PublisherInput);
+			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(g => g.Name == n)));
+			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.Type == t)));
+			result.Publisher = _publisherRepository.GetSingle(p => p.CompanyName == input.PublisherInput);
 
 			return result;
+		}
+
+		private void AddDefaultGenreInput(GameDto game)
+		{
+			if (game.GenresInput.Count == 0)
+			{
+				game.GenresInput.Add(DefaultGenreName);
+			}
 		}
 	}
 }

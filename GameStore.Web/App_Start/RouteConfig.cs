@@ -12,40 +12,46 @@ namespace GameStore.Web
 			routes.LowercaseUrls = true;
 
 			routes.MapRoute(
-				"GetAllGames",
-				"games",
-				new { controller = "Games", action = "ListAll" }
+				"",
+				"{controller}",
+				new { action = "ShowAll" },
+				new { controller = "Games|Comments|Publishers|Genres|Orders|Roles|Users|" }
 			);
 
 			routes.MapRoute(
-				"DisplayBasket",
+				"",
 				"busket",
-				new { controller = "Orders", action = "Show" }
+				new { controller = "Orders", action = "Busket" }
 			);
 
 			routes.MapRoute(
-				"LeaveComment",
+				"",
 				"games/{key}/comments",
-				new { controller = "Comments", action = "NewComment" }
+				new { controller = "Comments", action = "New" }
 			);
 
 			routes.MapRoute(
-				"DisplayPublisher1",
+				"",
 				"{controller}/{action}",
-				new { controller = "Games", action = "ListAll" },
-				new { action = "New|History|Update|Remove|ShowCount" }
+				null,
+				new { action = "New|History|Update|ShowCount|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails|Buy" }
 			);
 
 			routes.MapRoute(
-				"DefaultWithGameKey",
-				"{controller}/{key}/{action}",
+				"",
+				"{controller}/{key}/{action}"
+			);
+
+			routes.MapRoute(
+				"",
+				"{controller}/{*key}",
 				new { action = "Show" }
 			);
 
 			routes.MapRoute(
 				"Default",
 				"{controller}/{action}",
-				new { controller = "Games", action = "ListAll" }
+				new { controller = "Games", action = "ShowAll" }
 			);
 		}
 	}

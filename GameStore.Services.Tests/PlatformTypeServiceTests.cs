@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +15,7 @@ namespace GameStore.Services.Tests
 	{
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+
 		private Mock<IPlatformTypeRepository> _mockOfPlatformTypeRepository;
 		private PlatformTypeService _target;
 		private List<PlatformType> _platformTypes;
@@ -36,7 +37,7 @@ namespace GameStore.Services.Tests
 				new PlatformType()
 			};
 
-			_mockOfPlatformTypeRepository.Setup(m => m.GetAll()).Returns(_platformTypes);
+			_mockOfPlatformTypeRepository.Setup(m => m.GetAll(null)).Returns(_platformTypes);
 
 			var result = _target.GetAll().ToList().Count;
 

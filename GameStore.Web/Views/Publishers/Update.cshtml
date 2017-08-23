@@ -8,13 +8,17 @@
 <h1>Update Publisher</h1>
 @using (Html.BeginForm("Update", "Publishers", FormMethod.Post))
 {
+	@Html.HiddenFor(m => m.Id)
+	@Html.HiddenFor(m => m.NorthwindId)
+	@Html.HiddenFor(m => m.IsDeleted)
 	<b>@Html.LabelFor(m => m.CompanyName)</b>
 	<p>
-		@Html.DisplayFor(m => m.CompanyName)
+		@Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.CompanyName)
 	</p>
 	<b>@Html.LabelFor(m => m.Description)</b>
 	<p>
-		@Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+		@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.Description)
 	</p>
 	<b>@Html.LabelFor(m => m.HomePage)</b>

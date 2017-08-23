@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
-using GameStore.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,67 +17,45 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IOrderRepository _orderRepository;
 		private readonly IGameRepository _gameRepository;
+		private readonly IUserRepository _userRepository;
 
 		public OrderService(IUnitOfWork unitOfWork,
 			IMapper mapper,
 			IOrderRepository orderRepository,
-			IGameRepository gameRepository)
+			IGameRepository gameRepository,
+			IUserRepository userRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_orderRepository = orderRepository;
 			_gameRepository = gameRepository;
+			_userRepository = userRepository;
 		}
 
-		public void Create(OrderDto orderDto)
+		public void CreateActive(int userId)
 		{
-			var order = _mapper.Map<OrderDto, Order>(orderDto);
-			order.OrderDate = DateTime.UtcNow;
-			Map(order);
+			var order = new Order
+			{
+				User = _userRepository.GetSingle(u => u.Id == userId),
+				OrderDetails = new List<OrderDetails>(),
+				OrderStatus = OrderStatus.Active
+			};
+
 			_orderRepository.Insert(order);
 			_unitOfWork.Save();
 		}
 
-		public OrderDto GetSingleBy(string customerId)
+		public bool ContainsActive(int userId)
 		{
-			Order order;
+			return _orderRepository.Contains(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
+		}
 
-			if (!_orderRepository.Contains(customerId))
-			{
-				order = new Order
-				{
-					CustomerId = customerId,
-					OrderDate = DateTime.UtcNow
-				};
-			}
-			else
-			{
-				order = _orderRepository.GetSingle(customerId);
-			}
-
+		public OrderDto GetSingleActive(int userId)
+		{
+			var order = _orderRepository.GetSingle(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
 			var orderDto = _mapper.Map<Order, OrderDto>(order);
 
 			return orderDto;
-		}
-
-		public void Update(OrderDto orderDto, string gameKey)
-		{
-			var order = _orderRepository.Contains(orderDto.CustomerId) ? _orderRepository.GetSingle(orderDto.CustomerId) : _mapper.Map<OrderDto, Order>(orderDto);
-			var details = order.OrderDetails.FirstOrDefault(o => o.GameKey == gameKey);
-
-			if (details == null)
-			{
-				var game = _gameRepository.GetSingle(gameKey);
-				order.OrderDetails.Add(new OrderDetails{GameKey = gameKey, Game = game, Price = game.Price, Quantity = 1});
-			}
-			else
-			{
-				details.Quantity++;
-				details.Price = details.Quantity * details.Game.Price;
-			}
-
-			_orderRepository.Update(order);
-			_unitOfWork.Save();
 		}
 
 		public IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null)
@@ -96,13 +74,90 @@ namespace GameStore.Services.Concrete
 			return _mapper.Map<IEnumerable<Order>, List<OrderDto>>(orders);
 		}
 
-		private void Map(Order output)
+		public void AddDetails(int orderId, string gameKey)
 		{
-			output.OrderDetails.ToList().ForEach(o =>
+			var order = _orderRepository.GetSingle(o => o.Id == orderId);
+
+			if (order.OrderDetails.Any(o => o.GameKey == gameKey))
 			{
-				o.Game = _gameRepository.GetSingle(o.GameKey);
-				o.Price = o.Game.Price;
-			});
+				var orderDetails = order.OrderDetails.First(o => o.GameKey == gameKey);
+				orderDetails.Quantity++;
+				orderDetails.Price = orderDetails.Game.Price * orderDetails.Quantity;
+			}
+			else
+			{
+				var game = _gameRepository.GetSingle(g => g.Key == gameKey);
+				var orderDetails = new OrderDetails
+				{
+					Game = game,
+					GameKey = gameKey,
+					Price = game.Price,
+					Quantity = 1
+				};
+
+				order.OrderDetails.Add(orderDetails);
+			}
+
+			order.TotalPrice = CalculateTotalPrice(order);
+
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
+		}
+
+		public void DeleteDetails(int orderId, string gameKey)
+		{
+			var order = _orderRepository.GetSingle(o => o.Id == orderId);
+
+			if (order.OrderDetails.Any(o => o.GameKey == gameKey))
+			{
+				var orderDetails = order.OrderDetails.First(o => o.GameKey == gameKey);
+
+				if (orderDetails.Quantity > 1)
+				{
+					orderDetails.Quantity--;
+					orderDetails.Price = orderDetails.Game.Price * orderDetails.Quantity;
+				}
+				else
+				{
+					order.OrderDetails.Remove(orderDetails);
+				}
+			}
+
+			order.TotalPrice = CalculateTotalPrice(order);
+
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
+		}
+
+		public OrderDto GetSingle(int orderId)
+		{
+			var order = _orderRepository.GetSingle(o => o.Id == orderId);
+			var orderDto = _mapper.Map<Order, OrderDto>(order);
+
+			return orderDto;
+		}
+
+		public void Confirm(int orderId)
+		{
+			var order = _orderRepository.GetSingle(o => o.Id == orderId);
+			order.DateOrdered = DateTime.UtcNow;
+			order.OrderStatus = OrderStatus.Paid;
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
+		}
+
+		public void Ship(int orderId)
+		{
+			var order = _orderRepository.GetSingle(o => o.Id == orderId);
+			order.OrderStatus = OrderStatus.Shipped;
+			order.DateShipped = DateTime.UtcNow;
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
+		}
+
+		private decimal CalculateTotalPrice(Order order)
+		{
+			return order.OrderDetails.Sum(orderDetails => orderDetails.Price);
 		}
 	}
 }

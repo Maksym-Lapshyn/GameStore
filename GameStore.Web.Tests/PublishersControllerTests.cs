@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Web.Controllers;
 using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,9 +16,12 @@ namespace GameStore.Web.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+
 		private Mock<IPublisherService> _mockOfPublisherService;
+		private Mock<IAuthentication> _mockOfAuthentication;
 		private PublishersController _target;
 		private List<PublisherDto> _publishers;
 
@@ -26,9 +30,10 @@ namespace GameStore.Web.Tests
 		{
 			_publishers = new List<PublisherDto>();
 			_mockOfPublisherService = new Mock<IPublisherService>();
+			_mockOfAuthentication = new Mock<IAuthentication>();
 			_mockOfPublisherService.Setup(m => m.Create(It.IsAny<PublisherDto>())).Callback<PublisherDto>(p => _publishers.Add(p));
-			_mockOfPublisherService.Setup(m => m.GetSingleBy(It.IsAny<string>())).Returns(new PublisherDto());
-			_target = new PublishersController(_mockOfPublisherService.Object, _mapper);
+			_mockOfPublisherService.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new PublisherDto());
+			_target = new PublishersController(_mockOfPublisherService.Object, _mapper, _mockOfAuthentication.Object);
 		}
 
 		[TestMethod]

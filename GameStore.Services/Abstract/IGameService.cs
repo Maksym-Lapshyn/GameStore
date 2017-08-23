@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using GameStore.Services.DTOs;
+﻿using GameStore.Services.Dtos;
+using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IGameService : IService
+	public interface IGameService
 	{
-		IEnumerable<GameDto> GetBy(string genreName);
-
-		IEnumerable<GameDto> GetBy(IEnumerable<string> platformTypeNames);
-
 		int GetCount(GameFilterDto gameFilter = null);
 
-		GameDto GetSingleBy(string gameKey);
+		GameDto GetSingle(string gameKey);
 
 		void Create(GameDto gameDto);
 
@@ -19,6 +15,8 @@ namespace GameStore.Services.Abstract
 
 		void Delete(string gameKey);
 
-		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null);
+		IEnumerable<GameDto> GetAll(GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false);
+
+		bool Contains(string gameKey);
 	}
 }

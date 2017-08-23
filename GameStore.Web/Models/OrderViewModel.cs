@@ -1,20 +1,34 @@
-﻿using System;
+﻿using GameStore.Common.Entities;
+using GameStore.Common.Enums;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace GameStore.Web.Models
 {
-	public class OrderViewModel
+	public class OrderViewModel : BaseEntity
 	{
 		public OrderViewModel()
 		{
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}
 
-		public int Id { get; set; }
+		[DisplayName("Order Id")]
+		public int OrderId { get; set; }
 
-		public string CustomerId { get; set; }
+		[DisplayName("Date ordered")]
+		public DateTime? DateOrdered { get; set; }
 
-		public DateTime Date { get; set; }
+		[DisplayName("Date shipped")]
+		public DateTime? DateShipped { get; set; }
+
+		[DisplayName("Order status")]
+		public OrderStatus OrderStatus { get; set; }
+
+		[DisplayName("Total price")]
+		public decimal TotalPrice { get; set; }
+
+		public virtual UserViewModel User { get; set; }
 
 		public List<OrderDetailsViewModel> OrderDetails { get; set; }
 	}

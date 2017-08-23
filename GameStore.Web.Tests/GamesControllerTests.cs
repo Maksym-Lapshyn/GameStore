@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
 using GameStore.Services.Abstract;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Web.Controllers;
 using GameStore.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using System.Security.Principal;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Tests
@@ -15,14 +17,21 @@ namespace GameStore.Web.Tests
 	{
 		private const string ValidString = "test";
 		private const string InvalidString = "testtest";
+		private const int DefaultItemsToSkip = 0;
+		private const int DefaultItemsToTake = 10;
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new WebProfile())));
+
 		private List<GameDto> _games;
 		private GamesController _target;
 		private Mock<IGameService> _mockOfGameService;
 		private Mock<IGenreService> _mockOfGenreService;
 		private Mock<IPlatformTypeService> _mockOfPlatformTypeService;
 		private Mock<IPublisherService> _mockOfPublisherService;
+		private Mock<IAuthentication> _mockOfAuthentication;
+		private Mock<ControllerContext> _mockOfControllerContext;
+		private Mock<IPrincipal> _mockOfPrincipal;
 
 		[TestInitialize]
 		public void Initialize()
@@ -36,10 +45,13 @@ namespace GameStore.Web.Tests
 			_mockOfPlatformTypeService = new Mock<IPlatformTypeService>();
 			_mockOfGenreService = new Mock<IGenreService>();
 			_mockOfPublisherService = new Mock<IPublisherService>();
-			_target = new GamesController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper);
+			_mockOfAuthentication = new Mock<IAuthentication>();
+			_mockOfControllerContext = new Mock<ControllerContext>();
+			_mockOfPrincipal = new Mock<IPrincipal>();
+			_target = new GamesController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper, _mockOfAuthentication.Object);
 			_games = new List<GameDto>();
 			_mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>())).Callback<GameDto>(g => _games.Add(g));
-			_mockOfGameService.Setup(m => m.GetSingleBy(ValidString)).Returns(new GameDto());
+			_mockOfGameService.Setup(m => m.GetSingle(ValidString)).Returns(new GameDto());
 			_mockOfGameService.Setup(m => m.Delete(ValidString)).Callback<string>(k => _games.RemoveAll(g => g.Key == k));
 		}
 
@@ -126,24 +138,14 @@ namespace GameStore.Web.Tests
 		}
 
 		[TestMethod]
-		public void ListAll_SendsListOfGamesToView()
-		{
-			var model = new AllGamesViewModel();
-
-			var result = ((ViewResult)_target.ListAll(model)).Model;
-
-			Assert.IsInstanceOfType(result, typeof(AllGamesViewModel));
-		}
-
-		[TestMethod]
-		public void Remove_DeletesGame_WhenValidGameIdIsPassed()
+		public void Delete_DeletesGame_WhenValidGameIdIsPassed()
 		{
 			_games = new List<GameDto>
 			{
 				new GameDto {Key = ValidString }
 			};
 
-			_target.Remove(ValidString);
+			_target.Delete(ValidString);
 			var result = _games.Count;
 
 			Assert.AreEqual(result, 0);

@@ -1,16 +1,25 @@
 ﻿@model GameStore.Web.Models.PublisherViewModel
 
 @{
-	ViewBag.Title = "Show Publishers";
+	ViewBag.Title = "Publisher";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Show Publishers</h1>
+<h1>Publisher</h1>
 <b>@Html.LabelFor(m => m.CompanyName)</b>
 <p>@Html.DisplayFor(model => model.CompanyName)</p>
 <b>@Html.LabelFor(m => m.Description)</b>
 <p>@Html.DisplayFor(m => m.Description)</p>
 <b>@Html.LabelFor(m => m.HomePage)</b>
 <p>@Html.DisplayFor(m => m.HomePage)</p>
+<b>@Html.LabelFor(m => m.IsDeleted)</b>
+<p>@Html.DisplayFor(m => m.IsDeleted)</p>
 
-@Html.ActionLink("Update", "Update", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-default" })
+<p>
+	@Html.ActionLink("Update", "Update", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-default" })
+
+	@if (!Model.IsDeleted)
+	{
+		@Html.ActionLink("Delete", "Delete", "Publishers", new { key = Model.CompanyName }, new { @class = "btn btn-danger" })
+	}
+</p>

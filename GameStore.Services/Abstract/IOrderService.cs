@@ -1,16 +1,25 @@
 ﻿using GameStore.Services.Dtos;
-using GameStore.Services.DTOs;
 using System.Collections.Generic;
 
 namespace GameStore.Services.Abstract
 {
-	public interface IOrderService : IService
+	public interface IOrderService
 	{
-		void Create(OrderDto orderDto);
+		void AddDetails(int orderId, string gameKey);
 
-		void Update(OrderDto orderDto, string gameKey);
+		void DeleteDetails(int orderId, string gameKey);
 
-		OrderDto GetSingleBy(string customerId);
+		void Confirm(int orderId);
+
+		void Ship(int orderId);
+
+		OrderDto GetSingleActive(int userId);
+
+		void CreateActive(int userId);
+
+		bool ContainsActive(int userId);
+
+		OrderDto GetSingle(int orderId);
 
 		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
 	}

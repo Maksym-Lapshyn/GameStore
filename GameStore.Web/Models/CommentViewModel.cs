@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.Common.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
-	public class CommentViewModel
+	public class CommentViewModel : BaseEntity
 	{
-		public int Id { get; set; }
-
 		[Required]
 		public string Name { get; set; }
 

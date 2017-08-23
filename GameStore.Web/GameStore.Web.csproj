@@ -157,14 +157,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
+    <Compile Include="Controllers\GenresController.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PublishersController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Abstract\ILogger.cs" />
+    <Compile Include="Infrastructure\Attributes\AuthorizeUserAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\CannotBeEmptyAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\RequiredLengthIfNotNullAttribute.cs" />
     <Compile Include="Infrastructure\Concrete\Logger.cs" />
@@ -172,19 +178,24 @@
     <Compile Include="Filters\LogExceptionAttribute.cs" />
     <Compile Include="Filters\LogIpAttribute.cs" />
     <Compile Include="Infrastructure\Helpers\CustomHelpers.cs" />
+    <Compile Include="Infrastructure\Modules\AuthHttpModule.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
-    <Compile Include="Models\AllCommentsViewModel.cs" />
-    <Compile Include="Models\AllGamesViewModel.cs" />
-    <Compile Include="Models\AllOrdersViewModel.cs" />
+    <Compile Include="Models\CompositeCommentsViewModel.cs" />
+    <Compile Include="Models\CompositeGamesViewModel.cs" />
+    <Compile Include="Models\CompositeOrdersViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\GameFilterViewModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />
     <Compile Include="Models\OrderFilterViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PlatformTypeViewModel.cs" />
     <Compile Include="Models\PublisherViewModel.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -199,18 +210,35 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Games\New.cshtml" />
     <Content Include="Views\Games\Show.cshtml" />
-    <Content Include="Views\Comments\NewComment.cshtml" />
+    <Content Include="Views\Comments\New.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Games\ShowCount.cshtml" />
     <Content Include="Views\Publishers\Show.cshtml" />
     <Content Include="Views\Publishers\New.cshtml" />
-    <Content Include="Views\Orders\Show.cshtml" />
-    <Content Include="Views\Comments\ListAllChilds.cshtml" />
-    <Content Include="Views\Games\ListAll.cshtml" />
-    <Content Include="Views\Orders\ListAll.cshtml" />
+    <Content Include="Views\Orders\Busket.cshtml" />
+    <Content Include="Views\Comments\ShowChilds.cshtml" />
+    <Content Include="Views\Games\ShowAll.cshtml" />
+    <Content Include="Views\Orders\History.cshtml" />
     <Content Include="Views\Games\Update.cshtml" />
     <Content Include="Views\Publishers\Update.cshtml" />
+    <Content Include="Views\Genres\New.cshtml" />
+    <Content Include="Views\Genres\Show.cshtml" />
+    <Content Include="Views\Genres\Update.cshtml" />
+    <Content Include="Views\Users\New.cshtml" />
+    <Content Include="Views\Users\Show.cshtml" />
+    <Content Include="Views\Users\Update.cshtml" />
+    <Content Include="Views\Roles\New.cshtml" />
+    <Content Include="Views\Roles\Show.cshtml" />
+    <Content Include="Views\Roles\Update.cshtml" />
+    <Content Include="Views\Genres\ShowAll.cshtml" />
+    <Content Include="Views\Publishers\ShowAll.cshtml" />
+    <Content Include="Views\Roles\ShowAll.cshtml" />
+    <Content Include="Views\Users\ShowAll.cshtml" />
+    <Content Include="Views\Accounts\Login.cshtml" />
+    <Content Include="Views\Accounts\Register.cshtml" />
+    <Content Include="Views\Orders\ShowAll.cshtml" />
+    <Content Include="Views\Orders\Show.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -222,6 +250,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameStore.Authentification\GameStore.Authentication.csproj">
+      <Project>{21ababd0-fa79-4693-b6f0-f7e6458f5af3}</Project>
+      <Name>GameStore.Authentication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
       <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
       <Name>GameStore.Common</Name>

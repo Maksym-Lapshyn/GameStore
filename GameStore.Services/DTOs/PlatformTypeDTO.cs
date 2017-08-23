@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.Common.Entities;
+using System.Collections.Generic;
 
-namespace GameStore.Services.DTOs
+namespace GameStore.Services.Dtos
 {
-	public class PlatformTypeDto
+	public class PlatformTypeDto : BaseEntity
 	{
 		public PlatformTypeDto()
 		{
 			Games = new List<GameDto>();
 		}
 
-		public int Id { get; set; }
-
 		public string Type { get; set; }
 
-		public IEnumerable<GameDto> Games { get; set; }
+		public List<GameDto> Games { get; set; }
 	}
 }

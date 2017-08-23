@@ -1,4 +1,6 @@
-﻿using GameStore.DAL.Entities;
+﻿using GameStore.Common.Concrete;
+using GameStore.Common.Entities;
+using GameStore.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,6 +10,8 @@ namespace GameStore.DAL.Context
 {
 	public class GameStoreContextInitializer : CreateDatabaseIfNotExists<GameStoreContext>
 	{
+		private readonly Md5Hasher _hasher = new Md5Hasher();
+
 		private void SeedRandomGames(GameStoreContext context)
 		{
 			var genres = context.Genres.ToList();
@@ -21,6 +25,7 @@ namespace GameStore.DAL.Context
 				{
 					Name = $"game number {i}",
 					Key = $"gamekey{i}",
+					Price = 50,
 					Description = $"game description{i}",
 					DateAdded = DateTime.UtcNow,
 					DatePublished = DateTime.UtcNow,
@@ -45,23 +50,22 @@ namespace GameStore.DAL.Context
 		{
 			var rts = new Genre { Name = "RTS" };
 			var tbs = new Genre { Name = "TBS" };
-			var rally = new Genre { Name = "Rally" };
-			var arcade = new Genre { Name = "Arcade" };
-			var formula = new Genre { Name = "Formula" };
-			var offRoad = new Genre { Name = "Off-road" };
-			var fps = new Genre { Name = "FPS" };
-			var tps = new Genre { Name = "TPS" };
-			var subMisc = new Genre { Name = "Misc(Sub-genre)" };
-			context.Genres.AddRange(new List<Genre> { rts, tbs, rally, arcade, formula, offRoad, fps, tps, subMisc });
-			context.SaveChanges();
-			var strategy = new Genre { Name = "Strategy", ChildGenres = new List<Genre> { rts, tbs } };
+			var strategy = new Genre { Name = "Strategy" };
 			var rpg = new Genre { Name = "RPG" };
-			var races = new Genre { Name = "Races", ChildGenres = new List<Genre> { rally, arcade, formula, offRoad } };
-			var action = new Genre { Name = "Action", ChildGenres = new List<Genre> { fps, tps, subMisc } };
+			var races = new Genre { Name = "Races" };
+			var action = new Genre { Name = "Action" };
 			var adventure = new Genre { Name = "Adventure" };
 			var puzzleAndSkill = new Genre { Name = "Puzzle&Skill" };
 			var misc = new Genre { Name = "Misc" };
-			context.Genres.AddRange(new List<Genre> { strategy, rpg, adventure, puzzleAndSkill, misc });
+			var rally = new Genre { Name = "Rally", ParentGenre = races };
+			var arcade = new Genre { Name = "Arcade", ParentGenre = races };
+			var formula = new Genre { Name = "Formula", ParentGenre = races };
+			var offRoad = new Genre { Name = "Off-road", ParentGenre = races };
+			var fps = new Genre { Name = "FPS", ParentGenre = strategy};
+			var tps = new Genre { Name = "TPS", ParentGenre = strategy };
+			var subMisc = new Genre { Name = "Misc(Sub-genre)", ParentGenre = strategy };
+			var other = new Genre {Name = "Other"};
+			context.Genres.AddRange(new List<Genre> { rts, tbs, rally, arcade, formula, offRoad, fps, tps, subMisc, strategy, rpg, adventure, puzzleAndSkill, misc, other });
 			context.SaveChanges();
 			var mobile = new PlatformType { Type = "Mobile" };
 			var browser = new PlatformType { Type = "Browser" };
@@ -74,6 +78,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(1995, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "COD123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					action, fps
@@ -99,6 +104,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(2015, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "HALF123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					action, fps
@@ -124,6 +130,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(1993, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "DOTS123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					misc, arcade, puzzleAndSkill
@@ -149,6 +156,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(1980, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "MARIO123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					arcade, adventure
@@ -174,6 +182,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(2016, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "GOLDENAXE123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					arcade, adventure, rpg
@@ -199,6 +208,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(2016, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "DENDY123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					arcade, adventure
@@ -224,6 +234,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(2006, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "FABLE123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					arcade, adventure, rpg, misc
@@ -249,6 +260,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(1999, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "DIABLO123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					rpg, action
@@ -274,6 +286,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(1999, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "AC123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					action, adventure
@@ -299,6 +312,7 @@ namespace GameStore.DAL.Context
 				DatePublished = new DateTime(2015, 10, 14),
 				DateAdded = DateTime.UtcNow,
 				Key = "FIFA123",
+				Price = 50,
 				Genres = new List<Genre>
 				{
 					action, misc
@@ -321,6 +335,7 @@ namespace GameStore.DAL.Context
 			{
 				Name = "Gran Turismo",
 				Key = "GT123",
+				Price = 50,
 				Description = "You can shoot some enemies v10",
 				DatePublished = new DateTime(2011, 10, 14),
 				DateAdded = DateTime.UtcNow,
@@ -344,6 +359,49 @@ namespace GameStore.DAL.Context
 			};
 
 			context.Games.AddRange(new List<Game> { halflife, callOfDuty, dots, mario, fifa15, assassinsCreed, granTurismo, battleToads, fable, goldenAxe, diablo});
+			context.SaveChanges();
+
+			var admin = new User
+			{
+				Login = "admin",
+				Password = _hasher.GenerateHash("admin"),
+				Roles = new List<Role>
+				{
+					new Role {Name = "Administrator", AccessLevel = AccessLevel.Administrator}
+				}
+			};
+
+			var manager = new User
+			{
+				Login = "manager",
+				Password = _hasher.GenerateHash("manager"),
+				Roles = new List<Role>
+				{
+					new Role { Name = "Manager", AccessLevel = AccessLevel.Manager }
+				}
+			};
+
+			var moderator = new User
+			{
+				Login = "moderator",
+				Password = _hasher.GenerateHash("moderator"),
+				Roles = new List<Role>
+				{
+					new Role { Name = "Moderator", AccessLevel = AccessLevel.Moderator }
+				}
+			};
+
+			var user = new User
+			{
+				Login = "user",
+				Password = _hasher.GenerateHash("user"),
+				Roles = new List<Role>
+				{
+					new Role { Name = "User", AccessLevel = AccessLevel.User }
+				}
+			};
+;
+			context.Users.AddRange(new List<User> {admin, manager, moderator, user});
 			context.SaveChanges();
 			SeedRandomGames(context);
 			base.Seed(context);

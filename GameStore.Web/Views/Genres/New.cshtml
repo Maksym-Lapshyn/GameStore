@@ -1,0 +1,25 @@
+﻿@using GameStore.Web.Infrastructure.Helpers
+@model GameStore.Web.Models.GenreViewModel
+
+@{
+	ViewBag.Title = "New Genre";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>New Genre</h1>
+@using (Html.BeginForm("New", "Genres", FormMethod.Post))
+{
+	<b>@Html.LabelFor(m => m.Name)</b>
+	<p>
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Name)
+	</p>
+	<b>@Html.LabelFor(m => m.ParentGenreInput)</b>
+	<p>
+		@foreach (var genre in Model.ParentGenreData)
+		{
+			@Html.CreateRadioButton("ParentGenreInput", genre.Name, Model.ParentGenreInput)
+		}
+	</p>
+	<p><button type="submit" class="btn btn-default">Create</button></p>
+}

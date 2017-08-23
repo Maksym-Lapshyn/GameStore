@@ -1,13 +1,15 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Entities;
 using GameStore.Services.Concrete;
-using GameStore.Services.DTOs;
+using GameStore.Services.Dtos;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.Services.Tests
 {
@@ -15,10 +17,13 @@ namespace GameStore.Services.Tests
 	public class PublisherServiceTests
 	{
 		private const string TestString = "test";
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
+
 		private Mock<IUnitOfWork> _mockOfUow;
 		private Mock<IPublisherRepository> _mockOfPublisherRepository;
+		private Mock<IGameRepository> _mockOfGameRepository;
 		private PublisherService _target;
 		private List<Publisher> _publishers;
 
@@ -27,7 +32,8 @@ namespace GameStore.Services.Tests
 		{
 			_mockOfUow = new Mock<IUnitOfWork>();
 			_mockOfPublisherRepository = new Mock<IPublisherRepository>();
-			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfPublisherRepository.Object);
+			_mockOfGameRepository = new Mock<IGameRepository>();
+			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfPublisherRepository.Object, _mockOfGameRepository.Object);
 		}
 
 		[TestMethod]
@@ -63,9 +69,9 @@ namespace GameStore.Services.Tests
 				CompanyName = TestString
 			};
 
-			_mockOfPublisherRepository.Setup(m => m.GetSingle(TestString)).Returns(publisher);
+			_mockOfPublisherRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Publisher, bool>>>())).Returns(publisher);
 
-			var result = _target.GetSingleBy(TestString).CompanyName;
+			var result = _target.GetSingle(TestString).CompanyName;
 
 			Assert.AreEqual(result, TestString);
 		}
@@ -80,7 +86,7 @@ namespace GameStore.Services.Tests
 				new Publisher()
 			};
 
-			_mockOfPublisherRepository.Setup(m => m.GetAll()).Returns(_publishers);
+			_mockOfPublisherRepository.Setup(m => m.GetAll(null)).Returns(_publishers);
 
 			var result = _target.GetAll().ToList().Count;
 
@@ -95,9 +101,9 @@ namespace GameStore.Services.Tests
 				CompanyName = TestString
 			};
 
-			_mockOfPublisherRepository.Setup(m => m.GetSingle(TestString)).Returns(publisher);
+			_mockOfPublisherRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Publisher, bool>>>())).Returns(publisher);
 
-			var result = _target.GetSingleBy(TestString).CompanyName;
+			var result = _target.GetSingle(TestString).CompanyName;
 
 			Assert.AreEqual(result, TestString);
 		}

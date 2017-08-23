@@ -1,8 +1,8 @@
-﻿using GameStore.DAL.Abstract.Common;
-using GameStore.DAL.Abstract.EntityFramework;
-using GameStore.DAL.Entities;
-using System.Linq;
+﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract;
+using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.EntityFramework;
+using System.Linq;
 
 namespace GameStore.DAL.Concrete
 {
@@ -33,7 +33,7 @@ namespace GameStore.DAL.Concrete
 			_gameRepository.Insert(game);
 			_unitOfWork.Save();
 
-			return _gameRepository.GetSingle(game.Key);
+			return _gameRepository.GetSingle(g => g.Key == game.Key);
 		}
 	}
 }

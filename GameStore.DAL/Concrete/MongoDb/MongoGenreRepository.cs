@@ -1,7 +1,9 @@
-﻿using GameStore.DAL.Abstract.MongoDb;
-using GameStore.DAL.Entities;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.MongoDb;
 using MongoDB.Driver;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
@@ -14,14 +16,19 @@ namespace GameStore.DAL.Concrete.MongoDb
 			_collection = database.GetCollection<Genre>("categories");
 		}
 
-		public IQueryable<Genre> GetAll()
+		public IQueryable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null)
 		{
-			return _collection.AsQueryable();
+			return predicate != null ? _collection.AsQueryable().Where(predicate) : _collection.AsQueryable();
 		}
 
-		public Genre GetSingle(string name)
+		public Genre GetSingle(Expression<Func<Genre, bool>> predicate)
 		{
-			return _collection.Find(g => g.Name == name).Single();
+			return _collection.Find(predicate).Single();
+		}
+
+		public bool Contains(Expression<Func<Genre, bool>> predicate)
+		{
+			return _collection.AsQueryable().Any(predicate);
 		}
 	}
 }

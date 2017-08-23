@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Context;
-using GameStore.DAL.Entities;
+using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.EntityFramework
 {
@@ -15,19 +17,19 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_context = context;
 		}
 
-		public Publisher GetSingle(string companyName)
+		public Publisher GetSingle(Expression<Func<Publisher, bool>> predicate)
 		{
-			return _context.Publishers.First(p => p.CompanyName == companyName);
+			return _context.Publishers.First(predicate);
 		}
 
-		public IQueryable<Publisher> GetAll()
+		public IQueryable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null)
 		{
-			return _context.Publishers;
+			return predicate != null ? _context.Publishers.Where(predicate) : _context.Publishers;
 		}
 
-		public bool Contains(string companyName)
+		public bool Contains(Expression<Func<Publisher, bool>> predicate)
 		{
-			return _context.Publishers.Any(p => p.CompanyName == companyName);
+			return _context.Publishers.Any(predicate);
 		}
 
 		public void Insert(Publisher publisher)
@@ -37,6 +39,13 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Publisher publisher)
 		{
+			_context.Entry(publisher).State = EntityState.Modified;
+		}
+
+		public void Delete(string companyName)
+		{
+			var publisher = _context.Publishers.First(p => p.CompanyName == companyName);
+			publisher.IsDeleted = true;
 			_context.Entry(publisher).State = EntityState.Modified;
 		}
 	}
