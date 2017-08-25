@@ -36,9 +36,9 @@ namespace GameStore.DAL.Concrete.Common
 			_copier = copier;
 		}
 
-		public IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null)
+		public IEnumerable<Game> GetAll(string language, GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null)
 		{
-			var efQuery = _efRepository.GetAll(predicate);
+			var efQuery = _efRepository.GetAll(predicate, language);
 			var mongoQuery = _mongoRepository.GetAll(predicate);
 
 			if (filter != null)
@@ -65,9 +65,9 @@ namespace GameStore.DAL.Concrete.Common
 			return totalList;
 		}
 
-		public Game GetSingle(Expression<Func<Game, bool>> predicate)
+		public Game GetSingle(Expression<Func<Game, bool>> predicate, string language)
 		{
-			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate));
+			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate, language));
 		}
 
 		public void Insert(Game game)

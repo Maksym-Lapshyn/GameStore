@@ -5,6 +5,6 @@ namespace GameStore.Services.Abstract
 {
 	public interface IPlatformTypeService
 	{
-		IEnumerable<PlatformTypeDto> GetAll();
+		IEnumerable<PlatformTypeDto> GetAll(string language);
 	}
 }

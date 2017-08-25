@@ -58,6 +58,11 @@
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\Localization\Language.cs" />
+    <Compile Include="Entities\Localization\GameLocale.cs" />
+    <Compile Include="Entities\Localization\GenreLocale.cs" />
+    <Compile Include="Entities\Localization\PlatformTypeLocale.cs" />
+    <Compile Include="Entities\Localization\RoleLocale.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetails.cs" />
     <Compile Include="Entities\PlatformType.cs" />
@@ -74,6 +79,7 @@
     <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />
+    <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Infrastructure\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\Serializers\DateTimeToStringSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\DoubleOrInt32ToFloatSerializer.cs" />

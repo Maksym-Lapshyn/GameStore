@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfRoleRepository
 	{
-		Role GetSingle(Expression<Func<Role, bool>> predicate);
+		Role GetSingle(string language, Expression<Func<Role, bool>> predicate);
 
-		IQueryable<Role> GetAll(Expression<Func<Role, bool>> predicate = null);
+		IQueryable<Role> GetAll(string language, Expression<Func<Role, bool>> predicate = null);
 
 		void Update(Role role);
 

@@ -5,9 +5,9 @@ namespace GameStore.Services.Abstract
 {
 	public interface IRoleService
 	{
-		RoleDto GetSingle(string name);
+		RoleDto GetSingle(string name, string language);
 
-		IEnumerable<RoleDto> GetAll();
+		IEnumerable<RoleDto> GetAll(string language);
 
 		void Update(RoleDto role);
 

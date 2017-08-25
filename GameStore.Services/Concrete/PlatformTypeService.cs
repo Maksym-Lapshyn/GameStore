@@ -19,9 +19,9 @@ namespace GameStore.Services.Concrete
 			_platformTypeRepository = platformTypeRepository;
 		}
 
-		public IEnumerable<PlatformTypeDto> GetAll()
+		public IEnumerable<PlatformTypeDto> GetAll(string language)
 		{
-			var platforms = _platformTypeRepository.GetAll();
+			var platforms = _platformTypeRepository.GetAll(language);
 			var platformDtos = _mapper.Map<IEnumerable<PlatformType>, IEnumerable<PlatformTypeDto>>(platforms);
 
 			return platformDtos;

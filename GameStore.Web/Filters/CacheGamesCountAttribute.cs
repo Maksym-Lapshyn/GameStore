@@ -8,17 +8,14 @@ namespace GameStore.Web.Filters
 {
 	public class CacheGamesCountAttribute : ActionFilterAttribute
 	{
-		private const string CacheKey = "GamesCount";
+		private IGameService _gameService;
 
-		private readonly IGameService _gameService;
-
-		public CacheGamesCountAttribute()
-		{
-			_gameService = DependencyResolver.Current.GetService<IGameService>();
-		}
+		public static string CacheKey = "GamesCount";
 
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
+			_gameService = DependencyResolver.Current.GetService<IGameService>();
+
 			if (HttpContext.Current.Cache[CacheKey] == null)
 			{
 				HttpContext.Current.Cache.Add(CacheKey,

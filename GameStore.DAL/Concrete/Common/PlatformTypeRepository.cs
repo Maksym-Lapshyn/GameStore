@@ -16,14 +16,14 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository = efRepository;
 		}
 
-		public PlatformType GetSingle(Expression<Func<PlatformType, bool>> predicate)
+		public PlatformType GetSingle(Expression<Func<PlatformType, bool>> predicate, string language)
 		{
-			return _efRepository.GetSingle(predicate);
+			return _efRepository.GetSingle(predicate, language);
 		}
 
-		public IEnumerable<PlatformType> GetAll(Expression<Func<PlatformType, bool>> predicate = null)
+		public IEnumerable<PlatformType> GetAll(string language, Expression<Func<PlatformType, bool>> predicate = null)
 		{
-			return _efRepository.GetAll(predicate);
+			return _efRepository.GetAll(predicate, language);
 		}
 
 		public bool Contains(Expression<Func<PlatformType, bool>> predicate)

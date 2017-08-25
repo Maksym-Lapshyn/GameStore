@@ -5,7 +5,7 @@ namespace GameStore.Web.Infrastructure.Helpers
 {
 	public static class LanguageHelper
 	{
-		public static MvcHtmlString LangSwitcher(this UrlHelper url, string name, RouteData routeData, string lang)
+		public static MvcHtmlString LangSwitcher(this UrlHelper url, string name, RouteData routeData, string lang, string cssClass)
 		{
 			var liTagBuilder = new TagBuilder("li");
 			var aTagBuilder = new TagBuilder("a");
@@ -23,6 +23,7 @@ namespace GameStore.Web.Infrastructure.Helpers
 				}
 			}
 
+			aTagBuilder.AddCssClass(cssClass);
 			aTagBuilder.MergeAttribute("href", url.RouteUrl(routeValueDictionary));
 			aTagBuilder.SetInnerText(name);
 			liTagBuilder.InnerHtml = aTagBuilder.ToString();

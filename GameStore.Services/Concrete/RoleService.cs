@@ -29,17 +29,17 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public RoleDto GetSingle(string name)
+		public RoleDto GetSingle(string name, string language)
 		{
-			var role = _roleRepository.GetSingle(r => r.Name == name);
+			var role = _roleRepository.GetSingle(r => r.Name == name, language);
 			var roleDto = _mapper.Map<Role, RoleDto>(role);
 
 			return roleDto;
 		}
 
-		public IEnumerable<RoleDto> GetAll()
+		public IEnumerable<RoleDto> GetAll(string language)
 		{
-			var roles = _roleRepository.GetAll();
+			var roles = _roleRepository.GetAll(language);
 			return _mapper.Map<IEnumerable<Role>, List<RoleDto>>(roles);
 		}
 

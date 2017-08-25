@@ -63,9 +63,9 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public GameDto GetSingle(string gameKey)
+		public GameDto GetSingle(string gameKey, string language)
 		{
-			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
+			var game = _gameRepository.GetSingle(g => g.Key.ToLower() == gameKey.ToLower(), language);
 			game = ConvertToPoco(game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
@@ -75,7 +75,7 @@ namespace GameStore.Services.Concrete
 			return gameDto;
 		}
 
-		public IEnumerable<GameDto> GetAll(GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false)
+		public IEnumerable<GameDto> GetAll(string language, GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false)
 		{
 			IEnumerable<Game> games;
 
@@ -83,14 +83,14 @@ namespace GameStore.Services.Concrete
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
 				games = allowDeleted
-					? _gameRepository.GetAll(filter, itemsToSkip, itemsToTake)
-					: _gameRepository.GetAll(filter, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
+					? _gameRepository.GetAll(language, filter, itemsToSkip, itemsToTake)
+					: _gameRepository.GetAll(language, filter, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 			else
 			{
 				games = allowDeleted
-					? _gameRepository.GetAll(null, itemsToSkip, itemsToTake)
-					: _gameRepository.GetAll(null, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
+					? _gameRepository.GetAll(language, null, itemsToSkip, itemsToTake)
+					: _gameRepository.GetAll(language, null, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 
 			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);

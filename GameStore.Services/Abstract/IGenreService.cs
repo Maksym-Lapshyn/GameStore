@@ -5,9 +5,9 @@ namespace GameStore.Services.Abstract
 {
 	public interface IGenreService
 	{
-		IEnumerable<GenreDto> GetAll();
+		IEnumerable<GenreDto> GetAll(string language);
 
-		GenreDto GetSingle(string name);
+		GenreDto GetSingle(string name, string language);
 
 		void Create(GenreDto genreDto);
 

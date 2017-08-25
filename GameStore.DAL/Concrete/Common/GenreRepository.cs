@@ -26,17 +26,17 @@ namespace GameStore.DAL.Concrete.Common
 			_copier = copier;
 		}
 
-		public IEnumerable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null)
+		public IEnumerable<Genre> GetAll(string language, Expression<Func<Genre, bool>> predicate = null)
 		{
-			var efList = _efRepository.GetAll(predicate).ToList();
+			var efList = _efRepository.GetAll(predicate, language).ToList();
 			var mongoList = _mongoRepository.GetAll(predicate).ToList();
 
 			return efList.Union(mongoList, new GenreEqualityComparer());
 		}
 
-		public Genre GetSingle(Expression<Func<Genre, bool>> predicate)
+		public Genre GetSingle(Expression<Func<Genre, bool>> predicate, string language)
 		{
-			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _efRepository.GetSingle(predicate);
+			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _efRepository.GetSingle(predicate, language);
 		}
 
 		public bool Contains(Expression<Func<Genre, bool>> predicate)

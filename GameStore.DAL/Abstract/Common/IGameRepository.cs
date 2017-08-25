@@ -8,9 +8,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IGameRepository
 	{
-		IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null);
+		IEnumerable<Game> GetAll(string language, GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null);
 
-		Game GetSingle(Expression<Func<Game, bool>> predicate);
+		Game GetSingle(Expression<Func<Game, bool>> predicate, string language);
 
 		void Insert(Game game);
 

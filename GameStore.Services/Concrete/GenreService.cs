@@ -25,17 +25,17 @@ namespace GameStore.Services.Concrete
 			_unitOfWork = unitOfWork;
 		}
 
-		public IEnumerable<GenreDto> GetAll()
+		public IEnumerable<GenreDto> GetAll(string language)
 		{
-			var genres = _genreRepository.GetAll();
+			var genres = _genreRepository.GetAll(language);
 			var genreDtos = _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDto>>(genres);
 
 			return genreDtos;
 		}
 
-		public GenreDto GetSingle(string name)
+		public GenreDto GetSingle(string name, string language)
 		{
-			var genre = _genreRepository.GetSingle(g => g.Name.ToLower() == name.ToLower());
+			var genre = _genreRepository.GetSingle(g => g.Name.ToLower() == name.ToLower(), language);
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
 			return genreDto;

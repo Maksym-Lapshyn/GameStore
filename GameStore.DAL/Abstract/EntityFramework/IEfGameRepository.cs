@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfGameRepository
 	{
-		IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null);
+		IQueryable<Game> GetAll(string language, Expression<Func<Game, bool>> predicate = null);
 
-		Game GetSingle(Expression<Func<Game, bool>> predicate);
+		Game GetSingle(string language, Expression<Func<Game, bool>> predicate);
 
 		void Insert(Game game);
 

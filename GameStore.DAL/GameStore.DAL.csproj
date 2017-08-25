@@ -85,6 +85,7 @@
     <Compile Include="Abstract\EntityFramework\IEfPublisherRepository.cs" />
     <Compile Include="Abstract\IFilter.cs" />
     <Compile Include="Abstract\IFilterMapper.cs" />
+    <Compile Include="Abstract\ILocalizer.cs" />
     <Compile Include="Abstract\ILogContainer.cs" />
     <Compile Include="Abstract\ILogger.cs" />
     <Compile Include="Abstract\IPipeLine.cs" />
@@ -101,8 +102,11 @@
     <Compile Include="Concrete\EntityFramework\EfRoleRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfUserRepository.cs" />
     <Compile Include="Concrete\GameCopier.cs" />
+    <Compile Include="Concrete\GameLocalizer.cs" />
     <Compile Include="Concrete\GenreCopier.cs" />
     <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
+    <Compile Include="Concrete\GenreLocalizer.cs" />
+    <Compile Include="Concrete\PlatformTypeLocalizer.cs" />
     <Compile Include="Concrete\PublisherCopier.cs" />
     <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGameRepository.cs" />
@@ -124,6 +128,7 @@
     <Compile Include="Concrete\Common\OrderRepository.cs" />
     <Compile Include="Concrete\Common\PublisherRepository.cs" />
     <Compile Include="Concrete\Common\UnitOfWork.cs" />
+    <Compile Include="Concrete\RoleLocalizer.cs" />
     <Compile Include="Context\GameStoreContext.cs" />
     <Compile Include="Context\GameStoreContextInitializer.cs" />
     <Compile Include="Concrete\Filters\DateOptionsFilter.cs" />

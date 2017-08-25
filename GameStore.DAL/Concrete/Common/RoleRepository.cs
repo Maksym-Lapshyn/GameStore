@@ -17,14 +17,14 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository = efRepository;
 		}
 
-		public Role GetSingle(Expression<Func<Role, bool>> predicate)
+		public Role GetSingle(Expression<Func<Role, bool>> predicate, string language)
 		{
-			return _efRepository.GetSingle(predicate);
+			return _efRepository.GetSingle(predicate, language);
 		}
 
-		public IEnumerable<Role> GetAll(Expression<Func<Role, bool>> predicate = null)
+		public IEnumerable<Role> GetAll(string language, Expression<Func<Role, bool>> predicate = null)
 		{
-			return _efRepository.GetAll(predicate).ToList();
+			return _efRepository.GetAll(predicate, language).ToList();
 		}
 
 		public void Update(Role role)
