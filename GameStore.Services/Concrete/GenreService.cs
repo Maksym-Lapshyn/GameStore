@@ -9,20 +9,27 @@ namespace GameStore.Services.Concrete
 {
 	public class GenreService : IGenreService
 	{
-		private readonly IMapper _mapper;
-		private readonly IGenreRepository _genreRepository;
-		private readonly IGameRepository _gameRepository;
-		private readonly IUnitOfWork _unitOfWork;
+        private const string DefaultLanguage = "en";
 
-		public GenreService(IMapper mapper,
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IInputLocalizer<Genre> _localizer;
+        private readonly IGenreRepository _genreRepository;
+		private readonly IGameRepository _gameRepository;
+
+
+		public GenreService(IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IInputLocalizer<Genre> localizer,
 			IGenreRepository genreRepository,
-			IGameRepository gameRepository,
-			IUnitOfWork unitOfWork)
+			IGameRepository gameRepository
+			)
 		{
-			_mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _localizer = localizer;
 			_genreRepository = genreRepository;
 			_gameRepository = gameRepository;
-			_unitOfWork = unitOfWork;
 		}
 
 		public IEnumerable<GenreDto> GetAll(string language)
@@ -33,28 +40,30 @@ namespace GameStore.Services.Concrete
 			return genreDtos;
 		}
 
-		public GenreDto GetSingle(string name, string language)
+		public GenreDto GetSingle(string language, string name)
 		{
-			var genre = _genreRepository.GetSingle(g => g.Name.ToLower() == name.ToLower(), language);
+			var genre = _genreRepository.GetSingle(language, g => g.Name.ToLower() == name.ToLower());
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
 			return genreDto;
 		}
 
-		public void Create(GenreDto genreDto)
+		public void Create(string language, GenreDto genreDto)
 		{
 			var genre = _mapper.Map<GenreDto, Genre>(genreDto);
 			genre = MapEmbeddedEntities(genreDto, genre);
-			_genreRepository.Insert(genre);
+            genre = _localizer.Localize(language, genre);
+            _genreRepository.Insert(genre);
 			_unitOfWork.Save();
 		}
 
-		public void Update(GenreDto genreDto)
+		public void Update(string language, GenreDto genreDto)
 		{
-			var genre = _genreRepository.GetSingle(g => g.Id == genreDto.Id);
+			var genre = _genreRepository.GetSingle(DefaultLanguage, g => g.Id == genreDto.Id);
 			genre = _mapper.Map(genreDto, genre);
 			genre = MapEmbeddedEntities(genreDto, genre);
-			_genreRepository.Update(genre);
+            genre = _localizer.Localize(language, genre);
+            _genreRepository.Update(genre);
 			_unitOfWork.Save();
 		}
 
@@ -73,7 +82,7 @@ namespace GameStore.Services.Concrete
 		{
 			if (input.ParentGenreInput != null)
 			{
-				result.ParentGenre = _genreRepository.GetSingle(g => g.Name == input.ParentGenreInput);
+				result.ParentGenre = _genreRepository.GetSingle(DefaultLanguage, g => g.Name == input.ParentGenreInput);
 			}
 
 			return result;

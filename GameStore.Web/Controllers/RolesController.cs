@@ -45,7 +45,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
-			_roleService.Create(roleDto);
+			_roleService.Create(CurrentLanguage, roleDto);
 
 			return RedirectToAction("ShowAll", "Roles");
 		}
@@ -53,7 +53,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var roleDto = _roleService.GetSingle(key);
+			var roleDto = _roleService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<RoleDto, RoleViewModel>(roleDto);
 
 			return View(model);
@@ -70,14 +70,14 @@ namespace GameStore.Web.Controllers
 			}
 
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
-			_roleService.Update(roleDto);
+			_roleService.Update(CurrentLanguage, roleDto);
 
 			return RedirectToAction("ShowAll", "Roles");
 		}
 
 		public ActionResult Show(string key)
 		{
-			var roleDto = _roleService.GetSingle(key);
+			var roleDto = _roleService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<RoleDto, RoleViewModel>(roleDto);
 
 			return View(model);
@@ -92,7 +92,7 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult ShowAll()
 		{
-			var roleDtos = _roleService.GetAll();
+			var roleDtos = _roleService.GetAll(CurrentLanguage);
 			var roleViewModels = _mapper.Map<IEnumerable<RoleDto>, List<RoleViewModel>>(roleDtos);
 
 			return View(roleViewModels);
@@ -105,7 +105,7 @@ namespace GameStore.Web.Controllers
 				return;
 			}
 
-			var existingRole = _roleService.GetSingle(model.Name);
+			var existingRole = _roleService.GetSingle(CurrentLanguage, model.Name);
 
 			if (existingRole.Id != model.Id)
 			{

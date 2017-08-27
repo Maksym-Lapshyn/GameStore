@@ -9,29 +9,40 @@ namespace GameStore.Services.Concrete
 {
 	public class RoleService : IRoleService
 	{
-		private readonly IMapper _mapper;
+        private const string DefaultLanguage = "en";
+
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IInputLocalizer<Role> _localizer;
 		private readonly IRoleRepository _roleRepository;
 		private readonly IUserRepository _userRepository;
-		private readonly IUnitOfWork _unitOfWork;
 
-		public RoleService(IMapper mapper, IRoleRepository roleRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
+
+		public RoleService(IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IInputLocalizer<Role> localizer,
+            IRoleRepository roleRepository,
+            IUserRepository userRepository
+            )
 		{
-			_mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _localizer = localizer;
 			_roleRepository = roleRepository;
 			_userRepository = userRepository;
-			_unitOfWork = unitOfWork;
 		}
 
-		public void Create(RoleDto roleDto)
+		public void Create(string language, RoleDto roleDto)
 		{
 			var role = _mapper.Map<RoleDto, Role>(roleDto);
-			_roleRepository.Create(role);
+            role = _localizer.Localize(language, role);
+            _roleRepository.Create(role);
 			_unitOfWork.Save();
 		}
 
-		public RoleDto GetSingle(string name, string language)
+		public RoleDto GetSingle(string language, string name)
 		{
-			var role = _roleRepository.GetSingle(r => r.Name == name, language);
+			var role = _roleRepository.GetSingle(language, r => r.Name == name);
 			var roleDto = _mapper.Map<Role, RoleDto>(role);
 
 			return roleDto;
@@ -43,17 +54,18 @@ namespace GameStore.Services.Concrete
 			return _mapper.Map<IEnumerable<Role>, List<RoleDto>>(roles);
 		}
 
-		public void Update(RoleDto roleDto)
+		public void Update(string language, RoleDto roleDto)
 		{
-			var role = _roleRepository.GetSingle(r => r.Id == roleDto.Id);
+			var role = _roleRepository.GetSingle(language, r => r.Id == roleDto.Id);
 			role = _mapper.Map(roleDto, role);
+            role = _localizer.Localize(language, role);
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
 		}
 
 		public void Delete(string name)
 		{
-			var role = _roleRepository.GetSingle(r => r.Name == name);
+			var role = _roleRepository.GetSingle(DefaultLanguage, r => r.Name == name);
 			role.IsDeleted = true;
 			_roleRepository.Update(role);
 			_unitOfWork.Save();

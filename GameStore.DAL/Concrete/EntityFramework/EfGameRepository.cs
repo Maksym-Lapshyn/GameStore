@@ -22,7 +22,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			_logger = logger;
 		}
 
-		public IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null, string language)
+		public IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null)
 		{
 			return predicate != null ? _context.Games.Where(predicate) : _context.Games;
 		}

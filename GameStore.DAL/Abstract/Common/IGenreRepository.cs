@@ -9,7 +9,7 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		IEnumerable<Genre> GetAll(string language, Expression<Func<Genre, bool>> predicate = null);
 
-		Genre GetSingle(Expression<Func<Genre, bool>> predicate, string language);
+		Genre GetSingle(string language, Expression<Func<Genre, bool>> predicate);
 
 		bool Contains(Expression<Func<Genre, bool>> predicate);
 

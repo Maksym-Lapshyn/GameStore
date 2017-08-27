@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IPublisherRepository
 	{
-		Publisher GetSingle(Expression<Func<Publisher, bool>> predicate);
+		Publisher GetSingle(string language, Expression<Func<Publisher, bool>> predicate);
 
-		IEnumerable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null);
+		IEnumerable<Publisher> GetAll(string language, Expression<Func<Publisher, bool>> predicate = null);
 
 		bool Contains(Expression<Func<Publisher, bool>> predicate);
 

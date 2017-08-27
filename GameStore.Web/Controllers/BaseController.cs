@@ -9,14 +9,14 @@ namespace GameStore.Web.Controllers
 {
 	public class BaseController : Controller
 	{
-		private string CurrentLanguageCode { get; set; }
-
 		public BaseController(IAuthentication authentication)
 		{
 			Auth = authentication;
 		}
 
-		public IAuthentication Auth { get; set; }
+        public string CurrentLanguage { get; set; }
+
+        public IAuthentication Auth { get; set; }
 
 		public User CurrentUser => Auth.User;
 
@@ -24,11 +24,11 @@ namespace GameStore.Web.Controllers
 		{
 			if (requestContext.RouteData.Values["lang"] != null && requestContext.RouteData.Values["lang"] as string != "null")
 			{
-				CurrentLanguageCode = (string)requestContext.RouteData.Values["lang"];
+				CurrentLanguage = (string)requestContext.RouteData.Values["lang"];
 
-				if (CurrentLanguageCode != null)
+				if (CurrentLanguage != null)
 				{
-					Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = new CultureInfo(CurrentLanguageCode);
+					Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = new CultureInfo(CurrentLanguage);
 				}
 			}
 

@@ -7,11 +7,11 @@ namespace GameStore.Services.Abstract
 	{
 		IEnumerable<GenreDto> GetAll(string language);
 
-		GenreDto GetSingle(string name, string language);
+		GenreDto GetSingle(string language, string name);
 
-		void Create(GenreDto genreDto);
+		void Create(string language, GenreDto genreDto);
 
-		void Update(GenreDto genreDto);
+		void Update(string language, GenreDto genreDto);
 
 		void Delete(string name);
 

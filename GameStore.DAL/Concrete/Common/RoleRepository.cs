@@ -1,4 +1,5 @@
 ﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using System;
@@ -11,21 +12,33 @@ namespace GameStore.DAL.Concrete.Common
 	public class RoleRepository : IRoleRepository
 	{
 		private readonly IEfRoleRepository _efRepository;
+        private readonly IOutputLocalizer<Role> _localizer;
 
-		public RoleRepository(IEfRoleRepository efRepository)
+		public RoleRepository(IEfRoleRepository efRepository,
+            IOutputLocalizer<Role> localizer)
 		{
 			_efRepository = efRepository;
+            _localizer = localizer;
 		}
 
-		public Role GetSingle(Expression<Func<Role, bool>> predicate, string language)
+		public Role GetSingle(string language, Expression<Func<Role, bool>> predicate)
 		{
-			return _efRepository.GetSingle(predicate, language);
+			var role = _efRepository.GetSingle(predicate);
+
+            return _localizer.Localize(language, role);
 		}
 
 		public IEnumerable<Role> GetAll(string language, Expression<Func<Role, bool>> predicate = null)
 		{
-			return _efRepository.GetAll(predicate, language).ToList();
-		}
+			var totalList = _efRepository.GetAll(predicate).ToList();
+
+            for (var i = 0; i < totalList.Count; i++)
+            {
+                totalList[i] = _localizer.Localize(language, totalList[i]);
+            }
+
+            return totalList;
+        }
 
 		public void Update(Role role)
 		{

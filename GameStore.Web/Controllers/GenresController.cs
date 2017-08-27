@@ -45,7 +45,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
-			_genreService.Create(genreDto);
+			_genreService.Create(CurrentLanguage, genreDto);
 
 			return RedirectToAction("ShowAll", "Genres");
 		}
@@ -53,7 +53,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var genreDto = _genreService.GetSingle(key);
+			var genreDto = _genreService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<GenreDto, GenreViewModel>(genreDto);
 			model.ParentGenreData = GetGenres();
 
@@ -71,14 +71,14 @@ namespace GameStore.Web.Controllers
 			}
 
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
-			_genreService.Update(genreDto);
+			_genreService.Update(CurrentLanguage, genreDto);
 
 			return RedirectToAction("ShowAll", "Genres");
 		}
 
 		public ActionResult Show(string key)
 		{
-			var genreDto = _genreService.GetSingle(key);
+			var genreDto = _genreService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<GenreDto, GenreViewModel>(genreDto);
 
 			return View(model);
@@ -93,7 +93,7 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult ShowAll()
 		{
-			var genreDtos = _genreService.GetAll();
+			var genreDtos = _genreService.GetAll(CurrentLanguage);
 			var genreViewModels = _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(genreDtos);
 
 			return View(genreViewModels);
@@ -101,7 +101,7 @@ namespace GameStore.Web.Controllers
 
 		private List<GenreViewModel> GetGenres()
 		{
-			return _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
+			return _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll(CurrentLanguage));
 		}
 
 		private void CheckIfNameIsUnique(GenreViewModel model)
@@ -111,7 +111,7 @@ namespace GameStore.Web.Controllers
 				return;
 			}
 
-			var existingGenre = _genreService.GetSingle(model.Name);
+			var existingGenre = _genreService.GetSingle(CurrentLanguage, model.Name);
 
 			if (existingGenre.Id != model.Id)
 			{

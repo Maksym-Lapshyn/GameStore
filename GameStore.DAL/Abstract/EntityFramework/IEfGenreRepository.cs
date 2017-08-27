@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfGenreRepository
 	{
-		IQueryable<Genre> GetAll(string language, Expression<Func<Genre, bool>> predicate = null);
+		IQueryable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null);
 
-		Genre GetSingle(string language, Expression<Func<Genre, bool>> predicate);
+		Genre GetSingle(Expression<Func<Genre, bool>> predicate);
 
 		bool Contains(Expression<Func<Genre, bool>> predicate);
 

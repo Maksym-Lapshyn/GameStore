@@ -20,13 +20,15 @@ namespace GameStore.DAL.Concrete.Common
 		private readonly IFilterMapper _filterMapper;
 		private readonly ISynchronizer<Game> _synchronizer;
 		private readonly ICopier<Game> _copier;
+        private readonly IOutputLocalizer<Game> _localizer;
 
 		public GameRepository(IPipeline<IQueryable<Game>> pipeline,
 			IFilterMapper filterMapper,
 			IEfGameRepository efRepository,
 			IMongoGameRepository mongoRepository,
 			ISynchronizer<Game> synchronizer,
-			ICopier<Game> copier)
+			ICopier<Game> copier,
+            IOutputLocalizer<Game> localizer)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
@@ -34,11 +36,12 @@ namespace GameStore.DAL.Concrete.Common
 			_filterMapper = filterMapper;
 			_synchronizer = synchronizer;
 			_copier = copier;
+            _localizer = localizer;
 		}
 
 		public IEnumerable<Game> GetAll(string language, GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null)
 		{
-			var efQuery = _efRepository.GetAll(predicate, language);
+			var efQuery = _efRepository.GetAll(predicate);
 			var mongoQuery = _mongoRepository.GetAll(predicate);
 
 			if (filter != null)
@@ -60,14 +63,17 @@ namespace GameStore.DAL.Concrete.Common
 			for (var i = 0; i < totalList.Count; i++)
 			{
 				totalList[i] = _synchronizer.Synchronize(totalList[i]);
+                totalList[i] = _localizer.Localize(language, totalList[i]);
 			}
 
 			return totalList;
 		}
 
-		public Game GetSingle(Expression<Func<Game, bool>> predicate, string language)
+		public Game GetSingle(string language, Expression<Func<Game, bool>> predicate)
 		{
-			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate, language));
+			var game = !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate));
+
+            return _localizer.Localize(language, game);
 		}
 
 		public void Insert(Game game)

@@ -7,11 +7,11 @@ namespace GameStore.Services.Abstract
 	{
 		int GetCount(GameFilterDto gameFilter = null);
 
-		GameDto GetSingle(string gameKey, string language);
+		GameDto GetSingle(string language, string gameKey);
 
-		void Create(GameDto gameDto);
+		void Create(string language, GameDto gameDto);
 
-		void Update(GameDto gameDto);
+		void Update(string language, GameDto gameDto);
 
 		void Delete(string gameKey);
 
