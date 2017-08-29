@@ -110,7 +110,7 @@ namespace GameStore.Web.Controllers
 
 		private List<RoleViewModel> GetRoles()
 		{
-			return _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(_roleService.GetAll()).ToList();
+			return _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(_roleService.GetAll(CurrentLanguage)).ToList();
 		}
 
 		private void CheckIfLoginIsUnique(UserViewModel user)

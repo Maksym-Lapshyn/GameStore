@@ -15,21 +15,18 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IUserRepository _userRepository;
 		private readonly IRoleRepository _roleRepository;
-		private readonly IOrderRepository _orderRepository;
 		private readonly IHashGenerator<string> _hashGenerator;
 		private readonly IUnitOfWork _unitOfWork;
 
 		public UserService(IMapper mapper,
 			IUserRepository userRepository,
 			IRoleRepository roleRepository,
-			IOrderRepository orderRepository,
 			IHashGenerator<string> hashGenerator,
 			IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
 			_userRepository = userRepository;
 			_roleRepository = roleRepository;
-			_orderRepository = orderRepository;
 			_hashGenerator = hashGenerator;
 			_unitOfWork = unitOfWork;
 		}

@@ -1,8 +1,8 @@
-﻿using GameStore.DAL.Infrastructure;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Abstract.Common
 {

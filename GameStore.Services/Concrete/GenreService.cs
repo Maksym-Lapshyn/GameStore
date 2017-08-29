@@ -4,37 +4,42 @@ using GameStore.DAL.Abstract.Common;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
 	public class GenreService : IGenreService
 	{
-        private const string DefaultLanguage = "en";
-
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        private readonly IInputLocalizer<Genre> _localizer;
-        private readonly IGenreRepository _genreRepository;
-		private readonly IGameRepository _gameRepository;
+		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
+		private readonly IInputLocalizer<Genre> _inputLocalizer;
+		private readonly IOutputLocalizer<Genre> _outputLocalizer;
+		private readonly IGenreRepository _genreRepository;
 
 
 		public GenreService(IUnitOfWork unitOfWork,
-            IMapper mapper,
-            IInputLocalizer<Genre> localizer,
-			IGenreRepository genreRepository,
-			IGameRepository gameRepository
+			IMapper mapper,
+			IInputLocalizer<Genre> inputLocalizer,
+			IOutputLocalizer<Genre> outputLocalizer,
+			IGenreRepository genreRepository
 			)
 		{
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-            _localizer = localizer;
+			_unitOfWork = unitOfWork;
+			_mapper = mapper;
+			_inputLocalizer = inputLocalizer;
+			_outputLocalizer = outputLocalizer;
 			_genreRepository = genreRepository;
-			_gameRepository = gameRepository;
 		}
 
 		public IEnumerable<GenreDto> GetAll(string language)
 		{
-			var genres = _genreRepository.GetAll(language);
+			var genres = _genreRepository.GetAll().ToList();
+
+			foreach (var genre in genres)
+			{
+				_outputLocalizer.Localize(language, genre);
+			}
+
 			var genreDtos = _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDto>>(genres);
 
 			return genreDtos;
@@ -42,7 +47,8 @@ namespace GameStore.Services.Concrete
 
 		public GenreDto GetSingle(string language, string name)
 		{
-			var genre = _genreRepository.GetSingle(language, g => g.Name.ToLower() == name.ToLower());
+			var genre = _genreRepository.GetSingle(g => g.Name.ToLower() == name.ToLower());
+			genre = _outputLocalizer.Localize(language, genre);
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
 			return genreDto;
@@ -51,19 +57,19 @@ namespace GameStore.Services.Concrete
 		public void Create(string language, GenreDto genreDto)
 		{
 			var genre = _mapper.Map<GenreDto, Genre>(genreDto);
-			genre = MapEmbeddedEntities(genreDto, genre);
-            genre = _localizer.Localize(language, genre);
-            _genreRepository.Insert(genre);
+			genre = MapEmbeddedEntities(language, genreDto, genre);
+			genre = _inputLocalizer.Localize(language, genre);
+			_genreRepository.Insert(genre);
 			_unitOfWork.Save();
 		}
 
 		public void Update(string language, GenreDto genreDto)
 		{
-			var genre = _genreRepository.GetSingle(DefaultLanguage, g => g.Id == genreDto.Id);
+			var genre = _genreRepository.GetSingle(g => g.Id == genreDto.Id);
 			genre = _mapper.Map(genreDto, genre);
-			genre = MapEmbeddedEntities(genreDto, genre);
-            genre = _localizer.Localize(language, genre);
-            _genreRepository.Update(genre);
+			genre = MapEmbeddedEntities(language, genreDto, genre);
+			genre = _inputLocalizer.Localize(language, genre);
+			_genreRepository.Update(genre);
 			_unitOfWork.Save();
 		}
 
@@ -73,16 +79,16 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public bool Contains(string name)
+		public bool Contains(string language, string name)
 		{
-			return _genreRepository.Contains(g => g.Name == name);
+			return _genreRepository.Contains(g => g.GenreLocales.First(l => l.Language.Name == language).Name == name);
 		}
 
-		private Genre MapEmbeddedEntities(GenreDto input, Genre result)
+		private Genre MapEmbeddedEntities(string language, GenreDto input, Genre result)
 		{
 			if (input.ParentGenreInput != null)
 			{
-				result.ParentGenre = _genreRepository.GetSingle(DefaultLanguage, g => g.Name == input.ParentGenreInput);
+				result.ParentGenre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Language.Name == language && l.Name == input.ParentGenreInput));
 			}
 
 			return result;

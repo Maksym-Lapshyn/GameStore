@@ -50,7 +50,21 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public void Update(Game game)
 		{
-			var oldGame = _context.Games.First(g => g.Id == game.Id);
+			Game oldGame;
+
+			if (_context.Entry(game).State == EntityState.Modified)//populates old game entity for logger
+			{
+				oldGame = (Game) _context.Entry(game).OriginalValues.ToObject();
+				oldGame.Publisher = game.Publisher;
+				oldGame.GameLocales = game.GameLocales;
+				oldGame.Genres = game.Genres;
+				oldGame.PlatformTypes = game.PlatformTypes;
+			}
+			else
+			{
+				oldGame = _context.Games.First(g => g.Id == game.Id);
+			}
+
 			var container = CreateContainer("Update", game, oldGame);
 			_logger.LogChange(container);
 			game = MergeGenres(game);

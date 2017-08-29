@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IGenreRepository
 	{
-		IEnumerable<Genre> GetAll(string language, Expression<Func<Genre, bool>> predicate = null);
+		IEnumerable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null);
 
-		Genre GetSingle(string language, Expression<Func<Genre, bool>> predicate);
+		Genre GetSingle(Expression<Func<Genre, bool>> predicate);
 
 		bool Contains(Expression<Func<Genre, bool>> predicate);
 

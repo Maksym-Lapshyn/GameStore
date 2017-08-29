@@ -16,7 +16,7 @@ namespace GameStore.DAL.Concrete.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
-			return input.Where(g => g.PlatformTypes.Select(p => p.Type).Intersect(_platformTypeTypes).Any());
+			return input.Where(g => g.PlatformTypes.Select(p => p.PlatformTypeLocales.SelectMany(l => l.Type)).Intersect(_platformTypeTypes).Any());
 		}
 	}
 }

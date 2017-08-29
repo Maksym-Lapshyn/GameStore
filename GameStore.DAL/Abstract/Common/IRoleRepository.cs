@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IRoleRepository
 	{
-		Role GetSingle(string language, Expression<Func<Role, bool>> predicate);
+		Role GetSingle(Expression<Func<Role, bool>> predicate);
 
-		IEnumerable<Role> GetAll(string language, Expression<Func<Role, bool>> predicate = null);
+		IEnumerable<Role> GetAll(Expression<Func<Role, bool>> predicate = null);
 
 		void Update(Role role);
 

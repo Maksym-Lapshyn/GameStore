@@ -19,8 +19,9 @@ namespace GameStore.Common.Entities
 		public virtual Genre ParentGenre { get; set; }
 
 		[BsonIgnore]
-		public virtual ICollection<Game> Games { get; set; }
+		public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 
-		public virtual ICollection<GenreLocale> GenreLocales { get; set; }
+		[BsonIgnore]
+		public virtual ICollection<GenreLocale> GenreLocales { get; set; } = new List<GenreLocale>();
 	}
 }

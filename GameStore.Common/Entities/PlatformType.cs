@@ -11,8 +11,9 @@ namespace GameStore.Common.Entities
 		public string Type { get; set; }
 
 		[BsonIgnore]
-		public virtual ICollection<Game> Games { get; set; }//added virtual
+		public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 
-		public virtual ICollection<PlatformTypeLocale> PlatformTypeLocales { get; set; }
+		[BsonIgnore]
+		public virtual ICollection<PlatformTypeLocale> PlatformTypeLocales { get; set; } = new List<PlatformTypeLocale>();
 	}
 }

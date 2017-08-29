@@ -4,18 +4,18 @@ using GameStore.DAL.Abstract.Common;
 
 namespace GameStore.DAL.Concrete.Common
 {
-    public class LanguageRepository : ILanguageRepository
-    {
-        private readonly IEfLanguageRepository _efRepository;
+	public class LanguageRepository : ILanguageRepository
+	{
+		private readonly IEfLanguageRepository _efRepository;
 
-        public LanguageRepository(IEfLanguageRepository efRepository)
-        {
-            _efRepository = efRepository;
-        }
+		public LanguageRepository(IEfLanguageRepository efRepository)
+		{
+			_efRepository = efRepository;
+		}
 
-        public Language GetSingleBy(string name)
-        {
-            return _efRepository.GetSingleBy(name);
-        }
-    }
+		public Language GetSingleBy(string name)
+		{
+			return _efRepository.GetSingleBy(name);
+		}
+	}
 }

@@ -259,6 +259,15 @@ namespace GameStore.Web.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {
@@ -381,6 +390,15 @@ namespace GameStore.Web.App_LocalResources {
         public static string GenreWithSuchNameAlreadyExists {
             get {
                 return ResourceManager.GetString("GenreWithSuchNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello.
+        /// </summary>
+        public static string Hello {
+            get {
+                return ResourceManager.GetString("Hello", resourceCulture);
             }
         }
         
@@ -799,6 +817,15 @@ namespace GameStore.Web.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Russian.
+        /// </summary>
+        public static string Russian {
+            get {
+                return ResourceManager.GetString("Russian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stay in the system.
         /// </summary>
         public static string StayInTheSystem {
@@ -957,6 +984,15 @@ namespace GameStore.Web.App_LocalResources {
         public static string ToLogIn {
             get {
                 return ResourceManager.GetString("ToLogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string ToLogout {
+            get {
+                return ResourceManager.GetString("ToLogout", resourceCulture);
             }
         }
         

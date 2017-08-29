@@ -106,7 +106,7 @@ namespace GameStore.Web.Controllers
 
 		private void CheckIfNameIsUnique(GenreViewModel model)
 		{
-			if (!_genreService.Contains(model.Name))
+			if (!_genreService.Contains(CurrentLanguage, model.Name))
 			{
 				return;
 			}

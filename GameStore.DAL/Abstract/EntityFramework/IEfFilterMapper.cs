@@ -3,9 +3,9 @@ using GameStore.DAL.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameStore.DAL.Abstract
+namespace GameStore.DAL.Abstract.EntityFramework
 {
-	public interface IFilterMapper
+	public interface IEfFilterMapper
 	{
 		List<IFilter<IQueryable<Game>>> Map(GameFilter filter);
 	}

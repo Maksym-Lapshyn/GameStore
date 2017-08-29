@@ -16,38 +16,26 @@ namespace GameStore.DAL.Concrete.Common
 		private readonly IEfGenreRepository _efRepository;
 		private readonly IMongoGenreRepository _mongoRepository;
 		private readonly ICopier<Genre> _copier;
-        private readonly IOutputLocalizer<Genre> _localizer;
 
 		public GenreRepository(IEfGenreRepository efRepository,
 			IMongoGenreRepository mongoRepository,
-			ICopier<Genre> copier,
-            IOutputLocalizer<Genre> localizer)
+			ICopier<Genre> copier)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 			_copier = copier;
-            _localizer = localizer;
 		}
 
-		public IEnumerable<Genre> GetAll(string language, Expression<Func<Genre, bool>> predicate = null)
+		public IEnumerable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null)
 		{
 			var efList = _efRepository.GetAll(predicate).ToList();
 			var mongoList = _mongoRepository.GetAll(predicate).ToList();
-			var totalList = efList.Union(mongoList, new GenreEqualityComparer()).ToList();
+			return efList.Union(mongoList, new GenreEqualityComparer());
+		}
 
-            for (var i = 0; i < totalList.Count; i++)
-            {
-                totalList[i] = _localizer.Localize(language, totalList[i]);
-            }
-
-            return totalList;
-        }
-
-		public Genre GetSingle(string language, Expression<Func<Genre, bool>> predicate)
+		public Genre GetSingle(Expression<Func<Genre, bool>> predicate)
 		{
-			var genre = !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _efRepository.GetSingle(predicate);
-
-            return _localizer.Localize(language, genre);
+			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _efRepository.GetSingle(predicate);
 		}
 
 		public bool Contains(Expression<Func<Genre, bool>> predicate)

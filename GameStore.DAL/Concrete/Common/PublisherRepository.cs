@@ -16,38 +16,26 @@ namespace GameStore.DAL.Concrete.Common
 		private readonly IEfPublisherRepository _efRepository;
 		private readonly IMongoPublisherRepository _mongoRepository;
 		private readonly ICopier<Publisher> _copier;
-        private readonly IOutputLocalizer<Publisher> _localizer;
 
 		public PublisherRepository(IEfPublisherRepository efRepository,
 			IMongoPublisherRepository mongoRepository,
-			ICopier<Publisher> copier,
-            IOutputLocalizer<Publisher> localizer)
+			ICopier<Publisher> copier)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 			_copier = copier;
-            _localizer = localizer;
 		}
 
-		public IEnumerable<Publisher> GetAll(string language, Expression<Func<Publisher, bool>> predicate = null)
+		public IEnumerable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null)
 		{
 			var efList = _efRepository.GetAll(predicate).ToList();
 			var mongoList = _mongoRepository.GetAll(predicate).ToList();
-            var totalList = efList.Union(mongoList, new PublisherEqualityComparer()).ToList();
-
-            for (var i = 0; i < totalList.Count; i++)
-            {
-                totalList[i] = _localizer.Localize(language, totalList[i]);
-            }
-
-            return totalList;
+			return efList.Union(mongoList, new PublisherEqualityComparer());
 		}
 
-		public Publisher GetSingle(string language, Expression<Func<Publisher, bool>> predicate)
+		public Publisher GetSingle(Expression<Func<Publisher, bool>> predicate)
 		{
-			var publisher = !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _efRepository.GetSingle(predicate);
-
-            return _localizer.Localize(language, publisher);
+			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _efRepository.GetSingle(predicate);
 		}
 
 		public bool Contains(Expression<Func<Publisher, bool>> predicate)

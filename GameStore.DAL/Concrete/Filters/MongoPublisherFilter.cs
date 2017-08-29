@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete.Filters
 {
-	public class EfPublisherFilter : IFilter<IQueryable<Game>>
+	public class MongoPublisherFilter : IFilter<IQueryable<Game>>
 	{
 		private readonly IEnumerable<string> _publisherCompanyNames;
 
-		public EfPublisherFilter(IEnumerable<string> publisherCompanyNames)
+		public MongoPublisherFilter(IEnumerable<string> publisherCompanyNames)
 		{
 			_publisherCompanyNames = publisherCompanyNames;
 		}

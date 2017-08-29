@@ -6,6 +6,8 @@ using GameStore.DAL.Concrete;
 using GameStore.DAL.Concrete.EntityFramework;
 using GameStore.DAL.Concrete.MongoDb;
 using GameStore.DAL.Context;
+using GameStore.Services.Abstract;
+using GameStore.Services.Concrete;
 using MongoDB.Driver;
 using Ninject.Modules;
 using Ninject.Web.Common;
@@ -39,6 +41,7 @@ namespace GameStore.Ninject.Modules
 			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
 			Bind<IEfUserRepository>().To<EfUserRepository>();
 			Bind<IEfRoleRepository>().To<EfRoleRepository>();
+			Bind<IEfLanguageRepository>().To<EfLanguageRepository>();
 
 			Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
@@ -47,13 +50,20 @@ namespace GameStore.Ninject.Modules
 			Bind<IMongoOrderRepository>().To<MongoOrderRepository>();
 
 			Bind<IPipeline<IQueryable<Game>>>().To<GamePipeline>();
-			Bind<IFilterMapper>().To<GameFilterMapper>();
+			Bind<IEfFilterMapper>().To<EfGameFilterMapper>();
+			Bind<IMongoFilterMapper>().To<MongoFilterMapper>();
 			Bind<ILogger<Game>>().To<MongoGameLogger>();
 
 			Bind<ISynchronizer<Game>>().To<MongoGameSynchronizer>();
 			Bind<ICopier<Game>>().To<GameCopier>();
 			Bind<ICopier<Genre>>().To<GenreCopier>();
 			Bind<ICopier<Publisher>>().To<PublisherCopier>();
+
+			Bind<IOutputLocalizer<Game>>().To<GameOutputLocalizer>();
+			Bind<IOutputLocalizer<Genre>>().To<GenreOutputLocalizer>();
+			Bind<IOutputLocalizer<Publisher>>().To<PublisherOutputLocalizer>();
+			Bind<IOutputLocalizer<Role>>().To<RoleOutputLocalizer>();
+			Bind<IOutputLocalizer<PlatformType>>().To<PlatformTypeOutputLocalizer>();
 		}
 	}
 }

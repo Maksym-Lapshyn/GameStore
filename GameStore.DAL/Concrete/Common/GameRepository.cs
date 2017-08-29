@@ -17,37 +17,39 @@ namespace GameStore.DAL.Concrete.Common
 		private readonly IEfGameRepository _efRepository;
 		private readonly IMongoGameRepository _mongoRepository;
 		private readonly IPipeline<IQueryable<Game>> _pipeline;
-		private readonly IFilterMapper _filterMapper;
+		private readonly IEfFilterMapper _efFilterMapper;
+		private readonly IMongoFilterMapper _mongoFilterMapper;
 		private readonly ISynchronizer<Game> _synchronizer;
 		private readonly ICopier<Game> _copier;
-        private readonly IOutputLocalizer<Game> _localizer;
 
 		public GameRepository(IPipeline<IQueryable<Game>> pipeline,
-			IFilterMapper filterMapper,
+			IEfFilterMapper efFilterMapper,
+			IMongoFilterMapper mongoFilterMapper,
 			IEfGameRepository efRepository,
 			IMongoGameRepository mongoRepository,
 			ISynchronizer<Game> synchronizer,
-			ICopier<Game> copier,
-            IOutputLocalizer<Game> localizer)
+			ICopier<Game> copier)
 		{
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 			_pipeline = pipeline;
-			_filterMapper = filterMapper;
+			_mongoFilterMapper = mongoFilterMapper;
+			_efFilterMapper = efFilterMapper;
 			_synchronizer = synchronizer;
 			_copier = copier;
-            _localizer = localizer;
 		}
 
-		public IEnumerable<Game> GetAll(string language, GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null)
+		public IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null)
 		{
 			var efQuery = _efRepository.GetAll(predicate);
 			var mongoQuery = _mongoRepository.GetAll(predicate);
 
 			if (filter != null)
 			{
-				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
+				_efFilterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				efQuery = _pipeline.Process(efQuery);
+				_pipeline.Clear();
+				_mongoFilterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				mongoQuery = _pipeline.Process(mongoQuery);
 			}
 
@@ -63,17 +65,14 @@ namespace GameStore.DAL.Concrete.Common
 			for (var i = 0; i < totalList.Count; i++)
 			{
 				totalList[i] = _synchronizer.Synchronize(totalList[i]);
-                totalList[i] = _localizer.Localize(language, totalList[i]);
 			}
 
 			return totalList;
 		}
 
-		public Game GetSingle(string language, Expression<Func<Game, bool>> predicate)
+		public Game GetSingle(Expression<Func<Game, bool>> predicate)
 		{
-			var game = !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate));
-
-            return _localizer.Localize(language, game);
+			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate));
 		}
 
 		public void Insert(Game game)

@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace GameStore.DAL.Concrete.Filters
 {
-	public class GenreFilter : IFilter<IQueryable<Game>>
+	public class MongoGenreFilter : IFilter<IQueryable<Game>>
 	{
 		private readonly IEnumerable<string> _genreNames;
 
-		public GenreFilter(IEnumerable<string> genreNames)
+		public MongoGenreFilter(IEnumerable<string> genreNames)
 		{
 			_genreNames = genreNames;
 		}

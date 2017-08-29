@@ -1,8 +1,8 @@
-﻿using GameStore.Common.Infrastructure.Serializers;
+﻿using GameStore.Common.Entities.Localization;
+using GameStore.Common.Infrastructure.Serializers;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using GameStore.Common.Entities.Localization;
 
 namespace GameStore.Common.Entities
 {
@@ -18,15 +18,17 @@ namespace GameStore.Common.Entities
 		[BsonElement("Phone")]
 		[BsonSerializer(typeof(StringOrInt32ToStringSerializer))]
 		[Column(TypeName = "NTEXT")]
-        [NotMapped]
+		[NotMapped]
+		[BsonIgnore]
 		public string Description { get; set; }
 
 		[Column(TypeName = "NTEXT")]
 		public string HomePage { get; set; }
 
-        [BsonIgnore]
-        public ICollection<Game> Games { get; set; } = new List<Game>();
+		[BsonIgnore]
+		public ICollection<Game> Games { get; set; } = new List<Game>();
 
-        public ICollection<PublisherLocale> PublisherLocales { get; set; } = new List<PublisherLocale>();
+		[BsonIgnore]
+		public ICollection<PublisherLocale> PublisherLocales { get; set; } = new List<PublisherLocale>();
 	}
 }

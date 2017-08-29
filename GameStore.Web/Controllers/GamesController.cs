@@ -250,7 +250,7 @@ namespace GameStore.Web.Controllers
 
 		private List<PublisherViewModel> GetPublishers()
 		{
-			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
+			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll(CurrentLanguage));
 		}
 
 		private void CheckIfKeyIsUnique(GameViewModel model)

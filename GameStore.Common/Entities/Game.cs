@@ -58,6 +58,7 @@ namespace GameStore.Common.Entities
 
 		public virtual ICollection<PlatformType> PlatformTypes { get; set; } = new List<PlatformType>();
 
+		[BsonIgnore]
 		public virtual ICollection<GameLocale> GameLocales { get; set; } = new List<GameLocale>();
 	}
 }

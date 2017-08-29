@@ -468,4 +468,16 @@
   <data name="UserWithSuchLoginAlreadyExists" xml:space="preserve">
     <value>Пользователь с таким логином уже существует</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>Английский</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Привет</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="ToLogout" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
 </root>

@@ -7,9 +7,9 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IPlatformTypeRepository
 	{
-		PlatformType GetSingle(string language, Expression<Func<PlatformType, bool>> predicate);
+		PlatformType GetSingle(Expression<Func<PlatformType, bool>> predicate);
 
-		IEnumerable<PlatformType> GetAll(string language, Expression<Func<PlatformType, bool>> predicate = null);
+		IEnumerable<PlatformType> GetAll(Expression<Func<PlatformType, bool>> predicate = null);
 
 		bool Contains(Expression<Func<PlatformType, bool>> predicate);
 

@@ -22,5 +22,10 @@ namespace GameStore.DAL.Concrete
 
 			return input;
 		}
+
+		public void Clear()
+		{
+			_filters.Clear();
+		}
 	}
 }

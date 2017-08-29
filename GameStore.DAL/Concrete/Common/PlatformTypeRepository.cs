@@ -12,33 +12,21 @@ namespace GameStore.DAL.Concrete.Common
 	public class PlatformTypeRepository : IPlatformTypeRepository
 	{
 		private readonly IEfPlatformTypeRepository _efRepository;
-        private readonly IOutputLocalizer<PlatformType> _localizer;
 
-		public PlatformTypeRepository(IEfPlatformTypeRepository efRepository,
-            IOutputLocalizer<PlatformType> localizer)
+		public PlatformTypeRepository(IEfPlatformTypeRepository efRepository)
 		{
 			_efRepository = efRepository;
-            _localizer = localizer;
 		}
 
-		public PlatformType GetSingle(string language, Expression<Func<PlatformType, bool>> predicate)
+		public PlatformType GetSingle(Expression<Func<PlatformType, bool>> predicate)
 		{
-			var platformType = _efRepository.GetSingle(predicate);
-
-            return _localizer.Localize(language, platformType);
+			return _efRepository.GetSingle(predicate);
 		}
 
-		public IEnumerable<PlatformType> GetAll(string language, Expression<Func<PlatformType, bool>> predicate = null)
+		public IEnumerable<PlatformType> GetAll(Expression<Func<PlatformType, bool>> predicate = null)
 		{
-            var totalList = _efRepository.GetAll(predicate).ToList();
-
-            for (var i = 0; i < totalList.Count; i++)
-            {
-                totalList[i] = _localizer.Localize(language, totalList[i]);
-            }
-
-            return totalList;
-        }
+			return _efRepository.GetAll(predicate).ToList();
+		}
 
 		public bool Contains(Expression<Func<PlatformType, bool>> predicate)
 		{

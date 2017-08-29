@@ -1,4 +1,4 @@
-﻿namespace GameStore.DAL.Abstract
+﻿namespace GameStore.Services.Abstract
 {
 	public interface IOutputLocalizer<T>
 	{

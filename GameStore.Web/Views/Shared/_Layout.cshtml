@@ -55,17 +55,18 @@
 				<ul class="nav navbar-nav navbar-right">
 					@if (HttpContext.Current.User.Identity.IsAuthenticated)
 					{
-						<li><a href="#">Hello, @Context.User.Identity.Name</a></li>
-						<li><a href=@Url.Action("Busket", "Orders")><span class="glyphicon glyphicon-shopping-cart"></span> @GlobalResource.Basket</a></li>
-						<li>@Html.ActionLink("Logout", "Logout", "Accounts", null, null)</li>
+						<li><a href="#">@GlobalResource.Hello, @Context.User.Identity.Name</a></li>
+						<li><a href=@Url.Action(GlobalResource.Basket, "Orders")><span class="glyphicon glyphicon-shopping-cart"></span> @GlobalResource.Basket</a></li>
+						<li>@Html.ActionLink(GlobalResource.ToLogout, "Logout", "Accounts", null, null)</li>
 					}
 					else
 					{
 						<li>@Html.ActionLink(GlobalResource.ToLogIn, "Login", "Accounts")</li>
 						<li>@Html.ActionLink(GlobalResource.ToRegister, "Register", "Accounts")</li>
-						<li>@Url.LangSwitcher("English", ViewContext.RouteData, "en", "dropdown-item")</li>
-						<li>@Url.LangSwitcher("Russian", ViewContext.RouteData, "ru", "dropdown-item")</li>
 					}
+
+					<li>@Url.LangSwitcher(GlobalResource.English, ViewContext.RouteData, "en", "dropdown-item")</li>
+					<li>@Url.LangSwitcher(GlobalResource.Russian, ViewContext.RouteData, "ru", "dropdown-item")</li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->

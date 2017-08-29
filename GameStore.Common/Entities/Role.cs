@@ -1,5 +1,6 @@
 ﻿using GameStore.Common.Entities.Localization;
 using GameStore.Common.Enums;
+using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,8 +13,9 @@ namespace GameStore.Common.Entities
 
 		public AccessLevel AccessLevel { get; set; }
 
-		public virtual ICollection<User> Users { get; set; }
+		public virtual ICollection<User> Users { get; set; } = new List<User>();
 
-		public virtual ICollection<RoleLocale> RoleLocales { get; set; }
+		[BsonIgnore]
+		public virtual ICollection<RoleLocale> RoleLocales { get; set; } = new List<RoleLocale>();
 	}
 }

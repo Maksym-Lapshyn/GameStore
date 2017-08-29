@@ -100,7 +100,7 @@ namespace GameStore.Web.Controllers
 
 		private void CheckIfNameIsUnique(RoleViewModel model)
 		{
-			if (!_roleService.Contains(model.Name))
+			if (!_roleService.Contains(CurrentLanguage, model.Name))
 			{
 				return;
 			}

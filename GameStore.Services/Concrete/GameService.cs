@@ -4,7 +4,6 @@ using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
-using GameStore.Common.Entities.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +13,11 @@ namespace GameStore.Services.Concrete
 	public class GameService : IGameService
 	{
 		private const string DefaultGenreName = "Other";
-        private const string DefaultLanguage = "en";
 
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-        private readonly IInputLocalizer<Game> _localizer;
+		private readonly IInputLocalizer<Game> _inputLocalizer;
+		private readonly IOutputLocalizer<Game> _outputLocalizer;
 		private readonly IGameRepository _gameRepository;
 		private readonly IPublisherRepository _publisherRepository;
 		private readonly IGenreRepository _genreRepository;
@@ -26,7 +25,8 @@ namespace GameStore.Services.Concrete
 
 		public GameService(IUnitOfWork unitOfWork,
 			IMapper mapper,
-            IInputLocalizer<Game> localizer,
+			IInputLocalizer<Game> inputLocalizer,
+			IOutputLocalizer<Game> outputLocalizer,
 			IGameRepository gameRepository,
 			IPublisherRepository publisherRepository,
 			IGenreRepository genreRepository,
@@ -34,7 +34,8 @@ namespace GameStore.Services.Concrete
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
-            _localizer = localizer;
+			_inputLocalizer = inputLocalizer;
+			_outputLocalizer = outputLocalizer;
 			_gameRepository = gameRepository;
 			_publisherRepository = publisherRepository;
 			_platformTypeRepository = platformTypeRepository;
@@ -45,9 +46,9 @@ namespace GameStore.Services.Concrete
 		{
 			AddDefaultGenreIfInputIsEmpty(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
-			MapEmbeddedEntities(gameDto, game);
-            game = _localizer.Localize(language, game);
-            game.ViewsCount = 0;
+			MapEmbeddedEntities(language, gameDto, game);
+			game = _inputLocalizer.Localize(language, game);
+			game.ViewsCount = 0;
 			game.DateAdded = DateTime.UtcNow;
 			_gameRepository.Insert(game);
 			_unitOfWork.Save();
@@ -57,10 +58,10 @@ namespace GameStore.Services.Concrete
 		{
 			AddDefaultGenreIfInputIsEmpty(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
-            game.IsUpdated = true;
-			game = MapEmbeddedEntities(gameDto, game);
-            game = _localizer.Localize(language, game);
-            _gameRepository.Update(game);
+			game.IsUpdated = true;
+			game = MapEmbeddedEntities(language, gameDto, game);
+			game = _inputLocalizer.Localize(language, game);
+			_gameRepository.Update(game);
 			_unitOfWork.Save();
 		}
 
@@ -72,11 +73,12 @@ namespace GameStore.Services.Concrete
 
 		public GameDto GetSingle(string language, string gameKey)
 		{
-			var game = _gameRepository.GetSingle(language, g => g.Key.ToLower() == gameKey.ToLower());
-			game = ConvertToPoco(game);
+			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
+			//game = ConvertToPoco(language, game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
+			game = _outputLocalizer.Localize(language, game);
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 
 			return gameDto;
@@ -90,31 +92,38 @@ namespace GameStore.Services.Concrete
 			{
 				var filter = _mapper.Map<GameFilterDto, GameFilter>(filterDto);
 				games = allowDeleted
-					? _gameRepository.GetAll(language, filter, itemsToSkip, itemsToTake)
-					: _gameRepository.GetAll(language, filter, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
+					? _gameRepository.GetAll(filter, itemsToSkip, itemsToTake)
+					: _gameRepository.GetAll(filter, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 			else
 			{
 				games = allowDeleted
-					? _gameRepository.GetAll(language, null, itemsToSkip, itemsToTake)
-					: _gameRepository.GetAll(language, null, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
+					? _gameRepository.GetAll(null, itemsToSkip, itemsToTake)
+					: _gameRepository.GetAll(null, itemsToSkip, itemsToTake, g => g.IsDeleted == false);
 			}
 
-			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+			var gamesList = games.ToList();
+
+			foreach (var game in gamesList)
+			{
+				_outputLocalizer.Localize(language, game);
+			}
+
+			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(gamesList);
 
 			return gameDtos;
 		}
 
 		public int GetCount(GameFilterDto gameFilter = null)
 		{
-			if (gameFilter != null)
+			if (gameFilter == null)
 			{
-				var filter = _mapper.Map<GameFilterDto, GameFilter>(gameFilter);
-
-				return _gameRepository.GetAll(DefaultLanguage, filter).Count();
+				return _gameRepository.GetAll().Count();
 			}
 
-			return _gameRepository.GetAll(DefaultLanguage).Count();
+			var filter = _mapper.Map<GameFilterDto, GameFilter>(gameFilter);
+
+			return _gameRepository.GetAll(filter).Count();
 		}
 
 		public bool Contains(string gameKey)
@@ -122,20 +131,20 @@ namespace GameStore.Services.Concrete
 			return _gameRepository.Contains(g => g.Key == gameKey);
 		}
 
-		private Game ConvertToPoco(Game game)
+		private Game ConvertToPoco(string language, Game game)
 		{
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 			var result = _mapper.Map<GameDto, Game>(gameDto);
-			result = MapEmbeddedEntities(gameDto, result);
+			result = MapEmbeddedEntities(language, gameDto, result);
 
 			return result;
 		}
 
-		private Game MapEmbeddedEntities(GameDto input, Game result)
+		private Game MapEmbeddedEntities(string language, GameDto input, Game result)
 		{
-			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(DefaultLanguage, g => g.Name == n)));
-			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(DefaultLanguage, p => p.Type == t)));
-			result.Publisher = _publisherRepository.GetSingle(DefaultLanguage, p => p.CompanyName == input.PublisherInput);
+			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Language.Name == language && l.Name == n))));
+			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.PlatformTypeLocales.Any(l => l.Language.Name == language && l.Type == t))));
+			result.Publisher = _publisherRepository.GetSingle(p => p.CompanyName == input.PublisherInput);
 
 			return result;
 		}
