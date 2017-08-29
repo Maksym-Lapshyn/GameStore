@@ -17,14 +17,12 @@ namespace GameStore.DAL.Concrete.Common
 		private readonly IEfGameRepository _efRepository;
 		private readonly IMongoGameRepository _mongoRepository;
 		private readonly IPipeline<IQueryable<Game>> _pipeline;
-		private readonly IEfFilterMapper _efFilterMapper;
-		private readonly IMongoFilterMapper _mongoFilterMapper;
+		private readonly IFilterMapper _filterMapper;
 		private readonly ISynchronizer<Game> _synchronizer;
 		private readonly ICopier<Game> _copier;
 
 		public GameRepository(IPipeline<IQueryable<Game>> pipeline,
-			IEfFilterMapper efFilterMapper,
-			IMongoFilterMapper mongoFilterMapper,
+			IFilterMapper filterMapper,
 			IEfGameRepository efRepository,
 			IMongoGameRepository mongoRepository,
 			ISynchronizer<Game> synchronizer,
@@ -33,8 +31,7 @@ namespace GameStore.DAL.Concrete.Common
 			_efRepository = efRepository;
 			_mongoRepository = mongoRepository;
 			_pipeline = pipeline;
-			_mongoFilterMapper = mongoFilterMapper;
-			_efFilterMapper = efFilterMapper;
+			_filterMapper = filterMapper;
 			_synchronizer = synchronizer;
 			_copier = copier;
 		}
@@ -46,10 +43,8 @@ namespace GameStore.DAL.Concrete.Common
 
 			if (filter != null)
 			{
-				_efFilterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
+				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				efQuery = _pipeline.Process(efQuery);
-				_pipeline.Clear();
-				_mongoFilterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
 				mongoQuery = _pipeline.Process(mongoQuery);
 			}
 

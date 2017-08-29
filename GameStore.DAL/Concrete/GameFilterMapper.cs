@@ -1,15 +1,14 @@
 ﻿using GameStore.Common.Entities;
 using GameStore.Common.Enums;
 using GameStore.DAL.Abstract;
-using GameStore.DAL.Abstract.MongoDb;
 using GameStore.DAL.Concrete.Filters;
 using GameStore.DAL.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameStore.DAL.Concrete.MongoDb
+namespace GameStore.DAL.Concrete
 {
-	public class MongoFilterMapper : IMongoFilterMapper
+	public class GameFilterMapper : IFilterMapper
 	{
 		private readonly List<IFilter<IQueryable<Game>>> _filters = new List<IFilter<IQueryable<Game>>>();
 
@@ -17,7 +16,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 		{
 			if (filter.GenresInput.Count != 0)
 			{
-				_filters.Add(new MongoGenreFilter(filter.GenresInput));
+				_filters.Add(new GenreFilter(filter.GenresInput));
 			}
 
 			if (filter.PlatformTypesInput.Count != 0)
@@ -27,7 +26,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 			if (filter.PublishersInput.Count != 0)
 			{
-				_filters.Add(new MongoPublisherFilter(filter.PublishersInput));
+				_filters.Add(new PublisherFilter(filter.PublishersInput));
 			}
 
 			if (filter.MinPrice != default(decimal))

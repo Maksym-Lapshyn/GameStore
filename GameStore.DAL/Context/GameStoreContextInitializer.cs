@@ -489,7 +489,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Activision",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "activision.com"
 				},
 
@@ -531,7 +545,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Valve",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "valve.com"
 				},
 
@@ -572,7 +600,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Atari",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "atari.com"
 				},
 
@@ -614,7 +656,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Nintendo",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "nintendo.com"
 				},
 
@@ -657,7 +713,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Sega",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "sega.com"
 				},
 
@@ -700,7 +770,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Dendy",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "dendy.com"
 				},
 
@@ -745,7 +829,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Microsoft",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "microsoft.com"
 				},
 
@@ -786,7 +884,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Blizzard",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "blizzard.com"
 				},
 
@@ -828,7 +940,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Ubisoft",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "ubisoft.com"
 				},
 
@@ -870,7 +996,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Electronic Arts",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "ea.com"
 				},
 
@@ -914,7 +1054,21 @@ namespace GameStore.DAL.Context
 				Publisher = new Publisher
 				{
 					CompanyName = "Sony",
-					Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+					PublisherLocales = new List<PublisherLocale>
+					{
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., also known as Activision, is an American video game publisher. It was founded on October 1, 1979 and was the world's first independent developer and distributor of video games for gaming consoles.",
+							Language = context.Languages.First(l => l.Name == "en")
+						},
+
+						new PublisherLocale
+						{
+							Description = "Activision Publishing, Inc., также известная как Activision, является издателем американской видеоигры. Она была основана 1 октября 1979 года и была первым независимым разработчиком и дистрибьютором видеоигр в игровых консолях в мире",
+							Language = context.Languages.First(l => l.Name == "ru")
+						}
+					},
+
 					HomePage = "Sony.com"
 				},
 

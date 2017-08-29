@@ -73,7 +73,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var gameDto = _gameService.GetSingle(key, CurrentLanguage);
+			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<GameDto, GameViewModel>(gameDto);
 			model.GenresData = GetGenres();
 			model.PublisherData = GetPublishers();

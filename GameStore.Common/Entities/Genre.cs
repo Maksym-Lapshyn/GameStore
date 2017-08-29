@@ -9,7 +9,6 @@ namespace GameStore.Common.Entities
 	public class Genre : BaseEntity
 	{
 		[BsonElement("CategoryName")]
-		[NotMapped]
 		public string Name { get; set; }
 
 		[BsonElement("CategoryID")]

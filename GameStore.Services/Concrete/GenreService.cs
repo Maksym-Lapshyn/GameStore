@@ -47,7 +47,8 @@ namespace GameStore.Services.Concrete
 
 		public GenreDto GetSingle(string language, string name)
 		{
-			var genre = _genreRepository.GetSingle(g => g.Name.ToLower() == name.ToLower());
+			var genre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name.ToLower() == name.ToLower()) 
+				|| g.Name.ToLower() == name.ToLower());
 			genre = _outputLocalizer.Localize(language, genre);
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
@@ -57,7 +58,7 @@ namespace GameStore.Services.Concrete
 		public void Create(string language, GenreDto genreDto)
 		{
 			var genre = _mapper.Map<GenreDto, Genre>(genreDto);
-			genre = MapEmbeddedEntities(language, genreDto, genre);
+			genre = MapEmbeddedEntities(genreDto, genre);
 			genre = _inputLocalizer.Localize(language, genre);
 			_genreRepository.Insert(genre);
 			_unitOfWork.Save();
@@ -67,7 +68,7 @@ namespace GameStore.Services.Concrete
 		{
 			var genre = _genreRepository.GetSingle(g => g.Id == genreDto.Id);
 			genre = _mapper.Map(genreDto, genre);
-			genre = MapEmbeddedEntities(language, genreDto, genre);
+			genre = MapEmbeddedEntities(genreDto, genre);
 			genre = _inputLocalizer.Localize(language, genre);
 			_genreRepository.Update(genre);
 			_unitOfWork.Save();
@@ -81,14 +82,14 @@ namespace GameStore.Services.Concrete
 
 		public bool Contains(string language, string name)
 		{
-			return _genreRepository.Contains(g => g.GenreLocales.First(l => l.Language.Name == language).Name == name);
+			return _genreRepository.Contains(g => g.GenreLocales.Any(l => l.Language.Name == name));
 		}
 
-		private Genre MapEmbeddedEntities(string language, GenreDto input, Genre result)
+		private Genre MapEmbeddedEntities(GenreDto input, Genre result)
 		{
 			if (input.ParentGenreInput != null)
 			{
-				result.ParentGenre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Language.Name == language && l.Name == input.ParentGenreInput));
+				result.ParentGenre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == input.ParentGenreInput));
 			}
 
 			return result;

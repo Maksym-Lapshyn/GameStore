@@ -10,12 +10,15 @@ namespace GameStore.Services.Concrete
 
 		private readonly IOutputLocalizer<Genre> _genreLocalizer;
 		private readonly IOutputLocalizer<PlatformType> _platformTypeLocalizer;
+		private readonly IOutputLocalizer<Publisher> _publisherLocalizer;
 
 		public GameOutputLocalizer(IOutputLocalizer<Genre> genreLocalizer,
-			IOutputLocalizer<PlatformType> platformTypeLocalizer)
+			IOutputLocalizer<PlatformType> platformTypeLocalizer,
+			IOutputLocalizer<Publisher> publisherLocalizer)
 		{
 			_genreLocalizer = genreLocalizer;
 			_platformTypeLocalizer = platformTypeLocalizer;
+			_publisherLocalizer = publisherLocalizer;
 		}
 
 		public Game Localize(string language, Game entity)
@@ -40,6 +43,8 @@ namespace GameStore.Services.Concrete
 				{
 					entity.PlatformTypes.ToList()[i] = _platformTypeLocalizer.Localize(language, entity.PlatformTypes.ToList()[i]);
 				}
+
+				entity.Publisher = _publisherLocalizer.Localize(language, entity.Publisher);
 			}
 			else
 			{

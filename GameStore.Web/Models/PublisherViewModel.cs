@@ -10,7 +10,6 @@ namespace GameStore.Web.Models
 		[Display(Name = "CompanyName", ResourceType = typeof(GlobalResource))]
 		public string CompanyName { get; set; }
 
-		[Required(ErrorMessageResourceName = "PublisherDescriptionIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
 		[Display(Name = "PublisherDescription", ResourceType = typeof(GlobalResource))]
 		public string Description { get; set; }
 

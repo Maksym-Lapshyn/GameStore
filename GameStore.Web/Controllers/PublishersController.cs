@@ -36,6 +36,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult New(PublisherViewModel model)
 		{
 			CheckIfCompanyNameIsUnique(model);
+			CheckIfDescriptionIsNull(model);
 
 			if (!ModelState.IsValid)
 			{
@@ -61,6 +62,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult Update(PublisherViewModel model)
 		{
 			CheckIfCompanyNameIsUnique(model);
+			CheckIfDescriptionIsNull(model);
 
 			if (!ModelState.IsValid)
 			{
@@ -108,6 +110,14 @@ namespace GameStore.Web.Controllers
 			if (existingPublisher.Id != model.Id)
 			{
 				ModelState.AddModelError("CompanyName", GlobalResource.PublisherWithSuchCompanyNameAlreadyExists);
+			}
+		}
+
+		private void CheckIfDescriptionIsNull(PublisherViewModel model)
+		{
+			if (model.Description == null)
+			{
+				ModelState.AddModelError("Description", GlobalResource.DescriptionIsRequired);
 			}
 		}
 	}

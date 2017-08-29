@@ -9,8 +9,6 @@ namespace GameStore.Web
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-			routes.LowercaseUrls = true;
-
 			routes.MapRoute(
 				"",
 				"{lang}/{controller}",

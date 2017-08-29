@@ -46,7 +46,7 @@ namespace GameStore.Services.Concrete
 		{
 			AddDefaultGenreIfInputIsEmpty(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
-			MapEmbeddedEntities(language, gameDto, game);
+			MapEmbeddedEntities(gameDto, game);
 			game = _inputLocalizer.Localize(language, game);
 			game.ViewsCount = 0;
 			game.DateAdded = DateTime.UtcNow;
@@ -59,7 +59,7 @@ namespace GameStore.Services.Concrete
 			AddDefaultGenreIfInputIsEmpty(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
-			game = MapEmbeddedEntities(language, gameDto, game);
+			game = MapEmbeddedEntities(gameDto, game);
 			game = _inputLocalizer.Localize(language, game);
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -128,22 +128,22 @@ namespace GameStore.Services.Concrete
 
 		public bool Contains(string gameKey)
 		{
-			return _gameRepository.Contains(g => g.Key == gameKey);
+			return _gameRepository.Contains(g => g.Key.ToLower() == gameKey.ToLower());
 		}
 
-		private Game ConvertToPoco(string language, Game game)
+		/*private Game ConvertToPoco(string language, Game game)
 		{
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 			var result = _mapper.Map<GameDto, Game>(gameDto);
 			result = MapEmbeddedEntities(language, gameDto, result);
 
 			return result;
-		}
+		}*/
 
-		private Game MapEmbeddedEntities(string language, GameDto input, Game result)
+		private Game MapEmbeddedEntities(GameDto input, Game result)
 		{
-			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Language.Name == language && l.Name == n))));
-			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.PlatformTypeLocales.Any(l => l.Language.Name == language && l.Type == t))));
+			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == n) || g.Name == n)));
+			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.PlatformTypeLocales.Any(l => l.Type == t) || p.Type == t)));
 			result.Publisher = _publisherRepository.GetSingle(p => p.CompanyName == input.PublisherInput);
 
 			return result;

@@ -26,9 +26,9 @@ namespace GameStore.Common.Entities
 		public string HomePage { get; set; }
 
 		[BsonIgnore]
-		public ICollection<Game> Games { get; set; } = new List<Game>();
+		public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 
 		[BsonIgnore]
-		public ICollection<PublisherLocale> PublisherLocales { get; set; } = new List<PublisherLocale>();
+		public virtual ICollection<PublisherLocale> PublisherLocales { get; set; } = new List<PublisherLocale>();
 	}
 }
