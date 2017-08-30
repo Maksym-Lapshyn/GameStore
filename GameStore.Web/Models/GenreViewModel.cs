@@ -1,5 +1,5 @@
-﻿using GameStore.Common.Entities;
-using GameStore.Web.App_LocalResources;
+﻿using GameStore.Common.App_LocalResources;
+using GameStore.Common.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

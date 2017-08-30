@@ -1,5 +1,5 @@
-﻿using GameStore.Common.Enums;
-using GameStore.Web.App_LocalResources;
+﻿using GameStore.Common.App_LocalResources;
+using GameStore.Common.Enums;
 using GameStore.Web.Infrastructure.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

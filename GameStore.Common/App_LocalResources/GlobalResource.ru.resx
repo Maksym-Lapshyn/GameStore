@@ -519,4 +519,31 @@
   <data name="SortyByMostViewed" xml:space="preserve">
     <value>По количеству просмотров</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Активный</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Guest" xml:space="preserve">
+    <value>Гость</value>
+  </data>
+  <data name="IsDeleted" xml:space="preserve">
+    <value>Сущность удалена</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Менеджер</value>
+  </data>
+  <data name="Moderator" xml:space="preserve">
+    <value>Модератор</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Оплачен</value>
+  </data>
+  <data name="Shipped" xml:space="preserve">
+    <value>Доставлен</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
 </root>

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GameStore.Common.App_LocalResources;
 using GameStore.Common.Entities;
-using GameStore.Web.App_LocalResources;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {

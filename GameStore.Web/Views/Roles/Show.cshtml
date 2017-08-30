@@ -1,8 +1,10 @@
-﻿@model GameStore.Web.Models.RoleViewModel
+﻿@using System.Resources
+@model GameStore.Web.Models.RoleViewModel
 
 @{
 	ViewBag.Title = Model.Name;
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var resourceManager = new ResourceManager(typeof(GlobalResource));
 }
 
 <h1>@Model.Name</h1>
@@ -13,7 +15,7 @@
 </p>
 <b>@Html.LabelFor(m => m.AccessLevel)</b>
 <p>
-	@Html.DisplayFor(m => m.AccessLevel)
+	@resourceManager.GetString(Model.AccessLevel.ToString())
 </p>
 <b>@Html.LabelFor(m => m.IsDeleted)</b>
 <p>@Html.DisplayFor(m => m.IsDeleted)</p>

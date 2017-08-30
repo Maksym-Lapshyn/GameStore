@@ -519,4 +519,31 @@
   <data name="SortyByMostViewed" xml:space="preserve">
     <value>By most viewed</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Guest" xml:space="preserve">
+    <value>Guest</value>
+  </data>
+  <data name="IsDeleted" xml:space="preserve">
+    <value>Entity is deleted</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="Moderator" xml:space="preserve">
+    <value>Moderator</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="Shipped" xml:space="preserve">
+    <value>Shipped</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
 </root>

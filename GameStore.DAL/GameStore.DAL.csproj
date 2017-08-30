@@ -94,7 +94,6 @@
     <Compile Include="Abstract\ISynchronizer.cs" />
     <Compile Include="Abstract\Common\IUnitOfWork.cs" />
     <Compile Include="Abstract\Localization\IPlatformTypeLocaleRepository.cs" />
-    <Compile Include="Abstract\Localization\IPublisherLocaleRepository.cs" />
     <Compile Include="Abstract\Localization\IRoleLocaleRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />

@@ -154,16 +154,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_LocalResources\GlobalResource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResource.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_LocalResources\GlobalResource.ru.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GlobalResource.ru.resx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\WebProfile.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -278,17 +268,6 @@
       <Project>{c5e410dd-69d9-4a8b-acab-1414ba91dcbf}</Project>
       <Name>GameStore.Services</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="App_LocalResources\GlobalResource.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GlobalResource.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="App_LocalResources\GlobalResource.ru.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GlobalResource.ru.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

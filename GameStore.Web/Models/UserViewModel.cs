@@ -1,5 +1,5 @@
-﻿using GameStore.Common.Entities;
-using GameStore.Web.App_LocalResources;
+﻿using GameStore.Common.App_LocalResources;
+using GameStore.Common.Entities;
 using GameStore.Web.Infrastructure.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,7 +24,6 @@ namespace GameStore.Web.Models
 		public string Password { get; set; }
 
 		public List<RoleViewModel> RolesData { get; set; }
-
 
 		[Display(Name = "RoleName", ResourceType = typeof(GlobalResource))]
 		[CannotBeEmpty(ErrorMessageResourceName = "RolesInputCannotBeEmpty", ErrorMessageResourceType = typeof(GlobalResource))]

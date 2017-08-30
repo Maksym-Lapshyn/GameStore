@@ -79,6 +79,24 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administrator.
+        /// </summary>
+        public static string Administrator {
+            get {
+                return ResourceManager.GetString("Administrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentication.
         /// </summary>
         public static string Authentication {
@@ -394,6 +412,15 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Guest.
+        /// </summary>
+        public static string Guest {
+            get {
+                return ResourceManager.GetString("Guest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello.
         /// </summary>
         public static string Hello {
@@ -417,6 +444,15 @@ namespace GameStore.Common.App_LocalResources {
         public static string HomePageIsRequired {
             get {
                 return ResourceManager.GetString("HomePageIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity is deleted.
+        /// </summary>
+        public static string IsDeleted {
+            get {
+                return ResourceManager.GetString("IsDeleted", resourceCulture);
             }
         }
         
@@ -484,6 +520,15 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manager.
+        /// </summary>
+        public static string Manager {
+            get {
+                return ResourceManager.GetString("Manager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum price.
         /// </summary>
         public static string MaximumPrice {
@@ -498,6 +543,15 @@ namespace GameStore.Common.App_LocalResources {
         public static string MinimumPrice {
             get {
                 return ResourceManager.GetString("MinimumPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moderator.
+        /// </summary>
+        public static string Moderator {
+            get {
+                return ResourceManager.GetString("Moderator", resourceCulture);
             }
         }
         
@@ -615,6 +669,15 @@ namespace GameStore.Common.App_LocalResources {
         public static string Other {
             get {
                 return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paid.
+        /// </summary>
+        public static string Paid {
+            get {
+                return ResourceManager.GetString("Paid", resourceCulture);
             }
         }
         
@@ -867,6 +930,15 @@ namespace GameStore.Common.App_LocalResources {
         public static string Russian {
             get {
                 return ResourceManager.GetString("Russian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shipped.
+        /// </summary>
+        public static string Shipped {
+            get {
+                return ResourceManager.GetString("Shipped", resourceCulture);
             }
         }
         
@@ -1236,6 +1308,15 @@ namespace GameStore.Common.App_LocalResources {
         public static string UpdateUser {
             get {
                 return ResourceManager.GetString("UpdateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
             }
         }
         

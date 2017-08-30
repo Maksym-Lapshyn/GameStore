@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.Common.App_LocalResources;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using GameStore.Web.App_LocalResources;
 
 namespace GameStore.Web.Models
 {

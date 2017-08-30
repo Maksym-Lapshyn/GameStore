@@ -5,7 +5,6 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -15,7 +14,6 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IInputLocalizer<Genre> _inputLocalizer;
 		private readonly IOutputLocalizer<Genre> _outputLocalizer;
-		private readonly IGenreLocaleRepository _localeRepository;
 		private readonly IGenreRepository _genreRepository;
 
 
@@ -23,7 +21,6 @@ namespace GameStore.Services.Concrete
 			IMapper mapper,
 			IInputLocalizer<Genre> inputLocalizer,
 			IOutputLocalizer<Genre> outputLocalizer,
-			IGenreLocaleRepository localeRepository,
 			IGenreRepository genreRepository
 			)
 		{
@@ -31,7 +28,6 @@ namespace GameStore.Services.Concrete
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
-			_localeRepository = localeRepository;
 			_genreRepository = genreRepository;
 		}
 

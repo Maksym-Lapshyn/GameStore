@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GameStore.Common.App_LocalResources;
+using System;
 using System.Collections.Generic;
 using System.Resources;
 using System.Web.Mvc;
-using GameStore.Web.App_LocalResources;
 
 namespace GameStore.Web.Infrastructure.Helpers
 {

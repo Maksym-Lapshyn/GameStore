@@ -1,6 +1,6 @@
-﻿using GameStore.Common.Entities;
+﻿using GameStore.Common.App_LocalResources;
+using GameStore.Common.Entities;
 using GameStore.Common.Enums;
-using GameStore.Web.App_LocalResources;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models

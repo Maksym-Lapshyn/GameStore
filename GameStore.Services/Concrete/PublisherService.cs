@@ -15,25 +15,19 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IInputLocalizer<Publisher> _inputLocalizer;
 		private readonly IOutputLocalizer<Publisher> _outputLocalizer;
-		private readonly IPublisherLocaleRepository _localeRepository;
 		private readonly IPublisherRepository _publisherRepository;
-		private readonly IGameRepository _gameRepository;
 
 		public PublisherService(IUnitOfWork unitOfWork,
 			IMapper mapper,
 			IInputLocalizer<Publisher> inputLocalizer,
 			IOutputLocalizer<Publisher> outputLocalizer,
-			IPublisherLocaleRepository localeRepository,
-			IPublisherRepository publisherRepository,
-			IGameRepository gameRepository)
+			IPublisherRepository publisherRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
-			_localeRepository = localeRepository;
 			_publisherRepository = publisherRepository;
-			_gameRepository = gameRepository;
 		}
 
 		public void Create(string language, PublisherDto publisherDto)

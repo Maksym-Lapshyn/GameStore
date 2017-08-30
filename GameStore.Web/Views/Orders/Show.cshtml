@@ -1,9 +1,11 @@
-﻿@using GameStore.Common.Enums
+﻿@using System.Resources
+@using GameStore.Common.Enums
 @model GameStore.Web.Models.OrderViewModel
 
 @{
 	ViewBag.Title = GlobalResource.Orders;
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var resourceManager = new ResourceManager(typeof(GlobalResource));
 }
 
 <h1>@GlobalResource.Orders</h1>
@@ -31,7 +33,7 @@
 }
 
 <b>@Html.LabelFor(m => m.OrderStatus)</b>
-<p>@Html.DisplayFor(m => m.OrderStatus)</p>
+<p>@resourceManager.GetString(Model.OrderStatus.ToString())</p>
 <b>@Html.LabelFor(m => m.TotalPrice)</b>
 <p>@Html.DisplayFor(m => m.TotalPrice)</p>
 

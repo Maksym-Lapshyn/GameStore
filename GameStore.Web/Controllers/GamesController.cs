@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using GameStore.Authentification.Abstract;
+using GameStore.Common.App_LocalResources;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
-using GameStore.Web.App_LocalResources;
 using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System;
