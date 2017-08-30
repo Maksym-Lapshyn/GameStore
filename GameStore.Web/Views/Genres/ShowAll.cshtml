@@ -17,8 +17,10 @@
 		<hr />
 	}
 }
-
-<p>There are no genres in the system</p>
+else
+{
+	<p>@GlobalResource.ThereAreNoGenresInTheSystem</p>
+}
 
 <p>
 	@Html.ActionLink(GlobalResource.ToCreate, "New", "Genres", null, new {@class = "btn btn-default"})

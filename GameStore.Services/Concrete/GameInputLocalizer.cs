@@ -1,6 +1,6 @@
 ﻿using GameStore.Common.Entities;
 using GameStore.Common.Entities.Localization;
-using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.Localization;
 using GameStore.Services.Abstract;
 using System.Linq;
 

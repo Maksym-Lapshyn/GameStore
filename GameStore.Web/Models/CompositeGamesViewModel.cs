@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using GameStore.Web.App_LocalResources;
 
 namespace GameStore.Web.Models
 {
@@ -21,6 +23,7 @@ namespace GameStore.Web.Models
 
 		public int CurrentPage { get; set; }
 
+		[Display(Name = "ItemsPerPage", ResourceType = typeof(GlobalResource))]
 		public int PageSize { get; set; }
 
 		public int TotalPages { get; set; }

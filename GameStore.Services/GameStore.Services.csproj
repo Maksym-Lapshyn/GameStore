@@ -74,6 +74,7 @@
     <Compile Include="Concrete\RoleInputLocalizer.cs" />
     <Compile Include="Concrete\RoleOutputLocalizer.cs" />
     <Compile Include="Concrete\RoleService.cs" />
+    <Compile Include="Concrete\UserOutputLocalizer.cs" />
     <Compile Include="Concrete\UserService.cs" />
     <Compile Include="Dtos\CommentDto.cs" />
     <Compile Include="Dtos\GameFilterDto.cs" />

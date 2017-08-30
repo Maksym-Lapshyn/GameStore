@@ -18,7 +18,9 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 		public IQueryable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null)
 		{
-			return predicate != null ? _collection.AsQueryable().Where(predicate) : _collection.AsQueryable();
+			return predicate != null 
+				? _collection.AsQueryable().Where(predicate) 
+				: _collection.AsQueryable();
 		}
 
 		public Publisher GetSingle(Expression<Func<Publisher, bool>> predicate)

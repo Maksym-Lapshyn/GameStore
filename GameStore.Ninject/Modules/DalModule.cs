@@ -41,7 +41,6 @@ namespace GameStore.Ninject.Modules
 			Bind<IEfPublisherRepository>().To<EfPublisherRepository>();
 			Bind<IEfUserRepository>().To<EfUserRepository>();
 			Bind<IEfRoleRepository>().To<EfRoleRepository>();
-			Bind<IEfLanguageRepository>().To<EfLanguageRepository>();
 
 			Bind<IMongoGameRepository>().To<MongoGameRepository>();
 			Bind<IMongoShipperRepository>().To<MongoShipperRepository>();
@@ -57,12 +56,6 @@ namespace GameStore.Ninject.Modules
 			Bind<ICopier<Game>>().To<GameCopier>();
 			Bind<ICopier<Genre>>().To<GenreCopier>();
 			Bind<ICopier<Publisher>>().To<PublisherCopier>();
-
-			Bind<IOutputLocalizer<Game>>().To<GameOutputLocalizer>();
-			Bind<IOutputLocalizer<Genre>>().To<GenreOutputLocalizer>();
-			Bind<IOutputLocalizer<Publisher>>().To<PublisherOutputLocalizer>();
-			Bind<IOutputLocalizer<Role>>().To<RoleOutputLocalizer>();
-			Bind<IOutputLocalizer<PlatformType>>().To<PlatformTypeOutputLocalizer>();
 		}
 	}
 }

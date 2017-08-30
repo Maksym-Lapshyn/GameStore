@@ -5,6 +5,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -14,12 +15,14 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IInputLocalizer<Role> _inputLocalizer;
 		private readonly IOutputLocalizer<Role> _outputLocalizer;
+		private readonly IRoleLocaleRepository _localeRepository;
 		private readonly IRoleRepository _roleRepository;
 
 		public RoleService(IUnitOfWork unitOfWork,
 			IMapper mapper,
 			IInputLocalizer<Role> inputLocalizer,
 			IOutputLocalizer<Role> outputLocalizer,
+			IRoleLocaleRepository localeRepository,
 			IRoleRepository roleRepository
 			)
 		{
@@ -27,6 +30,7 @@ namespace GameStore.Services.Concrete
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
+			_localeRepository = localeRepository;
 			_roleRepository = roleRepository;
 		}
 
@@ -40,7 +44,7 @@ namespace GameStore.Services.Concrete
 
 		public RoleDto GetSingle(string language, string name)
 		{
-			var role = _roleRepository.GetSingle(r => r.Name == name);
+			var role = _roleRepository.GetSingle(r => r.RoleLocales.Any(l => l.Name == name));
 			role = _outputLocalizer.Localize(language, role);
 			var roleDto = _mapper.Map<Role, RoleDto>(role);
 
@@ -63,6 +67,7 @@ namespace GameStore.Services.Concrete
 		{
 			var role = _roleRepository.GetSingle(r => r.Id == roleDto.Id);
 			role = _mapper.Map(roleDto, role);
+			role.RoleLocales = _localeRepository.GetAllBy(role.Id).ToList();
 			role = _inputLocalizer.Localize(language, role);
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
@@ -78,7 +83,7 @@ namespace GameStore.Services.Concrete
 
 		public bool Contains(string language, string name)
 		{
-			return _roleRepository.Contains(r => r.RoleLocales.First(l => l.Language.Name == language).Name == name);
+			return _roleRepository.Contains(r => r.RoleLocales.Any(l => l.Language.Name == language && l.Name == name));
 		}
 	}
 }

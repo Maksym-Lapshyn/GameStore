@@ -61,7 +61,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var userDto = _userService.GetSingle(key);
+			var userDto = _userService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<UserDto, UserViewModel>(userDto);
 			model.RolesData = GetRoles();
 
@@ -87,7 +87,7 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult Show(string key)
 		{
-			var roleDto = _userService.GetSingle(key);
+			var roleDto = _userService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<UserDto, UserViewModel>(roleDto);
 
 			return View(model);
@@ -120,7 +120,7 @@ namespace GameStore.Web.Controllers
 				return;
 			}
 
-			var existingUser = _userService.GetSingle(user.Login);
+			var existingUser = _userService.GetSingle(CurrentLanguage, user.Login);
 
 			if (existingUser.Id != user.Id)
 			{

@@ -5,6 +5,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -14,6 +15,7 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IInputLocalizer<Genre> _inputLocalizer;
 		private readonly IOutputLocalizer<Genre> _outputLocalizer;
+		private readonly IGenreLocaleRepository _localeRepository;
 		private readonly IGenreRepository _genreRepository;
 
 
@@ -21,6 +23,7 @@ namespace GameStore.Services.Concrete
 			IMapper mapper,
 			IInputLocalizer<Genre> inputLocalizer,
 			IOutputLocalizer<Genre> outputLocalizer,
+			IGenreLocaleRepository localeRepository,
 			IGenreRepository genreRepository
 			)
 		{
@@ -28,6 +31,7 @@ namespace GameStore.Services.Concrete
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
+			_localeRepository = localeRepository;
 			_genreRepository = genreRepository;
 		}
 
@@ -47,8 +51,7 @@ namespace GameStore.Services.Concrete
 
 		public GenreDto GetSingle(string language, string name)
 		{
-			var genre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name.ToLower() == name.ToLower()) 
-				|| g.Name.ToLower() == name.ToLower());
+			var genre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == name) || g.Name == name);
 			genre = _outputLocalizer.Localize(language, genre);
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
@@ -82,14 +85,14 @@ namespace GameStore.Services.Concrete
 
 		public bool Contains(string language, string name)
 		{
-			return _genreRepository.Contains(g => g.GenreLocales.Any(l => l.Language.Name == name));
+			return _genreRepository.Contains(g => g.GenreLocales.Any(l => l.Language.Name == language && l.Name == name));
 		}
 
 		private Genre MapEmbeddedEntities(GenreDto input, Genre result)
 		{
 			if (input.ParentGenreInput != null)
 			{
-				result.ParentGenre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == input.ParentGenreInput));
+				result.ParentGenre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == input.ParentGenreInput) || g.Name == input.ParentGenreInput);
 			}
 
 			return result;

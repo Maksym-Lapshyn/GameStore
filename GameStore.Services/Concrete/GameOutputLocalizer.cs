@@ -6,8 +6,6 @@ namespace GameStore.Services.Concrete
 {
 	public class GameOutputLocalizer : IOutputLocalizer<Game>
 	{
-		private const string DefaultLanguage = "en";
-
 		private readonly IOutputLocalizer<Genre> _genreLocalizer;
 		private readonly IOutputLocalizer<PlatformType> _platformTypeLocalizer;
 		private readonly IOutputLocalizer<Publisher> _publisherLocalizer;
@@ -28,37 +26,36 @@ namespace GameStore.Services.Concrete
 				return entity;
 			}
 
-			var gameLocale = entity.GameLocales.FirstOrDefault(l => l.Language.Name == language);
+			var gameLocale = entity.GameLocales.FirstOrDefault(l => l.Language.Name == language) ?? entity.GameLocales.First();
+			entity.Description = gameLocale.Description;
 
-			if (gameLocale != null)
+			if (entity.Genres.Count != 0)
 			{
-				entity.Description = gameLocale.Description;
-
-				for (var i = 0; i < entity.Genres.Count; i++)
+				foreach (var genre in entity.Genres)
+				{
+					_genreLocalizer.Localize(language, genre);
+				}
+				/*for (var i = 0; i < entity.Genres.Count; i++)
 				{
 					entity.Genres.ToList()[i] = _genreLocalizer.Localize(language, entity.Genres.ToList()[i]);
-				}
+				}*/
+			}
 
-				for (var i = 0; i < entity.PlatformTypes.Count; i++)
+			if (entity.PlatformTypes.Count != 0)
+			{
+				foreach (var platformType in entity.PlatformTypes)
+				{
+					_platformTypeLocalizer.Localize(language, platformType);
+				}
+				/*for (var i = 0; i < entity.PlatformTypes.Count; i++)
 				{
 					entity.PlatformTypes.ToList()[i] = _platformTypeLocalizer.Localize(language, entity.PlatformTypes.ToList()[i]);
-				}
-
-				entity.Publisher = _publisherLocalizer.Localize(language, entity.Publisher);
+				}*/
 			}
-			else
+
+			if (entity.Publisher != null)
 			{
-				entity.Description = entity.GameLocales.First(l => l.Language.Name == DefaultLanguage).Description;
-
-				for (var i = 0; i < entity.Genres.Count; i++)
-				{
-					entity.Genres.ToList()[i] = _genreLocalizer.Localize(DefaultLanguage, entity.Genres.ToList()[i]);
-				}
-
-				for (var i = 0; i < entity.PlatformTypes.Count; i++)
-				{
-					entity.PlatformTypes.ToList()[i] = _platformTypeLocalizer.Localize(DefaultLanguage, entity.PlatformTypes.ToList()[i]);
-				}
+				entity.Publisher = _publisherLocalizer.Localize(language, entity.Publisher);
 			}
 
 			return entity;

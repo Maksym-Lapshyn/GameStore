@@ -5,6 +5,7 @@ using GameStore.DAL.Abstract.Common;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Services.Concrete
 {
@@ -13,18 +14,21 @@ namespace GameStore.Services.Concrete
 		private const string DefaultRoleName = "User";
 
 		private readonly IMapper _mapper;
+		private readonly IOutputLocalizer<User> _userOutputLocalizer;
 		private readonly IUserRepository _userRepository;
 		private readonly IRoleRepository _roleRepository;
 		private readonly IHashGenerator<string> _hashGenerator;
 		private readonly IUnitOfWork _unitOfWork;
 
 		public UserService(IMapper mapper,
+			IOutputLocalizer<User> userOutputLocalizer,
 			IUserRepository userRepository,
 			IRoleRepository roleRepository,
 			IHashGenerator<string> hashGenerator,
 			IUnitOfWork unitOfWork)
 		{
 			_mapper = mapper;
+			_userOutputLocalizer = userOutputLocalizer;
 			_userRepository = userRepository;
 			_roleRepository = roleRepository;
 			_hashGenerator = hashGenerator;
@@ -41,9 +45,10 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
-		public UserDto GetSingle(string name)
+		public UserDto GetSingle(string language, string name)
 		{
 			var user = _userRepository.GetSingle(u => u.Login == name);
+			user = _userOutputLocalizer.Localize(language, user);
 			var userDto = _mapper.Map<User, UserDto>(user);
 
 			return userDto;
@@ -51,7 +56,8 @@ namespace GameStore.Services.Concrete
 
 		public IEnumerable<UserDto> GetAll()
 		{
-			var users = _userRepository.GetAll();
+			var users = _userRepository.GetAll().ToList();
+
 			return _mapper.Map<IEnumerable<User>, List<UserDto>>(users);
 		}
 
@@ -82,8 +88,7 @@ namespace GameStore.Services.Concrete
 		{
 			if (input.RolesInput.Count != 0)
 			{
-				result.Roles = new List<Role>();
-				input.RolesInput.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.Name == n)));
+				input.RolesInput.ForEach(n => result.Roles.Add(_roleRepository.GetSingle(r => r.RoleLocales.Any(l => l.Name == n))));
 			}
 
 			return result;

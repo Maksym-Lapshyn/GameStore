@@ -6,8 +6,6 @@ namespace GameStore.Services.Concrete
 {
 	public class PublisherOutputLocalizer : IOutputLocalizer<Publisher>
 	{
-		private const string DefaultLanguage = "en";
-
 		public Publisher Localize(string language, Publisher entity)
 		{
 			if (entity.PublisherLocales.Count == 0)
@@ -15,8 +13,8 @@ namespace GameStore.Services.Concrete
 				return entity;
 			}
 
-			var publisherLocale = entity.PublisherLocales.FirstOrDefault(l => l.Language.Name == language);
-			entity.Description = publisherLocale != null ? publisherLocale.Description : entity.PublisherLocales.First(l => l.Language.Name == DefaultLanguage).Description;
+			var publisherLocale = entity.PublisherLocales.FirstOrDefault(l => l.Language.Name == language) ?? entity.PublisherLocales.First();
+			entity.Description = publisherLocale.Description;
 
 			return entity;
 		}

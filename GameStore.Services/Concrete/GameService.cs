@@ -7,6 +7,7 @@ using GameStore.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -18,6 +19,7 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IInputLocalizer<Game> _inputLocalizer;
 		private readonly IOutputLocalizer<Game> _outputLocalizer;
+		private readonly IGameLocaleRepository _localeRepository;
 		private readonly IGameRepository _gameRepository;
 		private readonly IPublisherRepository _publisherRepository;
 		private readonly IGenreRepository _genreRepository;
@@ -27,6 +29,7 @@ namespace GameStore.Services.Concrete
 			IMapper mapper,
 			IInputLocalizer<Game> inputLocalizer,
 			IOutputLocalizer<Game> outputLocalizer,
+			IGameLocaleRepository localeRepository,
 			IGameRepository gameRepository,
 			IPublisherRepository publisherRepository,
 			IGenreRepository genreRepository,
@@ -36,6 +39,7 @@ namespace GameStore.Services.Concrete
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
+			_localeRepository = localeRepository;
 			_gameRepository = gameRepository;
 			_publisherRepository = publisherRepository;
 			_platformTypeRepository = platformTypeRepository;
@@ -60,6 +64,7 @@ namespace GameStore.Services.Concrete
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
 			game = MapEmbeddedEntities(gameDto, game);
+			game.GameLocales = _localeRepository.GetAllBy(game.Id).ToList();
 			game = _inputLocalizer.Localize(language, game);
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -74,7 +79,6 @@ namespace GameStore.Services.Concrete
 		public GameDto GetSingle(string language, string gameKey)
 		{
 			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
-			//game = ConvertToPoco(language, game);
 			game.ViewsCount++;
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -128,22 +132,13 @@ namespace GameStore.Services.Concrete
 
 		public bool Contains(string gameKey)
 		{
-			return _gameRepository.Contains(g => g.Key.ToLower() == gameKey.ToLower());
+			return _gameRepository.Contains(g => g.Key == gameKey);
 		}
-
-		/*private Game ConvertToPoco(string language, Game game)
-		{
-			var gameDto = _mapper.Map<Game, GameDto>(game);
-			var result = _mapper.Map<GameDto, Game>(gameDto);
-			result = MapEmbeddedEntities(language, gameDto, result);
-
-			return result;
-		}*/
 
 		private Game MapEmbeddedEntities(GameDto input, Game result)
 		{
 			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == n) || g.Name == n)));
-			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.PlatformTypeLocales.Any(l => l.Type == t) || p.Type == t)));
+			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.PlatformTypeLocales.Any(l => l.Type == t))));
 			result.Publisher = _publisherRepository.GetSingle(p => p.CompanyName == input.PublisherInput);
 
 			return result;

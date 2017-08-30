@@ -5,6 +5,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -14,6 +15,7 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IInputLocalizer<Publisher> _inputLocalizer;
 		private readonly IOutputLocalizer<Publisher> _outputLocalizer;
+		private readonly IPublisherLocaleRepository _localeRepository;
 		private readonly IPublisherRepository _publisherRepository;
 		private readonly IGameRepository _gameRepository;
 
@@ -21,6 +23,7 @@ namespace GameStore.Services.Concrete
 			IMapper mapper,
 			IInputLocalizer<Publisher> inputLocalizer,
 			IOutputLocalizer<Publisher> outputLocalizer,
+			IPublisherLocaleRepository localeRepository,
 			IPublisherRepository publisherRepository,
 			IGameRepository gameRepository)
 		{
@@ -28,6 +31,7 @@ namespace GameStore.Services.Concrete
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
+			_localeRepository = localeRepository;
 			_publisherRepository = publisherRepository;
 			_gameRepository = gameRepository;
 		}
@@ -42,7 +46,7 @@ namespace GameStore.Services.Concrete
 
 		public PublisherDto GetSingle(string language, string companyName)
 		{
-			var publisher = _publisherRepository.GetSingle(p => p.CompanyName.ToLower() == companyName.ToLower());
+			var publisher = _publisherRepository.GetSingle(p => p.CompanyName == companyName);
 			publisher = _outputLocalizer.Localize(language, publisher);
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 

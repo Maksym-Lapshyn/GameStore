@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GameStore.Web.App_LocalResources {
+namespace GameStore.Common.App_LocalResources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GameStore.Web.App_LocalResources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GameStore.Web.App_LocalResources.GlobalResource", typeof(GlobalResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GameStore.Common.App_LocalResources.GlobalResource", typeof(GlobalResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
