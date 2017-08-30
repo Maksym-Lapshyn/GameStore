@@ -33,7 +33,7 @@ namespace GameStore.Services.Concrete
 		public void Create(string language, PublisherDto publisherDto)
 		{
 			var publisher = _mapper.Map<PublisherDto, Publisher>(publisherDto);
-			publisher = _inputLocalizer.Localize(language, publisher);
+			_inputLocalizer.Localize(language, publisher);
 			_publisherRepository.Insert(publisher);
 			_unitOfWork.Save();
 		}
@@ -41,7 +41,7 @@ namespace GameStore.Services.Concrete
 		public PublisherDto GetSingle(string language, string companyName)
 		{
 			var publisher = _publisherRepository.GetSingle(p => p.CompanyName == companyName);
-			publisher = _outputLocalizer.Localize(language, publisher);
+			_outputLocalizer.Localize(language, publisher);
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;
@@ -65,7 +65,7 @@ namespace GameStore.Services.Concrete
 		{
 			var publisher = _publisherRepository.GetSingle(p => p.Id == publisherDto.Id);
 			_mapper.Map(publisherDto, publisher);
-			publisher = _inputLocalizer.Localize(language, publisher);
+			_inputLocalizer.Localize(language, publisher);
 			_publisherRepository.Update(publisher);
 			_unitOfWork.Save();
 		}

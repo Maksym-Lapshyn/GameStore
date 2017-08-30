@@ -15,7 +15,7 @@ namespace GameStore.Services.Concrete
 			_languageRepository = languageRepository;
 		}
 
-		public Role Localize(string language, Role entity)
+		public void Localize(string language, Role entity)
 		{
 			var roleLocale = entity.RoleLocales.FirstOrDefault(l => l.Language.Name == language);
 
@@ -31,8 +31,6 @@ namespace GameStore.Services.Concrete
 					Language = _languageRepository.GetSingleBy(language)
 				});
 			}
-
-			return entity;
 		}
 	}
 }

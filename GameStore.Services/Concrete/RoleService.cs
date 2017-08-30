@@ -37,7 +37,7 @@ namespace GameStore.Services.Concrete
 		public void Create(string language, RoleDto roleDto)
 		{
 			var role = _mapper.Map<RoleDto, Role>(roleDto);
-			role = _inputLocalizer.Localize(language, role);
+			_inputLocalizer.Localize(language, role);
 			_roleRepository.Create(role);
 			_unitOfWork.Save();
 		}
@@ -45,7 +45,7 @@ namespace GameStore.Services.Concrete
 		public RoleDto GetSingle(string language, string name)
 		{
 			var role = _roleRepository.GetSingle(r => r.RoleLocales.Any(l => l.Name == name));
-			role = _outputLocalizer.Localize(language, role);
+			_outputLocalizer.Localize(language, role);
 			var roleDto = _mapper.Map<Role, RoleDto>(role);
 
 			return roleDto;
@@ -68,7 +68,7 @@ namespace GameStore.Services.Concrete
 			var role = _roleRepository.GetSingle(r => r.Id == roleDto.Id);
 			role = _mapper.Map(roleDto, role);
 			role.RoleLocales = _localeRepository.GetAllBy(role.Id).ToList();
-			role = _inputLocalizer.Localize(language, role);
+			_inputLocalizer.Localize(language, role);
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
 		}

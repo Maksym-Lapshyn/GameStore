@@ -15,7 +15,7 @@ namespace GameStore.Services.Concrete
 			_languageRepository = languageRepository;
 		}
 
-		public Genre Localize(string language, Genre entity)
+		public void Localize(string language, Genre entity)
 		{
 			var genreLocale = entity.GenreLocales.FirstOrDefault(l => l.Language.Name == language);
 
@@ -33,8 +33,6 @@ namespace GameStore.Services.Concrete
 
 				entity.GenreLocales.Add(genreLocale);
 			}
-
-			return entity;
 		}
 	}
 }

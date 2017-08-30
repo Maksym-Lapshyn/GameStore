@@ -25,15 +25,9 @@ namespace GameStore.DAL.Context
 
 		public DbSet<Genre> Genres { get; set; }
 
-		public DbSet<GenreLocale> GenreLocales { get; set; }
-
 		public DbSet<PlatformType> PlatformTypes { get; set; }
 
-		public DbSet<PlatformTypeLocale> PlatformTypeLocales { get; set; }
-
 		public DbSet<Publisher> Publishers { get; set; }
-
-		public DbSet<PublisherLocale> PublisherLocales { get; set; }
 
 		public DbSet<Order> Orders { get; set; }
 

@@ -86,14 +86,12 @@
     <Compile Include="Abstract\IFilter.cs" />
     <Compile Include="Abstract\IFilterMapper.cs" />
     <Compile Include="Abstract\Localization\IGameLocaleRepository.cs" />
-    <Compile Include="Abstract\Localization\IGenreLocaleRepository.cs" />
     <Compile Include="Abstract\Localization\ILanguageRepository.cs" />
     <Compile Include="Abstract\ILogContainer.cs" />
     <Compile Include="Abstract\ILogger.cs" />
     <Compile Include="Abstract\IPipeLine.cs" />
     <Compile Include="Abstract\ISynchronizer.cs" />
     <Compile Include="Abstract\Common\IUnitOfWork.cs" />
-    <Compile Include="Abstract\Localization\IPlatformTypeLocaleRepository.cs" />
     <Compile Include="Abstract\Localization\IRoleLocaleRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />
@@ -102,7 +100,6 @@
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
     <Compile Include="Concrete\Common\CommentRepository.cs" />
     <Compile Include="Concrete\Localization\GameLocaleRepository.cs" />
-    <Compile Include="Concrete\Localization\GenreLocaleRepository.cs" />
     <Compile Include="Concrete\Localization\LanguageRepository.cs" />
     <Compile Include="Concrete\Common\RoleRepository.cs" />
     <Compile Include="Concrete\Common\UserRepository.cs" />
@@ -111,8 +108,6 @@
     <Compile Include="Concrete\GameCopier.cs" />
     <Compile Include="Concrete\GenreCopier.cs" />
     <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
-    <Compile Include="Concrete\Localization\PlatformTypeLocaleRepository.cs" />
-    <Compile Include="Concrete\Localization\PublisherLocaleRepository.cs" />
     <Compile Include="Concrete\Localization\RoleLocaleRepository.cs" />
     <Compile Include="Concrete\PublisherCopier.cs" />
     <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />

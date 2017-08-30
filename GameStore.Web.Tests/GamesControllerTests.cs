@@ -43,8 +43,8 @@ namespace GameStore.Web.Tests
 			_mockOfAuthentication = new Mock<IAuthentication>();
 			_target = new GamesController(_mockOfGameService.Object, _mockOfGenreService.Object, _mockOfPlatformTypeService.Object, _mockOfPublisherService.Object, _mapper, _mockOfAuthentication.Object);
 			_games = new List<GameDto>();
-			_mockOfGameService.Setup(m => m.Create(It.IsAny<GameDto>())).Callback<GameDto>(g => _games.Add(g));
-			_mockOfGameService.Setup(m => m.GetSingle(ValidString)).Returns(new GameDto());
+			_mockOfGameService.Setup(m => m.Create(It.IsAny<string>(), It.IsAny<GameDto>())).Callback<string, GameDto>((l, g) => _games.Add(g));
+			_mockOfGameService.Setup(m => m.GetSingle(It.IsAny<string>(), ValidString)).Returns(new GameDto());
 			_mockOfGameService.Setup(m => m.Delete(ValidString)).Callback<string>(k => _games.RemoveAll(g => g.Key == k));
 		}
 
@@ -107,7 +107,7 @@ namespace GameStore.Web.Tests
 		{
 			var game = new GameViewModel { Key = ValidString };
 			_games = new List<GameDto> { new GameDto { Key = InvalidString } };
-			_mockOfGameService.Setup(m => m.Update(It.IsAny<GameDto>())).Callback<GameDto>(g => _games[0] = g);
+			_mockOfGameService.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<GameDto>())).Callback<string, GameDto>((l, g) => _games[0] = g);
 
 			_target.Update(game);
 

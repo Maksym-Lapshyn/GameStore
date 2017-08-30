@@ -322,7 +322,7 @@ namespace GameStore.DAL.Tests
 			_target.Register(new PlatformTypeFilter(platformTypes));
 			var result = _target.Process(_games).Count();
 
-			Assert.AreEqual(result, 2);
+			Assert.AreEqual(2, result);
 		}
 
 		[TestMethod]

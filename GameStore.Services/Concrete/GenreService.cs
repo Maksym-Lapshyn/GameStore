@@ -48,7 +48,7 @@ namespace GameStore.Services.Concrete
 		public GenreDto GetSingle(string language, string name)
 		{
 			var genre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == name) || g.Name == name);
-			genre = _outputLocalizer.Localize(language, genre);
+			_outputLocalizer.Localize(language, genre);
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
 			return genreDto;
@@ -58,7 +58,7 @@ namespace GameStore.Services.Concrete
 		{
 			var genre = _mapper.Map<GenreDto, Genre>(genreDto);
 			genre = MapEmbeddedEntities(genreDto, genre);
-			genre = _inputLocalizer.Localize(language, genre);
+			_inputLocalizer.Localize(language, genre);
 			_genreRepository.Insert(genre);
 			_unitOfWork.Save();
 		}
@@ -68,7 +68,7 @@ namespace GameStore.Services.Concrete
 			var genre = _genreRepository.GetSingle(g => g.Id == genreDto.Id);
 			genre = _mapper.Map(genreDto, genre);
 			genre = MapEmbeddedEntities(genreDto, genre);
-			genre = _inputLocalizer.Localize(language, genre);
+			_inputLocalizer.Localize(language, genre);
 			_genreRepository.Update(genre);
 			_unitOfWork.Save();
 		}

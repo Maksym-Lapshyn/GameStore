@@ -6,7 +6,7 @@ namespace GameStore.Services.Concrete
 {
 	public class GenreOutputLocalizer : IOutputLocalizer<Genre>
 	{
-		public Genre Localize(string language, Genre entity)
+		public void Localize(string language, Genre entity)
 		{
 			if (entity.ParentGenre != null && entity.ParentGenre.GenreLocales.Count != 0)
 			{
@@ -16,14 +16,12 @@ namespace GameStore.Services.Concrete
 
 			if (entity.GenreLocales.Count == 0)
 			{
-				return entity;
+				return;
 
 			}
 
 			var genreLocale = entity.GenreLocales.FirstOrDefault(l => l.Language.Name == language) ?? entity.GenreLocales.First();
 			entity.Name = genreLocale.Name;
-
-			return entity;
 		}
 	}
 }

@@ -10,6 +10,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Tests
 {
@@ -23,7 +24,8 @@ namespace GameStore.Services.Tests
 
 		private Mock<IUnitOfWork> _mockOfUow;
 		private Mock<IPublisherRepository> _mockOfPublisherRepository;
-		private Mock<IGameRepository> _mockOfGameRepository;
+		private Mock<IOutputLocalizer<Publisher>> _mockOfOutputLocalizer;
+		private Mock<IInputLocalizer<Publisher>> _mockOfInputLocalizer;
 		private PublisherService _target;
 		private List<Publisher> _publishers;
 
@@ -31,9 +33,10 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfUow = new Mock<IUnitOfWork>();
+			_mockOfOutputLocalizer = new Mock<IOutputLocalizer<Publisher>>();
+			_mockOfInputLocalizer = new Mock<IInputLocalizer<Publisher>>();
 			_mockOfPublisherRepository = new Mock<IPublisherRepository>();
-			_mockOfGameRepository = new Mock<IGameRepository>();
-			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfPublisherRepository.Object, _mockOfGameRepository.Object);
+			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object, _mockOfPublisherRepository.Object);
 		}
 
 		[TestMethod]
@@ -43,7 +46,7 @@ namespace GameStore.Services.Tests
 			_mockOfPublisherRepository.Setup(m => m.Insert(It.IsAny<Publisher>()))
 				.Callback<Publisher>(p => _publishers.Add(p));
 
-			_target.Create(new PublisherDto());
+			_target.Create(TestString, new PublisherDto());
 			var result = _publishers.Count;
 
 			Assert.AreEqual(result, 1);
@@ -56,7 +59,7 @@ namespace GameStore.Services.Tests
 			_mockOfPublisherRepository.Setup(m => m.Insert(It.IsAny<Publisher>()))
 				.Callback<Publisher>(p => _publishers.Add(p));
 
-			_target.Create(new PublisherDto());
+			_target.Create(TestString, new PublisherDto());
 
 			_mockOfUow.Verify(m => m.Save(), Times.Once);
 		}
@@ -71,7 +74,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfPublisherRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Publisher, bool>>>())).Returns(publisher);
 
-			var result = _target.GetSingle(TestString).CompanyName;
+			var result = _target.GetSingle(TestString, TestString).CompanyName;
 
 			Assert.AreEqual(result, TestString);
 		}
@@ -88,7 +91,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfPublisherRepository.Setup(m => m.GetAll(null)).Returns(_publishers);
 
-			var result = _target.GetAll().ToList().Count;
+			var result = _target.GetAll(TestString).ToList().Count;
 
 			Assert.AreEqual(result, 3);
 		}
@@ -103,7 +106,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfPublisherRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<Publisher, bool>>>())).Returns(publisher);
 
-			var result = _target.GetSingle(TestString).CompanyName;
+			var result = _target.GetSingle(TestString, TestString).CompanyName;
 
 			Assert.AreEqual(result, TestString);
 		}

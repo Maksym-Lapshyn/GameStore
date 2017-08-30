@@ -1,7 +1,7 @@
 ﻿namespace GameStore.Services.Abstract
 {
-	public interface IOutputLocalizer<T>
+	public interface IOutputLocalizer<in T>
 	{
-		T Localize(string language, T entity);
+		void Localize(string language, T entity);
 	}
 }

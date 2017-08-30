@@ -48,7 +48,7 @@ namespace GameStore.Services.Concrete
 		public UserDto GetSingle(string language, string name)
 		{
 			var user = _userRepository.GetSingle(u => u.Login == name);
-			user = _userOutputLocalizer.Localize(language, user);
+			_userOutputLocalizer.Localize(language, user);
 			var userDto = _mapper.Map<User, UserDto>(user);
 
 			return userDto;

@@ -19,11 +19,11 @@ namespace GameStore.Services.Concrete
 			_publisherLocalizer = publisherLocalizer;
 		}
 
-		public Game Localize(string language, Game entity)
+		public void Localize(string language, Game entity)
 		{
 			if (entity.GameLocales.Count == 0)
 			{
-				return entity;
+				return;
 			}
 
 			var gameLocale = entity.GameLocales.FirstOrDefault(l => l.Language.Name == language) ?? entity.GameLocales.First();
@@ -35,10 +35,6 @@ namespace GameStore.Services.Concrete
 				{
 					_genreLocalizer.Localize(language, genre);
 				}
-				/*for (var i = 0; i < entity.Genres.Count; i++)
-				{
-					entity.Genres.ToList()[i] = _genreLocalizer.Localize(language, entity.Genres.ToList()[i]);
-				}*/
 			}
 
 			if (entity.PlatformTypes.Count != 0)
@@ -47,18 +43,13 @@ namespace GameStore.Services.Concrete
 				{
 					_platformTypeLocalizer.Localize(language, platformType);
 				}
-				/*for (var i = 0; i < entity.PlatformTypes.Count; i++)
-				{
-					entity.PlatformTypes.ToList()[i] = _platformTypeLocalizer.Localize(language, entity.PlatformTypes.ToList()[i]);
-				}*/
+
 			}
 
 			if (entity.Publisher != null)
 			{
-				entity.Publisher = _publisherLocalizer.Localize(language, entity.Publisher);
+				_publisherLocalizer.Localize(language, entity.Publisher);
 			}
-
-			return entity;
 		}
 	}
 }

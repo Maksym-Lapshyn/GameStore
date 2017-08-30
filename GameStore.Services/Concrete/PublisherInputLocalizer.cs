@@ -1,9 +1,8 @@
 ﻿using GameStore.Common.Entities;
 using GameStore.Common.Entities.Localization;
-using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.Localization;
 using GameStore.Services.Abstract;
 using System.Linq;
-using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -16,7 +15,7 @@ namespace GameStore.Services.Concrete
 			_languageRepository = languageRepository;
 		}
 
-		public Publisher Localize(string language, Publisher entity)
+		public void Localize(string language, Publisher entity)
 		{
 			var publisherLocale = entity.PublisherLocales.FirstOrDefault(l => l.Language.Name == language);
 
@@ -32,8 +31,6 @@ namespace GameStore.Services.Concrete
 					Language = _languageRepository.GetSingleBy(language)
 				});
 			}
-
-			return entity;
 		}
 	}
 }

@@ -8,6 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.DAL.Abstract.Localization;
+using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Tests
 {
@@ -26,6 +28,9 @@ namespace GameStore.Services.Tests
 		private Mock<IPublisherRepository> _mockOfPublisherRepository;
 		private Mock<IGenreRepository> _mockOfGenreRepository;
 		private Mock<IPlatformTypeRepository> _mockOfPlatformTypeRepository;
+		private Mock<IOutputLocalizer<Game>> _mockOfOutputLocalizer;
+		private Mock<IInputLocalizer<Game>> _mockOfInputLocalizer;
+		private Mock<IGameLocaleRepository> _mockOfGameLocaleRepository;
 		private GameService _target;
 		private List<Game> _games;
 
@@ -37,7 +42,11 @@ namespace GameStore.Services.Tests
 			_mockOfGenreRepository = new Mock<IGenreRepository>();
 			_mockOfPlatformTypeRepository = new Mock<IPlatformTypeRepository>();
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new GameService(_mockOfUow.Object, _mapper, _mockOfGameRepository.Object, _mockOfPublisherRepository.Object,
+			_mockOfOutputLocalizer = new Mock<IOutputLocalizer<Game>>();
+			_mockOfInputLocalizer = new Mock<IInputLocalizer<Game>>();
+			_mockOfGameLocaleRepository = new Mock<IGameLocaleRepository>();
+			_target = new GameService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object,
+				_mockOfGameLocaleRepository.Object, _mockOfGameRepository.Object, _mockOfPublisherRepository.Object,
 				_mockOfGenreRepository.Object, _mockOfPlatformTypeRepository.Object);
 			_mockOfPublisherRepository.Setup(m => m.GetSingle(p => p.CompanyName == ValidString)).Returns(new Publisher());
 			_mockOfPlatformTypeRepository.Setup(m => m.GetSingle(p => p.Type == ValidString)).Returns(new PlatformType());
@@ -51,7 +60,7 @@ namespace GameStore.Services.Tests
 			_games = new List<Game>();
 			_mockOfGameRepository.Setup(m => m.Insert(It.IsAny<Game>())).Callback<Game>(g => _games.Add(g));
 
-			_target.Create(new GameDto());
+			_target.Create(ValidString, new GameDto());
 
 			Assert.AreEqual(1, _games.Count);
 		}
@@ -61,7 +70,7 @@ namespace GameStore.Services.Tests
 		{
 			_games = new List<Game>();
 
-			_target.Create(new GameDto());
+			_target.Create(ValidString, new GameDto());
 
 			_mockOfUow.Verify(m => m.Save(), Times.Once);
 		}
@@ -76,7 +85,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games.First(game => game.Id == g.Id).Name = g.Name);
-			_target.Update(new GameDto
+			_target.Update(ValidString, new GameDto
 			{
 				Id = TestInt,
 				Name = InvalidString
@@ -98,7 +107,7 @@ namespace GameStore.Services.Tests
 			_mockOfGameRepository.Setup(m => m.GetAll(null, null, null, null)).Returns(_games);
 			_mockOfGameRepository.Setup(m => m.Update(It.IsAny<Game>())).Callback<Game>(g => _games[0] = g);
 
-			_target.Update(new GameDto
+			_target.Update(ValidString, new GameDto
 			{
 				Key = ValidString
 			});

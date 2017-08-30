@@ -51,7 +51,7 @@ namespace GameStore.Services.Concrete
 			AddDefaultGenreIfInputIsEmpty(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			MapEmbeddedEntities(gameDto, game);
-			game = _inputLocalizer.Localize(language, game);
+			_inputLocalizer.Localize(language, game);
 			game.ViewsCount = 0;
 			game.DateAdded = DateTime.UtcNow;
 			_gameRepository.Insert(game);
@@ -65,7 +65,7 @@ namespace GameStore.Services.Concrete
 			game.IsUpdated = true;
 			game = MapEmbeddedEntities(gameDto, game);
 			game.GameLocales = _localeRepository.GetAllBy(game.Id).ToList();
-			game = _inputLocalizer.Localize(language, game);
+			_inputLocalizer.Localize(language, game);
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
 		}
@@ -82,7 +82,7 @@ namespace GameStore.Services.Concrete
 			game.ViewsCount++;
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
-			game = _outputLocalizer.Localize(language, game);
+			_outputLocalizer.Localize(language, game);
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 
 			return gameDto;

@@ -25,10 +25,7 @@ namespace GameStore.Ninject.Modules
 
 			Bind<ILanguageRepository>().To<LanguageRepository>();
 			Bind<IGameLocaleRepository>().To<GameLocaleRepository>();
-			Bind<IGenreLocaleRepository>().To<GenreLocaleRepository>();
-			Bind<IPublisherLocaleRepository>().To<PublisherLocaleRepository>();
 			Bind<IRoleLocaleRepository>().To<RoleLocaleRepository>();
-			Bind<IPlatformTypeLocaleRepository>().To<PlatformTypeLocaleRepository>();
 
 			Bind<IInputLocalizer<Game>>().To<GameInputLocalizer>();
 			Bind<IInputLocalizer<Genre>>().To<GenreInputLocalizer>();

@@ -12,19 +12,17 @@ namespace GameStore.Services.Concrete
 			_roleLocalizer = roleLocalizer;
 		}
 
-		public User Localize(string language, User entity)
+		public void Localize(string language, User entity)
 		{
 			if (entity.Roles.Count == 0)
 			{
-				return entity;
+				return;
 			}
 
 			foreach (var role in entity.Roles)
 			{
 				_roleLocalizer.Localize(language, role);
 			}
-
-			return entity;;
 		}
 	}
 }
