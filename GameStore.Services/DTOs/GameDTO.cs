@@ -13,6 +13,7 @@ namespace GameStore.Services.Dtos
 			PublisherData = new List<PublisherDto>();
 			GenresInput = new List<string>();
 			PlatformTypesInput = new List<string>();
+			Comments = new List<CommentDto>();
 		}
 
 		public string Key { get; set; }
@@ -36,6 +37,8 @@ namespace GameStore.Services.Dtos
 		public bool Discontinued { get; set; }
 
 		public int CommentsCount { get; set; }
+
+		public List<CommentDto> Comments { get; set; }
 
 		public List<GenreDto> GenresData { get; set; }
 

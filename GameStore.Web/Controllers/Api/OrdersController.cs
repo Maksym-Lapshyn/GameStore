@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.Authentification.Abstract;
+using System.Collections.Generic;
 using System.Web.Http;
-using GameStore.Authentification.Abstract;
 
 namespace GameStore.Web.Controllers.Api
 {

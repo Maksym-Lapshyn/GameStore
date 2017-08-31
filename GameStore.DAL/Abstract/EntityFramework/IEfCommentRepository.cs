@@ -13,6 +13,8 @@ namespace GameStore.DAL.Abstract.EntityFramework
 
 		IQueryable<Comment> GetAll(Expression<Func<Comment, bool>> predicate = null);
 
+		bool Contains(Expression<Func<Comment, bool>> predicate);
+
 		void Update(Comment comment);
 
 		void Delete(int id);

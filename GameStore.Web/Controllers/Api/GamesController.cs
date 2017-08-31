@@ -4,14 +4,13 @@ using GameStore.Common.App_LocalResources;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
+using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using GameStore.Web.Infrastructure.Attributes;
+using System.Web.Http;
 
 namespace GameStore.Web.Controllers.Api
 {
@@ -42,11 +41,11 @@ namespace GameStore.Web.Controllers.Api
 		}
 
 		// GET api/<controller>
-		public HttpResponseMessage Get(CompositeGamesViewModel model)
+		public IHttpActionResult Get([FromUri]CompositeGamesViewModel model, string contentType)
 		{
 			if (!ModelState.IsValid && model.FilterIsChanged)
 			{
-				return Request.CreateResponse(HttpStatusCode.BadRequest, CreateError());
+				return Content(HttpStatusCode.BadRequest, CreateError());
 			}
 
 			if (model.Filter == null)
@@ -67,69 +66,79 @@ namespace GameStore.Web.Controllers.Api
 			model = UpdateGames(model);
 			model = UpdateFilterDate(model);
 
-			return Request.CreateResponse(HttpStatusCode.OK, model.ToJson());
+			return SerializeResult(model, contentType);
 		}
 
 		// GET api/<controller>/5
-		public HttpResponseMessage Get(string key)
+		public IHttpActionResult Get(string key, string contentType)
 		{
 			if (!_gameService.Contains(key))
 			{
-				return Request.CreateResponse(HttpStatusCode.BadRequest, "Game with such key does not exist");
+				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
 			}
 
 			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
-			return Request.CreateResponse(HttpStatusCode.OK, gameViewModel.ToJson());
+			return SerializeResult(gameViewModel, contentType);
 		}
 
 		// POST api/<controller>
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		public HttpResponseMessage Post(GameViewModel model)
+		public IHttpActionResult Post(GameViewModel model)
 		{
 			CheckIfKeyIsUnique(model);
 
 			if (!ModelState.IsValid)
 			{
-				return Request.CreateResponse(HttpStatusCode.BadRequest, CreateError());
+				return Content(HttpStatusCode.BadRequest, CreateError());
 			}
 
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
 			_gameService.Create(CurrentLanguage, gameDto);
 
-			return new HttpResponseMessage(HttpStatusCode.OK);
+			return Ok();
 		}
 
 		// PUT api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		public HttpResponseMessage Put(GameViewModel model)
+		public IHttpActionResult Put(GameViewModel model)
 		{
+			if (!_gameService.Contains(model.Key))
+			{
+				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
+			}
+
 			CheckIfKeyIsUnique(model);
 
 			if (!ModelState.IsValid)
 			{
-				return Request.CreateResponse(HttpStatusCode.BadRequest, CreateError());
+				return Content(HttpStatusCode.BadRequest, CreateError());
 			}
 
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
 			_gameService.Update(CurrentLanguage, gameDto);
 
-			return new HttpResponseMessage(HttpStatusCode.OK);
+			return Ok();
 		}
 
 		// DELETE api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		public HttpResponseMessage Delete(string key)
+		public IHttpActionResult Delete(string key)
 		{
 			if (!_gameService.Contains(key))
 			{
-				return Request.CreateResponse(HttpStatusCode.BadRequest, "Game with such key does not exist");
+				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
+			}
+
+			if (!_gameService.Contains(key))
+			{
+				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
 			}
 
 			_gameService.Delete(key);
 
-			return Request.CreateResponse(HttpStatusCode.OK);
+			return Ok();
 		}
 
 		private void CheckIfKeyIsUnique(GameViewModel model)
@@ -145,17 +154,6 @@ namespace GameStore.Web.Controllers.Api
 			{
 				ModelState.AddModelError("Key", GlobalResource.GameWithSuchKeyAlreadyExists);
 			}
-		}
-
-		private ErrorViewModel CreateError()
-		{
-			var error = new ErrorViewModel
-			{
-				Message = "ModelState contains errors",
-				Errors = ModelState.Values.SelectMany(e => e.Errors.Select(er => er.ErrorMessage))
-			};
-
-			return error;
 		}
 
 		private CompositeGamesViewModel UpdateGames(CompositeGamesViewModel model)

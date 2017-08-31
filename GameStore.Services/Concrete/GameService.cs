@@ -24,6 +24,7 @@ namespace GameStore.Services.Concrete
 		private readonly IPublisherRepository _publisherRepository;
 		private readonly IGenreRepository _genreRepository;
 		private readonly IPlatformTypeRepository _platformTypeRepository;
+		private readonly ICommentRepository _commentRepository;
 
 		public GameService(IUnitOfWork unitOfWork,
 			IMapper mapper,
@@ -33,7 +34,8 @@ namespace GameStore.Services.Concrete
 			IGameRepository gameRepository,
 			IPublisherRepository publisherRepository,
 			IGenreRepository genreRepository,
-			IPlatformTypeRepository platformTypeRepository)
+			IPlatformTypeRepository platformTypeRepository,
+			ICommentRepository commentRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
@@ -44,6 +46,7 @@ namespace GameStore.Services.Concrete
 			_publisherRepository = publisherRepository;
 			_platformTypeRepository = platformTypeRepository;
 			_genreRepository = genreRepository;
+			_commentRepository = commentRepository;
 		}
 
 		public void Create(string language, GameDto gameDto)
@@ -141,6 +144,11 @@ namespace GameStore.Services.Concrete
 			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.PlatformTypeLocales.Any(l => l.Type == t))));
 			result.Publisher = _publisherRepository.GetSingle(p => p.CompanyName == input.PublisherInput);
 
+			if (_commentRepository.Contains(c => c.GameKey == input.Key))
+			{
+				result.Comments = _commentRepository.GetAll(c => c.GameKey == input.Key).ToList();//added
+			}
+			
 			return result;
 		}
 

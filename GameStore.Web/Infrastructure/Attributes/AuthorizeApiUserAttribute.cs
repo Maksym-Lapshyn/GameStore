@@ -25,9 +25,8 @@ namespace GameStore.Web.Infrastructure.Attributes
 		protected override bool IsAuthorized(HttpActionContext actionContext)
 		{
 			_authentication = DependencyResolver.Current.GetService<IApiAuthentication>();
-
 			actionContext.Request.Headers.TryGetValues(TokenName, out IEnumerable<string> tokens);
-			var token = tokens.FirstOrDefault();
+			var token = tokens?.FirstOrDefault();
 
 			if (token == null)
 			{

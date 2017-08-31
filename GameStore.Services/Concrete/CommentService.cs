@@ -68,5 +68,23 @@ namespace GameStore.Services.Concrete
 			_commentRepository.Delete(id);
 			_unitOfWork.Save();
 		}
+
+		public bool Contains(string gameKey)
+		{
+			return _commentRepository.Contains(c => c.GameKey == gameKey);
+		}
+
+		public bool Contains(int id)
+		{
+			return _commentRepository.Contains(c => c.Id == id);
+		}
+
+		public void Update(CommentDto commentDto)
+		{
+			var comment = _commentRepository.GetSingle(c => c.Id == commentDto.Id);
+			comment = _mapper.Map(commentDto, comment);
+			_commentRepository.Update(comment);
+			_unitOfWork.Save();
+		}
 	}
 }

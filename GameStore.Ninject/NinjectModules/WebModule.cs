@@ -6,12 +6,10 @@ using GameStore.Common.Concrete;
 using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
-using GameStore.Web.Infrastructure.Abstract;
-using GameStore.Web.Infrastructure.Concrete;
 using Ninject.Modules;
 using Ninject.Web.Common;
 
-namespace GameStore.Web.Infrastructure.NinjectModules
+namespace GameStore.DI.NinjectModules
 {
 	public class WebModule : NinjectModule
 	{

@@ -1,4 +1,5 @@
-﻿using GameStore.Common.Abstract;
+﻿using GameStore.Authentification.Abstract;
+using GameStore.Common.Abstract;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using System;
@@ -6,7 +7,7 @@ using System.Web.Security;
 
 namespace GameStore.Authentification.Concrete
 {
-	public class ApiAuthentication
+	public class ApiAuthentication : IApiAuthentication
 	{
 		private readonly IUserRepository _repository;
 		private readonly IUnitOfWork _unitOfWork;

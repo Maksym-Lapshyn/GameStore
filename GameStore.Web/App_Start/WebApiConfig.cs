@@ -9,31 +9,45 @@ namespace GameStore.Web
 			config.MapHttpAttributeRoutes();
 
 			config.Routes.MapHttpRoute(
-				"ApiLogin",
+				"",
 				"api/login",
-				new { controller = "Base", action = "Login" },
+				new { controller = "BaseApi", action = "Login" },
 				new { lang = "en|ru" }
 			);
 
 			config.Routes.MapHttpRoute(
-				"ApiController",
-				"api/{lang}/{controller}",
-				null,
-				new { lang = "en|ru" }
+				"",
+				"api/getlogin/{contentType}",
+				new { controller = "BaseApi", action = "GetLogin", contentType = "json" },
+				new { lang = "en|ru", contentType = "json|xml" }
 			);
 
 			config.Routes.MapHttpRoute(
-				"ApiKey",
-				"api/{lang}/{controller}/{key}",
-				null,
-				new { lang = "en|ru" }
+				"",
+				"api/{lang}/{controller}/{contentType}",
+				new { contentType = "json"},
+				new { lang = "en|ru", contentType = "json|xml" }
 			);
 
 			config.Routes.MapHttpRoute(
-				"ApiAction",
-				"api/{lang}/{controller}/{key}/{action}",
-				null,
-				new { lang = "en|ru" }
+				"",
+				"api/{lang}/{controller}/{key}/{contentType}",
+				new { contentType = "json" },
+				new { lang = "en|ru", contentType = "json|xml" }
+			);
+
+			config.Routes.MapHttpRoute(
+				"",
+				"api/{lang}/games/{key}/{controller}/{contentType}",
+				new { contentType = "json" },
+				new { lang = "en|ru", contentType = "json|xml" }
+			);
+
+			config.Routes.MapHttpRoute(
+				"",
+				"api/{lang}/games/{key}/{controller}/{id}/{contentType}",
+				new { contentType = "json" },
+				new { lang = "en|ru", contentType = "json|xml" }
 			);
 		}
 	}

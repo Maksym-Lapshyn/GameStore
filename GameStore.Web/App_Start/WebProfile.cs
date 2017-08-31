@@ -8,7 +8,9 @@ namespace GameStore.Web
 	{
 		public WebProfile()
 		{
-			CreateMap<GameDto, GameViewModel>().ReverseMap();
+			CreateMap<GameDto, GameViewModel>();
+
+			CreateMap<GameViewModel, GameDto>().ForMember(entity => entity.Comments, option => option.Ignore());
 
 			CreateMap<CommentDto, CommentViewModel>().ReverseMap();
 

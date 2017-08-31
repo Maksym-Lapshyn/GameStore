@@ -87,7 +87,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public bool Contains(Expression<Func<Game, bool>> predicate)
 		{
-			return !_efRepository.Contains(predicate) ? _efRepository.Contains(predicate) : _mongoRepository.Contains(predicate);
+			return _efRepository.Contains(predicate) ? _efRepository.Contains(predicate) : _mongoRepository.Contains(predicate);
 		}
 	}
 }

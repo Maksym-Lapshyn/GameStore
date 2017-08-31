@@ -40,5 +40,10 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			_efRepository.Delete(id);
 		}
+
+		public bool Contains(Expression<Func<Comment, bool>> predicate)
+		{
+			return _efRepository.Contains(predicate);
+		}
 	}
 }
