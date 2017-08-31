@@ -7,6 +7,8 @@ namespace GameStore.Common.Entities
 		public string Login { get; set; }
 
 		public string Password { get; set; }
+
+		public string AuthenticationTicket { get; set; }
 		
 		public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 

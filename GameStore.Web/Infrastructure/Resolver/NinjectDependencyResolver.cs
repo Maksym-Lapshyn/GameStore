@@ -20,6 +20,10 @@ namespace GameStore.Web.Infrastructure.Resolver
 	{
 		private readonly IKernel _kernel;
 
+		public NinjectDependencyResolver()
+		{
+		}
+
 		public NinjectDependencyResolver(IKernel kernel)
 		{
 			_kernel = kernel;

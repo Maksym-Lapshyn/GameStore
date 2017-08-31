@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Services", "GameStore.Services\GameStore.Services.csproj", "{C5E410DD-69D9-4A8B-ACAB-1414BA91DCBF}"
 EndProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Web.Tests", "Game
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Common", "GameStore.Common\GameStore.Common.csproj", "{2567104D-41D6-43B6-94FE-51F1FE8F6407}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Ninject", "GameStore.Ninject\GameStore.Ninject.csproj", "{B8990C97-9D55-490E-8064-FC2BD1731338}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.DI", "GameStore.Ninject\GameStore.DI.csproj", "{B8990C97-9D55-490E-8064-FC2BD1731338}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.DAL.Tests", "GameStore.DAL.Tests\GameStore.DAL.Tests.csproj", "{7CC9F095-1D53-4412-AF2D-8A8853D91B74}"
 EndProject

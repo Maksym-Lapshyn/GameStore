@@ -1,4 +1,5 @@
-﻿using GameStore.Common.Entities;
+﻿using System.Linq;
+using GameStore.Common.Entities;
 using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.EntityFramework;
 using GameStore.DAL.Abstract.MongoDb;
@@ -6,14 +7,11 @@ using GameStore.DAL.Concrete;
 using GameStore.DAL.Concrete.EntityFramework;
 using GameStore.DAL.Concrete.MongoDb;
 using GameStore.DAL.Context;
-using GameStore.Services.Abstract;
-using GameStore.Services.Concrete;
 using MongoDB.Driver;
 using Ninject.Modules;
 using Ninject.Web.Common;
-using System.Linq;
 
-namespace GameStore.Ninject.Modules
+namespace GameStore.DI.NinjectModules
 {
 	public class DalModule : NinjectModule
 	{

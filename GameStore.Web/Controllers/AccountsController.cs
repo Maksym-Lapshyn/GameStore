@@ -35,7 +35,7 @@ namespace GameStore.Web.Controllers
 				return View(model);
 			}
 
-			var user = Auth.Login(model.Login, model.Password, model.IsPersistent);
+			var user = Auth.LogIn(model.Login, model.Password, model.IsPersistent);
 
 			if (user != null)
 			{
@@ -68,7 +68,7 @@ namespace GameStore.Web.Controllers
 
 			var userDto = new UserDto {Login = model.Login, Password = model.Login};
 			_userService.Create(userDto);
-			Auth.Login(model.Login, model.Password, true);
+			Auth.LogIn(model.Login, model.Password, true);
 
 			return RedirectToAction("ShowAll", "Games");
 		}

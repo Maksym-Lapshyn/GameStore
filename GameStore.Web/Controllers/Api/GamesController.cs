@@ -4,116 +4,49 @@ using GameStore.Common.App_LocalResources;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
-using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using System.Net;
+using System.Net.Http;
+using GameStore.Web.Infrastructure.Attributes;
 
-namespace GameStore.Web.Controllers
+namespace GameStore.Web.Controllers.Api
 {
-	public class GamesController : BaseController
+	public class GamesController : BaseApiController
 	{
 		private const int DefaultPageSize = 10;
 		private const int DefaultPage = 1;
 
 		private readonly IGameService _gameService;
 		private readonly IGenreService _genreService;
-		private readonly IPlatformTypeService _platformTypeService;
 		private readonly IPublisherService _publisherService;
+		private readonly IPlatformTypeService _platformTypeService;
 		private readonly IMapper _mapper;
 
-		public GamesController(IGameService gameService,
+		public GamesController(IApiAuthentication authentication,
+			IGameService gameService,
 			IGenreService genreService,
-			IPlatformTypeService platformTypeService,
 			IPublisherService publisherService,
-			IMapper mapper,
-			IAuthentication authentication)
-			: base(authentication)
+			IPlatformTypeService platformTypeService,
+			IMapper mapper)
+			:base(authentication)
 		{
 			_gameService = gameService;
 			_genreService = genreService;
-			_platformTypeService = platformTypeService;
 			_publisherService = publisherService;
+			_platformTypeService = platformTypeService;
 			_mapper = mapper;
 		}
 
-		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		[HttpGet]
-		public ActionResult New()
-		{
-			var gameViewModel = new GameViewModel
-			{
-				GenresData = GetGenres(),
-				PlatformTypesData = GetPlatformTypes(),
-				PublisherData = GetPublishers()
-			};
-
-			return View(gameViewModel);
-		}
-
-		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		[HttpPost]
-		public ActionResult New(GameViewModel model)
-		{
-			CheckIfKeyIsUnique(model);
-
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-
-			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
-			_gameService.Create(CurrentLanguage, gameDto);
-
-			return RedirectToAction("ShowAll");
-		}
-
-		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		[HttpGet]
-		public ActionResult Update(string key)
-		{
-			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
-			var model = _mapper.Map<GameDto, GameViewModel>(gameDto);
-			model.GenresData = GetGenres();
-			model.PublisherData = GetPublishers();
-			model.PlatformTypesData = GetPlatformTypes();
-
-			return View(model);
-		}
-
-		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		[HttpPost]
-		public ActionResult Update(GameViewModel model)
-		{
-			CheckIfKeyIsUnique(model);
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-
-			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
-			_gameService.Update(CurrentLanguage, gameDto);
-
-			return RedirectToAction("ShowAll");
-		}
-
-		public ActionResult Show(string key)
-		{
-			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
-			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
-
-			return View(gameViewModel);
-		}
-
-		public ActionResult ShowAll(CompositeGamesViewModel model)
+		// GET api/<controller>
+		public HttpResponseMessage Get(CompositeGamesViewModel model)
 		{
 			if (!ModelState.IsValid && model.FilterIsChanged)
 			{
-				model = UpdateInvalidModel(model);
-
-				return View(model);
+				return Request.CreateResponse(HttpStatusCode.BadRequest, CreateError());
 			}
 
 			if (model.Filter == null)
@@ -134,29 +67,95 @@ namespace GameStore.Web.Controllers
 			model = UpdateGames(model);
 			model = UpdateFilterDate(model);
 
-			return View(model);
+			return Request.CreateResponse(HttpStatusCode.OK, model.ToJson());
 		}
 
-		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.Manager)]
-		[HttpPost]
-		public ActionResult Delete(string key)
+		// GET api/<controller>/5
+		public HttpResponseMessage Get(string key)
 		{
-			_gameService.Delete(key);
-
-			return RedirectToAction("ShowAll", "Games");
-		}
-
-		public FileResult Download(string key)
-		{
-			var path = Server.MapPath("~/file.pdf");
-			var fileBytes = new byte[0];
-
-			if (System.IO.File.Exists(path))
+			if (!_gameService.Contains(key))
 			{
-				fileBytes = System.IO.File.ReadAllBytes(path);
+				return Request.CreateResponse(HttpStatusCode.BadRequest, "Game with such key does not exist");
 			}
 
-			return new FileContentResult(fileBytes, "application/pdf");
+			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
+			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
+
+			return Request.CreateResponse(HttpStatusCode.OK, gameViewModel.ToJson());
+		}
+
+		// POST api/<controller>
+		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
+		public HttpResponseMessage Post(GameViewModel model)
+		{
+			CheckIfKeyIsUnique(model);
+
+			if (!ModelState.IsValid)
+			{
+				return Request.CreateResponse(HttpStatusCode.BadRequest, CreateError());
+			}
+
+			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
+			_gameService.Create(CurrentLanguage, gameDto);
+
+			return new HttpResponseMessage(HttpStatusCode.OK);
+		}
+
+		// PUT api/<controller>/5
+		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
+		public HttpResponseMessage Put(GameViewModel model)
+		{
+			CheckIfKeyIsUnique(model);
+
+			if (!ModelState.IsValid)
+			{
+				return Request.CreateResponse(HttpStatusCode.BadRequest, CreateError());
+			}
+
+			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
+			_gameService.Update(CurrentLanguage, gameDto);
+
+			return new HttpResponseMessage(HttpStatusCode.OK);
+		}
+
+		// DELETE api/<controller>/5
+		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
+		public HttpResponseMessage Delete(string key)
+		{
+			if (!_gameService.Contains(key))
+			{
+				return Request.CreateResponse(HttpStatusCode.BadRequest, "Game with such key does not exist");
+			}
+
+			_gameService.Delete(key);
+
+			return Request.CreateResponse(HttpStatusCode.OK);
+		}
+
+		private void CheckIfKeyIsUnique(GameViewModel model)
+		{
+			if (!_gameService.Contains(model.Key))
+			{
+				return;
+			}
+
+			var existingGame = _gameService.GetSingle(CurrentLanguage, model.Key);
+
+			if (existingGame.Id != model.Id)
+			{
+				ModelState.AddModelError("Key", GlobalResource.GameWithSuchKeyAlreadyExists);
+			}
+		}
+
+		private ErrorViewModel CreateError()
+		{
+			var error = new ErrorViewModel
+			{
+				Message = "ModelState contains errors",
+				Errors = ModelState.Values.SelectMany(e => e.Errors.Select(er => er.ErrorMessage))
+			};
+
+			return error;
 		}
 
 		private CompositeGamesViewModel UpdateGames(CompositeGamesViewModel model)
@@ -222,19 +221,11 @@ namespace GameStore.Web.Controllers
 			return model;
 		}
 
-		private CompositeGamesViewModel UpdateInvalidModel(CompositeGamesViewModel model)
-		{
-			model.FilterIsChanged = false;
-			model = UpdateGames(model);
-
-			return model;
-		}
-
 		private List<GameViewModel> GetGames(GameFilterViewModel filter, int itemsToSkip, int itemsToTake)
 		{
 			var filterDto = _mapper.Map<GameFilterViewModel, GameFilterDto>(filter);
 
-			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(User.Identity.IsAuthenticated && CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.Manager) 
+			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(User.Identity.IsAuthenticated && CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.Manager)
 				? _gameService.GetAll(CurrentLanguage, filterDto, itemsToSkip, itemsToTake, true)
 				: _gameService.GetAll(CurrentLanguage, filterDto, itemsToSkip, itemsToTake));
 		}
@@ -252,21 +243,6 @@ namespace GameStore.Web.Controllers
 		private List<PublisherViewModel> GetPublishers()
 		{
 			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll(CurrentLanguage));
-		}
-
-		private void CheckIfKeyIsUnique(GameViewModel model)
-		{
-			if (!_gameService.Contains(model.Key))
-			{
-				return;
-			}
-
-			var existingGame = _gameService.GetSingle(CurrentLanguage, model.Key);
-
-			if (existingGame.Id != model.Id)
-			{
-				ModelState.AddModelError("Key", GlobalResource.GameWithSuchKeyAlreadyExists);
-			}
 		}
 	}
 }
