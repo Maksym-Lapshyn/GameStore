@@ -1,9 +1,9 @@
-﻿using GameStore.DAL.Abstract.MongoDb;
+﻿using GameStore.Common.Entities;
+using GameStore.DAL.Abstract.MongoDb;
 using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using GameStore.Common.Entities;
 
 namespace GameStore.DAL.Concrete.MongoDb
 {
@@ -21,7 +21,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 		public IQueryable<Order> GetAll(Expression<Func<Order, bool>> predicate = null)
 		{
 			var orders = predicate != null
-				? _orderCollection.AsQueryable().Where(predicate).ToList()
+				? _orderCollection.AsQueryable().Where(predicate.Compile()).ToList()
 				: _orderCollection.AsQueryable().ToList();
 
 			for (var i = 0; i < orders.Count; i++)
@@ -34,7 +34,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 		public Order GetSingle(Expression<Func<Order, bool>> predicate)
 		{
-			var order = _orderCollection.AsQueryable().First(predicate);
+			var order = _orderCollection.AsQueryable().Where(predicate.Compile()).First();
 			order = GetEmbeddedDocuments(order);
 
 			return order;
@@ -49,7 +49,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 		public bool Contains(Expression<Func<Order, bool>> predicate)
 		{
-			return _orderCollection.AsQueryable().Any(predicate);
+			return _orderCollection.AsQueryable().Any(predicate.Compile());
 		}
 	}
 }

@@ -48,12 +48,6 @@ namespace GameStore.Web.Controllers.Api
 			return Ok(token);
 		}
 
-		[HttpGet]
-		public IHttpActionResult GetLogin(string contentType)
-		{
-			return SerializeResult(new LoginViewModel(), contentType);
-		}
-
 		protected FormattedContentResult<T> SerializeResult<T>(T content, string contentType)
 		{
 			FormattedContentResult<T> result = null;

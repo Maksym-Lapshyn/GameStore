@@ -5,7 +5,6 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -16,18 +15,21 @@ namespace GameStore.Services.Concrete
 		private readonly IInputLocalizer<Publisher> _inputLocalizer;
 		private readonly IOutputLocalizer<Publisher> _outputLocalizer;
 		private readonly IPublisherRepository _publisherRepository;
+		private readonly IGameRepository _gameRepository;
 
 		public PublisherService(IUnitOfWork unitOfWork,
 			IMapper mapper,
 			IInputLocalizer<Publisher> inputLocalizer,
 			IOutputLocalizer<Publisher> outputLocalizer,
-			IPublisherRepository publisherRepository)
+			IPublisherRepository publisherRepository,
+			IGameRepository gameRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
 			_publisherRepository = publisherRepository;
+			_gameRepository = gameRepository;
 		}
 
 		public void Create(string language, PublisherDto publisherDto)
@@ -59,6 +61,16 @@ namespace GameStore.Services.Concrete
 			var publisherDtos = _mapper.Map<IEnumerable<Publisher>, IEnumerable<PublisherDto>>(publishers);
 
 			return publisherDtos;
+		}
+
+		public PublisherDto GetSingleByGameKey(string language, string gameKey)
+		{
+			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
+			var publisher = game.Publisher;
+			_outputLocalizer.Localize(language, publisher);
+			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
+
+			return publisherDto;
 		}
 
 		public void Update(string language, PublisherDto publisherDto)

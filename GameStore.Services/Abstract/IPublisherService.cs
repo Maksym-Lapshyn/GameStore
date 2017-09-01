@@ -11,6 +11,8 @@ namespace GameStore.Services.Abstract
 
 		IEnumerable<PublisherDto> GetAll(string language);
 
+		PublisherDto GetSingleByGameKey(string language, string gameKey);
+
 		void Update(string language, PublisherDto publisherDto);
 
 		void Delete(string companyName);

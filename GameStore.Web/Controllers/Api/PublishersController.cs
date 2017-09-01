@@ -7,7 +7,6 @@ using GameStore.Services.Dtos;
 using GameStore.Web.Infrastructure.Attributes;
 using GameStore.Web.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Web.Http;
 
@@ -16,18 +15,35 @@ namespace GameStore.Web.Controllers.Api
 	public class PublishersController : BaseApiController
 	{
 		private readonly IPublisherService _publisherService;
+		private readonly IGameService _gameService;
 		private readonly IMapper _mapper;
 
 		public PublishersController(IApiAuthentication authentication,
 			IPublisherService publisherService,
+			IGameService gameService,
 			IMapper mapper)
 			:base(authentication)
 		{
 			_publisherService = publisherService;
+			_gameService = gameService;
 			_mapper = mapper;
 		}
 
-		// GET api/<controller>
+		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
+		[HttpGet]
+		public IHttpActionResult GetAllByGameKey(string key, string contentType)
+		{
+			if (!_gameService.Contains(key))
+			{
+				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
+			}
+
+			var dto = _publisherService.GetSingleByGameKey(CurrentLanguage, key);
+			var model = _mapper.Map<PublisherDto, PublisherViewModel>(dto);
+
+			return SerializeResult(model, contentType);
+		}
+
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Get(string contentType)
 		{
@@ -37,7 +53,6 @@ namespace GameStore.Web.Controllers.Api
 			return SerializeResult(model, contentType);
 		}
 
-		// GET api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Get(string key, string contentType)
 		{
@@ -52,7 +67,6 @@ namespace GameStore.Web.Controllers.Api
 			return SerializeResult(model, contentType);
 		}
 
-		// POST api/<controller>
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Post(PublisherViewModel model)
 		{
@@ -71,7 +85,6 @@ namespace GameStore.Web.Controllers.Api
 			return Ok();
 		}
 
-		// PUT api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Put(string key, PublisherViewModel model)
 		{
@@ -95,7 +108,6 @@ namespace GameStore.Web.Controllers.Api
 			return Ok();
 		}
 
-		// DELETE api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Delete(string key)
 		{

@@ -26,8 +26,7 @@ namespace GameStore.Web.Controllers.Api
 			_mapper = mapper;
 		}
 
-		// GET api/<controller>
-		public IHttpActionResult Get(string key, string contentType)
+		public IHttpActionResult GetAllByGameKey(string key, string contentType)
 		{
 			if (!_commentService.Contains(key))
 			{
@@ -46,7 +45,6 @@ namespace GameStore.Web.Controllers.Api
 			return SerializeResult(model, contentType);
 		}
 
-		// GET api/<controller>/5
 		public IHttpActionResult Get(string key, int id, string contentType)
 		{
 			if (!_commentService.Contains(key))
@@ -66,7 +64,6 @@ namespace GameStore.Web.Controllers.Api
 			return SerializeResult(model, contentType);
 		}
 
-		// POST api/<controller>
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Moderator)]
 		public IHttpActionResult Post(string key, CommentViewModel model)
 		{
@@ -86,7 +83,6 @@ namespace GameStore.Web.Controllers.Api
 			return Ok();
 		}
 
-		// PUT api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Moderator)]
 		public IHttpActionResult Put(string key, CommentViewModel model)
 		{
@@ -111,7 +107,6 @@ namespace GameStore.Web.Controllers.Api
 			return Ok();
 		}
 
-		// DELETE api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Moderator)]
 		public IHttpActionResult Delete(string key, int id)
 		{

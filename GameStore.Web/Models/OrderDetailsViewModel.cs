@@ -1,6 +1,8 @@
 ﻿using GameStore.Common.App_LocalResources;
 using GameStore.Common.Entities;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace GameStore.Web.Models
 {
@@ -9,6 +11,8 @@ namespace GameStore.Web.Models
 		[Display(Name = "GameKey", ResourceType = typeof(GlobalResource))]
 		public string GameKey { get; set; }
 
+		[JsonIgnore]
+		[XmlIgnore]
 		public GameViewModel Game { get; set; }
 
 		[Display(Name = "Price", ResourceType = typeof(GlobalResource))]

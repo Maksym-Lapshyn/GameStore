@@ -45,6 +45,11 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
+		public bool ContainsActiveById(int orderId)
+		{
+			return _orderRepository.Contains(o => o.Id == orderId && o.OrderStatus == OrderStatus.Active);
+		}
+
 		public bool ContainsActive(int userId)
 		{
 			return _orderRepository.Contains(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
@@ -153,6 +158,46 @@ namespace GameStore.Services.Concrete
 			order.DateShipped = DateTime.UtcNow;
 			_orderRepository.Update(order);
 			_unitOfWork.Save();
+		}
+
+		public bool Contains(int orderId)
+		{
+			return _orderRepository.Contains(o => o.Id == orderId);
+		}
+
+		public void Update(OrderDto orderDto)
+		{
+			var existingOrder = _orderRepository.GetSingle(o => o.Id == orderDto.Id);
+			existingOrder.OrderDetails.Clear();
+			_orderRepository.Update(existingOrder);
+			_unitOfWork.Save();//clears order details of existing order
+			var order = _mapper.Map<OrderDto, Order>(orderDto);
+			order = MapEmbeddedEntities(order);
+			CalculateTotalPrice(order);
+			_orderRepository.Update(order);
+			_unitOfWork.Save();//re-enters order details
+		}
+
+		public void Create(OrderDto orderDto)
+		{
+			var order = _mapper.Map<OrderDto, Order>(orderDto);
+			order = MapEmbeddedEntities(order);
+			CalculateTotalPrice(order);
+			order.OrderStatus = OrderStatus.Active;
+			_orderRepository.Insert(order);
+			_unitOfWork.Save();
+		}
+
+		private Order MapEmbeddedEntities(Order order)
+		{
+			var orderDetailsList = order.OrderDetails.ToList();
+
+			for (var i = 0; i < orderDetailsList.Count; i++)
+			{
+				orderDetailsList[i].Game = _gameRepository.GetSingle(g => g.Key == orderDetailsList[i].GameKey);
+			}
+
+			return order;
 		}
 
 		private decimal CalculateTotalPrice(Order order)

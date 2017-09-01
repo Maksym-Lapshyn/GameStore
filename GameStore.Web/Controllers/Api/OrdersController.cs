@@ -1,42 +1,59 @@
-﻿using GameStore.Authentification.Abstract;
-using System.Collections.Generic;
+﻿using AutoMapper;
+using GameStore.Authentification.Abstract;
+using GameStore.Services.Abstract;
+using GameStore.Services.Dtos;
+using GameStore.Web.Models;
+using System.Net;
 using System.Web.Http;
 
 namespace GameStore.Web.Controllers.Api
 {
 	public class OrdersController : BaseApiController
 	{
-		public OrdersController(IApiAuthentication authentication)
+		private readonly IOrderService _orderService;
+		private readonly IMapper _mapper;
+
+		public OrdersController(IApiAuthentication authentication,
+			IOrderService orderService,
+			IMapper mapper)
 			:base(authentication)
 		{
-
+			_orderService = orderService;
+			_mapper = mapper;
 		}
 
-		// GET api/<controller>
-		public IEnumerable<string> Get()
+		public IHttpActionResult Get(int key, string contentType)
 		{
-			return new string[] { "value1", "value2" };
+			if (!_orderService.ContainsActiveById(key))
+			{
+				return Content(HttpStatusCode.BadRequest, "Order with such id does not exist");
+			}
+
+			var dto = _orderService.GetSingle(key);
+			var model = _mapper.Map<OrderDto, OrderViewModel>(dto);
+
+			return SerializeResult(model, contentType);
 		}
 
-		// GET api/<controller>/5
-		public string Get(int id)
+		public IHttpActionResult Post(OrderViewModel model)
 		{
-			return "value";
+			var dto = _mapper.Map<OrderViewModel, OrderDto>(model);
+			_orderService.Create(dto);
+
+			return Ok();
 		}
 
-		// POST api/<controller>
-		public void Post([FromBody]string value)
+		public IHttpActionResult Put(OrderViewModel model)
 		{
-		}
+			if (!_orderService.ContainsActiveById(model.Id))
+			{
+				return Content(HttpStatusCode.BadRequest, "Order with such id does not exist");
+			}
 
-		// PUT api/<controller>/5
-		public void Put(int id, [FromBody]string value)
-		{
-		}
+			var dto = _mapper.Map<OrderViewModel, OrderDto>(model);
+			_orderService.Update(dto);
 
-		// DELETE api/<controller>/5
-		public void Delete(int id)
-		{
+			return Ok();
 		}
 	}
 }

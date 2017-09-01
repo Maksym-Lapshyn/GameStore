@@ -38,6 +38,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult New(GenreViewModel model)
 		{
 			CheckIfNameIsUnique(model);
+
 			if (!ModelState.IsValid)
 			{
 				model.ParentGenreData = GetGenres();
@@ -64,6 +65,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult Update(GenreViewModel model)
 		{
 			CheckIfNameIsUnique(model);
+
 			if (!ModelState.IsValid)
 			{
 				model.ParentGenreData = GetGenres();

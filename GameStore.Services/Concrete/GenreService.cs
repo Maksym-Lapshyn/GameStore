@@ -14,21 +14,37 @@ namespace GameStore.Services.Concrete
 		private readonly IMapper _mapper;
 		private readonly IInputLocalizer<Genre> _inputLocalizer;
 		private readonly IOutputLocalizer<Genre> _outputLocalizer;
+		private readonly IGameRepository _gameRepository;
 		private readonly IGenreRepository _genreRepository;
-
 
 		public GenreService(IUnitOfWork unitOfWork,
 			IMapper mapper,
 			IInputLocalizer<Genre> inputLocalizer,
 			IOutputLocalizer<Genre> outputLocalizer,
-			IGenreRepository genreRepository
-			)
+			IGameRepository gameRepository,
+			IGenreRepository genreRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
+			_gameRepository = gameRepository;
 			_genreRepository = genreRepository;
+		}
+
+		public IEnumerable<GenreDto> GetAll(string language, string gameKey)
+		{
+			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
+			var genres = game.Genres.ToList();
+
+			foreach (var genre in genres)
+			{
+				_outputLocalizer.Localize(language, genre);
+			}
+
+			var genreDtos = _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDto>>(genres);
+
+			return genreDtos;
 		}
 
 		public IEnumerable<GenreDto> GetAll(string language)

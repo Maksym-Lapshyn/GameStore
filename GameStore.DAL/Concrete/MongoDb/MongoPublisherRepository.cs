@@ -19,18 +19,26 @@ namespace GameStore.DAL.Concrete.MongoDb
 		public IQueryable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null)
 		{
 			return predicate != null 
-				? _collection.AsQueryable().Where(predicate) 
+				? _collection.AsQueryable().Where(predicate.Compile()).AsQueryable()
 				: _collection.AsQueryable();
 		}
 
 		public Publisher GetSingle(Expression<Func<Publisher, bool>> predicate)
 		{
-			return _collection.AsQueryable().First(predicate);
+			return _collection.AsQueryable().Where(predicate.Compile()).First();
 		}
 
 		public bool Contains(Expression<Func<Publisher, bool>> predicate)
 		{
-			return _collection.AsQueryable().Any(predicate);
+			return _collection.AsQueryable().Any(predicate.Compile());
 		}
+
+		/*private Game GetEmbeddedDocuments(Publisher publisher)
+		{
+			game.Publisher = _publisherCollection.AsQueryable().First(p => p.SupplierId == game.SupplierId);
+			game.Genres = _genreCollection.AsQueryable().Where(g => g.CategoryId == game.CategoryId).ToList();
+
+			return game;
+		}*/
 	}
 }

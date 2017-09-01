@@ -91,6 +91,34 @@ namespace GameStore.Services.Concrete
 			return gameDto;
 		}
 
+		public IEnumerable<GameDto> GetAllByPublisherCompanyName(string language, string companyName)
+		{
+			var games = _gameRepository.GetAll(null, null, null, g => g.Publisher.CompanyName == companyName).ToList();
+
+			foreach (var game in games)
+			{
+				_outputLocalizer.Localize(language, game);
+			}
+
+			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+
+			return gameDtos;
+		}
+
+		public IEnumerable<GameDto> GetAllByGenreName(string language, string name)
+		{
+			var games = _gameRepository.GetAll(null, null, null, g => g.Genres.Any(genre => genre.GenreLocales.Any(l => l.Name == name) || genre.Name == name)).ToList();
+
+			foreach (var game in games)
+			{
+				_outputLocalizer.Localize(language, game);
+			}
+
+			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+
+			return gameDtos;
+		}
+
 		public IEnumerable<GameDto> GetAll(string language, GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false)
 		{
 			IEnumerable<Game> games;
@@ -146,7 +174,7 @@ namespace GameStore.Services.Concrete
 
 			if (_commentRepository.Contains(c => c.GameKey == input.Key))
 			{
-				result.Comments = _commentRepository.GetAll(c => c.GameKey == input.Key).ToList();//added
+				result.Comments = _commentRepository.GetAll(c => c.GameKey == input.Key).ToList();
 			}
 			
 			return result;

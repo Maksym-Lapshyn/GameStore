@@ -26,7 +26,7 @@ namespace GameStore.Web.Models
 		[Display(Name = "TotalPrice", ResourceType = typeof(GlobalResource))]
 		public decimal TotalPrice { get; set; }
 
-		public virtual UserViewModel User { get; set; }
+		public UserViewModel User { get; set; }
 
 		public List<OrderDetailsViewModel> OrderDetails { get; set; }
 	}

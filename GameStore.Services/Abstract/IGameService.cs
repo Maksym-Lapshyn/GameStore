@@ -17,6 +17,10 @@ namespace GameStore.Services.Abstract
 
 		IEnumerable<GameDto> GetAll(string language, GameFilterDto gameFilter = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false);
 
+		IEnumerable<GameDto> GetAllByPublisherCompanyName(string language, string companyName);
+
+		IEnumerable<GameDto> GetAllByGenreName(string language, string name);
+
 		bool Contains(string gameKey);
 	}
 }

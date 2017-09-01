@@ -18,7 +18,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 		public IQueryable<Genre> GetAll(Expression<Func<Genre, bool>> predicate = null)
 		{
-			return predicate != null ? _collection.AsQueryable().Where(predicate) : _collection.AsQueryable();
+			return predicate != null ? _collection.AsQueryable().Where(predicate.Compile()).AsQueryable() : _collection.AsQueryable();
 		}
 
 		public Genre GetSingle(Expression<Func<Genre, bool>> predicate)

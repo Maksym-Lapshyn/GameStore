@@ -40,7 +40,34 @@ namespace GameStore.Web.Controllers.Api
 			_mapper = mapper;
 		}
 
-		// GET api/<controller>
+		[HttpGet]
+		public IHttpActionResult GetAllByPublisherCompanyName(string key, string contentType)
+		{
+			if (!_publisherService.Contains(key))
+			{
+				return Content(HttpStatusCode.BadRequest, "Publisher with such company name does not exist");
+			}
+
+			var dtos = _gameService.GetAllByPublisherCompanyName(CurrentLanguage, key);
+			var model = _mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(dtos);
+
+			return SerializeResult(model, contentType);
+		}
+
+		[HttpGet]
+		public IHttpActionResult GetAllByGenreName(string key, string contentType)
+		{
+			if (!_genreService.Contains(CurrentLanguage, key))
+			{
+				return Content(HttpStatusCode.BadRequest, "Genre with such name does not exist");
+			}
+
+			var dtos = _gameService.GetAllByGenreName(CurrentLanguage, key);
+			var model = _mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(dtos);
+
+			return SerializeResult(model, contentType);
+		}
+
 		public IHttpActionResult Get([FromUri]CompositeGamesViewModel model, string contentType)
 		{
 			if (!ModelState.IsValid && model.FilterIsChanged)
@@ -69,7 +96,6 @@ namespace GameStore.Web.Controllers.Api
 			return SerializeResult(model, contentType);
 		}
 
-		// GET api/<controller>/5
 		public IHttpActionResult Get(string key, string contentType)
 		{
 			if (!_gameService.Contains(key))
@@ -83,7 +109,6 @@ namespace GameStore.Web.Controllers.Api
 			return SerializeResult(gameViewModel, contentType);
 		}
 
-		// POST api/<controller>
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Post(GameViewModel model)
 		{
@@ -100,7 +125,6 @@ namespace GameStore.Web.Controllers.Api
 			return Ok();
 		}
 
-		// PUT api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Put(GameViewModel model)
 		{
@@ -122,7 +146,6 @@ namespace GameStore.Web.Controllers.Api
 			return Ok();
 		}
 
-		// DELETE api/<controller>/5
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Delete(string key)
 		{
