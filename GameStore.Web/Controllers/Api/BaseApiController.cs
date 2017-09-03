@@ -12,6 +12,7 @@ namespace GameStore.Web.Controllers.Api
 {
 	public class BaseApiController : ApiController
 	{
+        private const string DefaultLanguage = "en";
 		private const string XmlContentType = "xml";
 		private const string JsonContentType = "json";
 		private const string JsonMediaType = "application/json";
@@ -26,7 +27,7 @@ namespace GameStore.Web.Controllers.Api
 			_authentication = authentication;
 		}
 
-		public string CurrentLanguage => _currentLanguage ?? (_currentLanguage = ControllerContext.RouteData.Values["lang"]?.ToString() ?? "en");
+		public string CurrentLanguage => _currentLanguage ?? (_currentLanguage = ControllerContext.RouteData?.Values["lang"]?.ToString() ?? DefaultLanguage);
 
 		public User CurrentUser => _authentication.CurrentUser;
 

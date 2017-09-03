@@ -91,7 +91,7 @@ namespace GameStore.Services.Concrete
 			return gameDto;
 		}
 
-		public IEnumerable<GameDto> GetAllByPublisherCompanyName(string language, string companyName)
+		public IEnumerable<GameDto> GetAllByCompanyName(string language, string companyName)
 		{
 			var games = _gameRepository.GetAll(null, null, null, g => g.Publisher.CompanyName == companyName).ToList();
 

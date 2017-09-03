@@ -35,7 +35,8 @@ namespace GameStore.Common.Infrastructure.Serializers
 
 		private DateTime? ParseDateTime(string dateString)
 		{
-			var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
+            DateTime date;
+			var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
 
 			return !result ? null : (DateTime?)date;
 		}

@@ -96,6 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiTests\GamesControllerTests.cs" />
     <Compile Include="ApiTests\CommentsControllerTests.cs" />
     <Compile Include="CommentsControllerTests.cs" />
     <Compile Include="GamesControllerTests.cs" />

@@ -45,7 +45,7 @@ namespace GameStore.Web
 			config.Routes.MapHttpRoute(
 				"Games of publisher",
 				"api/{lang}/publishers/{key}/games/{contentType}",
-				new { contentType = "json", action = "GetAllByPublisherCompanyName", controller = "games" },
+				new { contentType = "json", action = "GetAllByCompanyName", controller = "games" },
 				new { lang = "en|ru", contentType = "json|xml" }
 			);
 

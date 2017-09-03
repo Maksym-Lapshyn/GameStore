@@ -24,7 +24,7 @@ namespace GameStore.Web.Controllers.Api
 
 		public IHttpActionResult Get(int key, string contentType)
 		{
-			if (!_orderService.ContainsActiveById(key))
+			if (!_orderService.Contains(key))
 			{
 				return Content(HttpStatusCode.BadRequest, "Order with such id does not exist");
 			}

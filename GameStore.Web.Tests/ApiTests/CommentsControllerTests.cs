@@ -127,6 +127,122 @@ namespace GameStore.Web.Tests.ApiTests
 			Assert.AreEqual(XmlMediaType, result.MediaType.MediaType);
 		}
 
+        [TestMethod]
+        public void Post_ReturnsStatusCodeBadRequest_WhenInvalidOrderIdIsPassed()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(InvalidInt)).Returns(false);
 
-	}
+            var result = _target.Post(InvalidString, new CommentViewModel()) as NegotiatedContentResult<string>;
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void Post_ReturnsErrorViewModel_WhenModelContainsErrors()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+            _target.ModelState.AddModelError(InvalidString, InvalidString);
+
+            var result = _target.Post(ValidString, new CommentViewModel()) as NegotiatedContentResult<ErrorViewModel>;
+
+            Assert.IsInstanceOfType(result.Content, typeof(ErrorViewModel));
+        }
+
+        [TestMethod]
+        public void Post_ReturnsStatusCodeBadRequest_WhenModelContainsErrors()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+            _target.ModelState.AddModelError(InvalidString, InvalidString);
+
+            var result = _target.Post(ValidString, new CommentViewModel()) as NegotiatedContentResult<ErrorViewModel>;
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void Post_CallsCreateOnce_WhenModelStateIsValid()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+
+            _target.Post(ValidString, new CommentViewModel());
+
+            _mockOfCommentService.Verify(m => m.Create(It.IsAny<CommentDto>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void Put_ReturnsStatusCodeBadRequest_WhenInvalidGameKeyIsPassed()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(InvalidString)).Returns(false);
+
+            var result = _target.Put(InvalidString, new CommentViewModel()) as NegotiatedContentResult<string>;
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void Put_ReturnsStatusCodeBadRequest_WhenCommentWithInvalidIdIsPassed()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+            _mockOfCommentService.Setup(m => m.Contains(InvalidInt)).Returns(false);
+
+            var result = _target.Put(ValidString, new CommentViewModel { Id = InvalidInt }) as NegotiatedContentResult<string>;
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void Put_ReturnsStatusCodeBadRequest_WhenModelContainsErrors()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+            _mockOfCommentService.Setup(m => m.Contains(ValidInt)).Returns(true);
+            _target.ModelState.AddModelError(InvalidString, InvalidString);
+
+            var result = _target.Put (ValidString, new CommentViewModel { Id = ValidInt }) as NegotiatedContentResult<ErrorViewModel>;
+
+            Assert.IsInstanceOfType(result.Content, typeof(ErrorViewModel));
+        }
+
+        [TestMethod]
+        public void Put_CallsUpdateOnce_WhenModelStateIsValid()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+            _mockOfCommentService.Setup(m => m.Contains(ValidInt)).Returns(true);
+
+            var result = _target.Put(ValidString, new CommentViewModel { Id = ValidInt }) as NegotiatedContentResult<ErrorViewModel>;
+
+            _mockOfCommentService.Verify(m => m.Update(It.IsAny<CommentDto>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void Delete_ReturnsStatusCodeBadRequest_WhenInvalidGameKeyIsPassed()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(InvalidString)).Returns(false);
+
+            var result = _target.Delete(InvalidString, ValidInt) as NegotiatedContentResult<string>;
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void Delete_ReturnsStatusCodeBadRequest_WhenCommentWithInvalidIdIsPassed()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+            _mockOfCommentService.Setup(m => m.Contains(InvalidInt)).Returns(false);
+
+            var result = _target.Delete(ValidString, InvalidInt) as NegotiatedContentResult<string>;
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void Delete_CallsDeleteOnce_WhenModelStateIsValid()
+        {
+            _mockOfCommentService.Setup(m => m.Contains(ValidString)).Returns(true);
+            _mockOfCommentService.Setup(m => m.Contains(ValidInt)).Returns(true);
+
+            var result = _target.Delete(ValidString, ValidInt) as NegotiatedContentResult<string>;
+
+            _mockOfCommentService.Verify(m => m.Delete(ValidInt), Times.Once);
+        }
+    }
 }

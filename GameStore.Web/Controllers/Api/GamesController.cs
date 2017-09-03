@@ -41,14 +41,14 @@ namespace GameStore.Web.Controllers.Api
 		}
 
 		[HttpGet]
-		public IHttpActionResult GetAllByPublisherCompanyName(string key, string contentType)
+		public IHttpActionResult GetAllByCompanyName(string key, string contentType)
 		{
 			if (!_publisherService.Contains(key))
 			{
 				return Content(HttpStatusCode.BadRequest, "Publisher with such company name does not exist");
 			}
 
-			var dtos = _gameService.GetAllByPublisherCompanyName(CurrentLanguage, key);
+			var dtos = _gameService.GetAllByCompanyName(CurrentLanguage, key);
 			var model = _mapper.Map<IEnumerable<GameDto>, IEnumerable<GameViewModel>>(dtos);
 
 			return SerializeResult(model, contentType);
@@ -149,11 +149,6 @@ namespace GameStore.Web.Controllers.Api
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Delete(string key)
 		{
-			if (!_gameService.Contains(key))
-			{
-				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
-			}
-
 			if (!_gameService.Contains(key))
 			{
 				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
