@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21ABABD0-FA79-4693-B6F0-F7E6458F5AF3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameStore.Authentification</RootNamespace>
-    <AssemblyName>GameStore.Authentification</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <ProjectGuid>{22A94611-6290-41F6-8B09-0B6CB23A6AE4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConsoleHost</RootNamespace>
+    <AssemblyName>ConsoleHost</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,7 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,27 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IApiAuthentication.cs" />
-    <Compile Include="Abstract\IAuthentication.cs" />
-    <Compile Include="Abstract\IUserIdentityProvider.cs" />
-    <Compile Include="Abstract\IUserProvider.cs" />
-    <Compile Include="Concrete\ApiAuthentication.cs" />
-    <Compile Include="Concrete\Authentication.cs" />
-    <Compile Include="Infrastructure\UserIdentityProvider.cs" />
-    <Compile Include="Concrete\UserProvider.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameStore.Common\GameStore.Common.csproj">
-      <Project>{2567104d-41d6-43b6-94fe-51f1fe8f6407}</Project>
-      <Name>GameStore.Common</Name>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{573b41e2-0889-46d5-9ef7-c44d33e89501}</Project>
+      <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
-      <Project>{8a3889e4-a9ba-486d-b5c4-3a3c3ee0e824}</Project>
-      <Name>GameStore.DAL</Name>
+    <ProjectReference Include="..\PaymentService\PaymentService.csproj">
+      <Project>{736c1571-3c8b-4896-a061-db75a3d2d8f1}</Project>
+      <Name>PaymentService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

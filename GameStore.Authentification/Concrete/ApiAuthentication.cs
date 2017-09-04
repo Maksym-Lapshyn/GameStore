@@ -60,7 +60,16 @@ namespace GameStore.Authentification.Concrete
 				return null;
 			}
 
-			var ticket = FormsAuthentication.Decrypt(user.AuthenticationTicket);
+			FormsAuthenticationTicket ticket;
+
+			try
+			{
+				ticket = FormsAuthentication.Decrypt(user.AuthenticationTicket);
+			}
+			catch (ArgumentException)
+			{
+				ticket = null;
+			}
 
 			if (ticket != null && !ticket.Expired)
 			{
