@@ -18,7 +18,7 @@ namespace GameStore.Authentication.Tests
 		private const string DefaultUserName = "Guest";
 
 		private Mock<IUserRepository> _mockOfUserRepository;
-		private Mock<IHasher<string>> _mockOfHasher;
+		private Mock<IHashGenerator<string>> _mockOfHashGenerator;
 		private Mock<HttpContextBase> _mockOfContext;
 		private Mock<HttpResponseBase> _mockOfResponse;
 		private Mock<HttpRequestBase> _mockOfRequest;
@@ -37,9 +37,9 @@ namespace GameStore.Authentication.Tests
 			_mockOfContext.Setup(m => m.Response).Returns(_mockOfResponse.Object);
 			_mockOfContext.Setup(m => m.Request).Returns(_mockOfRequest.Object);
 			_mockOfUserRepository = new Mock<IUserRepository>();
-			_mockOfHasher = new Mock<IHasher<string>>();
-			_mockOfHasher.Setup(m => m.GenerateHash(It.IsAny<string>())).Returns<string>(s => s);
-			_target = new Authentification.Concrete.Authentication(_mockOfUserRepository.Object, _mockOfHasher.Object)
+			_mockOfHashGenerator = new Mock<IHashGenerator<string>>();
+			_mockOfHashGenerator.Setup(m => m.Generate(It.IsAny<string>())).Returns<string>(s => s);
+			_target = new Authentification.Concrete.Authentication(_mockOfUserRepository.Object, _mockOfHashGenerator.Object)
 			{
 				HttpContext = _mockOfContext.Object
 			};

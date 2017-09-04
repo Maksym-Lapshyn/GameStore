@@ -1,26 +1,24 @@
 ﻿@using GameStore.Common.Enums
 @using GameStore.Web.Infrastructure.Helpers
 @model GameStore.Web.Models.CompositeGamesViewModel
-
 @{
-	ViewBag.Title = "Games";
+	ViewBag.Title = GlobalResource.Games;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Games</h1>
+<h1>@GlobalResource.Games</h1>
 <hr />
-<p><button class="btn btn-default" data-toggle="collapse" data-target="#filter">Filter games <span class="caret"></span></button></p>
+<p><button class="btn btn-default" data-toggle="collapse" data-target="#filter">@GlobalResource.Filter <span class="caret"></span></button></p>
 <div id="filter" class="collapse">
 	@using (Html.BeginForm("ShowAll", "Games", FormMethod.Get, new { id = "gameForm" }))
 	{
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h2>Filter games</h2>
+				<h2>@GlobalResource.Filter</h2>
 			</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-4">
-						<b>@Html.LabelFor(m => m.Filter.GenresData)</b>
+						<b>@Html.LabelFor(m => m.Filter.GenresInput)</b>
 						<p>
 							@foreach (var genre in Model.Filter.GenresData)
 							{
@@ -29,7 +27,7 @@
 						</p>
 					</div>
 					<div class="col-lg-4">
-						<b>@Html.LabelFor(m => m.Filter.PlatformTypesData)</b>
+						<b>@Html.LabelFor(m => m.Filter.PlatformTypesInput)</b>
 						<p>
 							@foreach (var platformType in Model.Filter.PlatformTypesData)
 							{
@@ -38,7 +36,7 @@
 						</p>
 					</div>
 					<div class="col-sm-4">
-						<b>@Html.LabelFor(m => m.Filter.PublishersData)</b>
+						<b>@Html.LabelFor(m => m.Filter.PublishersInput)</b>
 						<p>
 							@foreach (var publisher in Model.Filter.PublishersData)
 							{
@@ -70,7 +68,6 @@
 					@Html.TextBoxFor(m => m.Filter.GameName, new { @class = "form-control" })
 					@Html.ValidationMessageFor(m => m.Filter.GameName)
 				</p>
-
 				<b>@Html.LabelFor(m => m.PageSize)</b>
 				<p>
 					@Html.DropDownListFor(m => m.PageSize, new List<SelectListItem>
@@ -93,17 +90,14 @@
 				<input type="hidden" id="FilterState.MaxPrice" name="FilterState.MaxPrice" value=@Model.FilterState.MaxPrice />
 				<input type="hidden" id="FilterState.MinPrice" name="FilterState.MinPrice" value=@Model.FilterState.MinPrice />
 				<input type="hidden" id="FilterState.SortOptions" name="FilterState.SortOptions" value=@Model.FilterState.SortOptions />
-
 				@for (var i = 0; i < Model.FilterState.GenresInput.Count; i++)
 				{
 					@Html.HiddenFor(m => m.FilterState.GenresInput[i])
 				}
-
 				@for (var i = 0; i < Model.FilterState.PublishersInput.Count; i++)
 				{
 					@Html.HiddenFor(m => m.FilterState.PublishersInput[i])
 				}
-
 				@for (var i = 0; i < Model.FilterState.PlatformTypesInput.Count; i++)
 				{
 					@Html.HiddenFor(m => m.FilterState.PlatformTypesInput[i])
@@ -111,14 +105,13 @@
 			</div>
 			<div class="panel-footer">
 				<p>
-					<button type="button" class="btn btn-default" id="applyFilter">Filter</button>
-					@Html.ActionLink("Reset", "ShowAll", null, new { @class = "btn btn-danger" })
+					<button type="button" class="btn btn-default" id="applyFilter">@GlobalResource.ToFilter</button>
+					@Html.ActionLink(GlobalResource.ToReset, "ShowAll", null, new { @class = "btn btn-danger" })
 				</p>
 			</div>
 		</div>
 	}
 </div>
-
 @if (Model.Games.Count != 0)
 {
 	foreach (var game in Model.Games)
@@ -130,14 +123,12 @@
 }
 else
 {
-	<p>There are no games that match your filter</p>
+	<p>@GlobalResource.ThereAreNoGamesThatMatchYourFilter</p>
 }
-
 @if (User.Identity.IsAuthenticated && User.IsInRole(AccessLevel.Manager.ToString()))
 {
-	<p>@Html.ActionLink("Create new", "New", "Games", null, new { @class = "btn btn-default" })</p>
+	<p>@Html.ActionLink(GlobalResource.ToCreate, "New", "Games", null, new { @class = "btn btn-default" })</p>
 }
-
 
 @if (Model.EndPage > 1)
 {
@@ -145,29 +136,31 @@ else
 		@if (Model.CurrentPage > 1)
 				{
 			<li>
-				<a data-page="1" class="changePage">First</a>
+				<a data-page="1" class="changePage">@GlobalResource.FirstPage</a>
 			</li>
+
+
 
 			<li>
-				<a data-page=@(Model.CurrentPage - 1) class="changePage">Previous</a>
+				<a data-page=@(Model.CurrentPage - 1) class="changePage">@GlobalResource.PreviousPage</a>
 			</li>
 				}
-
 		@for (var page = Model.StartPage; page <= Model.EndPage; page++)
 				{
 			<li class="@(page == Model.CurrentPage ? "active" : string.Empty)">
 				<a data-page="@page" class="changePage">@page</a>
 			</li>
 				}
-
 		@if (Model.CurrentPage < Model.TotalPages)
 				{
 			<li>
-				<a data-page=@(Model.CurrentPage + 1) class="changePage">Next</a>
+				<a data-page=@(Model.CurrentPage + 1) class="changePage">@GlobalResource.NextPage</a>
 			</li>
 
+
+
 			<li>
-				<a data-page=@Model.TotalPages class="changePage">Last</a>
+				<a data-page=@Model.TotalPages class="changePage">@GlobalResource.LastPage</a>
 			</li>
 				}
 	</ul>

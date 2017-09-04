@@ -1,4 +1,5 @@
 ﻿using GameStore.Authentification.Abstract;
+using GameStore.Common.App_LocalResources;
 using GameStore.Common.Entities;
 
 namespace GameStore.Authentification.Infrastructure
@@ -7,7 +8,7 @@ namespace GameStore.Authentification.Infrastructure
 	{
 		public User User { get; set; }
 
-		public string Name => User != null ? User.Login : "Guest";
+		public string Name => User != null ? User.Login : GlobalResource.Guest;
 
 		public string AuthenticationType => typeof(User).ToString();
 

@@ -1,4 +1,5 @@
-﻿using GameStore.Common.Infrastructure.Serializers;
+﻿using GameStore.Common.Entities.Localization;
+using GameStore.Common.Infrastructure.Serializers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
@@ -25,6 +26,7 @@ namespace GameStore.Common.Entities
 		[BsonElement("ProductName")]
 		public string Name { get; set; }
 
+		[NotMapped]
 		public string Description { get; set; }
 
 		public bool IsUpdated { get; set; }
@@ -55,5 +57,8 @@ namespace GameStore.Common.Entities
 		public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
 		public virtual ICollection<PlatformType> PlatformTypes { get; set; } = new List<PlatformType>();
+
+		[BsonIgnore]
+		public virtual ICollection<GameLocale> GameLocales { get; set; } = new List<GameLocale>();
 	}
 }

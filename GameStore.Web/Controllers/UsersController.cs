@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Authentification.Abstract;
+using GameStore.Common.App_LocalResources;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -60,7 +61,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var userDto = _userService.GetSingle(key);
+			var userDto = _userService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<UserDto, UserViewModel>(userDto);
 			model.RolesData = GetRoles();
 
@@ -86,7 +87,7 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult Show(string key)
 		{
-			var roleDto = _userService.GetSingle(key);
+			var roleDto = _userService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<UserDto, UserViewModel>(roleDto);
 
 			return View(model);
@@ -109,7 +110,7 @@ namespace GameStore.Web.Controllers
 
 		private List<RoleViewModel> GetRoles()
 		{
-			return _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(_roleService.GetAll()).ToList();
+			return _mapper.Map<IEnumerable<RoleDto>, IEnumerable<RoleViewModel>>(_roleService.GetAll(CurrentLanguage)).ToList();
 		}
 
 		private void CheckIfLoginIsUnique(UserViewModel user)
@@ -119,11 +120,11 @@ namespace GameStore.Web.Controllers
 				return;
 			}
 
-			var existingUser = _userService.GetSingle(user.Login);
+			var existingUser = _userService.GetSingle(CurrentLanguage, user.Login);
 
 			if (existingUser.Id != user.Id)
 			{
-				ModelState.AddModelError("Login", "User with such login already exists");
+				ModelState.AddModelError("Login", GlobalResource.UserWithSuchLoginAlreadyExists);
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 using GameStore.Common.Entities;
+using GameStore.Common.Entities.Localization;
 using System.Data.Entity;
 
 namespace GameStore.DAL.Context
@@ -18,6 +19,8 @@ namespace GameStore.DAL.Context
 
 		public DbSet<Game> Games { get; set; }
 
+		public DbSet<GameLocale> GameLocales { get; set; }
+
 		public DbSet<Comment> Comments { get; set; }
 
 		public DbSet<Genre> Genres { get; set; }
@@ -33,5 +36,9 @@ namespace GameStore.DAL.Context
 		public DbSet<User> Users { get; set; }
 
 		public DbSet<Role> Roles { get; set; }
+
+		public DbSet<RoleLocale> RoleLocales { get; set; }
+
+		public DbSet<Language> Languages { get; set; }
 	}
 }

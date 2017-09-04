@@ -3,7 +3,6 @@ using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
@@ -24,7 +23,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public IEnumerable<Role> GetAll(Expression<Func<Role, bool>> predicate = null)
 		{
-			return _efRepository.GetAll(predicate).ToList();
+			return _efRepository.GetAll(predicate);
 		}
 
 		public void Update(Role role)

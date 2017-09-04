@@ -1,6 +1,9 @@
 ﻿@using GameStore.Common.Enums
+@using GameStore.Web.Infrastructure.Helpers
+
 @{
 	Layout = null;
+	var cacheKey = GameStore.Web.Filters.CacheGamesCountAttribute.CacheKey;
 }
 
 <!DOCTYPE html>
@@ -32,35 +35,38 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href=@Url.Action("ShowAll", "Games")>Games @{Html.RenderAction("ShowCount", "Games");}</a></li>
+					<li><a href=@Url.Action("ShowAll", "Games")>@GlobalResource.Games <span class="badge">@HttpContext.Current.Cache[cacheKey]</span></a></li>
 
 					@if (User.Identity.IsAuthenticated && User.IsInRole(AccessLevel.Administrator.ToString()))
 					{
-						<li>@Html.ActionLink("Roles", "ShowAll", "Roles", null, null)</li>
-						<li>@Html.ActionLink("Users", "ShowAll", "Users", null, null)</li>
+						<li>@Html.ActionLink(GlobalResource.Roles, "ShowAll", "Roles", null, null)</li>
+						<li>@Html.ActionLink(GlobalResource.Users, "ShowAll", "Users", null, null)</li>
 					}
-					
+
 					@if (User.Identity.IsAuthenticated && User.IsInRole(AccessLevel.Manager.ToString()))
 					{
-						<li>@Html.ActionLink("History", "History", "Orders", null, null)</li>
-						<li>@Html.ActionLink("Orders", "ShowAll", "Orders", null, null)</li>
-						<li>@Html.ActionLink("Genres", "ShowAll", "Genres", null, null)</li>
-						<li>@Html.ActionLink("Publishers", "ShowAll", "Publishers", null, null)</li>
+						<li>@Html.ActionLink(GlobalResource.OrdersHistory, "History", "Orders", null, null)</li>
+						<li>@Html.ActionLink(GlobalResource.Orders, "ShowAll", "Orders", null, null)</li>
+						<li>@Html.ActionLink(GlobalResource.Genres, "ShowAll", "Genres", null, null)</li>
+						<li>@Html.ActionLink(GlobalResource.Publishers, "ShowAll", "Publishers", null, null)</li>
 					}
 
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					@if (HttpContext.Current.User.Identity.IsAuthenticated)
 					{
-						<li><a href="#">Hello, @Context.User.Identity.Name</a></li>
-						<li><a href=@Url.Action("Busket", "Orders")><span class="glyphicon glyphicon-shopping-cart"></span> To basket</a></li>
-						<li>@Html.ActionLink("Logout", "Logout", "Accounts", null, null)</li>
+						<li><a href="#">@GlobalResource.Hello, @Context.User.Identity.Name</a></li>
+						<li><a href=@Url.Action("Busket", "Orders")><span class="glyphicon glyphicon-shopping-cart"></span> @GlobalResource.Basket</a></li>
+						<li>@Html.ActionLink(GlobalResource.ToLogout, "Logout", "Accounts", null, null)</li>
 					}
 					else
 					{
-						<li>@Html.ActionLink("Login", "Login", "Accounts")</li>
-						<li>@Html.ActionLink("Register", "Register", "Accounts")</li>
+						<li>@Html.ActionLink(GlobalResource.ToLogIn, "Login", "Accounts")</li>
+						<li>@Html.ActionLink(GlobalResource.ToRegister, "Register", "Accounts")</li>
 					}
+
+					<li>@Url.LangSwitcher(GlobalResource.English, ViewContext.RouteData, "en", "dropdown-item")</li>
+					<li>@Url.LangSwitcher(GlobalResource.Russian, ViewContext.RouteData, "ru", "dropdown-item")</li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->

@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using GameStore.Common.Entities.Localization;
+using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,9 @@ namespace GameStore.Common.Entities
 		public virtual Genre ParentGenre { get; set; }
 
 		[BsonIgnore]
-		public virtual ICollection<Game> Games { get; set; }
+		public virtual ICollection<Game> Games { get; set; } = new List<Game>();
+
+		[BsonIgnore]
+		public virtual ICollection<GenreLocale> GenreLocales { get; set; } = new List<GenreLocale>();
 	}
 }

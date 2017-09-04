@@ -6,6 +6,8 @@ using GameStore.DAL.Concrete;
 using GameStore.DAL.Concrete.EntityFramework;
 using GameStore.DAL.Concrete.MongoDb;
 using GameStore.DAL.Context;
+using GameStore.Services.Abstract;
+using GameStore.Services.Concrete;
 using MongoDB.Driver;
 using Ninject.Modules;
 using Ninject.Web.Common;

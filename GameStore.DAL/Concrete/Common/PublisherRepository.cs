@@ -30,7 +30,6 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			var efList = _efRepository.GetAll(predicate).ToList();
 			var mongoList = _mongoRepository.GetAll(predicate).ToList();
-
 			return efList.Union(mongoList, new PublisherEqualityComparer());
 		}
 

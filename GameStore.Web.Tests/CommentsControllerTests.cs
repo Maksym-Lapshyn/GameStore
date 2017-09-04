@@ -42,7 +42,7 @@ namespace GameStore.Web.Tests
 			_mockOfPrincipal = new Mock<IPrincipal>();
 			_mockOfPrincipal.Setup(m => m.Identity.Name).Returns(ValidString);
 			_mockOfControllerContext.Setup(m => m.HttpContext.User).Returns(_mockOfPrincipal.Object);
-			_mockOfGameService.Setup(m => m.GetSingle(ValidString)).Returns(new GameDto {IsDeleted = true});
+			_mockOfGameService.Setup(m => m.GetSingle(It.IsAny<string>(), ValidString)).Returns(new GameDto {IsDeleted = true});
 			_mockOfCommentService.Setup(m => m.Create(It.IsAny<CommentDto>())).Callback<CommentDto>(c => _comments.Add(c));
 			_mockOfCommentService.Setup(m => m.GetAll(ValidString)).Returns(_comments.Where(c => c.GameKey == ValidString));
 			_target = new CommentsController(_mockOfCommentService.Object, _mockOfGameService.Object, _mapper, _mockOfAuthentication.Object)

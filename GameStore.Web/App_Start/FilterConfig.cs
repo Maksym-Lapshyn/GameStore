@@ -10,6 +10,7 @@ namespace GameStore.Web
 			filters.Add(new LogEventsAndPerformanceAttribute());
 			filters.Add(new LogExceptionAttribute());
 			filters.Add(new LogIpAttribute());
+			filters.Add(new CacheGamesCountAttribute());
 		}
 	}
 }

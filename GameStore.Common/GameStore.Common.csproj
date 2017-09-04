@@ -53,11 +53,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IHasher.cs" />
+    <Compile Include="Abstract\IHashGenerator.cs" />
+    <Compile Include="App_LocalResources\GlobalResource.Designer.cs">
+      <DependentUpon>GlobalResource.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_LocalResources\GlobalResource.ru.Designer.cs">
+      <DependentUpon>GlobalResource.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\Localization\Language.cs" />
+    <Compile Include="Entities\Localization\GameLocale.cs" />
+    <Compile Include="Entities\Localization\GenreLocale.cs" />
+    <Compile Include="Entities\Localization\PlatformTypeLocale.cs" />
+    <Compile Include="Entities\Localization\PublisherLocale.cs" />
+    <Compile Include="Entities\Localization\RoleLocale.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetails.cs" />
     <Compile Include="Entities\PlatformType.cs" />
@@ -70,7 +86,7 @@
     <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Enums\AccessLevel.cs" />
-    <Compile Include="Concrete\Md5Hasher.cs" />
+    <Compile Include="Concrete\Md5HashGenerator.cs" />
     <Compile Include="Infrastructure\Comparers\GameEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\GenreEqualityComparer.cs" />
     <Compile Include="Infrastructure\Comparers\PublisherEqualityComparer.cs" />
@@ -81,10 +97,30 @@
     <Compile Include="Infrastructure\Serializers\NullableDateTimeToStringSerializer.cs" />
     <Compile Include="Infrastructure\Serializers\StringOrInt32ToStringSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="App_LocalResources\GlobalResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\GlobalResource.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalResource.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

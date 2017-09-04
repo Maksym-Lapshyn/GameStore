@@ -7,17 +7,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Tests
 {
 	[TestClass]
 	public class GenreServiceTests
 	{
+		private const string TestString = "test";
+
 		private readonly IMapper _mapper = new Mapper(
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 
 		private Mock<IGenreRepository> _mockOfGenreRepository;
-		private Mock<IGameRepository> _mockOfGameRepository;
+		private Mock<IOutputLocalizer<Genre>> _mockOfOutputLocalizer;
+		private Mock<IInputLocalizer<Genre>> _mockOfInputLocalizer;
 		private Mock<IUnitOfWork> _mockOfUow;
 		private GenreService _target;
 		private List<Genre> _genres;
@@ -26,9 +30,10 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfGenreRepository = new Mock<IGenreRepository>();
-			_mockOfGameRepository = new Mock<IGameRepository>();
+			_mockOfOutputLocalizer = new Mock<IOutputLocalizer<Genre>>();
+			_mockOfInputLocalizer = new Mock<IInputLocalizer<Genre>>();
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new GenreService(_mapper, _mockOfGenreRepository.Object, _mockOfGameRepository.Object, _mockOfUow.Object);
+			_target = new GenreService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object, _mockOfGenreRepository.Object);
 		}
 
 		[TestMethod]
@@ -43,7 +48,7 @@ namespace GameStore.Services.Tests
 
 			_mockOfGenreRepository.Setup(m => m.GetAll(null)).Returns(_genres);
 
-			var result = _target.GetAll().ToList().Count;
+			var result = _target.GetAll(TestString).ToList().Count;
 
 			Assert.AreEqual(result, 3);
 		}

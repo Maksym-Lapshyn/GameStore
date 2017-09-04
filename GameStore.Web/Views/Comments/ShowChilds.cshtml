@@ -13,10 +13,10 @@
 	<b>@Html.LabelFor(m => comment.Body):</b>
 	<p>@Html.DisplayFor(m => comment.Body)</p>
 	<p>
-		<button data-id=@comment.Id data-name=@comment.Name class="reply btn btn-default">Reply</button>
+		<button data-id=@comment.Id data-name=@comment.Name class="reply btn btn-default">@GlobalResource.ToReply</button>
 		@if (User.Identity.IsAuthenticated && !User.IsInRole(AccessLevel.Moderator.ToString()))
 		{
-			@Html.ActionLink("Delete", "Delete", "Comments", new { key = comment.Id }, new { @class = "btn btn-danger" })
+			@Html.ActionLink(GlobalResource.ToDelete, "Delete", "Comments", new { key = comment.Id }, new { @class = "btn btn-danger" })
 		}
 	</p>
 

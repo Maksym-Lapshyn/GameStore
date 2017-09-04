@@ -62,12 +62,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommentServiceTests.cs" />
+    <Compile Include="RoleOutputLocalizerTests.cs" />
+    <Compile Include="PlatformTypeOutputLocalizerTests.cs" />
+    <Compile Include="RoleInputLocalizerTests.cs" />
+    <Compile Include="PublisherInputLocalizerTests.cs" />
+    <Compile Include="GenreInputLocalizerTests.cs" />
     <Compile Include="GameServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GenreServiceTests.cs" />
     <Compile Include="OrderServiceTests.cs" />
     <Compile Include="PlatformTypeServiceTests.cs" />
     <Compile Include="PublisherServiceTests.cs" />
+    <Compile Include="GameInputLocalizerTests.cs" />
+    <Compile Include="GameOutputLocalizerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

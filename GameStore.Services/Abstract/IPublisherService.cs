@@ -5,13 +5,13 @@ namespace GameStore.Services.Abstract
 {
 	public interface IPublisherService
 	{
-		PublisherDto GetSingle(string companyName);
+		PublisherDto GetSingle(string language, string companyName);
 
-		void Create(PublisherDto publisherDto);
+		void Create(string language, PublisherDto publisherDto);
 
-		IEnumerable<PublisherDto> GetAll();
+		IEnumerable<PublisherDto> GetAll(string language);
 
-		void Update(PublisherDto publisherDto);
+		void Update(string language, PublisherDto publisherDto);
 
 		void Delete(string companyName);
 

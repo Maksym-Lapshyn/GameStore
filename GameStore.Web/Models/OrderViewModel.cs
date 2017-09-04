@@ -1,8 +1,9 @@
-﻿using GameStore.Common.Entities;
+﻿using GameStore.Common.App_LocalResources;
+using GameStore.Common.Entities;
 using GameStore.Common.Enums;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
 {
@@ -13,19 +14,16 @@ namespace GameStore.Web.Models
 			OrderDetails = new List<OrderDetailsViewModel>();
 		}
 
-		[DisplayName("Order Id")]
-		public int OrderId { get; set; }
-
-		[DisplayName("Date ordered")]
+		[Display(Name = "DateOrdered", ResourceType = typeof(GlobalResource))]
 		public DateTime? DateOrdered { get; set; }
 
-		[DisplayName("Date shipped")]
+		[Display(Name = "DateShipped", ResourceType = typeof(GlobalResource))]
 		public DateTime? DateShipped { get; set; }
 
-		[DisplayName("Order status")]
+		[Display(Name = "OrderStatus", ResourceType = typeof(GlobalResource))]
 		public OrderStatus OrderStatus { get; set; }
 
-		[DisplayName("Total price")]
+		[Display(Name = "TotalPrice", ResourceType = typeof(GlobalResource))]
 		public decimal TotalPrice { get; set; }
 
 		public virtual UserViewModel User { get; set; }

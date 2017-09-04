@@ -1,13 +1,12 @@
 ﻿@model GameStore.Web.Models.GenreViewModel
 
 @{
-	ViewBag.Title = "Genre";
+	ViewBag.Title = Model.Name;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Genre</h1>
-<b>@Html.LabelFor(m => m.Name)</b>
-<p>@Html.DisplayFor(m => m.Name)</p>
+<h1>@Model.Name</h1>
+<hr/>
 <b>@Html.LabelFor(m => m.IsDeleted)</b>
 <p>@Html.DisplayFor(m => m.IsDeleted)</p>
 @if (Model.ParentGenreInput != null)
@@ -17,10 +16,10 @@
 }
 
 <p>
-	@Html.ActionLink("Update", "Update", "Genres", new {key = Model.Name}, new {@class = "btn btn-default"})
+	@Html.ActionLink(GlobalResource.ToUpdate, "Update", "Genres", new {key = Model.Name}, new {@class = "btn btn-default"})
 
 	@if (!Model.IsDeleted)
 	{
-		@Html.ActionLink("Delete", "Delete", "Genres", new { key = Model.Name }, new { @class = "btn btn-danger" })
+		@Html.ActionLink(GlobalResource.ToDelete, "Delete", "Genres", new { key = Model.Name }, new { @class = "btn btn-danger" })
 	}
 </p>

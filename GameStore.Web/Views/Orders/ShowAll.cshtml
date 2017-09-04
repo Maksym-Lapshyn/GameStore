@@ -1,26 +1,26 @@
 ﻿@model GameStore.Web.Models.CompositeOrdersViewModel
 
 @{
-	ViewBag.Title = "Orders";
+	ViewBag.Title = GlobalResource.Orders;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Orders</h1>
+<h1>@GlobalResource.Orders</h1>
 <hr />
 
 @using (Html.BeginForm("ShowAll", "Orders", FormMethod.Post))
 {
-	<b>@Html.LabelFor(m => m.Filter.From)</b>
+	<b>@Html.LabelFor(m => m.Filter.BeginningDate)</b>
 	<p>
-		@Html.TextBoxFor(m => m.Filter.From, new { @class = "form-control", type = "date", placeholder = DateTime.UtcNow })
-		@Html.ValidationMessageFor(m => m.Filter.From)
+		@Html.TextBoxFor(m => m.Filter.BeginningDate, new { @class = "form-control", type = "date", placeholder = DateTime.UtcNow })
+		@Html.ValidationMessageFor(m => m.Filter.BeginningDate)
 	</p>
-	<b>@Html.LabelFor(m => m.Filter.To)</b>
+	<b>@Html.LabelFor(m => m.Filter.EndingDate)</b>
 	<p>
-		@Html.TextBoxFor(m => m.Filter.To, new { @class = "form-control", type = "date", placeholder = DateTime.UtcNow })
-		@Html.ValidationMessageFor(m => m.Filter.To)
+		@Html.TextBoxFor(m => m.Filter.EndingDate, new { @class = "form-control", type = "date", placeholder = DateTime.UtcNow })
+		@Html.ValidationMessageFor(m => m.Filter.EndingDate)
 	</p>
-	<p><button type="submit" class="btn btn-default">Filter</button></p>
+	<p><button type="submit" class="btn btn-default">@GlobalResource.Filter</button></p>
 }
 
 <hr />
@@ -36,5 +36,5 @@
 }
 else
 {
-	<p>There are no orders that match your filter</p>
+	<p>@GlobalResource.ThereAreNoOrdersThatMatchYourFilter</p>
 }

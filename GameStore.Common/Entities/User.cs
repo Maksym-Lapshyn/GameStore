@@ -8,8 +8,8 @@ namespace GameStore.Common.Entities
 
 		public string Password { get; set; }
 		
-		public virtual ICollection<Role> Roles { get; set; }
+		public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 
-		public virtual ICollection<Order> Orders { get; set; }
+		public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 	}
 }

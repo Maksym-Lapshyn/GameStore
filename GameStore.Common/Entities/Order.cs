@@ -30,6 +30,6 @@ namespace GameStore.Common.Entities
 
 		public virtual User User { get; set; }
 
-		public virtual ICollection<OrderDetails> OrderDetails { get; set; }
+		public virtual ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
 	}
 }

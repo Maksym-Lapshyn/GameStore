@@ -16,7 +16,8 @@ namespace GameStore.DAL.Concrete.Filters
 
 		public IQueryable<Game> Execute(IQueryable<Game> input)
 		{
-			return input.Where(game => game.Genres.Select(genre => genre.Name).Intersect(_genreNames).Any());
+			return input.Where(game => game.Genres.Any(genre => genre.GenreLocales.Any(l => _genreNames.Contains(l.Name)) 
+				|| _genreNames.Contains(genre.Name)));
 		}
 	}
 }

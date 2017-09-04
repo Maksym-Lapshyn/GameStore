@@ -1,6 +1,6 @@
-﻿using GameStore.Common.Entities;
+﻿using GameStore.Common.App_LocalResources;
+using GameStore.Common.Entities;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Web.Models
@@ -12,13 +12,13 @@ namespace GameStore.Web.Models
 			ParentGenreData = new List<GenreViewModel>();
 		}
 
-		[Required]
-		[DisplayName("Name")]
+		[Required(ErrorMessageResourceName = "GenreNameIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
+		[Display(Name = "GenreName", ResourceType = typeof(GlobalResource))]
 		public string Name { get; set; }
 
 		public List<GenreViewModel> ParentGenreData { get; set; }
 
-		[DisplayName("Parent Genre")]
+		[Display(Name = "ParentGenre", ResourceType = typeof(GlobalResource))]
 		public string ParentGenreInput { get; set; }
 	}
 }

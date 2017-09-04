@@ -5,16 +5,16 @@ namespace GameStore.Services.Abstract
 {
 	public interface IGenreService
 	{
-		IEnumerable<GenreDto> GetAll();
+		IEnumerable<GenreDto> GetAll(string language);
 
-		GenreDto GetSingle(string name);
+		GenreDto GetSingle(string language, string name);
 
-		void Create(GenreDto genreDto);
+		void Create(string language, GenreDto genreDto);
 
-		void Update(GenreDto genreDto);
+		void Update(string language, GenreDto genreDto);
 
 		void Delete(string name);
 
-		bool Contains(string name);
+		bool Contains(string language, string name);
 	}
 }

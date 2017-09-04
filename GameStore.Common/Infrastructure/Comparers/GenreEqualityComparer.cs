@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using GameStore.Common.Entities;
+﻿using GameStore.Common.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameStore.Common.Infrastructure.Comparers
 {
@@ -17,7 +18,14 @@ namespace GameStore.Common.Infrastructure.Comparers
 
 		public int GetHashCode(Genre obj)
 		{
-			return obj.Name.GetHashCode();
+			if (obj.GenreLocales.Count == 0)
+			{
+				return obj.Name.GetHashCode();
+			}
+
+			var genreLocale = obj.GenreLocales.First();
+
+			return genreLocale.Name.GetHashCode();
 		}
 	}
 }

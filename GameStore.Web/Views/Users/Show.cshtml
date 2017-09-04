@@ -1,11 +1,12 @@
 ﻿@model GameStore.Web.Models.UserViewModel
 
 @{
-	ViewBag.Title = "User";
+	ViewBag.Title = Model.Login;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>User</h1>
+<h1>@Model.Login</h1>
+<hr/>
 <b>@Html.LabelFor(m => m.Login)</b>
 <p>@Html.DisplayFor(m => m.Login)</p>
 <b>@Html.LabelFor(m => m.RolesInput)</b>
@@ -19,17 +20,17 @@
 }
 else
 {
-	<p>Guest</p>
+	<p>@GlobalResource.Guest</p>
 }
 
 <b>@Html.LabelFor(m => m.IsDeleted)</b>
 <p>@Html.DisplayFor(m => m.IsDeleted)</p>
 
 <p>
-	@Html.ActionLink("Update", "Update", "Users", new { key = Model.Login }, new { @class = "btn btn-default" })
+	@Html.ActionLink(GlobalResource.ToUpdate, "Update", "Users", new { key = Model.Login }, new { @class = "btn btn-default" })
 
 	@if (!Model.IsDeleted)
 	{
-		@Html.ActionLink("Delete", "Delete", "Users", new { key = Model.Login }, new { @class = "btn btn-danger" })
+		@Html.ActionLink(GlobalResource.ToDelete, "Delete", "Users", new { key = Model.Login }, new { @class = "btn btn-danger" })
 	}
 </p>

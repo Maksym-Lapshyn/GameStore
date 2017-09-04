@@ -7,7 +7,7 @@ namespace GameStore.Services.Abstract
 	{
 		void Create(UserDto userDto);
 
-		UserDto GetSingle(string name);
+		UserDto GetSingle(string language, string name);
 
 		IEnumerable<UserDto> GetAll();
 

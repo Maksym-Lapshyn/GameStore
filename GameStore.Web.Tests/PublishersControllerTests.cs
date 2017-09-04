@@ -31,8 +31,8 @@ namespace GameStore.Web.Tests
 			_publishers = new List<PublisherDto>();
 			_mockOfPublisherService = new Mock<IPublisherService>();
 			_mockOfAuthentication = new Mock<IAuthentication>();
-			_mockOfPublisherService.Setup(m => m.Create(It.IsAny<PublisherDto>())).Callback<PublisherDto>(p => _publishers.Add(p));
-			_mockOfPublisherService.Setup(m => m.GetSingle(It.IsAny<string>())).Returns(new PublisherDto());
+			_mockOfPublisherService.Setup(m => m.Create(It.IsAny<string>(), It.IsAny<PublisherDto>())).Callback<string, PublisherDto>((l, p) => _publishers.Add(p));
+			_mockOfPublisherService.Setup(m => m.GetSingle(It.IsAny<string>(), It.IsAny<string>())).Returns(new PublisherDto());
 			_target = new PublishersController(_mockOfPublisherService.Object, _mapper, _mockOfAuthentication.Object);
 		}
 
@@ -47,7 +47,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void New_ReturnsRedirectToRouteResult_WhenModelStateIsValid()
 		{
-			var result = _target.New(new PublisherViewModel());
+			var result = _target.New(new PublisherViewModel {Description = ValidString});
 
 			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
 		}
@@ -65,9 +65,9 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void New_CreatesPublisher_WhenModelStateIsValid()
 		{
-			_target.New(new PublisherViewModel());
+			_target.New(new PublisherViewModel{Description = ValidString});
 
-			Assert.IsTrue(_publishers.Count == 1);
+			Assert.AreEqual(1, _publishers.Count);
 		}
 
 		[TestMethod]
@@ -101,8 +101,8 @@ namespace GameStore.Web.Tests
 		public void Update_UpdatesPublisher_IfModelStateIsValid()
 		{
 			_publishers = new List<PublisherDto> { new PublisherDto { CompanyName = InvalidString } };
-			var publisher = new PublisherViewModel { CompanyName = ValidString };
-			_mockOfPublisherService.Setup(m => m.Update(It.IsAny<PublisherDto>())).Callback<PublisherDto>(p => _publishers[0] = p);
+			var publisher = new PublisherViewModel { CompanyName = ValidString, Description = ValidString};
+			_mockOfPublisherService.Setup(m => m.Update(It.IsAny<string>(), It.IsAny<PublisherDto>())).Callback<string, PublisherDto>((l, p) => _publishers[0] = p);
 
 			_target.Update(publisher);
 
@@ -112,7 +112,7 @@ namespace GameStore.Web.Tests
 		[TestMethod]
 		public void Update_ReturnsRedirectToRouteResult_IfModelStateIsValid()
 		{
-			var result = _target.Update(new PublisherViewModel());
+			var result = _target.Update(new PublisherViewModel{Description = ValidString});
 
 			Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
 		}

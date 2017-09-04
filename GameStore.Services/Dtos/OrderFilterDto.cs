@@ -4,8 +4,8 @@ namespace GameStore.Services.Dtos
 {
 	public class OrderFilterDto
 	{
-		public DateTime From { get; set; }
+		public DateTime BeginningDate { get; set; }
 
-		public DateTime To { get; set; }
+		public DateTime EndingDate { get; set; }
 	}
 }

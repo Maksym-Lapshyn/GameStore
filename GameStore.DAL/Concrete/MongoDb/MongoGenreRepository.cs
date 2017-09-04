@@ -23,7 +23,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 		public Genre GetSingle(Expression<Func<Genre, bool>> predicate)
 		{
-			return _collection.Find(predicate).Single();
+			return _collection.AsQueryable().Where(predicate.Compile()).First();
 		}
 
 		public bool Contains(Expression<Func<Genre, bool>> predicate)

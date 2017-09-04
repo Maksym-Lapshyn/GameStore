@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Authentification.Abstract;
+using GameStore.Common.App_LocalResources;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -35,6 +36,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult New(PublisherViewModel model)
 		{
 			CheckIfCompanyNameIsUnique(model);
+			CheckIfDescriptionIsNull(model);
 
 			if (!ModelState.IsValid)
 			{
@@ -42,7 +44,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
-			_publisherService.Create(publisherDto);
+			_publisherService.Create(CurrentLanguage, publisherDto);
 
 			return RedirectToAction("ShowAll", "Publishers");
 		}
@@ -50,7 +52,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var publisherDto = _publisherService.GetSingle(key);
+			var publisherDto = _publisherService.GetSingle(CurrentLanguage, key);
 			var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(publisherDto);
 
 			return View(publisherViewModel);
@@ -60,6 +62,7 @@ namespace GameStore.Web.Controllers
 		public ActionResult Update(PublisherViewModel model)
 		{
 			CheckIfCompanyNameIsUnique(model);
+			CheckIfDescriptionIsNull(model);
 
 			if (!ModelState.IsValid)
 			{
@@ -67,14 +70,14 @@ namespace GameStore.Web.Controllers
 			}
 
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
-			_publisherService.Update(publisherDto);
+			_publisherService.Update(CurrentLanguage, publisherDto);
 
 			return RedirectToAction("ShowAll", "Publishers");
 		}
 
 		public ActionResult Show(string key)
 		{
-			var model = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingle(key));
+			var model = _mapper.Map<PublisherDto, PublisherViewModel>(_publisherService.GetSingle(CurrentLanguage, key));
 
 			return View(model);
 		}
@@ -89,7 +92,7 @@ namespace GameStore.Web.Controllers
 
 		public ActionResult ShowAll()
 		{
-			var publisherDtos = _publisherService.GetAll();
+			var publisherDtos = _publisherService.GetAll(CurrentLanguage);
 			var model = _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(publisherDtos);
 
 			return View(model);
@@ -102,11 +105,19 @@ namespace GameStore.Web.Controllers
 				return;
 			}
 
-			var existingPublisher = _publisherService.GetSingle(model.CompanyName);
+			var existingPublisher = _publisherService.GetSingle(CurrentLanguage, model.CompanyName);
 
 			if (existingPublisher.Id != model.Id)
 			{
-				ModelState.AddModelError("CompanyName", "Publisher with such company name already exists");
+				ModelState.AddModelError("CompanyName", GlobalResource.PublisherWithSuchCompanyNameAlreadyExists);
+			}
+		}
+
+		private void CheckIfDescriptionIsNull(PublisherViewModel model)
+		{
+			if (model.Description == null)
+			{
+				ModelState.AddModelError("Description", GlobalResource.DescriptionIsRequired);
 			}
 		}
 	}

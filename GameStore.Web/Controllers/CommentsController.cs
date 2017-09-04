@@ -41,7 +41,7 @@ namespace GameStore.Web.Controllers
 					GameKey = key
 				},
 
-				GameIsDeleted = _gameService.GetSingle(key).IsDeleted,
+				GameIsDeleted = _gameService.GetSingle(CurrentLanguage, key).IsDeleted,
 				Comments = GetComments(key)
 			};
 

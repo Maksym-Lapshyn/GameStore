@@ -2,15 +2,14 @@
 @model GameStore.Web.Models.GameViewModel
 
 @{
-	ViewBag.Title = "Game";
+	ViewBag.Title = Model.Name;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Game</h1>
+<h1>@Html.DisplayFor(m => m.Name)</h1>
+<hr/>
 <b>@Html.LabelFor(m => m.Key)</b>
 <p>@Html.DisplayFor(m => m.Key)</p>
-<b>@Html.LabelFor(m => m.Name)</b>
-<p>@Html.DisplayFor(m => m.Name)</p>
 <b>@Html.LabelFor(m => m.Description)</b>
 <p>@Html.DisplayFor(m => m.Description)</p>
 <b>@Html.LabelFor(m => m.Price)</b>
@@ -23,6 +22,7 @@
 @if (Model.PlatformTypesInput.Count != 0)
 {
 	<b>@Html.LabelFor(m => m.PlatformTypesInput)</b>
+
 	foreach (var platformType in Model.PlatformTypesInput)
 	{
 		<p>@platformType</p>
@@ -40,7 +40,7 @@
 }
 else
 {
-	<p>Other</p>
+	<p>@GlobalResource.Other</p>
 }
 
 <b>@Html.LabelFor(m => m.PublisherInput)</b>
@@ -51,27 +51,27 @@ else
 }
 else
 {
-	<p>Unknown</p>
+	<p>@GlobalResource.UnknownPublisher</p>
 }
 
 @if (User.Identity.IsAuthenticated)
 {
-	@Html.ActionLink("Download", "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
+	@Html.ActionLink(GlobalResource.ToDownload, "Download", "Games", null, new { target = "_blank", @class = "btn btn-primary" })
 
 	using (Html.BeginForm("Buy", "Orders", FormMethod.Post))
 	{
 		<input type="hidden" name="gameKey" value=@Model.Key />
-		<button type="submit" class="btn btn-default">Buy</button>
+		<button type="submit" class="btn btn-default">@GlobalResource.ToBuy</button>
 	}
 }
 
 @if (!User.Identity.IsAuthenticated || User.Identity.IsAuthenticated && !User.IsInRole(AccessLevel.Administrator.ToString()))
 {
-	@Html.ActionLink("Comments", "New", "Comments", new { key = Model.Key }, new { @class = "btn btn-default" })
+	@Html.ActionLink(GlobalResource.Comments, "New", "Comments", new { key = Model.Key }, new { @class = "btn btn-default" })
 }
 
 @if (User.Identity.IsAuthenticated && User.IsInRole(AccessLevel.Manager.ToString()))
 {
-	@Html.ActionLink("Update", "Update", "Games", new { key = Model.Key }, new { @class = "btn btn-default" })
-	@Html.ActionLink("Delete", "Delete", "Games", new { key = Model.Key }, new { @class = "btn btn-danger" })
+	@Html.ActionLink(GlobalResource.ToUpdate, "Update", "Games", new { key = Model.Key }, new { @class = "btn btn-default" })
+	@Html.ActionLink(GlobalResource.ToDelete, "Delete", "Games", new { key = Model.Key }, new { @class = "btn btn-danger" })
 }

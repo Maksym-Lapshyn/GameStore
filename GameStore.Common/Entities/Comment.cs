@@ -16,6 +16,6 @@ namespace GameStore.Common.Entities
 		[BsonIgnore]
 		public virtual Comment ParentComment { get; set; }
 
-		public virtual ICollection<Comment> ChildComments { get; set; }
+		public virtual ICollection<Comment> ChildComments { get; set; } = new List<Comment>();
 	}
 }

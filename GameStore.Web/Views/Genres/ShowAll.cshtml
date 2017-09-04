@@ -1,11 +1,11 @@
 ﻿@model List<GameStore.Web.Models.GenreViewModel>
 
 @{
-	ViewBag.Title = "Genres";
+	ViewBag.Title = GlobalResource.Genres;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Genres</h1>
+<h1>@GlobalResource.Genres</h1>
 <hr />
 
 @if (Model.Count != 0)
@@ -17,9 +17,11 @@
 		<hr />
 	}
 }
-
-<p>There are no genres in the system</p>
+else
+{
+	<p>@GlobalResource.ThereAreNoGenresInTheSystem</p>
+}
 
 <p>
-	@Html.ActionLink("Create new", "New", "Genres", null, new {@class = "btn btn-default"})
+	@Html.ActionLink(GlobalResource.ToCreate, "New", "Genres", null, new {@class = "btn btn-default"})
 </p>

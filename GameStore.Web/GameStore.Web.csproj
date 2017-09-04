@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -166,6 +167,7 @@
     <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Filters\CacheGamesCountAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,7 +179,8 @@
     <Compile Include="Filters\LogEventsAndPerformanceAttribute.cs" />
     <Compile Include="Filters\LogExceptionAttribute.cs" />
     <Compile Include="Filters\LogIpAttribute.cs" />
-    <Compile Include="Infrastructure\Helpers\CustomHelpers.cs" />
+    <Compile Include="Infrastructure\Helpers\HtmlHelpers.cs" />
+    <Compile Include="Infrastructure\Helpers\UrlHelpers.cs" />
     <Compile Include="Infrastructure\Modules\AuthHttpModule.cs" />
     <Compile Include="Infrastructure\Resolver\NinjectDependencyResolver.cs" />
     <Compile Include="Models\CompositeCommentsViewModel.cs" />
@@ -213,7 +216,6 @@
     <Content Include="Views\Comments\New.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Views\Games\ShowCount.cshtml" />
     <Content Include="Views\Publishers\Show.cshtml" />
     <Content Include="Views\Publishers\New.cshtml" />
     <Content Include="Views\Orders\Busket.cshtml" />

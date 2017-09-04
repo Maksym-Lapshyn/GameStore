@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization;
 
 namespace GameStore.Common.Infrastructure.Serializers
 {
-	class NullableDateTimeToStringSerializer : IBsonSerializer
+	public class NullableDateTimeToStringSerializer : IBsonSerializer
 	{
 		private const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
 		private const string DefaultDateString = "NULL";
@@ -35,8 +35,7 @@ namespace GameStore.Common.Infrastructure.Serializers
 
 		private DateTime? ParseDateTime(string dateString)
 		{
-			DateTime date;
-			var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+			var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
 
 			return !result ? null : (DateTime?)date;
 		}

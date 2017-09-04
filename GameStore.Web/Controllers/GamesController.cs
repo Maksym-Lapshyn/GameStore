@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Authentification.Abstract;
+using GameStore.Common.App_LocalResources;
 using GameStore.Common.Enums;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
@@ -63,7 +64,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
-			_gameService.Create(gameDto);
+			_gameService.Create(CurrentLanguage, gameDto);
 
 			return RedirectToAction("ShowAll");
 		}
@@ -72,7 +73,7 @@ namespace GameStore.Web.Controllers
 		[HttpGet]
 		public ActionResult Update(string key)
 		{
-			var gameDto = _gameService.GetSingle(key);
+			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<GameDto, GameViewModel>(gameDto);
 			model.GenresData = GetGenres();
 			model.PublisherData = GetPublishers();
@@ -92,20 +93,19 @@ namespace GameStore.Web.Controllers
 			}
 
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
-			_gameService.Update(gameDto);
+			_gameService.Update(CurrentLanguage, gameDto);
 
 			return RedirectToAction("ShowAll");
 		}
 
 		public ActionResult Show(string key)
 		{
-			var gameDto = _gameService.GetSingle(key);
+			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
 			return View(gameViewModel);
 		}
 
-		[HttpGet]
 		public ActionResult ShowAll(CompositeGamesViewModel model)
 		{
 			if (!ModelState.IsValid && model.FilterIsChanged)
@@ -143,14 +143,6 @@ namespace GameStore.Web.Controllers
 			_gameService.Delete(key);
 
 			return RedirectToAction("ShowAll", "Games");
-		}
-
-		[OutputCache(Duration = 60)]
-		public ActionResult ShowCount()
-		{
-			var count = _gameService.GetCount();
-
-			return PartialView(count);
 		}
 
 		public FileResult Download(string key)
@@ -242,23 +234,23 @@ namespace GameStore.Web.Controllers
 			var filterDto = _mapper.Map<GameFilterViewModel, GameFilterDto>(filter);
 
 			return _mapper.Map<IEnumerable<GameDto>, List<GameViewModel>>(User.Identity.IsAuthenticated && CurrentUser.Roles.Any(r => r.AccessLevel == AccessLevel.Manager) 
-				? _gameService.GetAll(filterDto, itemsToSkip, itemsToTake, true)
-				: _gameService.GetAll(filterDto, itemsToSkip, itemsToTake));
+				? _gameService.GetAll(CurrentLanguage, filterDto, itemsToSkip, itemsToTake, true)
+				: _gameService.GetAll(CurrentLanguage, filterDto, itemsToSkip, itemsToTake));
 		}
 
 		private List<PlatformTypeViewModel> GetPlatformTypes()
 		{
-			return _mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll());
+			return _mapper.Map<IEnumerable<PlatformTypeDto>, List<PlatformTypeViewModel>>(_platformTypeService.GetAll(CurrentLanguage));
 		}
 
 		private List<GenreViewModel> GetGenres()
 		{
-			return _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll());
+			return _mapper.Map<IEnumerable<GenreDto>, List<GenreViewModel>>(_genreService.GetAll(CurrentLanguage));
 		}
 
 		private List<PublisherViewModel> GetPublishers()
 		{
-			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll());
+			return _mapper.Map<IEnumerable<PublisherDto>, List<PublisherViewModel>>(_publisherService.GetAll(CurrentLanguage));
 		}
 
 		private void CheckIfKeyIsUnique(GameViewModel model)
@@ -268,11 +260,11 @@ namespace GameStore.Web.Controllers
 				return;
 			}
 
-			var existingGame = _gameService.GetSingle(model.Key);
+			var existingGame = _gameService.GetSingle(CurrentLanguage, model.Key);
 
 			if (existingGame.Id != model.Id)
 			{
-				ModelState.AddModelError("Key", "Game with such key already exists");
+				ModelState.AddModelError("Key", GlobalResource.GameWithSuchKeyAlreadyExists);
 			}
 		}
 	}

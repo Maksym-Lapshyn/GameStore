@@ -11,16 +11,16 @@ namespace GameStore.Authentification.Concrete
 {
 	public class Authentication : IAuthentication
 	{
-		public Authentication(IUserRepository repository, IHasher<string> hasher)
+		public Authentication(IUserRepository repository, IHashGenerator<string> hashGenerator)
 		{
 			_repository = repository;
-			_hasher = hasher;
+			_hashGenerator = hashGenerator;
 		}
 
 		private const string CookieName = "__GAMESTORE_AUTH";
 
 		private readonly IUserRepository _repository;
-		private readonly IHasher<string> _hasher;
+		private readonly IHashGenerator<string> _hashGenerator;
 		private IPrincipal _currentUser;
 
 		public HttpContextBase HttpContext { get; set; }
@@ -28,7 +28,7 @@ namespace GameStore.Authentification.Concrete
 
 		public User Login(string login, string password, bool isPersistent)
 		{
-			var hashedPassword = _hasher.GenerateHash(password);
+			var hashedPassword = _hashGenerator.Generate(password);
 			var user = _repository.Contains(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false) 
 				? _repository.GetSingle(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false) 
 				: null;

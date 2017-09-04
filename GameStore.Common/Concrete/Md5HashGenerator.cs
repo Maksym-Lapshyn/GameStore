@@ -3,9 +3,9 @@ using System.Text;
 
 namespace GameStore.Common.Concrete
 {
-	public class Md5Hasher : IHasher<string>
+	public class Md5HashGenerator : IHashGenerator<string>
 	{
-		public string GenerateHash(string input)
+		public string Generate(string input)
 		{
 			using (var md5 = System.Security.Cryptography.MD5.Create())
 			{

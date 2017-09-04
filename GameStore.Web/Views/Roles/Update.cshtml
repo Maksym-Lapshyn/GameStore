@@ -2,11 +2,11 @@
 @model GameStore.Web.Models.RoleViewModel
 
 @{
-	ViewBag.Title = "Update Role";
+	ViewBag.Title = GlobalResource.UpdateOfRole;
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Update Role</h1>
+<h1>@GlobalResource.UpdateOfRole</h1>
 <hr/>
 
 @using (Html.BeginForm("Update", "Roles", FormMethod.Post))
@@ -24,5 +24,5 @@
 		@Html.CreateRadioButtonGroup("AccessLevel", Model.AccessLevel)
 		@Html.ValidationMessageFor(m => m.AccessLevel)
 	</p>
-	<p><button type="submit" class="btn btn-default">Update</button></p>
+	<p><button type="submit" class="btn btn-default">@GlobalResource.ToUpdate</button></p>
 }
