@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PaymentService.Dtos
+namespace Common.Entities
 {
 	[DataContract]
 	public enum PaymentStatus

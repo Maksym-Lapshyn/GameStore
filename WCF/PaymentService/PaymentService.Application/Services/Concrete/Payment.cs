@@ -1,13 +1,10 @@
-﻿using Common.Entities;
-using NLog;
-using PaymentService.Dtos;
-using PaymentService.Repositories;
-using PaymentService.Services.Abstract;
+﻿using PaymentService.Application.Dtos;
+using PaymentService.Application.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PaymentService.Services.Concrete
+namespace PaymentService.Application.Services.Concrete
 {
 	public class Payment : IPayment
 	{

@@ -1,8 +1,8 @@
-﻿using PaymentService.Dtos;
+﻿using PaymentService.Application.Dtos;
 using System;
 using System.ServiceModel;
 
-namespace PaymentService.Services.Abstract
+namespace PaymentService.Application.Services.Abstract
 {
 	[ServiceContract]
 	public interface IPayment

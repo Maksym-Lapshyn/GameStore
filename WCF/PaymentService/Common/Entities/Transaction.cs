@@ -1,10 +1,16 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PaymentService.Dtos
+namespace Common.Entities
 {
 	[DataContract]
 	public class Transaction
 	{
+		public int Id { get; set; }
+
+		public PaymentStatus PaymentStatus { get; set; }
+
+		public bool IsDeleted { get; set; }
+
 		[DataMember]
 		public long ConsumerCardNumber { get; set; }
 
