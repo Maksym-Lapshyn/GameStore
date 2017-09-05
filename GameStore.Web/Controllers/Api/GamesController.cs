@@ -31,7 +31,7 @@ namespace GameStore.Web.Controllers.Api
 			IPublisherService publisherService,
 			IPlatformTypeService platformTypeService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_gameService = gameService;
 			_genreService = genreService;
@@ -98,15 +98,16 @@ namespace GameStore.Web.Controllers.Api
 
 		public IHttpActionResult Get(string key, string contentType)
 		{
-			if (!_gameService.Contains(key))
+			var dto = _gameService.GetSingleOrDefault(CurrentLanguage, key);
+
+			if (dto == null)
 			{
 				return Content(HttpStatusCode.BadRequest, "Game with such key does not exist");
 			}
 
-			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
-			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
+			var model = _mapper.Map<GameDto, GameViewModel>(dto);
 
-			return SerializeResult(gameViewModel, contentType);
+			return SerializeResult(model, contentType);
 		}
 
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
@@ -119,8 +120,9 @@ namespace GameStore.Web.Controllers.Api
 				return Content(HttpStatusCode.BadRequest, CreateError());
 			}
 
-			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
-			_gameService.Create(CurrentLanguage, gameDto);
+			var dto = _mapper.Map<GameViewModel, GameDto>(model);
+
+			_gameService.Create(CurrentLanguage, dto);
 
 			return Ok();
 		}
@@ -140,8 +142,9 @@ namespace GameStore.Web.Controllers.Api
 				return Content(HttpStatusCode.BadRequest, CreateError());
 			}
 
-			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
-			_gameService.Update(CurrentLanguage, gameDto);
+			var dto = _mapper.Map<GameViewModel, GameDto>(model);
+
+			_gameService.Update(CurrentLanguage, dto);
 
 			return Ok();
 		}
@@ -161,12 +164,12 @@ namespace GameStore.Web.Controllers.Api
 
 		private void CheckIfKeyIsUnique(GameViewModel model)
 		{
-			if (!_gameService.Contains(model.Key))
+			var existingGame = _gameService.GetSingleOrDefault(CurrentLanguage, model.Key);
+
+			if (existingGame == null)
 			{
 				return;
 			}
-
-			var existingGame = _gameService.GetSingle(CurrentLanguage, model.Key);
 
 			if (existingGame.Id != model.Id)
 			{

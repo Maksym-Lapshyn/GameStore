@@ -46,6 +46,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
+
 			_genreService.Create(CurrentLanguage, genreDto);
 
 			return RedirectToAction("ShowAll", "Genres");
@@ -73,6 +74,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var genreDto = _mapper.Map<GenreViewModel, GenreDto>(model);
+
 			_genreService.Update(CurrentLanguage, genreDto);
 
 			return RedirectToAction("ShowAll", "Genres");
@@ -108,12 +110,12 @@ namespace GameStore.Web.Controllers
 
 		private void CheckIfNameIsUnique(GenreViewModel model)
 		{
-			if (!_genreService.Contains(CurrentLanguage, model.Name))
+			var existingGenre = _genreService.GetSingleOrDefault(CurrentLanguage, model.Name);
+
+			if (existingGenre == null)
 			{
 				return;
 			}
-
-			var existingGenre = _genreService.GetSingle(CurrentLanguage, model.Name);
 
 			if (existingGenre.Id != model.Id)
 			{

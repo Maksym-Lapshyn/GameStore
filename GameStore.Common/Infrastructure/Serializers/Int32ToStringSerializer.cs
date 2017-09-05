@@ -19,8 +19,7 @@ namespace GameStore.Common.Infrastructure.Serializers
 
 		public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
 		{
-            int result;
-			if (int.TryParse(value.ToString(), out result))
+			if (int.TryParse(value.ToString(), out int result))
 			{
 				context.Writer.WriteInt32(result);
 			}

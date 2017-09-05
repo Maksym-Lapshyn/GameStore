@@ -17,6 +17,7 @@ namespace GameStore.DAL.Concrete
 		public void LogChange(ILogContainer<Game> container)
 		{
 			var document = container.ToBsonDocument();
+
 			_collection.InsertOne(document);
 		}
 	}

@@ -41,5 +41,10 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			return _context.Orders.Any(predicate);
 		}
+
+		public Order GetSingleOrDefault(Expression<Func<Order, bool>> predicate)
+		{
+			return _context.Orders.FirstOrDefault(predicate);
+		}
 	}
 }

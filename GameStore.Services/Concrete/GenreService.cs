@@ -64,7 +64,25 @@ namespace GameStore.Services.Concrete
 		public GenreDto GetSingle(string language, string name)
 		{
 			var genre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == name) || g.Name == name);
+
 			_outputLocalizer.Localize(language, genre);
+
+			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
+
+			return genreDto;
+		}
+
+		public GenreDto GetSingleOrDefault(string language, string name)
+		{
+			var genre = _genreRepository.GetSingleOrDefault(g => g.GenreLocales.Any(l => l.Name == name) || g.Name == name);
+
+			if (genre == null)
+			{
+				return null;
+			}
+
+			_outputLocalizer.Localize(language, genre);
+
 			var genreDto = _mapper.Map<Genre, GenreDto>(genre);
 
 			return genreDto;
@@ -73,7 +91,8 @@ namespace GameStore.Services.Concrete
 		public void Create(string language, GenreDto genreDto)
 		{
 			var genre = _mapper.Map<GenreDto, Genre>(genreDto);
-			genre = MapEmbeddedEntities(genreDto, genre);
+
+			MapEmbeddedEntities(genreDto, genre);
 			_inputLocalizer.Localize(language, genre);
 			_genreRepository.Insert(genre);
 			_unitOfWork.Save();
@@ -83,7 +102,8 @@ namespace GameStore.Services.Concrete
 		{
 			var genre = _genreRepository.GetSingle(g => g.Id == genreDto.Id);
 			genre = _mapper.Map(genreDto, genre);
-			genre = MapEmbeddedEntities(genreDto, genre);
+
+			MapEmbeddedEntities(genreDto, genre);
 			_inputLocalizer.Localize(language, genre);
 			_genreRepository.Update(genre);
 			_unitOfWork.Save();
@@ -100,14 +120,12 @@ namespace GameStore.Services.Concrete
 			return _genreRepository.Contains(g => g.GenreLocales.Any(l => l.Language.Name == language && l.Name == name));
 		}
 
-		private Genre MapEmbeddedEntities(GenreDto input, Genre result)
+		private void MapEmbeddedEntities(GenreDto input, Genre result)
 		{
 			if (input.ParentGenreInput != null)
 			{
 				result.ParentGenre = _genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == input.ParentGenreInput) || g.Name == input.ParentGenreInput);
 			}
-
-			return result;
 		}
 	}
 }

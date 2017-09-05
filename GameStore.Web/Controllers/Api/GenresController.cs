@@ -21,7 +21,7 @@ namespace GameStore.Web.Controllers.Api
 		public GenresController(IApiAuthentication authentication, IGenreService genreService,
 			IGameService gameService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_genreService = genreService;
 			_gameService = gameService;
@@ -55,12 +55,13 @@ namespace GameStore.Web.Controllers.Api
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Get(string key, string contentType)
 		{
-			if (!_genreService.Contains(CurrentLanguage, key))
+			var dto = _genreService.GetSingleOrDefault(CurrentLanguage, key);
+
+			if (dto == null)
 			{
 				return Content(HttpStatusCode.BadRequest, "Genre with such name does not exist");
 			}
 
-			var dto = _genreService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<GenreDto, GenreViewModel>(dto);
 
 			return SerializeResult(model, contentType);
@@ -77,6 +78,7 @@ namespace GameStore.Web.Controllers.Api
 			}
 
 			var dto = _mapper.Map<GenreViewModel, GenreDto>(model);
+
 			_genreService.Update(CurrentLanguage, dto);
 
 			return Ok();
@@ -118,12 +120,12 @@ namespace GameStore.Web.Controllers.Api
 
 		private void CheckIfNameIsUnique(GenreViewModel model)
 		{
-			if (!_genreService.Contains(CurrentLanguage, model.Name))
+			var existingGenre = _genreService.GetSingleOrDefault(CurrentLanguage, model.Name);
+
+			if (existingGenre == null)
 			{
 				return;
 			}
-
-			var existingGenre = _genreService.GetSingle(CurrentLanguage, model.Name);
 
 			if (existingGenre.Id != model.Id)
 			{

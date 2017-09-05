@@ -12,6 +12,7 @@ namespace GameStore.Authentification.Concrete
 		private readonly IUserRepository _repository;
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IHashGenerator<string> _hashGenerator;
+
 		private User _currentUser;
 
 		public ApiAuthentication(IUserRepository repository,
@@ -28,9 +29,7 @@ namespace GameStore.Authentification.Concrete
 		public string LogIn(string login, string password, bool isPersistent)
 		{
 			var hashedPassword = _hashGenerator.Generate(password);
-			var user = _repository.Contains(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false)
-				? _repository.GetSingle(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false)
-				: null;
+			var user = _repository.GetSingleOrDefault(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false);
 
 			if (user == null)
 			{
@@ -39,7 +38,9 @@ namespace GameStore.Authentification.Concrete
 
 			var encryptedTicket = CreateTicket(login, isPersistent);
 			user.AuthenticationTicket = encryptedTicket;
+
 			_repository.Update(user);
+
 			_unitOfWork.Save();
 
 			return encryptedTicket;
@@ -47,12 +48,13 @@ namespace GameStore.Authentification.Concrete
 
 		public User GetUserBy(string token)
 		{
-			if (!_repository.Contains(u => u.AuthenticationTicket == token && u.IsDeleted == false))
+			var user = _repository.GetSingleOrDefault(u => u.AuthenticationTicket == token);
+
+			if (user == null)
 			{
 				return null;
 			}
 
-			var user = _repository.GetSingle(u => u.AuthenticationTicket == token);
 			_currentUser = user;
 
 			if (user.AuthenticationTicket == null)

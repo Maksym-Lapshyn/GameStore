@@ -41,12 +41,18 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			var role = _context.Roles.First(r => r.Name == name);
 			role.IsDeleted = true;
+
 			_context.Entry(role).State = EntityState.Modified;
 		}
 
 		public bool Contains(Expression<Func<Role, bool>> predicate)
 		{
 			return _context.Roles.Any(predicate);
+		}
+
+		public Role GetSingleOrDefault(Expression<Func<Role, bool>> predicate)
+		{
+			return _context.Roles.FirstOrDefault(predicate);
 		}
 	}
 }

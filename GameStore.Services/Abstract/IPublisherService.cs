@@ -7,6 +7,8 @@ namespace GameStore.Services.Abstract
 	{
 		PublisherDto GetSingle(string language, string companyName);
 
+		PublisherDto GetSingleOrDefault(string language, string companyName);
+
 		void Create(string language, PublisherDto publisherDto);
 
 		IEnumerable<PublisherDto> GetAll(string language);

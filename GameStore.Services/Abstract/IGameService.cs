@@ -7,6 +7,8 @@ namespace GameStore.Services.Abstract
 	{
 		int GetCount(GameFilterDto gameFilter = null);
 
+		GameDto GetSingleOrDefault(string language, string gameKey);
+
 		GameDto GetSingle(string language, string gameKey);
 
 		void Create(string language, GameDto gameDto);

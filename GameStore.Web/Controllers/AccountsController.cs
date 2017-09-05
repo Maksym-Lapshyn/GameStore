@@ -15,7 +15,7 @@ namespace GameStore.Web.Controllers
 		public AccountsController(IUserService userService,
 			IMapper mapper,
 			IAuthentication authentication)
-			:base(authentication)
+			: base(authentication)
 		{
 			_userService = userService;
 			_mapper = mapper;

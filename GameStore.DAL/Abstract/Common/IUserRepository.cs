@@ -7,6 +7,8 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IUserRepository
 	{
+		User GetSingleOrDefault(Expression<Func<User, bool>> predicate);
+
 		User GetSingle(Expression<Func<User, bool>> predicate);
 
 		bool Contains(Expression<Func<User, bool>> predicate);

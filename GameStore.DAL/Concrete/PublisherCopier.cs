@@ -21,6 +21,7 @@ namespace GameStore.DAL.Concrete
 			if (!_publisherRepository.Contains(p => p.CompanyName == publisher.CompanyName))
 			{
 				publisher.Games?.Clear();
+
 				_publisherRepository.Insert(publisher);
 				_unitOfWork.Save();
 			}

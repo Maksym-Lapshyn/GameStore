@@ -9,6 +9,8 @@ namespace GameStore.Services.Abstract
 
 		UserDto GetSingle(string language, string name);
 
+		UserDto GetSingleOrDefault(string language, string name);
+
 		IEnumerable<UserDto> GetAll();
 
 		void Update(UserDto userDto);

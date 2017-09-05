@@ -36,6 +36,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		public void Update(User user)
 		{
 			user = MergeRoles(user);
+
 			MergePlainProperties(user);
 		}
 
@@ -48,7 +49,13 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			var user = _context.Users.First(u => u.Login == name);
 			user.IsDeleted = true;
+
 			_context.Entry(user).State = EntityState.Modified;
+		}
+
+		public User GetSingleOrDefault(Expression<Func<User, bool>> predicate)
+		{
+			return _context.Users.FirstOrDefault(predicate);
 		}
 
 		private User MergeRoles(User user)
@@ -56,6 +63,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			var existingUser = _context.Users.First(u => u.Id == user.Id);
 			var deletedRoles = existingUser.Roles.Except(user.Roles, r => r.Id).ToList();
 			var addedRoles = user.Roles.Except(existingUser.Roles, r => r.Id).ToList();
+
 			deletedRoles.ForEach(r => existingUser.Roles.Remove(r));
 
 			foreach (var r in addedRoles)
@@ -74,6 +82,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		private void MergePlainProperties(User user)
 		{
 			var existingUser = _context.Users.First(g => g.Id == user.Id);
+
 			_context.Entry(existingUser).CurrentValues.SetValues(user);
 			_context.Entry(existingUser).State = EntityState.Modified;
 		}

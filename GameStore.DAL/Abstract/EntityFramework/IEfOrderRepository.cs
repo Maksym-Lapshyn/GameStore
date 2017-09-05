@@ -11,6 +11,8 @@ namespace GameStore.DAL.Abstract.EntityFramework
 
 		IQueryable<Order> GetAll(Expression<Func<Order, bool>> predicate = null);
 
+		Order GetSingleOrDefault(Expression<Func<Order, bool>> predicate);
+
 		Order GetSingle(Expression<Func<Order, bool>> predicate);
 
 		void Update(Order order);

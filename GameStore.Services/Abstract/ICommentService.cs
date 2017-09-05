@@ -17,6 +17,8 @@ namespace GameStore.Services.Abstract
 
 		CommentDto GetSingle(int id);
 
+		CommentDto GetSingleOrDefault(int id);
+
 		void Update(CommentDto commentDto);
 
 		void Delete(int id);

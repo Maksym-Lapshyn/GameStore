@@ -21,6 +21,7 @@ namespace GameStore.DAL.Concrete
 			if (!_genreRepository.Contains(g => g.Name == genre.Name))
 			{
 				genre.Games?.Clear();
+
 				_genreRepository.Insert(genre);
 				_unitOfWork.Save();
 			}

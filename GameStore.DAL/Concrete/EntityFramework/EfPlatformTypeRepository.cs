@@ -35,5 +35,10 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			_context.PlatformTypes.Add(platformType);
 		}
+
+		public PlatformType GetSingleOrDefault(Expression<Func<PlatformType, bool>> predicate)
+		{
+			return _context.PlatformTypes.FirstOrDefault(predicate);
+		}
 	}
 }

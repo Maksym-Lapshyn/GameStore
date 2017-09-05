@@ -9,6 +9,8 @@ namespace GameStore.DAL.Abstract.EntityFramework
 	{
 		Publisher GetSingle(Expression<Func<Publisher, bool>> predicate);
 
+		Publisher GetSingleOrDefault(Expression<Func<Publisher, bool>> predicate);
+
 		IQueryable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null);
 
 		bool Contains(Expression<Func<Publisher, bool>> predicate);

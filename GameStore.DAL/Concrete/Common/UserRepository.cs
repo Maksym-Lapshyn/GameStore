@@ -10,41 +10,46 @@ namespace GameStore.DAL.Concrete.Common
 {
 	public class UserRepository : IUserRepository
 	{
-		private readonly IEfUserRepository _userRepository;
+		private readonly IEfUserRepository _efRepository;
 
-		public UserRepository(IEfUserRepository userRepository)
+		public UserRepository(IEfUserRepository efRepository)
 		{
-			_userRepository = userRepository;
+			_efRepository = efRepository;
 		}
 
 		public User GetSingle(Expression<Func<User, bool>> predicate)
 		{
-			return _userRepository.GetSingle(predicate);
+			return _efRepository.GetSingle(predicate);
 		}
 
 		public bool Contains(Expression<Func<User, bool>> predicate = null)
 		{
-			return _userRepository.Contains(predicate);
+			return _efRepository.Contains(predicate);
 		}
 
 		public IEnumerable<User> GetAll(Expression<Func<User, bool>> predicate = null)
 		{
-			return _userRepository.GetAll(predicate).ToList();
+			return _efRepository.GetAll(predicate).ToList();
 		}
 
 		public void Update(User user)
 		{
-			_userRepository.Update(user);
+			_efRepository.Update(user);
 		}
 
 		public void Create(User user)
 		{
-			_userRepository.Create(user);
+			_efRepository.Create(user);
 		}
 
 		public void Delete(string name)
 		{
-			_userRepository.Delete(name);
+			_efRepository.Delete(name);
+		}
+
+		public User GetSingleOrDefault(Expression<Func<User, bool>> predicate)
+		{
+			return _efRepository.GetSingleOrDefault(predicate);
 		}
 	}
 }

@@ -48,5 +48,10 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			genre.IsDeleted = true;
 			_context.Entry(genre).State = EntityState.Modified;
 		}
+
+		public Genre GetSingleOrDefault(Expression<Func<Genre, bool>> predicate)
+		{
+			return _context.Genres.FirstOrDefault(predicate);
+		}
 	}
 }

@@ -32,13 +32,5 @@ namespace GameStore.DAL.Concrete.MongoDb
 		{
 			return _collection.AsQueryable().Any(predicate.Compile());
 		}
-
-		/*private Game GetEmbeddedDocuments(Publisher publisher)
-		{
-			game.Publisher = _publisherCollection.AsQueryable().First(p => p.SupplierId == game.SupplierId);
-			game.Genres = _genreCollection.AsQueryable().Where(g => g.CategoryId == game.CategoryId).ToList();
-
-			return game;
-		}*/
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GameStore.Common.Entities;
 using GameStore.Common.Enums;
+using GameStore.Common.Infrastructure.Extensions;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Infrastructure;
 using GameStore.Services.Abstract;
@@ -58,6 +59,20 @@ namespace GameStore.Services.Concrete
 		public OrderDto GetSingleActive(int userId)
 		{
 			var order = _orderRepository.GetSingle(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
+			var orderDto = _mapper.Map<Order, OrderDto>(order);
+
+			return orderDto;
+		}
+
+		public OrderDto GetSingleActiveOrDefault(int userId)
+		{
+			var order = _orderRepository.GetSingleOrDefault(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
+
+			if (order == null)
+			{
+				return null;
+			}
+
 			var orderDto = _mapper.Map<Order, OrderDto>(order);
 
 			return orderDto;
@@ -142,11 +157,26 @@ namespace GameStore.Services.Concrete
 			return orderDto;
 		}
 
+		public OrderDto GetSingleOrDefault(int orderId)
+		{
+			var order = _orderRepository.GetSingleOrDefault(o => o.Id == orderId);
+
+			if (order == null)
+			{
+				return null;
+			}
+
+			var orderDto = _mapper.Map<Order, OrderDto>(order);
+
+			return orderDto;
+		}
+
 		public void Confirm(int orderId)
 		{
 			var order = _orderRepository.GetSingle(o => o.Id == orderId);
 			order.DateOrdered = DateTime.UtcNow;
 			order.OrderStatus = OrderStatus.Paid;
+
 			_orderRepository.Update(order);
 			_unitOfWork.Save();
 		}
@@ -156,6 +186,7 @@ namespace GameStore.Services.Concrete
 			var order = _orderRepository.GetSingle(o => o.Id == orderId);
 			order.OrderStatus = OrderStatus.Shipped;
 			order.DateShipped = DateTime.UtcNow;
+
 			_orderRepository.Update(order);
 			_unitOfWork.Save();
 		}
@@ -167,25 +198,44 @@ namespace GameStore.Services.Concrete
 
 		public void Update(OrderDto orderDto)
 		{
-			var existingOrder = _orderRepository.GetSingle(o => o.Id == orderDto.Id);
-			existingOrder.OrderDetails.Clear();
-			_orderRepository.Update(existingOrder);
-			_unitOfWork.Save();//clears order details of existing order
 			var order = _mapper.Map<OrderDto, Order>(orderDto);
-			order = MapEmbeddedEntities(order);
-			CalculateTotalPrice(order);
-			_orderRepository.Update(order);
-			_unitOfWork.Save();//re-enters order details
+			var existingOrder = _orderRepository.GetSingle(o => o.Id == orderDto.Id);
+
+			UpdateOrderDetails(order, existingOrder);
+			CalculateTotalPrice(existingOrder);
+			_orderRepository.Update(existingOrder);
+			_unitOfWork.Save();
 		}
 
 		public void Create(OrderDto orderDto)
 		{
 			var order = _mapper.Map<OrderDto, Order>(orderDto);
 			order = MapEmbeddedEntities(order);
-			CalculateTotalPrice(order);
 			order.OrderStatus = OrderStatus.Active;
+
+			CalculateTotalPrice(order);
 			_orderRepository.Insert(order);
 			_unitOfWork.Save();
+		}
+
+		private void UpdateOrderDetails(Order input, Order result)
+		{
+			var deletedOrderDetails = result.OrderDetails.Except(input.OrderDetails, o => o.Id).ToList();
+			var addedOrderDetails = input.OrderDetails.Except(result.OrderDetails, o => o.Id).ToList();
+
+			deletedOrderDetails.ForEach(o => result.OrderDetails.Remove(o));
+
+			foreach (var detail in addedOrderDetails)
+			{
+				detail.Game = _gameRepository.GetSingle(g => g.Key == detail.GameKey);
+				result.OrderDetails.Add(detail);
+			}
+
+			foreach (var detail in result.OrderDetails)
+			{
+				detail.Quantity = input.OrderDetails.First(o => o.Id == detail.Id).Quantity;
+				detail.Price = detail.Game.Price * detail.Quantity;
+			}
 		}
 
 		private Order MapEmbeddedEntities(Order order)
@@ -196,7 +246,7 @@ namespace GameStore.Services.Concrete
 			{
 				orderDetailsList[i].Game = _gameRepository.GetSingle(g => g.Key == orderDetailsList[i].GameKey);
 			}
-
+			
 			return order;
 		}
 

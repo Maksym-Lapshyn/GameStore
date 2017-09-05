@@ -22,7 +22,7 @@ namespace GameStore.Web.Controllers.Api
 			IPublisherService publisherService,
 			IGameService gameService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_publisherService = publisherService;
 			_gameService = gameService;
@@ -56,12 +56,13 @@ namespace GameStore.Web.Controllers.Api
 		[AuthorizeApiUser(AuthorizationMode.Allow, AccessLevel.Manager)]
 		public IHttpActionResult Get(string key, string contentType)
 		{
-			if (!_publisherService.Contains(key))
+			var dto = _publisherService.GetSingleOrDefault(CurrentLanguage, key);
+
+			if (dto == null)
 			{
 				return Content(HttpStatusCode.BadRequest, "Publisher with such company name does not exist");
 			}
 
-			var dto = _publisherService.GetSingle(CurrentLanguage, key);
 			var model = _mapper.Map<PublisherDto, PublisherViewModel>(dto);
 
 			return SerializeResult(model, contentType);
@@ -123,12 +124,12 @@ namespace GameStore.Web.Controllers.Api
 
 		private void CheckIfCompanyNameIsUnique(PublisherViewModel model)
 		{
-			if (!_publisherService.Contains(model.CompanyName))
+			var existingPublisher = _publisherService.GetSingleOrDefault(CurrentLanguage, model.CompanyName);
+
+			if (existingPublisher == null)
 			{
 				return;
 			}
-
-			var existingPublisher = _publisherService.GetSingle(CurrentLanguage, model.CompanyName);
 
 			if (existingPublisher.Id != model.Id)
 			{

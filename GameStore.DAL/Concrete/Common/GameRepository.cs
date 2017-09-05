@@ -44,6 +44,7 @@ namespace GameStore.DAL.Concrete.Common
 			if (filter != null)
 			{
 				_filterMapper.Map(filter).ForEach(f => _pipeline.Register(f));
+
 				efQuery = _pipeline.Process(efQuery);
 				mongoQuery = _pipeline.Process(mongoQuery);
 			}
@@ -67,7 +68,9 @@ namespace GameStore.DAL.Concrete.Common
 
 		public Game GetSingle(Expression<Func<Game, bool>> predicate)
 		{
-			return !_efRepository.Contains(predicate) ? _copier.Copy(_mongoRepository.GetSingle(predicate)) : _synchronizer.Synchronize(_efRepository.GetSingle(predicate));
+			return !_efRepository.Contains(predicate) 
+				? _copier.Copy(_mongoRepository.GetSingle(predicate)) 
+				: _synchronizer.Synchronize(_efRepository.GetSingle(predicate));
 		}
 
 		public void Insert(Game game)
@@ -87,7 +90,12 @@ namespace GameStore.DAL.Concrete.Common
 
 		public bool Contains(Expression<Func<Game, bool>> predicate)
 		{
-			return _efRepository.Contains(predicate) ? _efRepository.Contains(predicate) : _mongoRepository.Contains(predicate);
+			return _efRepository.Contains(predicate) || _mongoRepository.Contains(predicate);
+		}
+
+		public Game GetSingleOrDefault(Expression<Func<Game, bool>> predicate)
+		{
+			return _efRepository.GetSingleOrDefault(predicate);
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace GameStore.Web.Controllers.Api
 		public CommentsController(IApiAuthentication authentication,
 			ICommentService commentService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_commentService = commentService;
 			_mapper = mapper;
@@ -52,12 +52,12 @@ namespace GameStore.Web.Controllers.Api
 				return Content(HttpStatusCode.BadRequest, "Game with such key does not have comments");
 			}
 
-			if (!_commentService.Contains(id))
+			var dto = _commentService.GetSingleOrDefault(id);
+
+			if (dto == null)
 			{
 				return Content(HttpStatusCode.BadRequest, "Comment with such id does not exist");
 			}
-
-			var dto = _commentService.GetSingle(id);
 
 			var model = _mapper.Map<CommentDto, CommentViewModel>(dto);
 
@@ -78,6 +78,7 @@ namespace GameStore.Web.Controllers.Api
 			}
 
 			var dto = _mapper.Map<CommentViewModel, CommentDto>(model);
+
 			_commentService.Create(dto);
 
 			return Ok();
@@ -102,6 +103,7 @@ namespace GameStore.Web.Controllers.Api
 			}
 
 			var dto = _mapper.Map<CommentViewModel, CommentDto>(model);
+
 			_commentService.Update(dto);
 
 			return Ok();

@@ -38,9 +38,11 @@ namespace GameStore.Services.Concrete
 		public void Create(UserDto userDto)
 		{
 			AddDefaultRoleInput(userDto);
+
 			var user = _mapper.Map<UserDto, User>(userDto);
 			user = MapEmbeddedEntities(userDto, user);
 			user.Password = _hashGenerator.Generate(user.Password);
+
 			_userRepository.Create(user);
 			_unitOfWork.Save();
 		}
@@ -48,7 +50,25 @@ namespace GameStore.Services.Concrete
 		public UserDto GetSingle(string language, string name)
 		{
 			var user = _userRepository.GetSingle(u => u.Login == name);
+
 			_userOutputLocalizer.Localize(language, user);
+
+			var userDto = _mapper.Map<User, UserDto>(user);
+
+			return userDto;
+		}
+
+		public UserDto GetSingleOrDefault(string language, string name)
+		{
+			var user = _userRepository.GetSingleOrDefault(u => u.Login == name);
+
+			if (user == null)
+			{
+				return null;
+			}
+
+			_userOutputLocalizer.Localize(language, user);
+
 			var userDto = _mapper.Map<User, UserDto>(user);
 
 			return userDto;
@@ -64,9 +84,11 @@ namespace GameStore.Services.Concrete
 		public void Update(UserDto userDto)
 		{
 			AddDefaultRoleInput(userDto);
+
 			var user = _mapper.Map<UserDto, User>(userDto);
 			user = MapEmbeddedEntities(userDto, user);
 			user.Password = _userRepository.GetSingle(u => u.Id == userDto.Id).Password;
+
 			_userRepository.Update(user);
 			_unitOfWork.Save();
 		}
@@ -75,6 +97,7 @@ namespace GameStore.Services.Concrete
 		{
 			var user = _userRepository.GetSingle(u => u.Login == name);
 			user.IsDeleted = true;
+
 			_userRepository.Update(user);
 			_unitOfWork.Save();
 		}

@@ -16,7 +16,7 @@ namespace GameStore.Web.Controllers.Api
 		public OrdersController(IApiAuthentication authentication,
 			IOrderService orderService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_orderService = orderService;
 			_mapper = mapper;
@@ -24,12 +24,13 @@ namespace GameStore.Web.Controllers.Api
 
 		public IHttpActionResult Get(int key, string contentType)
 		{
-			if (!_orderService.Contains(key))
+			var dto = _orderService.GetSingleOrDefault(key);
+
+			if (dto == null)
 			{
 				return Content(HttpStatusCode.BadRequest, "Order with such id does not exist");
 			}
 
-			var dto = _orderService.GetSingle(key);
 			var model = _mapper.Map<OrderDto, OrderViewModel>(dto);
 
 			return SerializeResult(model, contentType);

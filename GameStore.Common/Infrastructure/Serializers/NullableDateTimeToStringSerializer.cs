@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using System;
+using System.Globalization;
 
 namespace GameStore.Common.Infrastructure.Serializers
 {
@@ -35,8 +35,7 @@ namespace GameStore.Common.Infrastructure.Serializers
 
 		private DateTime? ParseDateTime(string dateString)
 		{
-            DateTime date;
-			var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+			var result = DateTime.TryParseExact(dateString, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
 
 			return !result ? null : (DateTime?)date;
 		}
