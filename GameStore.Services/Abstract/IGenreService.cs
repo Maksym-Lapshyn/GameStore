@@ -11,6 +11,8 @@ namespace GameStore.Services.Abstract
 		
 		GenreDto GetSingle(string language, string name);
 
+		GenreDto GetSingleOrDefault(string language, string name);
+
 		void Create(string language, GenreDto genreDto);
 
 		void Update(string language, GenreDto genreDto);

@@ -46,7 +46,13 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			var publisher = _context.Publishers.First(p => p.CompanyName == companyName);
 			publisher.IsDeleted = true;
+
 			_context.Entry(publisher).State = EntityState.Modified;
+		}
+
+		public Publisher GetSingleOrDefault(Expression<Func<Publisher, bool>> predicate)
+		{
+			return _context.Publishers.FirstOrDefault(predicate);
 		}
 	}
 }

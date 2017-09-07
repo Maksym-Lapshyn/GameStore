@@ -7,6 +7,8 @@ namespace GameStore.Services.Abstract
 	{
 		RoleDto GetSingle(string language, string name);
 
+		RoleDto GetSingleOrDefault(string language, string name);
+
 		IEnumerable<RoleDto> GetAll(string language);
 
 		void Update(string language, RoleDto role);

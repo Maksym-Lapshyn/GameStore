@@ -9,6 +9,8 @@ namespace GameStore.DAL.Abstract.EntityFramework
 	{
 		IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null);
 
+		Game GetSingleOrDefault(Expression<Func<Game, bool>> predicate);
+
 		Game GetSingle(Expression<Func<Game, bool>> predicate);
 
 		void Insert(Game game);

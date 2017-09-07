@@ -57,5 +57,10 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			_efRepository.Delete(name);
 		}
+
+		public Genre GetSingleOrDefault(Expression<Func<Genre, bool>> predicate)
+		{
+			return _efRepository.GetSingleOrDefault(predicate);
+		}
 	}
 }

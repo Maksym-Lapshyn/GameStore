@@ -7,6 +7,8 @@ namespace GameStore.DAL.Abstract.Common
 {
 	public interface IPublisherRepository
 	{
+		Publisher GetSingleOrDefault(Expression<Func<Publisher, bool>> predicate);
+
 		Publisher GetSingle(Expression<Func<Publisher, bool>> predicate);
 
 		IEnumerable<Publisher> GetAll(Expression<Func<Publisher, bool>> predicate = null);

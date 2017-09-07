@@ -9,6 +9,8 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		void Insert(Comment comment);
 
+		Comment GetSingleOrDefault(Expression<Func<Comment, bool>> predicate);
+
 		Comment GetSingle(Expression<Func<Comment, bool>> predicate);
 
 		IEnumerable<Comment> GetAll(Expression<Func<Comment, bool>> predicate = null);

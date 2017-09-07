@@ -37,6 +37,7 @@ namespace GameStore.Services.Concrete
 			}
 
 			game.Comments.Add(comment);
+
 			_gameRepository.Update(game);
 
 			_unitOfWork.Save();
@@ -60,12 +61,27 @@ namespace GameStore.Services.Concrete
 
 		public CommentDto GetSingle(int id)
 		{
-			return _mapper.Map<Comment, CommentDto>(_commentRepository.GetSingle(c => c.Id == id));
+			var comment = _commentRepository.GetSingle(c => c.Id == id);
+
+			return _mapper.Map<Comment, CommentDto>(comment);
+		}
+
+		public CommentDto GetSingleOrDefault(int id)
+		{
+			var comment = _commentRepository.GetSingleOrDefault(c => c.Id == id);
+
+			if (comment == null)
+			{
+				return null;
+			}
+
+			return _mapper.Map<Comment, CommentDto>(comment);
 		}
 
 		public void Delete(int id)
 		{
 			_commentRepository.Delete(id);
+
 			_unitOfWork.Save();
 		}
 
@@ -83,7 +99,9 @@ namespace GameStore.Services.Concrete
 		{
 			var comment = _commentRepository.GetSingle(c => c.Id == commentDto.Id);
 			comment = _mapper.Map(commentDto, comment);
+
 			_commentRepository.Update(comment);
+
 			_unitOfWork.Save();
 		}
 	}

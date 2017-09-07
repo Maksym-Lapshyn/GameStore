@@ -27,7 +27,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			for (var i = 0; i < games.Count; i++)
 			{
 				games[i] = GetEmbeddedDocuments(games[i]);
-				games[i] = GetDefaultDates(games[i]);
+				games[i] = SetDefaultDates(games[i]);
 			}
 
 			var gamesQuery = games.AsQueryable();
@@ -41,7 +41,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 		{
 			var game =  _gameCollection.AsQueryable().Where(predicate.Compile()).First();
 			game = GetEmbeddedDocuments(game);
-			game = GetDefaultDates(game);
+			game = SetDefaultDates(game);
 
 			return game;
 		}
@@ -59,7 +59,7 @@ namespace GameStore.DAL.Concrete.MongoDb
 			return game;
 		}
 
-		private Game GetDefaultDates(Game game)
+		private Game SetDefaultDates(Game game)
 		{
 			game.DateAdded = new DateTime(2017, 06, 07);
 			game.DatePublished = DateTime.MinValue;

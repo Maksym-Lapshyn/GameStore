@@ -53,6 +53,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var userDto = _mapper.Map<UserViewModel, UserDto>(model);
+
 			_userService.Create(userDto);
 
 			return RedirectToAction("ShowAll", "Users");
@@ -80,6 +81,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var roleDto = _mapper.Map<UserViewModel, UserDto>(model);
+
 			_userService.Update(roleDto);
 
 			return RedirectToAction("ShowAll", "Users");
@@ -115,12 +117,12 @@ namespace GameStore.Web.Controllers
 
 		private void CheckIfLoginIsUnique(UserViewModel user)
 		{
-			if (!_userService.Contains(user.Login))
+			var existingUser = _userService.GetSingleOrDefault(CurrentLanguage, user.Login);
+
+			if (existingUser == null)
 			{
 				return;
 			}
-
-			var existingUser = _userService.GetSingle(CurrentLanguage, user.Login);
 
 			if (existingUser.Id != user.Id)
 			{

@@ -36,7 +36,9 @@ namespace GameStore.Web.Controllers
 		[AuthorizeUser(AuthorizationMode.Allow, AccessLevel.User)]
 		public ActionResult Busket()
 		{
-			if (!_orderService.ContainsActive(CurrentUser.Id))
+			var order = _orderService.GetSingleActiveOrDefault(CurrentUser.Id);
+
+			if (order == null)
 			{
 				return View(new OrderViewModel());
 			}
@@ -66,6 +68,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var orderDto = _orderService.GetSingleActive(CurrentUser.Id);
+
 			_orderService.AddDetails(orderDto.Id, gameKey);
 
 			return RedirectToAction("Busket", "Orders");

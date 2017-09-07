@@ -9,6 +9,8 @@ namespace GameStore.DAL.Abstract.EntityFramework
 	{
 		Role GetSingle(Expression<Func<Role, bool>> predicate);
 
+		Role GetSingleOrDefault(Expression<Func<Role, bool>> predicate);
+
 		IQueryable<Role> GetAll(Expression<Func<Role, bool>> predicate = null);
 
 		void Update(Role role);

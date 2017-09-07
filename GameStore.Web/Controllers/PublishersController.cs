@@ -44,6 +44,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
+
 			_publisherService.Create(CurrentLanguage, publisherDto);
 
 			return RedirectToAction("ShowAll", "Publishers");
@@ -70,6 +71,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var publisherDto = _mapper.Map<PublisherViewModel, PublisherDto>(model);
+
 			_publisherService.Update(CurrentLanguage, publisherDto);
 
 			return RedirectToAction("ShowAll", "Publishers");
@@ -100,12 +102,12 @@ namespace GameStore.Web.Controllers
 
 		private void CheckIfCompanyNameIsUnique(PublisherViewModel model)
 		{
-			if (!_publisherService.Contains(model.CompanyName))
+			var existingPublisher = _publisherService.GetSingleOrDefault(CurrentLanguage, model.CompanyName);
+
+			if (existingPublisher == null)
 			{
 				return;
 			}
-
-			var existingPublisher = _publisherService.GetSingle(CurrentLanguage, model.CompanyName);
 
 			if (existingPublisher.Id != model.Id)
 			{

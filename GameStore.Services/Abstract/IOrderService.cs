@@ -17,6 +17,8 @@ namespace GameStore.Services.Abstract
 
 		OrderDto GetSingleActive(int userId);
 
+		OrderDto GetSingleActiveOrDefault(int userId);
+
 		void CreateActive(int userId);
 
 		bool ContainsActiveById(int orderId);
@@ -24,6 +26,8 @@ namespace GameStore.Services.Abstract
 		bool ContainsActive(int userId);
 
 		OrderDto GetSingle(int orderId);
+
+		OrderDto GetSingleOrDefault(int orderId);
 
 		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
 

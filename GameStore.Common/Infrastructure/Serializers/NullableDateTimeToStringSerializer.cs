@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using System;
+using System.Globalization;
 
 namespace GameStore.Common.Infrastructure.Serializers
 {

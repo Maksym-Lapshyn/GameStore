@@ -15,6 +15,7 @@ namespace GameStore.Authentification.Concrete
 
 		private readonly IUserRepository _repository;
 		private readonly IHashGenerator<string> _hashGenerator;
+
 		private IPrincipal _currentUser;
 
 		public Authentication(IUserRepository repository,
@@ -30,9 +31,7 @@ namespace GameStore.Authentification.Concrete
 		public User LogIn(string login, string password, bool isPersistent)
 		{
 			var hashedPassword = _hashGenerator.Generate(password);
-			var user = _repository.Contains(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false)
-				? _repository.GetSingle(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false)
-				: null;
+			var user = _repository.GetSingleOrDefault(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false);
 
 			if (user != null)
 			{

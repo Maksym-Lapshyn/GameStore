@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.Localization;
 using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -37,6 +37,7 @@ namespace GameStore.Services.Concrete
 		public void Create(string language, RoleDto roleDto)
 		{
 			var role = _mapper.Map<RoleDto, Role>(roleDto);
+
 			_inputLocalizer.Localize(language, role);
 			_roleRepository.Create(role);
 			_unitOfWork.Save();
@@ -45,7 +46,25 @@ namespace GameStore.Services.Concrete
 		public RoleDto GetSingle(string language, string name)
 		{
 			var role = _roleRepository.GetSingle(r => r.RoleLocales.Any(l => l.Name == name));
+
 			_outputLocalizer.Localize(language, role);
+
+			var roleDto = _mapper.Map<Role, RoleDto>(role);
+
+			return roleDto;
+		}
+
+		public RoleDto GetSingleOrDefault(string language, string name)
+		{
+			var role = _roleRepository.GetSingleOrDefault(r => r.RoleLocales.Any(l => l.Name == name));
+
+			if (role == null)
+			{
+				return null;
+			}
+
+			_outputLocalizer.Localize(language, role);
+
 			var roleDto = _mapper.Map<Role, RoleDto>(role);
 
 			return roleDto;
@@ -68,6 +87,7 @@ namespace GameStore.Services.Concrete
 			var role = _roleRepository.GetSingle(r => r.Id == roleDto.Id);
 			role = _mapper.Map(roleDto, role);
 			role.RoleLocales = _localeRepository.GetAllBy(role.Id).ToList();
+
 			_inputLocalizer.Localize(language, role);
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
@@ -77,6 +97,7 @@ namespace GameStore.Services.Concrete
 		{
 			var role = _roleRepository.GetSingle(r => r.Name == name);
 			role.IsDeleted = true;
+
 			_roleRepository.Update(role);
 			_unitOfWork.Save();
 		}

@@ -35,7 +35,9 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		public void Insert(Game game)
 		{
 			_context.Games.Add(game);
+
 			var container = CreateContainer("Insert", game);
+
 			_logger.LogChange(container);
 		}
 
@@ -43,8 +45,11 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			var game = _context.Games.First(g => g.Key == gameKey);
 			game.IsDeleted = true;
+
 			_context.Entry(game).State = EntityState.Modified;
+
 			var container = CreateContainer("Delete", game);
+
 			_logger.LogChange(container);
 		}
 
@@ -66,16 +71,24 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			}
 
 			var container = CreateContainer("Update", game, oldGame);
+
 			_logger.LogChange(container);
+
 			game = MergeGenres(game);
 			game = MergePlatformTypes(game);
 			game = MergePublisher(game);
+
 			MergePlainProperties(game);
 		}
 
 		public bool Contains(Expression<Func<Game, bool>> predicate)
 		{
 			return _context.Games.Any(predicate);
+		}
+
+		public Game GetSingleOrDefault(Expression<Func<Game, bool>> predicate)
+		{
+			return _context.Games.FirstOrDefault(predicate);
 		}
 
 		private GameLogContainer CreateContainer(string action, Game newGame, Game oldGame = null)
@@ -97,6 +110,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			var deletedGenres = existingGame.Genres.Except(game.Genres, g => g.Id).ToList();
 			var addedGenres = game.Genres.Except(existingGame.Genres, g => g.Id).ToList();
+
 			deletedGenres.ForEach(g => existingGame.Genres.Remove(g));
 
 			foreach (var g in addedGenres)
@@ -117,6 +131,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			var deletedPlatformTypes = existingGame.PlatformTypes.Except(game.PlatformTypes, p => p.Id).ToList();
 			var addedPlatformTypes = game.PlatformTypes.Except(existingGame.PlatformTypes, p => p.Id).ToList();
+
 			deletedPlatformTypes.ForEach(p => existingGame.PlatformTypes.Remove(p));
 
 			foreach (var p in addedPlatformTypes)
@@ -135,6 +150,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		private Game MergePublisher(Game game)
 		{
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
+
 			if (_context.Entry(game.Publisher).State == EntityState.Detached)
 			{
 				_context.Publishers.Attach(game.Publisher);
@@ -148,6 +164,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		private void MergePlainProperties(Game game)
 		{
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
+
 			_context.Entry(existingGame).CurrentValues.SetValues(game);
 			_context.Entry(existingGame).State = EntityState.Modified;
 		}

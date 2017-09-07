@@ -7,6 +7,8 @@ namespace GameStore.DAL.Abstract.EntityFramework
 {
 	public interface IEfPlatformTypeRepository
 	{
+		PlatformType GetSingleOrDefault(Expression<Func<PlatformType, bool>> predicate);
+
 		PlatformType GetSingle(Expression<Func<PlatformType, bool>> predicate);
 
 		IQueryable<PlatformType> GetAll(Expression<Func<PlatformType, bool>> predicate = null);

@@ -48,5 +48,10 @@ namespace GameStore.DAL.Concrete.EntityFramework
 		{
 			return _context.Comments.Any(predicate);
 		}
+
+		public Comment GetSingleOrDefault(Expression<Func<Comment, bool>> predicate)
+		{
+			return _context.Comments.FirstOrDefault(predicate);
+		}
 	}
 }
