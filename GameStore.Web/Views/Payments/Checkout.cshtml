@@ -8,6 +8,8 @@
 <h1>@GlobalResource.Checkout</h1>
 <hr />
 
+<p>@Html.ValidationMessageFor(m => m)</p>
+
 @using (Html.BeginForm("Checkout", "Payments", FormMethod.Post))
 {
 	@Html.HiddenFor(m => m.PaymentAmount)

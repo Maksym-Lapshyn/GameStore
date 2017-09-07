@@ -1,9 +1,9 @@
 ﻿using Common.Abstract;
 using Common.Entities;
 using PaymentService.Application.Dtos;
+using PaymentService.Application.Infrastructure.Abstract;
 using PaymentService.DAL.Abstract;
 using System;
-using PaymentService.Application.Infrastructure.Abstract;
 
 namespace PaymentService.Application
 {
@@ -33,34 +33,35 @@ namespace PaymentService.Application
 
 		public PaymentResponse ConductPurchase(Payment payment)
 		{
-			payment.PaymentStatus = PaymentStatus.Pending;
-
-			CheckIfTransactionIsAllowed(payment);
+			payment.PaymentStatus = CheckIfTransactionIsAllowed(payment);
 
 			var confirmationCode = GenerateConfirmationCode();
 
-			if (payment.Phone != null && payment.PaymentStatus == PaymentStatus.Pending)
+			if (payment.PaymentStatus == PaymentStatus.Pending)
 			{
-				_messageSender.Send(confirmationCode);
+				if (payment.Phone != null)
+				{
+					_messageSender.SendPhone(payment.Phone, confirmationCode);
 
-				payment.ConfirmationCode = confirmationCode;
+					payment.ConfirmationCode = confirmationCode;
+				}
+				else if (payment.Email != null)
+				{
+					_emailSender.SendEmail(payment.Email, confirmationCode);
+
+					payment.ConfirmationCode = confirmationCode;
+				}
+
+				if (payment.Phone == null && payment.Email == null)
+				{
+					payment.PaymentStatus = PaymentStatus.Successful;
+
+					ProcessPayment(payment);
+				}
 			}
-			else if (payment.Email != null && payment.PaymentStatus == PaymentStatus.Pending)
-			{
-				_emailSender.Send(confirmationCode);
-
-				payment.ConfirmationCode = confirmationCode;
-			}
-
-			if ((payment.Phone == null || payment.Email == null) && payment.PaymentStatus == PaymentStatus.Pending)
-			{
-				payment.PaymentStatus = PaymentStatus.Successful;
-
-				ProcessPayment(payment);
-			}
-
+			
 			_paymentRepository.Insert(payment);
-			LogTransaction(payment);
+			LogPayment(payment);
 
 			var response = new PaymentResponse { PaymentStatus = payment.PaymentStatus, PaymentId = payment.Id };
 
@@ -69,51 +70,37 @@ namespace PaymentService.Application
 
 		public PaymentResponse ConfirmPayment(int paymentId, string confirmationCode)
 		{
-			PaymentStatus paymentStatus;
-
 			var payment = _paymentRepository.GetSingleOrDefault(t => t.Id == paymentId);
 
 			if (payment == null)
 			{
-				paymentStatus = PaymentStatus.TransactionIdIsNotCorrect;
+				return new PaymentResponse
+				{
+					PaymentStatus = PaymentStatus.TransactionIdIsNotCorrect,
+					PaymentId = paymentId
+				};
 			}
-			else if (payment.ConfirmationCode != confirmationCode)
+
+			payment.PaymentStatus = payment.ConfirmationCode != confirmationCode 
+				? PaymentStatus.Pending 
+				: PaymentStatus.Successful;
+
+			_paymentRepository.Update(payment);
+			LogPayment(payment);
+
+			return new PaymentResponse
 			{
-				paymentStatus = PaymentStatus.Pending;
-			}
-			else
-			{
-				payment.PaymentStatus = PaymentStatus.Successful;
-				paymentStatus = PaymentStatus.Successful;
-			}
-
-			LogTransaction(payment);
-
-			var response = new PaymentResponse { PaymentStatus = paymentStatus, PaymentId = paymentId };
-
-			return response;
+				PaymentStatus = payment.PaymentStatus,
+				PaymentId = paymentId
+			};
 		}
 
-		private void LogTransaction(Payment payment)
-		{
-			var message = $"Id: {payment.Id}. Status: {payment.PaymentStatus}. Supplier: {payment.BuyersCardNumber}. Consumer: {payment.SellersCardNumber}. Transaction amount: {payment.PaymentAmount}. Transaction date: {DateTime.UtcNow}";
-			_logger.LogPayment(message);
-		}
-
-		private string GenerateConfirmationCode()
-		{
-			var randomizer = new Random();
-			var number = randomizer.Next(10000000, 99999999);
-
-			return number.ToString();
-		}
-
-		private void CheckIfTransactionIsAllowed(Payment payment)
+		private PaymentStatus CheckIfTransactionIsAllowed(Payment payment)
 		{
 			if (!_accountRepository.Contains(a => a.CardNumber == payment.SellersCardNumber) ||
 				!_accountRepository.Contains(a => a.CardNumber == payment.BuyersCardNumber))
 			{
-				payment.PaymentStatus = PaymentStatus.CardDoesNotExist;
+				return PaymentStatus.CardDoesNotExist;
 			}
 
 			var buyersAccount = _accountRepository.GetSingle(a => a.CardNumber == payment.BuyersCardNumber);
@@ -127,7 +114,7 @@ namespace PaymentService.Application
 				firstName = names[0];
 				lastName = names[1];
 			}
-			catch (ArgumentOutOfRangeException)
+			catch (IndexOutOfRangeException)
 			{
 				firstName = default(string);
 				lastName = default(string);
@@ -139,13 +126,29 @@ namespace PaymentService.Application
 				|| buyersAccount.Owner.FirstName != firstName
 				|| buyersAccount.Owner.LastName != lastName)
 			{
-				payment.PaymentStatus = PaymentStatus.PaymentFailed;
+				return PaymentStatus.PaymentFailed;
 			}
 
 			if (buyersAccount.Balance < payment.PaymentAmount)
 			{
-				payment.PaymentStatus = PaymentStatus.NotEnoughMoney;
+				return PaymentStatus.NotEnoughMoney;
 			}
+
+			return PaymentStatus.Pending;
+		}
+
+		private void LogPayment(Payment payment)
+		{
+			var message = $"Id: {payment.Id}. Status: {payment.PaymentStatus}. Supplier: {payment.BuyersCardNumber}. Consumer: {payment.SellersCardNumber}. Transaction amount: {payment.PaymentAmount}. Transaction date: {DateTime.UtcNow}";
+			_logger.LogPayment(message);
+		}
+
+		private string GenerateConfirmationCode()
+		{
+			var randomizer = new Random();
+			var number = randomizer.Next(10000000, 99999999);
+
+			return number.ToString();
 		}
 
 		private bool CheckIfCardIsVisa(string buyersCardNumber)

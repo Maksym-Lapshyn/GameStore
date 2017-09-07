@@ -2,6 +2,6 @@
 {
 	public interface IConfirmationEmailSender
 	{
-		void Send(string confirmationCode);
+		void SendEmail(string email, string confirmationCode);
 	}
 }

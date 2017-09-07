@@ -4,7 +4,7 @@ namespace PaymentService.Application.Infrastructure.Concrete
 {
 	public class ConfirmationEmailSenderStub : IConfirmationEmailSender
 	{
-		public void Send(string confirmationCode)
+		public void SendEmail(string email, string confirmationCode)
 		{
 			//does something
 		}

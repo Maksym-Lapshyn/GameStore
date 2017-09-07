@@ -6,8 +6,6 @@ namespace GameStore.Web
 	{
 		public static void Register(HttpConfiguration config)
 		{
-			config.MapHttpAttributeRoutes();
-
 			config.Routes.MapHttpRoute(
 				"Login",
 				"api/login",

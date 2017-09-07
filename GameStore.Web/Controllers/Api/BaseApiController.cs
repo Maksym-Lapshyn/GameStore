@@ -12,7 +12,7 @@ namespace GameStore.Web.Controllers.Api
 {
 	public class BaseApiController : ApiController
 	{
-        private const string DefaultLanguage = "en";
+		private const string DefaultLanguage = "en";
 		private const string XmlContentType = "xml";
 		private const string JsonContentType = "json";
 		private const string JsonMediaType = "application/json";
