@@ -7,11 +7,19 @@ namespace GameStore.Services.Abstract
 	{
 		IEnumerable<CommentDto> GetAll(string gameKey);
 
+		bool Contains(string gameKey);
+
+		bool Contains(int id);
+
 		void Create(CommentDto entity);
 
 		IEnumerable<CommentDto> GetAll();
 
 		CommentDto GetSingle(int id);
+
+		CommentDto GetSingleOrDefault(int id);
+
+		void Update(CommentDto commentDto);
 
 		void Delete(int id);
 	}

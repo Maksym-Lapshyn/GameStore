@@ -9,6 +9,8 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		PlatformType GetSingle(Expression<Func<PlatformType, bool>> predicate);
 
+		PlatformType GetSingleOrDefault(Expression<Func<PlatformType, bool>> predicate);
+
 		IEnumerable<PlatformType> GetAll(Expression<Func<PlatformType, bool>> predicate = null);
 
 		bool Contains(Expression<Func<PlatformType, bool>> predicate);

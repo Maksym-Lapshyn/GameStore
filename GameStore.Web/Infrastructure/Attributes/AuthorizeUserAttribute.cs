@@ -11,27 +11,27 @@ namespace GameStore.Web.Infrastructure.Attributes
 		private readonly AccessLevel[] _accessLevels;
 		private readonly AuthorizationMode _mode;
 
-		private IAuthentication _auth;
+		private IAuthentication _authentication;
 
 		public AuthorizeUserAttribute(AuthorizationMode mode, params AccessLevel[] accessLevels)
 		{
 			_accessLevels = accessLevels;
 			_mode = mode;
-			
 		}
 
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			_auth = DependencyResolver.Current.GetService<IAuthentication>();
+			_authentication = DependencyResolver.Current.GetService<IAuthentication>();
+
 			if (_mode == AuthorizationMode.Allow)
 			{
-				return httpContext.User.Identity.IsAuthenticated && _auth.User.Roles.Any(r => _accessLevels.Contains(r.AccessLevel));
+				return httpContext.User.Identity.IsAuthenticated && _authentication.User.Roles.Any(r => _accessLevels.Contains(r.AccessLevel));
 				//attribute allows access
 			}
 
 			if (httpContext.User.Identity.IsAuthenticated)
 			{
-				return  !_auth.User.Roles.Any(r => _accessLevels.Contains(r.AccessLevel));
+				return  !_authentication.User.Roles.Any(r => _accessLevels.Contains(r.AccessLevel));
 				//attribute forbids access
 			}
 

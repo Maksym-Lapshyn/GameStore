@@ -65,6 +65,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var dto = _mapper.Map<CommentViewModel, CommentDto>(model.NewComment);
+
 			_commentService.Create(dto);
 
 			return RedirectToAction("New", new { key = model.NewComment.GameKey });

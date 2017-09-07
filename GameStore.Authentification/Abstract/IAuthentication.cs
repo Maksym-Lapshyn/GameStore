@@ -10,7 +10,7 @@ namespace GameStore.Authentification.Abstract
 
 		User User { get; }
 
-		User Login(string login, string password, bool isPersistent);
+		User LogIn(string login, string password, bool isPersistent);
 
 		void LogOut();
 

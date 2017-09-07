@@ -14,6 +14,8 @@ namespace GameStore.DAL.Abstract.Common
 
 		Order GetSingle(Expression<Func<Order, bool>> predicate);
 
+		Order GetSingleOrDefault(Expression<Func<Order, bool>> predicate);
+
 		void Update(Order order);
 
 		bool Contains(Expression<Func<Order, bool>> predicate);

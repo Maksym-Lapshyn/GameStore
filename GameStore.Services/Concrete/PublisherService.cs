@@ -5,7 +5,6 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Dtos;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Abstract.Localization;
 
 namespace GameStore.Services.Concrete
 {
@@ -16,23 +15,27 @@ namespace GameStore.Services.Concrete
 		private readonly IInputLocalizer<Publisher> _inputLocalizer;
 		private readonly IOutputLocalizer<Publisher> _outputLocalizer;
 		private readonly IPublisherRepository _publisherRepository;
+		private readonly IGameRepository _gameRepository;
 
 		public PublisherService(IUnitOfWork unitOfWork,
 			IMapper mapper,
 			IInputLocalizer<Publisher> inputLocalizer,
 			IOutputLocalizer<Publisher> outputLocalizer,
-			IPublisherRepository publisherRepository)
+			IPublisherRepository publisherRepository,
+			IGameRepository gameRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_inputLocalizer = inputLocalizer;
 			_outputLocalizer = outputLocalizer;
 			_publisherRepository = publisherRepository;
+			_gameRepository = gameRepository;
 		}
 
 		public void Create(string language, PublisherDto publisherDto)
 		{
 			var publisher = _mapper.Map<PublisherDto, Publisher>(publisherDto);
+
 			_inputLocalizer.Localize(language, publisher);
 			_publisherRepository.Insert(publisher);
 			_unitOfWork.Save();
@@ -41,7 +44,25 @@ namespace GameStore.Services.Concrete
 		public PublisherDto GetSingle(string language, string companyName)
 		{
 			var publisher = _publisherRepository.GetSingle(p => p.CompanyName == companyName);
+
 			_outputLocalizer.Localize(language, publisher);
+
+			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
+
+			return publisherDto;
+		}
+
+		public PublisherDto GetSingleOrDefault(string language, string companyName)
+		{
+			var publisher = _publisherRepository.GetSingleOrDefault(p => p.CompanyName == companyName);
+
+			if (publisher == null)
+			{
+				return null;
+			}
+
+			_outputLocalizer.Localize(language, publisher);
+
 			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
 
 			return publisherDto;
@@ -61,9 +82,22 @@ namespace GameStore.Services.Concrete
 			return publisherDtos;
 		}
 
+		public PublisherDto GetSingleByGameKey(string language, string gameKey)
+		{
+			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
+			var publisher = game.Publisher;
+
+			_outputLocalizer.Localize(language, publisher);
+
+			var publisherDto = _mapper.Map<Publisher, PublisherDto>(publisher);
+
+			return publisherDto;
+		}
+
 		public void Update(string language, PublisherDto publisherDto)
 		{
 			var publisher = _publisherRepository.GetSingle(p => p.Id == publisherDto.Id);
+
 			_mapper.Map(publisherDto, publisher);
 			_inputLocalizer.Localize(language, publisher);
 			_publisherRepository.Update(publisher);

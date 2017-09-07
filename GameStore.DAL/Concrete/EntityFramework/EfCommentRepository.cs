@@ -43,5 +43,15 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			comment.IsDeleted = true;
 			_context.Entry(comment).State = EntityState.Modified;
 		}
+
+		public bool Contains(Expression<Func<Comment, bool>> predicate)
+		{
+			return _context.Comments.Any(predicate);
+		}
+
+		public Comment GetSingleOrDefault(Expression<Func<Comment, bool>> predicate)
+		{
+			return _context.Comments.FirstOrDefault(predicate);
+		}
 	}
 }

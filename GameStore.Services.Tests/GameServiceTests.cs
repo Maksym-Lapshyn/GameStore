@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
+using GameStore.DAL.Abstract.Localization;
+using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Services.Dtos;
 using GameStore.Services.Infrastructure;
@@ -8,8 +10,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.DAL.Abstract.Localization;
-using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Tests
 {
@@ -31,6 +31,7 @@ namespace GameStore.Services.Tests
 		private Mock<IOutputLocalizer<Game>> _mockOfOutputLocalizer;
 		private Mock<IInputLocalizer<Game>> _mockOfInputLocalizer;
 		private Mock<IGameLocaleRepository> _mockOfGameLocaleRepository;
+		private Mock<ICommentRepository> _mockOfCommentRepository;
 		private GameService _target;
 		private List<Game> _games;
 
@@ -45,9 +46,10 @@ namespace GameStore.Services.Tests
 			_mockOfOutputLocalizer = new Mock<IOutputLocalizer<Game>>();
 			_mockOfInputLocalizer = new Mock<IInputLocalizer<Game>>();
 			_mockOfGameLocaleRepository = new Mock<IGameLocaleRepository>();
+			_mockOfCommentRepository = new Mock<ICommentRepository>();
 			_target = new GameService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object,
 				_mockOfGameLocaleRepository.Object, _mockOfGameRepository.Object, _mockOfPublisherRepository.Object,
-				_mockOfGenreRepository.Object, _mockOfPlatformTypeRepository.Object);
+				_mockOfGenreRepository.Object, _mockOfPlatformTypeRepository.Object, _mockOfCommentRepository.Object);
 			_mockOfPublisherRepository.Setup(m => m.GetSingle(p => p.CompanyName == ValidString)).Returns(new Publisher());
 			_mockOfPlatformTypeRepository.Setup(m => m.GetSingle(p => p.Type == ValidString)).Returns(new PlatformType());
 			_mockOfGenreRepository.Setup(m => m.GetSingle(g => g.Name == ValidString)).Returns(new Genre());

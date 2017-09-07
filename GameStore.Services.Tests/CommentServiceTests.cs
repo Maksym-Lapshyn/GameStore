@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
 using GameStore.Services.Concrete;
@@ -7,6 +6,7 @@ using GameStore.Services.Dtos;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;

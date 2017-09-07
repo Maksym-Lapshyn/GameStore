@@ -11,31 +11,32 @@ namespace GameStore.Authentification.Concrete
 {
 	public class Authentication : IAuthentication
 	{
-		public Authentication(IUserRepository repository, IHashGenerator<string> hashGenerator)
+		private const string CookieName = "__GAMESTORE_AUTH";
+
+		private readonly IUserRepository _repository;
+		private readonly IHashGenerator<string> _hashGenerator;
+
+		private IPrincipal _currentUser;
+
+		public Authentication(IUserRepository repository,
+			IHashGenerator<string> hashGenerator)
 		{
 			_repository = repository;
 			_hashGenerator = hashGenerator;
 		}
 
-		private const string CookieName = "__GAMESTORE_AUTH";
-
-		private readonly IUserRepository _repository;
-		private readonly IHashGenerator<string> _hashGenerator;
-		private IPrincipal _currentUser;
-
 		public HttpContextBase HttpContext { get; set; }
 		public User User => ((IUserProvider)CurrentUser.Identity).User;
 
-		public User Login(string login, string password, bool isPersistent)
+		public User LogIn(string login, string password, bool isPersistent)
 		{
 			var hashedPassword = _hashGenerator.Generate(password);
-			var user = _repository.Contains(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false) 
-				? _repository.GetSingle(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false) 
-				: null;
+			var user = _repository.GetSingleOrDefault(u => u.Login == login && u.Password == hashedPassword && u.IsDeleted == false);
 
 			if (user != null)
 			{
-				CreateCookie(login, isPersistent);
+				var cookie = CreateCookie(login, isPersistent);
+				HttpContext.Response.Cookies.Set(cookie);
 			}
 
 			return user;
@@ -76,18 +77,25 @@ namespace GameStore.Authentification.Concrete
 			}
 		}
 
-		private void CreateCookie(string login, bool isPersistent = false)
+		private HttpCookie CreateCookie(string login, bool isPersistent = false)
 		{
-			var ticket = new FormsAuthenticationTicket(1, login, DateTime.UtcNow,
-				DateTime.UtcNow.Add(FormsAuthentication.Timeout), isPersistent, string.Empty, FormsAuthentication.FormsCookiePath);
-			var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+			var encryptedTicket = CreateTicket(login, isPersistent);
 			var cookie = new HttpCookie(CookieName)
 			{
 				Value = encryptedTicket,
 				Expires = DateTime.UtcNow.Add(FormsAuthentication.Timeout)
 			};
 
-			HttpContext.Response.Cookies.Set(cookie);
+			return cookie;
+		}
+
+		private string CreateTicket(string login, bool isPersistent = false)
+		{
+			var ticket = new FormsAuthenticationTicket(1, login, DateTime.UtcNow,
+				DateTime.UtcNow.Add(FormsAuthentication.Timeout), isPersistent, string.Empty, FormsAuthentication.FormsCookiePath);
+			var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+			return encryptedTicket;
 		}
 	}
 }

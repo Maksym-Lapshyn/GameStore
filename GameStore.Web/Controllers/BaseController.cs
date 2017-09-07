@@ -14,9 +14,9 @@ namespace GameStore.Web.Controllers
 			Auth = authentication;
 		}
 
-        public string CurrentLanguage { get; set; }
+		public string CurrentLanguage { get; set; }
 
-        public IAuthentication Auth { get; set; }
+		public IAuthentication Auth { get; set; }
 
 		public User CurrentUser => Auth.User;
 

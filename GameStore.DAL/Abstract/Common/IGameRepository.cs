@@ -10,6 +10,8 @@ namespace GameStore.DAL.Abstract.Common
 	{
 		IEnumerable<Game> GetAll(GameFilter filter = null, int? itemsToSkip = null, int? itemsToTake = null, Expression<Func<Game, bool>> predicate = null);
 
+		Game GetSingleOrDefault(Expression<Func<Game, bool>> predicate);
+
 		Game GetSingle(Expression<Func<Game, bool>> predicate);
 
 		void Insert(Game game);

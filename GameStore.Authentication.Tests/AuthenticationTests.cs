@@ -57,7 +57,7 @@ namespace GameStore.Authentication.Tests
 			_mockOfUserRepository.Setup(m => m.Contains(It.IsAny<Expression<Func<User, bool>>>())).Returns(true);
 			_mockOfUserRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<User, bool>>>())).Returns(user);
 
-			var result = _target.Login(TestString, TestString, true);
+			var result = _target.LogIn(TestString, TestString, true);
 
 			Assert.AreEqual(TestString, result.Login);
 			Assert.AreEqual(TestString, result.Password);
@@ -75,7 +75,7 @@ namespace GameStore.Authentication.Tests
 			_mockOfUserRepository.Setup(m => m.Contains(It.IsAny<Expression<Func<User, bool>>>())).Returns(true);
 			_mockOfUserRepository.Setup(m => m.GetSingle(It.IsAny<Expression<Func<User, bool>>>())).Returns(user);
 
-			_target.Login(TestString, TestString, true);
+			_target.LogIn(TestString, TestString, true);
 
 			Assert.AreEqual(1, _cookieCollection.Count);
 		}
@@ -85,7 +85,7 @@ namespace GameStore.Authentication.Tests
 		{
 			_mockOfUserRepository.Setup(m => m.Contains(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
 
-			_target.Login(TestString, TestString, true);
+			_target.LogIn(TestString, TestString, true);
 
 			Assert.AreEqual(0, _cookieCollection.Count);
 		}

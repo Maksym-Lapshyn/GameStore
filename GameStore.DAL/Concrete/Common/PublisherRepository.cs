@@ -57,5 +57,10 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			_efRepository.Delete(companyName);
 		}
+
+		public Publisher GetSingleOrDefault(Expression<Func<Publisher, bool>> predicate)
+		{
+			return _efRepository.GetSingleOrDefault(predicate);
+		}
 	}
 }

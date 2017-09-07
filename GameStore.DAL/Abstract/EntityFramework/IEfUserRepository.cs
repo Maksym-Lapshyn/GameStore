@@ -9,6 +9,8 @@ namespace GameStore.DAL.Abstract.EntityFramework
 	{
 		User GetSingle(Expression<Func<User, bool>> predicate);
 
+		User GetSingleOrDefault(Expression<Func<User, bool>> predicate);
+
 		bool Contains(Expression<Func<User, bool>> predicate);
 
 		IQueryable<User> GetAll(Expression<Func<User, bool>> predicate = null);

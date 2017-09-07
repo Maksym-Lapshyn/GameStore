@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
+using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
-using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Tests
 {
@@ -20,6 +20,7 @@ namespace GameStore.Services.Tests
 			new MapperConfiguration(cfg => cfg.AddProfile(new ServiceProfile())));
 
 		private Mock<IGenreRepository> _mockOfGenreRepository;
+		private Mock<IGameRepository> _mockOfGameRepository;
 		private Mock<IOutputLocalizer<Genre>> _mockOfOutputLocalizer;
 		private Mock<IInputLocalizer<Genre>> _mockOfInputLocalizer;
 		private Mock<IUnitOfWork> _mockOfUow;
@@ -30,10 +31,11 @@ namespace GameStore.Services.Tests
 		public void Initialize()
 		{
 			_mockOfGenreRepository = new Mock<IGenreRepository>();
+			_mockOfGameRepository = new Mock<IGameRepository>();
 			_mockOfOutputLocalizer = new Mock<IOutputLocalizer<Genre>>();
 			_mockOfInputLocalizer = new Mock<IInputLocalizer<Genre>>();
 			_mockOfUow = new Mock<IUnitOfWork>();
-			_target = new GenreService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object, _mockOfGenreRepository.Object);
+			_target = new GenreService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object, _mockOfGameRepository.Object, _mockOfGenreRepository.Object);
 		}
 
 		[TestMethod]

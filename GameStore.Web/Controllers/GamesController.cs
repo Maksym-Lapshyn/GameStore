@@ -58,12 +58,14 @@ namespace GameStore.Web.Controllers
 		public ActionResult New(GameViewModel model)
 		{
 			CheckIfKeyIsUnique(model);
+
 			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
 
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
+
 			_gameService.Create(CurrentLanguage, gameDto);
 
 			return RedirectToAction("ShowAll");
@@ -87,12 +89,14 @@ namespace GameStore.Web.Controllers
 		public ActionResult Update(GameViewModel model)
 		{
 			CheckIfKeyIsUnique(model);
+
 			if (!ModelState.IsValid)
 			{
 				return View(model);
 			}
 
 			var gameDto = _mapper.Map<GameViewModel, GameDto>(model);
+
 			_gameService.Update(CurrentLanguage, gameDto);
 
 			return RedirectToAction("ShowAll");
@@ -255,12 +259,12 @@ namespace GameStore.Web.Controllers
 
 		private void CheckIfKeyIsUnique(GameViewModel model)
 		{
-			if (!_gameService.Contains(model.Key))
+			var existingGame = _gameService.GetSingleOrDefault(CurrentLanguage, model.Key);
+
+			if (existingGame == null)
 			{
 				return;
 			}
-
-			var existingGame = _gameService.GetSingle(CurrentLanguage, model.Key);
 
 			if (existingGame.Id != model.Id)
 			{

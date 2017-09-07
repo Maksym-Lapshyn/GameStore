@@ -24,6 +24,7 @@ namespace GameStore.Services.Concrete
 		private readonly IPublisherRepository _publisherRepository;
 		private readonly IGenreRepository _genreRepository;
 		private readonly IPlatformTypeRepository _platformTypeRepository;
+		private readonly ICommentRepository _commentRepository;
 
 		public GameService(IUnitOfWork unitOfWork,
 			IMapper mapper,
@@ -33,7 +34,8 @@ namespace GameStore.Services.Concrete
 			IGameRepository gameRepository,
 			IPublisherRepository publisherRepository,
 			IGenreRepository genreRepository,
-			IPlatformTypeRepository platformTypeRepository)
+			IPlatformTypeRepository platformTypeRepository,
+			ICommentRepository commentRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
@@ -44,17 +46,22 @@ namespace GameStore.Services.Concrete
 			_publisherRepository = publisherRepository;
 			_platformTypeRepository = platformTypeRepository;
 			_genreRepository = genreRepository;
+			_commentRepository = commentRepository;
 		}
 
 		public void Create(string language, GameDto gameDto)
 		{
 			AddDefaultGenreIfInputIsEmpty(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
+
 			MapEmbeddedEntities(gameDto, game);
+
 			_inputLocalizer.Localize(language, game);
 			game.ViewsCount = 0;
 			game.DateAdded = DateTime.UtcNow;
+
 			_gameRepository.Insert(game);
+
 			_unitOfWork.Save();
 		}
 
@@ -63,8 +70,11 @@ namespace GameStore.Services.Concrete
 			AddDefaultGenreIfInputIsEmpty(gameDto);
 			var game = _mapper.Map<GameDto, Game>(gameDto);
 			game.IsUpdated = true;
-			game = MapEmbeddedEntities(gameDto, game);
+
+			MapEmbeddedEntities(gameDto, game);
+
 			game.GameLocales = _localeRepository.GetAllBy(game.Id).ToList();
+
 			_inputLocalizer.Localize(language, game);
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
@@ -80,12 +90,63 @@ namespace GameStore.Services.Concrete
 		{
 			var game = _gameRepository.GetSingle(g => g.Key == gameKey);
 			game.ViewsCount++;
+
 			_gameRepository.Update(game);
 			_unitOfWork.Save();
 			_outputLocalizer.Localize(language, game);
+
 			var gameDto = _mapper.Map<Game, GameDto>(game);
 
 			return gameDto;
+		}
+
+		public GameDto GetSingleOrDefault(string language, string gameKey)
+		{
+			var game = _gameRepository.GetSingleOrDefault(g => g.Key == gameKey);
+
+			if (game == null)
+			{
+				return null;
+			}
+
+			game.ViewsCount++;
+
+			_gameRepository.Update(game);
+			_unitOfWork.Save();
+			_outputLocalizer.Localize(language, game);
+
+			var gameDto = _mapper.Map<Game, GameDto>(game);
+
+			return gameDto;
+		}
+
+		public IEnumerable<GameDto> GetAllByCompanyName(string language, string companyName)
+		{
+			var games = _gameRepository.GetAll(null, null, null, g => g.Publisher.CompanyName == companyName).ToList();
+
+			foreach (var game in games)
+			{
+				_outputLocalizer.Localize(language, game);
+			}
+
+			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+
+			return gameDtos;
+		}
+
+		public IEnumerable<GameDto> GetAllByGenreName(string language, string name)
+		{
+			var games = _gameRepository.GetAll(null, null, null,
+				g => g.Genres.Any(genre => genre.GenreLocales.Any(l => l.Name == name) || genre.Name == name)).ToList();
+
+			foreach (var game in games)
+			{
+				_outputLocalizer.Localize(language, game);
+			}
+
+			var gameDtos = _mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
+
+			return gameDtos;
 		}
 
 		public IEnumerable<GameDto> GetAll(string language, GameFilterDto filterDto = null, int? itemsToSkip = null, int? itemsToTake = null, bool allowDeleted = false)
@@ -135,13 +196,16 @@ namespace GameStore.Services.Concrete
 			return _gameRepository.Contains(g => g.Key == gameKey);
 		}
 
-		private Game MapEmbeddedEntities(GameDto input, Game result)
+		private void MapEmbeddedEntities(GameDto input, Game result)
 		{
 			input.GenresInput.ForEach(n => result.Genres.Add(_genreRepository.GetSingle(g => g.GenreLocales.Any(l => l.Name == n) || g.Name == n)));
 			input.PlatformTypesInput.ForEach(t => result.PlatformTypes.Add(_platformTypeRepository.GetSingle(p => p.PlatformTypeLocales.Any(l => l.Type == t))));
 			result.Publisher = _publisherRepository.GetSingle(p => p.CompanyName == input.PublisherInput);
 
-			return result;
+			if (_commentRepository.Contains(c => c.GameKey == input.Key))
+			{
+				result.Comments = _commentRepository.GetAll(c => c.GameKey == input.Key).ToList();
+			}
 		}
 
 		private void AddDefaultGenreIfInputIsEmpty(GameDto game)

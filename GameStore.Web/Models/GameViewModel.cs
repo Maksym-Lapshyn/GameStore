@@ -13,6 +13,7 @@ namespace GameStore.Web.Models
 		{
 			GenresInput = new List<string>();
 			PlatformTypesInput = new List<string>();
+			Comments = new List<CommentViewModel>();
 		}
 
 		[Required(ErrorMessageResourceName = "GameKeyIsRequired", ErrorMessageResourceType = typeof(GlobalResource))]
@@ -67,5 +68,7 @@ namespace GameStore.Web.Models
 		[Display(Name = "PlatformTypes", ResourceType = typeof(GlobalResource))]
 		[CannotBeEmpty(ErrorMessageResourceName = "PlatformTypesInputCannotBeEmpty", ErrorMessageResourceType = typeof(GlobalResource))]
 		public List<string> PlatformTypesInput { get; set; }
+
+		public List<CommentViewModel> Comments { get; set; }
 	}
 }

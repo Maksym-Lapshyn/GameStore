@@ -22,37 +22,47 @@ namespace GameStore.DAL.Concrete.MongoDb
 
 		public IQueryable<Game> GetAll(Expression<Func<Game, bool>> predicate = null)
 		{
-			var games = predicate != null 
-				? _gameCollection.AsQueryable().Where(predicate.Compile()).ToList()
-				: _gameCollection.AsQueryable().ToList();
+			var games = _gameCollection.AsQueryable().ToList();
 
 			for (var i = 0; i < games.Count; i++)
 			{
 				games[i] = GetEmbeddedDocuments(games[i]);
-				games[i].DateAdded = new DateTime(2017, 06, 07);
-				games[i].DatePublished = DateTime.MinValue;
+				games[i] = SetDefaultDates(games[i]);
 			}
 
-			return games.AsQueryable();
+			var gamesQuery = games.AsQueryable();
+
+			return predicate == null 
+				? gamesQuery 
+				: gamesQuery.Where(predicate.Compile()).AsQueryable();
 		}
 
 		public Game GetSingle(Expression<Func<Game, bool>> predicate)
 		{
-			var game =  _gameCollection.Find(predicate).Single();
+			var game =  _gameCollection.AsQueryable().Where(predicate.Compile()).First();
 			game = GetEmbeddedDocuments(game);
+			game = SetDefaultDates(game);
 
 			return game;
 		}
 
 		public bool Contains(Expression<Func<Game, bool>> predicate)
 		{
-			return _gameCollection.AsQueryable().Any(predicate);
+			return _gameCollection.AsQueryable().Any(predicate.Compile());
 		}
 
 		private Game GetEmbeddedDocuments(Game game)
 		{
 			game.Publisher = _publisherCollection.AsQueryable().First(p => p.SupplierId == game.SupplierId);
 			game.Genres = _genreCollection.AsQueryable().Where(g => g.CategoryId == game.CategoryId).ToList();
+
+			return game;
+		}
+
+		private Game SetDefaultDates(Game game)
+		{
+			game.DateAdded = new DateTime(2017, 06, 07);
+			game.DatePublished = DateTime.MinValue;
 
 			return game;
 		}

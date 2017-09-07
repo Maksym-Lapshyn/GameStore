@@ -1,10 +1,9 @@
 ﻿using GameStore.Common.Entities;
-using GameStore.DAL.Abstract;
 using GameStore.DAL.Abstract.Common;
 using GameStore.DAL.Abstract.EntityFramework;
-using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace GameStore.DAL.Concrete.Common
@@ -36,6 +35,11 @@ namespace GameStore.DAL.Concrete.Common
 		public void Insert(PlatformType platformType)
 		{
 			_efRepository.Insert(platformType);
+		}
+
+		public PlatformType GetSingleOrDefault(Expression<Func<PlatformType, bool>> predicate)
+		{
+			return _efRepository.GetSingleOrDefault(predicate);
 		}
 	}
 }

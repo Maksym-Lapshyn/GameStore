@@ -45,5 +45,10 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			return _efRepository.Contains(predicate);
 		}
+
+		public Role GetSingleOrDefault(Expression<Func<Role, bool>> predicate)
+		{
+			return _efRepository.GetSingleOrDefault(predicate);
+		}
 	}
 }

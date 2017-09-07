@@ -7,7 +7,7 @@ using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using Ninject.Modules;
 
-namespace GameStore.Ninject.Modules
+namespace GameStore.DI.NinjectModules
 {
 	public class ServicesModule : NinjectModule
 	{

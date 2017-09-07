@@ -1,16 +1,16 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Common.Entities;
 using GameStore.DAL.Abstract.Common;
+using GameStore.Services.Abstract;
 using GameStore.Services.Concrete;
 using GameStore.Services.Dtos;
 using GameStore.Services.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using GameStore.Services.Abstract;
 
 namespace GameStore.Services.Tests
 {
@@ -24,6 +24,7 @@ namespace GameStore.Services.Tests
 
 		private Mock<IUnitOfWork> _mockOfUow;
 		private Mock<IPublisherRepository> _mockOfPublisherRepository;
+		private Mock<IGameRepository> _mockOfGameRepository;
 		private Mock<IOutputLocalizer<Publisher>> _mockOfOutputLocalizer;
 		private Mock<IInputLocalizer<Publisher>> _mockOfInputLocalizer;
 		private PublisherService _target;
@@ -36,7 +37,9 @@ namespace GameStore.Services.Tests
 			_mockOfOutputLocalizer = new Mock<IOutputLocalizer<Publisher>>();
 			_mockOfInputLocalizer = new Mock<IInputLocalizer<Publisher>>();
 			_mockOfPublisherRepository = new Mock<IPublisherRepository>();
-			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object, _mockOfPublisherRepository.Object);
+			_mockOfGameRepository = new Mock<IGameRepository>();
+			_target = new PublisherService(_mockOfUow.Object, _mapper, _mockOfInputLocalizer.Object, _mockOfOutputLocalizer.Object,
+				_mockOfPublisherRepository.Object, _mockOfGameRepository.Object);
 		}
 
 		[TestMethod]

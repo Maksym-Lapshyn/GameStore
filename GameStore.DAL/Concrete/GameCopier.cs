@@ -30,6 +30,7 @@ namespace GameStore.DAL.Concrete
 			var genres = game.Genres.ToList();
 			game.Genres.Clear();
 			genres.ForEach(g => game.Genres.Add(_genreCopier.Copy(g)));
+
 			_gameRepository.Insert(game);
 			_unitOfWork.Save();
 

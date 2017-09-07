@@ -566,6 +566,48 @@ namespace GameStore.DAL.Context
 				PlatformTypes = new List<PlatformType>
 				{
 					context.PlatformTypes.First(p => p.PlatformTypeLocales.FirstOrDefault().Type == "Desktop")
+				},
+
+				Comments = new List<Comment>
+				{
+					new Comment
+					{
+						Name = "John",
+						Body = "This game is good.",
+						GameKey = "HALF123",
+						ChildComments = new List<Comment>
+						{
+							new Comment
+							{
+								Name = "Max",
+								Body = "Agree with you. This game is awesome.",
+								GameKey = "HALF123",
+							},
+
+							new Comment
+							{
+								Name = "Helen",
+								Body = "Sure thing. Played like 515161 times.",
+								GameKey = "HALF123",
+							}
+						}
+					},
+
+					new Comment
+					{
+						Name = "Julia",
+						Body = "This game is bad.",
+						GameKey = "HALF123",
+						ChildComments = new List<Comment>
+						{
+							new Comment
+							{
+								Name = "Henry",
+								Body = "Julia, you are wrong. This game is awesome.",
+								GameKey = "HALF123",
+							}
+						}
+					}
 				}
 			};
 

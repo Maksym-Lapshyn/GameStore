@@ -15,12 +15,24 @@ namespace GameStore.Services.Abstract
 
 		OrderDto GetSingleActive(int userId);
 
+		OrderDto GetSingleActiveOrDefault(int userId);
+
 		void CreateActive(int userId);
+
+		bool ContainsActiveById(int orderId);
 
 		bool ContainsActive(int userId);
 
 		OrderDto GetSingle(int orderId);
 
+		OrderDto GetSingleOrDefault(int orderId);
+
 		IEnumerable<OrderDto> GetAll(OrderFilterDto orderFilter = null);
+
+		void Update(OrderDto orderDto);
+
+		void Create(OrderDto orderDto);
+
+		bool Contains(int orderId);
 	}
 }

@@ -63,5 +63,10 @@ namespace GameStore.DAL.Concrete.Common
 		{
 			return orders.Where(o => o.DateOrdered > orderFilter.BeginningDate).Where(o => o.DateOrdered < orderFilter.EndingDate);
 		}
+
+		public Order GetSingleOrDefault(Expression<Func<Order, bool>> predicate)
+		{
+			return _efRepository.GetSingleOrDefault(predicate);
+		}
 	}
 }

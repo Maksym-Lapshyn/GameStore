@@ -7,7 +7,11 @@ namespace GameStore.Services.Abstract
 	{
 		IEnumerable<GenreDto> GetAll(string language);
 
+		IEnumerable<GenreDto> GetAll(string language, string gameKey);
+		
 		GenreDto GetSingle(string language, string name);
+
+		GenreDto GetSingleOrDefault(string language, string name);
 
 		void Create(string language, GenreDto genreDto);
 

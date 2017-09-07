@@ -45,6 +45,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
+
 			_roleService.Create(CurrentLanguage, roleDto);
 
 			return RedirectToAction("ShowAll", "Roles");
@@ -70,6 +71,7 @@ namespace GameStore.Web.Controllers
 			}
 
 			var roleDto = _mapper.Map<RoleViewModel, RoleDto>(model);
+
 			_roleService.Update(CurrentLanguage, roleDto);
 
 			return RedirectToAction("ShowAll", "Roles");
@@ -100,12 +102,12 @@ namespace GameStore.Web.Controllers
 
 		private void CheckIfNameIsUnique(RoleViewModel model)
 		{
-			if (!_roleService.Contains(CurrentLanguage, model.Name))
+			var existingRole = _roleService.GetSingleOrDefault(CurrentLanguage, model.Name);
+
+			if (existingRole == null)
 			{
 				return;
 			}
-
-			var existingRole = _roleService.GetSingle(CurrentLanguage, model.Name);
 
 			if (existingRole.Id != model.Id)
 			{

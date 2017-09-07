@@ -27,6 +27,7 @@ namespace GameStore.DAL.Concrete
 				game.DatePublished = gameFromMongo.DatePublished;
 				game.Description = gameFromMongo.Description;
 				game.Discontinued = gameFromMongo.Discontinued;
+
 				_efRepository.Update(game);
 			}
 
