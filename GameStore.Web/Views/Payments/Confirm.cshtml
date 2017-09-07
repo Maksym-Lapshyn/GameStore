@@ -1,0 +1,23 @@
+﻿@model GameStore.Web.Models.ConfirmationViewModel
+
+@{
+	ViewBag.Title = GlobalResource.Confirmation;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@GlobalResource.Confirmation</h1>
+<hr/>
+
+<p>@Html.ValidationMessageFor(m => m)</p>
+
+@using (Html.BeginForm("Confirm", "Payments", FormMethod.Post))
+{
+	@Html.HiddenFor(m => m.PaymentId)
+	<b>@Html.LabelFor(m => m.ConfirmationCode)</b>
+	<p>
+		@Html.TextBoxFor(m => m.ConfirmationCode, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.ConfirmationCode)
+	</p>
+
+	<p><button type="submit" class="btn btn-default">@GlobalResource.ToConfirm</button></p>
+}

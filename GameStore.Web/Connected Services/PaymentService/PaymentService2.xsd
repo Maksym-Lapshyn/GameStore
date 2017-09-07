@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8773/PaymentService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Common.Entities" />
+  <xs:import schemaLocation="http://localhost:8773/PaymentService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/PaymentService.Application.Dtos" />
+  <xs:element name="ConductPurchase">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Common.Entities" minOccurs="0" name="payment" nillable="true" type="q1:Payment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConductPurchaseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/PaymentService.Application.Dtos" minOccurs="0" name="ConductPurchaseResult" nillable="true" type="q2:PaymentResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmPayment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="paymentId" type="xs:int" />
+        <xs:element minOccurs="0" name="confirmationCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmPaymentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/PaymentService.Application.Dtos" minOccurs="0" name="ConfirmPaymentResult" nillable="true" type="q3:PaymentResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

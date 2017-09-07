@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IAccountsRepository.cs" />
-    <Compile Include="Abstract\ITransactionsRepository.cs" />
-    <Compile Include="Concrete\AccountsRepository.cs" />
-    <Compile Include="Concrete\TransactionsRepository.cs" />
+    <Compile Include="Abstract\IAccountRepository.cs" />
+    <Compile Include="Abstract\IPaymentRepository.cs" />
+    <Compile Include="Concrete\AccountRepositoryStub.cs" />
+    <Compile Include="Concrete\PaymentRepositoryStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

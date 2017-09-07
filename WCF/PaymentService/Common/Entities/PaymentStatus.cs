@@ -21,6 +21,9 @@ namespace Common.Entities
 		Pending,
 
 		[EnumMember]
-		ConfirmationCodeIsNotCorrect
+		TransactionIdIsNotCorrect,
+
+		[EnumMember]
+		NotSupportedCard
 	}
 }

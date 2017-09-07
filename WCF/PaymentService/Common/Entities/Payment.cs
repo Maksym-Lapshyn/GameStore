@@ -3,22 +3,22 @@
 namespace Common.Entities
 {
 	[DataContract]
-	public class Transaction
+	public class Payment
 	{
 		public int Id { get; set; }
 
 		public PaymentStatus PaymentStatus { get; set; }
 
-		public bool IsDeleted { get; set; }
+		public string ConfirmationCode { get; set; }
 
 		[DataMember]
-		public long ConsumerCardNumber { get; set; }
+		public string SellersCardNumber { get; set; }
 
 		[DataMember]
-		public long SupplierCardNumber { get; set; }
+		public string BuyersCardNumber { get; set; }
 
 		[DataMember]
-		public string SupplierFullName { get; set; }
+		public string BuyersFullName { get; set; }
 
 		[DataMember]
 		public int CvvCode { get; set; }

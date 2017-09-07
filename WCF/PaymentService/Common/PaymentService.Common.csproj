@@ -48,17 +48,11 @@
     <Compile Include="Concrete\Logger.cs" />
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Entities\PaymentStatus.cs" />
-    <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\Payment.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

@@ -151,6 +151,15 @@ namespace GameStore.Services.Concrete
 			_unitOfWork.Save();
 		}
 
+		public void CheckoutActive(int userId)
+		{
+			var order = _orderRepository.GetSingle(o => o.User.Id == userId && o.OrderStatus == OrderStatus.Active);
+			order.DateOrdered = DateTime.UtcNow;
+			order.OrderStatus = OrderStatus.Paid;
+			_orderRepository.Update(order);
+			_unitOfWork.Save();
+		}
+
 		public void Ship(int orderId)
 		{
 			var order = _orderRepository.GetSingle(o => o.Id == orderId);

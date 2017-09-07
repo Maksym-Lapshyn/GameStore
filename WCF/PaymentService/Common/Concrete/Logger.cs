@@ -12,7 +12,7 @@ namespace Common.Concrete
 			_logger = LogManager.GetCurrentClassLogger();
 		}
 
-		public void LogTransaction(string message)
+		public void LogPayment(string message)
 		{
 			_logger.Info(message);
 		}

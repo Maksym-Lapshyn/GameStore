@@ -31,6 +31,8 @@ namespace GameStore.Web
 			CreateMap<RoleDto, RoleViewModel>().ReverseMap();
 
 			CreateMap<UserViewModel, UserDto>().ReverseMap();
+
+			CreateMap<PaymentService.Payment, PaymentViewModel>().ReverseMap();
 		}
 	}
 }

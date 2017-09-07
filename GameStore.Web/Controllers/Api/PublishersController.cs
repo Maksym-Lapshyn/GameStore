@@ -22,7 +22,7 @@ namespace GameStore.Web.Controllers.Api
 			IPublisherService publisherService,
 			IGameService gameService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_publisherService = publisherService;
 			_gameService = gameService;

@@ -546,4 +546,73 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>Credit card number</value>
+  </data>
+  <data name="CardNumberIsRequired" xml:space="preserve">
+    <value>Credit card number is required</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="CvvCode" xml:space="preserve">
+    <value>CVV code</value>
+  </data>
+  <data name="CvvCodeIsRequired" xml:space="preserve">
+    <value>CVV code is required</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ExpirationMonth" xml:space="preserve">
+    <value>Expiration month</value>
+  </data>
+  <data name="ExpirationMonthIsRequired" xml:space="preserve">
+    <value>Expiration month is required</value>
+  </data>
+  <data name="ExpirationYear" xml:space="preserve">
+    <value>Expiration year</value>
+  </data>
+  <data name="ExpirationYearIsRequired" xml:space="preserve">
+    <value>Expiration year is required</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Fullname</value>
+  </data>
+  <data name="FullNameIsRequired" xml:space="preserve">
+    <value>Full name is required</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="ToCheckout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="ConfirmationCodeIsNotCorrect" xml:space="preserve">
+    <value>Confirmation code is not correct</value>
+  </data>
+  <data name="CardDoesNotExist" xml:space="preserve">
+    <value>Card does not exist</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="ConfirmationCode" xml:space="preserve">
+    <value>Confirmation code</value>
+  </data>
+  <data name="NotEnoughMoneyOnCard" xml:space="preserve">
+    <value>Not enough money on card</value>
+  </data>
+  <data name="NotSupportedCard" xml:space="preserve">
+    <value>Not supported card</value>
+  </data>
+  <data name="PaymentFailed" xml:space="preserve">
+    <value>Payment failed</value>
+  </data>
+  <data name="PaymentIdIsIncorrect" xml:space="preserve">
+    <value>Payment id is not correct. Try again later</value>
+  </data>
+  <data name="TransactionIdIsNotCorrect" xml:space="preserve">
+    <value>Transaction is not correct</value>
+  </data>
 </root>

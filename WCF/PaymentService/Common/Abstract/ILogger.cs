@@ -2,6 +2,6 @@
 {
 	public interface ILogger
 	{
-		void LogTransaction(string message);
+		void LogPayment(string message);
 	}
 }

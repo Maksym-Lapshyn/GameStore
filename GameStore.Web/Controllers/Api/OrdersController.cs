@@ -16,7 +16,7 @@ namespace GameStore.Web.Controllers.Api
 		public OrdersController(IApiAuthentication authentication,
 			IOrderService orderService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_orderService = orderService;
 			_mapper = mapper;

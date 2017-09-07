@@ -546,4 +546,73 @@
   <data name="User" xml:space="preserve">
     <value>Пользователь</value>
   </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>Номер кредитной карты</value>
+  </data>
+  <data name="CardNumberIsRequired" xml:space="preserve">
+    <value>Введите номер кредитной карты</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Оформление заказа</value>
+  </data>
+  <data name="CvvCode" xml:space="preserve">
+    <value>CVV код</value>
+  </data>
+  <data name="CvvCodeIsRequired" xml:space="preserve">
+    <value>Введите код CVV</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Адрес вашей электронной почты</value>
+  </data>
+  <data name="ExpirationMonth" xml:space="preserve">
+    <value>Месяц, до которого Ваша карта действительна</value>
+  </data>
+  <data name="ExpirationMonthIsRequired" xml:space="preserve">
+    <value>Введите месяц, до которого Ваша карта действительна</value>
+  </data>
+  <data name="ExpirationYear" xml:space="preserve">
+    <value>Год, до которого Ваша карта действительна</value>
+  </data>
+  <data name="ExpirationYearIsRequired" xml:space="preserve">
+    <value>Введите год, до которого Ваша карта действительна</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Полное имя (Имя + Фамилия через пробел)</value>
+  </data>
+  <data name="FullNameIsRequired" xml:space="preserve">
+    <value>Введите Ваше полное имя</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="ToCheckout" xml:space="preserve">
+    <value>Оформить заказ</value>
+  </data>
+  <data name="CardDoesNotExist" xml:space="preserve">
+    <value>Кредитная карта не зарегестрирована</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Подтверждение</value>
+  </data>
+  <data name="ConfirmationCode" xml:space="preserve">
+    <value>Код подтверждения</value>
+  </data>
+  <data name="ConfirmationCodeIsNotCorrect" xml:space="preserve">
+    <value>Код подтверждения некорректный</value>
+  </data>
+  <data name="NotEnoughMoneyOnCard" xml:space="preserve">
+    <value>Недостаточно денег на карте</value>
+  </data>
+  <data name="NotSupportedCard" xml:space="preserve">
+    <value>Кредитная карта не поддерживается</value>
+  </data>
+  <data name="PaymentFailed" xml:space="preserve">
+    <value>Ошибка платежа</value>
+  </data>
+  <data name="PaymentIdIsIncorrect" xml:space="preserve">
+    <value>Id платежа некорректна. Попробуйте позже</value>
+  </data>
+  <data name="TransactionIdIsNotCorrect" xml:space="preserve">
+    <value>Id платежа не коректный</value>
+  </data>
 </root>

@@ -11,6 +11,8 @@ namespace GameStore.Services.Abstract
 
 		void Confirm(int orderId);
 
+		void CheckoutActive(int userId);
+
 		void Ship(int orderId);
 
 		OrderDto GetSingleActive(int userId);

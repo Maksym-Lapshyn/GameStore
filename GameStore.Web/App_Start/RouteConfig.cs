@@ -40,7 +40,7 @@ namespace GameStore.Web
 				null,
 				new
 				{
-					action = "New|History|Update|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails|Buy",
+					action = "New|History|Update|Login|Logout|Register|ShowAll|Delete|Confirm|Ship|AddDetails|DeleteDetails|Buy|Checkout",
 					lang = "en|ru"
 				}
 			);

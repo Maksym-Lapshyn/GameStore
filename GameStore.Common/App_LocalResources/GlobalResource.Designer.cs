@@ -133,6 +133,42 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Card does not exist.
+        /// </summary>
+        public static string CardDoesNotExist {
+            get {
+                return ResourceManager.GetString("CardDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit card number.
+        /// </summary>
+        public static string CardNumber {
+            get {
+                return ResourceManager.GetString("CardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit card number is required.
+        /// </summary>
+        public static string CardNumberIsRequired {
+            get {
+                return ResourceManager.GetString("CardNumberIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checkout.
+        /// </summary>
+        public static string Checkout {
+            get {
+                return ResourceManager.GetString("Checkout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment author.
         /// </summary>
         public static string CommentAuthor {
@@ -192,6 +228,51 @@ namespace GameStore.Common.App_LocalResources {
         public static string CompanyNameIsRequired {
             get {
                 return ResourceManager.GetString("CompanyNameIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        public static string Confirmation {
+            get {
+                return ResourceManager.GetString("Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation code.
+        /// </summary>
+        public static string ConfirmationCode {
+            get {
+                return ResourceManager.GetString("ConfirmationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation code is not correct.
+        /// </summary>
+        public static string ConfirmationCodeIsNotCorrect {
+            get {
+                return ResourceManager.GetString("ConfirmationCodeIsNotCorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CVV code.
+        /// </summary>
+        public static string CvvCode {
+            get {
+                return ResourceManager.GetString("CvvCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CVV code is required.
+        /// </summary>
+        public static string CvvCodeIsRequired {
+            get {
+                return ResourceManager.GetString("CvvCodeIsRequired", resourceCulture);
             }
         }
         
@@ -268,6 +349,15 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ending date.
         /// </summary>
         public static string EndingDate {
@@ -286,6 +376,42 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expiration month.
+        /// </summary>
+        public static string ExpirationMonth {
+            get {
+                return ResourceManager.GetString("ExpirationMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration month is required.
+        /// </summary>
+        public static string ExpirationMonthIsRequired {
+            get {
+                return ResourceManager.GetString("ExpirationMonthIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration year.
+        /// </summary>
+        public static string ExpirationYear {
+            get {
+                return ResourceManager.GetString("ExpirationYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration year is required.
+        /// </summary>
+        public static string ExpirationYearIsRequired {
+            get {
+                return ResourceManager.GetString("ExpirationYearIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {
@@ -300,6 +426,24 @@ namespace GameStore.Common.App_LocalResources {
         public static string FirstPage {
             get {
                 return ResourceManager.GetString("FirstPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fullname.
+        /// </summary>
+        public static string FullName {
+            get {
+                return ResourceManager.GetString("FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full name is required.
+        /// </summary>
+        public static string FullNameIsRequired {
+            get {
+                return ResourceManager.GetString("FullNameIsRequired", resourceCulture);
             }
         }
         
@@ -628,6 +772,24 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not enough money on card.
+        /// </summary>
+        public static string NotEnoughMoneyOnCard {
+            get {
+                return ResourceManager.GetString("NotEnoughMoneyOnCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not supported card.
+        /// </summary>
+        public static string NotSupportedCard {
+            get {
+                return ResourceManager.GetString("NotSupportedCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order details.
         /// </summary>
         public static string OrderDetails {
@@ -741,6 +903,33 @@ namespace GameStore.Common.App_LocalResources {
         public static string PasswordsDoNotMatch {
             get {
                 return ResourceManager.GetString("PasswordsDoNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment failed.
+        /// </summary>
+        public static string PaymentFailed {
+            get {
+                return ResourceManager.GetString("PaymentFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment id is not correct. Try again later.
+        /// </summary>
+        public static string PaymentIdIsIncorrect {
+            get {
+                return ResourceManager.GetString("PaymentIdIsIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        public static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
             }
         }
         
@@ -1105,6 +1294,15 @@ namespace GameStore.Common.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checkout.
+        /// </summary>
+        public static string ToCheckout {
+            get {
+                return ResourceManager.GetString("ToCheckout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm.
         /// </summary>
         public static string ToConfirm {
@@ -1236,6 +1434,15 @@ namespace GameStore.Common.App_LocalResources {
         public static string ToUpdate {
             get {
                 return ResourceManager.GetString("ToUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction is not correct.
+        /// </summary>
+        public static string TransactionIdIsNotCorrect {
+            get {
+                return ResourceManager.GetString("TransactionIdIsNotCorrect", resourceCulture);
             }
         }
         

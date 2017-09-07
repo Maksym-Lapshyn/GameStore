@@ -54,10 +54,6 @@
       <Project>{573b41e2-0889-46d5-9ef7-c44d33e89501}</Project>
       <Name>PaymentService.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PaymentService\PaymentService.Service.csproj">
-      <Project>{736c1571-3c8b-4896-a061-db75a3d2d8f1}</Project>
-      <Name>PaymentService.Service</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

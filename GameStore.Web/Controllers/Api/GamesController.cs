@@ -31,7 +31,7 @@ namespace GameStore.Web.Controllers.Api
 			IPublisherService publisherService,
 			IPlatformTypeService platformTypeService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_gameService = gameService;
 			_genreService = genreService;

@@ -56,7 +56,7 @@ namespace GameStore.DAL.Concrete.Common
 
 		public bool Contains(Expression<Func<Order, bool>> predicate)
 		{
-			return _efRepository.Contains(predicate) || _mongoRepository.Contains(predicate);
+			return _efRepository.Contains(predicate);
 		}
 
 		private IQueryable<Order> Filter(IQueryable<Order> orders, OrderFilter orderFilter)

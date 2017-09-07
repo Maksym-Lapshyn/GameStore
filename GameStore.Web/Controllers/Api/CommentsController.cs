@@ -20,7 +20,7 @@ namespace GameStore.Web.Controllers.Api
 		public CommentsController(IApiAuthentication authentication,
 			ICommentService commentService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_commentService = commentService;
 			_mapper = mapper;

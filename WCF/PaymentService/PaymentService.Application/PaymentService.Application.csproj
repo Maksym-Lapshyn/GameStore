@@ -42,6 +42,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Wcf, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Wcf.3.2.2.0\lib\net45-full\Ninject.Extensions.Wcf.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Services" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -61,26 +75,39 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service1.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Global.asax" />
+    <Content Include="PaymentService.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dtos\Confirmation.cs" />
-    <Compile Include="Dtos\PaymentStatus.cs" />
-    <Compile Include="Dtos\Transaction.cs" />
-    <Compile Include="Dtos\TransactionResponse.cs" />
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
+    <Compile Include="Dtos\PaymentResponse.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="IService1.cs" />
+    <Compile Include="Infrastructure\Abstract\IConfirmationEmailSender.cs" />
+    <Compile Include="Infrastructure\Abstract\IConfirmationMessageSender.cs" />
+    <Compile Include="Infrastructure\Concrete\ConfirmationEmalSenderStub.cs" />
+    <Compile Include="Infrastructure\Concrete\ConfirmationMessageSenderStub.cs" />
+    <Compile Include="PaymentService.svc.cs">
+      <DependentUpon>PaymentService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="IPaymentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Abstract\IPayment.cs" />
-    <Compile Include="Services\Concrete\Payment.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -92,6 +119,10 @@
     <ProjectReference Include="..\Common\PaymentService.Common.csproj">
       <Project>{573b41e2-0889-46d5-9ef7-c44d33e89501}</Project>
       <Name>PaymentService.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaymentService.DAL\PaymentService.DAL.csproj">
+      <Project>{ed048b4a-71de-4b93-af5f-df9bc233221f}</Project>
+      <Name>PaymentService.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -105,16 +136,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60691</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60691/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

@@ -7,18 +7,25 @@ using System.Linq.Expressions;
 
 namespace PaymentService.DAL.Concrete
 {
-	public class AccountsRepository : IAccountsRepository
+	public class AccountRepositoryStub : IAccountRepository
 	{
 		private static readonly List<Account> Accounts = new List<Account>();
 
-		static AccountsRepository()
+		private static int _id = 1;
+
+		static AccountRepositoryStub()
 		{
 			Initialize();
 		}
 
 		public Account GetSingle(Expression<Func<Account, bool>> predicate)
 		{
-			return Accounts.First(predicate.Compile());
+			return Accounts.Single(predicate.Compile());
+		}
+
+		public Account GetSingleOrDefault(Expression<Func<Account, bool>> predicate)
+		{
+			return Accounts.SingleOrDefault(predicate.Compile());
 		}
 
 		public IEnumerable<Account> GetAll(Expression<Func<Account, bool>> predicate = null)
@@ -28,12 +35,8 @@ namespace PaymentService.DAL.Concrete
 
 		public void Insert(Account account)
 		{
+			account.Id = ++_id;
 			Accounts.Add(account);
-		}
-
-		public void Delete(int accountId)
-		{
-			Accounts.First(a => a.Id == accountId).IsDeleted = true;
 		}
 
 		public bool Contains(Expression<Func<Account, bool>> predicate)
@@ -41,14 +44,21 @@ namespace PaymentService.DAL.Concrete
 			return Accounts.Any(predicate.Compile());
 		}
 
+		public void Update(Account account)
+		{
+			var index = Accounts.FindIndex(a => a.Id == account.Id);
+			Accounts[index] = account;
+		}
+
 		private static void Initialize()
 		{
 			var visa = new Account
 			{
-				Balance = 1000,
-				CardNumber = 4024007160378997,
+				Id = _id++,
+				Balance = 500,
+				CardNumber = "4024007160378997",
 				CvvCode = 123,
-				ExpirationDate = DateTime.UtcNow.AddMonths(12),
+				ExpirationDate = DateTime.UtcNow.AddDays(5),
 				Owner = new User
 				{
 					Email = "johndoe@gmail.com",
@@ -59,15 +69,16 @@ namespace PaymentService.DAL.Concrete
 
 			var masterCard = new Account
 			{
-				Balance = 50,
-				CardNumber = 5401323513514067,
+				Id = _id++,
+				Balance = 1000,
+				CardNumber = "5401323513514067",
 				CvvCode = 321,
-				ExpirationDate = DateTime.UtcNow.AddMonths(12),
+				ExpirationDate = DateTime.UtcNow.AddDays(5),
 				Owner = new User
 				{
-					Email = "jackblack@gmail.com",
-					FirstName = "Jack",
-					LastName = "Black"
+					Email = "gamestore@gmail.com",
+					FirstName = "Game",
+					LastName = "Store"
 				}
 			};
 

@@ -21,7 +21,7 @@ namespace GameStore.Web.Controllers.Api
 		public GenresController(IApiAuthentication authentication, IGenreService genreService,
 			IGameService gameService,
 			IMapper mapper)
-			:base(authentication)
+			: base(authentication)
 		{
 			_genreService = genreService;
 			_gameService = gameService;

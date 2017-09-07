@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace PaymentService.Application.Dtos
 {
@@ -7,9 +6,9 @@ namespace PaymentService.Application.Dtos
 	public class Confirmation
 	{
 		[DataMember]
-		public Guid TransactionId { get; set; }
+		public int PaymentId { get; set; }
 
 		[DataMember]
-		public int ConfirmationCode { get; set; }
+		public string ConfirmationCode { get; set; }
 	}
 }
