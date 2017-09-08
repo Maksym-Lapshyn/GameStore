@@ -47,6 +47,8 @@ namespace GameStore.Web.Models
 
 		public int CommentsCount { get; set; }
 
+		public ImageViewModel Image { get; set; }
+
 		[Display(Name = "UnitsInStock", ResourceType = typeof(GlobalResource))]
 		public short UnitsInStock { get; set; }
 

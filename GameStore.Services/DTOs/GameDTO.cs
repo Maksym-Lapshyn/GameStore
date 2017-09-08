@@ -38,6 +38,8 @@ namespace GameStore.Services.Dtos
 
 		public int CommentsCount { get; set; }
 
+		public ImageDto Image { get; set; }
+
 		public List<CommentDto> Comments { get; set; }
 
 		public List<GenreDto> GenresData { get; set; }

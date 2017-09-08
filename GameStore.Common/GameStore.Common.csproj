@@ -68,6 +68,7 @@
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\Image.cs" />
     <Compile Include="Entities\Localization\Language.cs" />
     <Compile Include="Entities\Localization\GameLocale.cs" />
     <Compile Include="Entities\Localization\GenreLocale.cs" />

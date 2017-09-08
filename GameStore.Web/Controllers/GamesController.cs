@@ -107,7 +107,7 @@ namespace GameStore.Web.Controllers
 			var gameDto = _gameService.GetSingle(CurrentLanguage, key);
 			var gameViewModel = _mapper.Map<GameDto, GameViewModel>(gameDto);
 
-			return View(gameViewModel);
+			return View("Show", gameViewModel);
 		}
 
 		public ActionResult ShowAll(CompositeGamesViewModel model)

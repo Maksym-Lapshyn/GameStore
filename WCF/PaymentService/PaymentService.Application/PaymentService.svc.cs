@@ -34,7 +34,6 @@ namespace PaymentService.Application
 		public PaymentResponse ConductPurchase(Payment payment)
 		{
 			payment.PaymentStatus = CheckIfTransactionIsAllowed(payment);
-
 			var confirmationCode = GenerateConfirmationCode();
 
 			if (payment.PaymentStatus == PaymentStatus.Pending)
@@ -63,9 +62,11 @@ namespace PaymentService.Application
 			_paymentRepository.Insert(payment);
 			LogPayment(payment);
 
-			var response = new PaymentResponse { PaymentStatus = payment.PaymentStatus, PaymentId = payment.Id };
-
-			return response;
+			return new PaymentResponse
+			{
+				PaymentStatus = payment.PaymentStatus,
+				PaymentId = payment.Id
+			};
 		}
 
 		public PaymentResponse ConfirmPayment(int paymentId, string confirmationCode)

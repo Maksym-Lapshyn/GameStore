@@ -52,6 +52,8 @@ namespace GameStore.Common.Entities
 
 		public virtual Publisher Publisher { get; set; }
 
+		public virtual Image Image { get; set; }
+
 		public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
 		public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();

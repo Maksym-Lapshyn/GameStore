@@ -44,6 +44,8 @@ namespace GameStore.Services.Infrastructure
 			CreateMap<OrderFilterDto, OrderFilter>().ReverseMap();
 
 			CreateMap<RoleDto, Role>().ReverseMap();
+
+			CreateMap<ImageDto, Image>().ReverseMap();
 		}
 	}
 }

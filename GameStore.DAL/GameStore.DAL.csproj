@@ -64,10 +64,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Common\IAsyncUnitOfWork.cs" />
     <Compile Include="Abstract\Common\IRoleRepository.cs" />
     <Compile Include="Abstract\Common\IUserRepository.cs" />
+    <Compile Include="Abstract\EntityFramework\IAsyncEfGameRepository.cs" />
     <Compile Include="Abstract\EntityFramework\IEfRoleRepository.cs" />
     <Compile Include="Abstract\EntityFramework\IEfUserRepository.cs" />
+    <Compile Include="Abstract\Common\IAsyncGameRepository.cs" />
     <Compile Include="Abstract\ICopier.cs" />
     <Compile Include="Abstract\Common\ICommentRepository.cs" />
     <Compile Include="Abstract\Common\IGameRepository.cs" />
@@ -91,12 +94,16 @@
     <Compile Include="Abstract\ISynchronizer.cs" />
     <Compile Include="Abstract\Common\IUnitOfWork.cs" />
     <Compile Include="Abstract\Localization\IRoleLocaleRepository.cs" />
+    <Compile Include="Abstract\MongoDb\IAsyncMongoGameRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGameRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoGenreRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoOrderRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoPublisherRepository.cs" />
     <Compile Include="Abstract\MongoDb\IMongoShipperRepository.cs" />
+    <Compile Include="Concrete\Common\AsyncGameRepository.cs" />
+    <Compile Include="Concrete\Common\AsyncUnitOfWork.cs" />
     <Compile Include="Concrete\Common\CommentRepository.cs" />
+    <Compile Include="Concrete\EntityFramework\AsyncEfGameRepository.cs" />
     <Compile Include="Concrete\Localization\GameLocaleRepository.cs" />
     <Compile Include="Concrete\Localization\LanguageRepository.cs" />
     <Compile Include="Concrete\Common\RoleRepository.cs" />
@@ -107,6 +114,7 @@
     <Compile Include="Concrete\GenreCopier.cs" />
     <Compile Include="Concrete\Common\PlatformTypeRepository.cs" />
     <Compile Include="Concrete\Localization\RoleLocaleRepository.cs" />
+    <Compile Include="Concrete\MongoDb\AsyncMongoGameRepository.cs" />
     <Compile Include="Concrete\PublisherCopier.cs" />
     <Compile Include="Concrete\EntityFramework\EfCommentRepository.cs" />
     <Compile Include="Concrete\EntityFramework\EfGameRepository.cs" />

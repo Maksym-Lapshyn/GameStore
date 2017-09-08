@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IAsyncGameService.cs" />
     <Compile Include="Abstract\ICommentService.cs" />
     <Compile Include="Abstract\IGameService.cs" />
     <Compile Include="Abstract\IGenreService.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Abstract\IPublisherService.cs" />
     <Compile Include="Abstract\IRoleService.cs" />
     <Compile Include="Abstract\IUserService.cs" />
+    <Compile Include="Concrete\AsyncGameService.cs" />
     <Compile Include="Concrete\CommentService.cs" />
     <Compile Include="Concrete\GameInputLocalizer.cs" />
     <Compile Include="Concrete\GameOutputLocalizer.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Dtos\GameFilterDto.cs" />
     <Compile Include="Dtos\GameDto.cs" />
     <Compile Include="Dtos\GenreDto.cs" />
+    <Compile Include="Dtos\ImageDto.cs" />
     <Compile Include="Dtos\OrderDetailsDto.cs" />
     <Compile Include="Dtos\OrderDto.cs" />
     <Compile Include="Dtos\OrderFilterDto.cs" />
