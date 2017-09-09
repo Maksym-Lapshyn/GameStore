@@ -40,5 +40,7 @@ namespace GameStore.DAL.Context
 		public DbSet<RoleLocale> RoleLocales { get; set; }
 
 		public DbSet<Language> Languages { get; set; }
+
+        public DbSet<Image> Images { get; set; }
 	}
 }

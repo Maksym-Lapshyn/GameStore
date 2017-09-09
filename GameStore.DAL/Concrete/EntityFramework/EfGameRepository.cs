@@ -29,8 +29,8 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public Game GetSingle(Expression<Func<Game, bool>> predicate)
 		{
-			return _context.Games.First(predicate);
-		}
+			return _context.Games.Include(g => g.Image).Single(predicate);
+        }
 
 		public void Insert(Game game)
 		{
@@ -64,6 +64,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 				oldGame.GameLocales = game.GameLocales;
 				oldGame.Genres = game.Genres;
 				oldGame.PlatformTypes = game.PlatformTypes;
+                oldGame.Image = game.Image;
 			}
 			else
 			{
@@ -74,10 +75,10 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 			_logger.LogChange(container);
 
-			game = MergeGenres(game);
-			game = MergePlatformTypes(game);
-			game = MergePublisher(game);
-
+			MergeGenres(game);
+			MergePlatformTypes(game);
+			MergePublisher(game);
+            UpdateImage(game);
 			MergePlainProperties(game);
 		}
 
@@ -88,7 +89,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public Game GetSingleOrDefault(Expression<Func<Game, bool>> predicate)
 		{
-			return _context.Games.FirstOrDefault(predicate);
+			return _context.Games.Include(g => g.Image).SingleOrDefault(predicate);
 		}
 
 		private GameLogContainer CreateContainer(string action, Game newGame, Game oldGame = null)
@@ -105,7 +106,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			return container;
 		}
 
-		private Game MergeGenres(Game game)
+		private void MergeGenres(Game game)
 		{
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			var deletedGenres = existingGame.Genres.Except(game.Genres, g => g.Id).ToList();
@@ -122,11 +123,9 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 				existingGame.Genres.Add(g);
 			}
-
-			return game;
 		}
 
-		private Game MergePlatformTypes(Game game)
+		private void MergePlatformTypes(Game game)
 		{
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
 			var deletedPlatformTypes = existingGame.PlatformTypes.Except(game.PlatformTypes, p => p.Id).ToList();
@@ -143,11 +142,9 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 				existingGame.PlatformTypes.Add(p);
 			}
-
-			return game;
 		}
 
-		private Game MergePublisher(Game game)
+		private void MergePublisher(Game game)
 		{
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
 
@@ -157,11 +154,21 @@ namespace GameStore.DAL.Concrete.EntityFramework
 			}
 
 			existingGame.Publisher = game.Publisher;
-
-			return game;
 		}
 
-		private void MergePlainProperties(Game game)
+        private void UpdateImage(Game game)
+        {
+            var existingGame = _context.Games.First(g => g.Id == game.Id);
+
+            if (game.Image.Id != default(int))
+            {
+                _context.Images.Attach(game.Image);
+            }
+
+            existingGame.Image = game.Image;
+        }
+
+        private void MergePlainProperties(Game game)
 		{
 			var existingGame = _context.Games.First(g => g.Id == game.Id);
 

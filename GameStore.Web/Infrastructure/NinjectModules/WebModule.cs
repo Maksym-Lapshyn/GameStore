@@ -23,7 +23,6 @@ namespace GameStore.Web.Infrastructure.NinjectModules
 				cfg.AddProfile(new WebProfile());
 			});
 
-			Bind<IMapper>().ToConstant(Mapper.Instance);
 			Bind<IGameService>().To<GameService>();
 			Bind<ICommentService>().To<CommentService>();
 			Bind<IPublisherService>().To<PublisherService>();
@@ -32,10 +31,15 @@ namespace GameStore.Web.Infrastructure.NinjectModules
 			Bind<IOrderService>().To<OrderService>();
 			Bind<IUserService>().To<UserService>();
 			Bind<IRoleService>().To<RoleService>();
+
+            Bind<IAsyncGameService>().To<AsyncGameService>();
+
 			Bind<ILogger>().To<Logger>();
-			Bind<IAuthentication>().To<Authentication>().InRequestScope();
+            Bind<IMapper>().ToConstant(Mapper.Instance);
+            Bind<IHashGenerator<string>>().To<Md5HashGenerator>();
+
+            Bind<IAuthentication>().To<Authentication>().InRequestScope();
 			Bind<IApiAuthentication>().To<ApiAuthentication>().InRequestScope();
-			Bind<IHashGenerator<string>>().To<Md5HashGenerator>();
 		}
 	}
 }

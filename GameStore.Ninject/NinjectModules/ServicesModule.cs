@@ -38,6 +38,9 @@ namespace GameStore.DI.NinjectModules
 			Bind<IOutputLocalizer<Role>>().To<RoleOutputLocalizer>();
 			Bind<IOutputLocalizer<PlatformType>>().To<PlatformTypeOutputLocalizer>();
 			Bind<IOutputLocalizer<User>>().To<UserOutputLocalizer>();
-		}
+
+            Bind<IAsyncGameRepository>().To<AsyncGameRepository>();
+            Bind<IAsyncUnitOfWork>().To<AsyncUnitOfWork>();
+        }
 	}
 }

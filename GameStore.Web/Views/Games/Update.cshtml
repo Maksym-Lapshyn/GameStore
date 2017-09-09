@@ -2,107 +2,122 @@
 @model GameStore.Web.Models.GameViewModel
 
 @{
-	ViewBag.Title = GlobalResource.UpdateOfGame;
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = GlobalResource.UpdateOfGame;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var base64 = Convert.ToBase64String(Model.ImageData.Data);
+    var imgSrc = $"data:image/gif;base64,{base64}";
 }
 
 <h1>@GlobalResource.UpdateOfGame</h1>
-<hr/>
+<hr />
 
 @using (Html.BeginForm("Update", "Games", FormMethod.Post))
 {
-	<div class="panel panel-default">
-		<div class="panel-body">
-			@Html.HiddenFor(m => m.ViewsCount)
-			@Html.HiddenFor(m => m.Id)
-			@Html.HiddenFor(m => m.NorthwindId)
-			@Html.HiddenFor(m => m.IsDeleted)
-			@Html.HiddenFor(m => m.IsUpdated)
-			<b>@Html.LabelFor(m => m.Key)</b>
-			<p>
-				@Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.Key)
-			</p>
-			<b>@Html.LabelFor(m => m.Name)</b>
-			<p>
-				@Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
-				@Html.ValidationMessageFor(m => m.Name)
-			</p>
-			<b>@Html.LabelFor(m => m.Description)</b>
-			<p>
-				@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.Description)
-			</p>
-			<b>@Html.LabelFor(m => m.Price)</b>
-			<p>
-				@Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
-				@Html.ValidationMessageFor(m => m.Price)
-			</p>
-			<b>@Html.LabelFor(m => m.DatePublished)</b>
-			<p>
-				@Html.TextBoxFor(m => m.DatePublished, new { @class = "form-control", type = "date" })
-				@Html.ValidationMessageFor(m => m.DatePublished)
-			</p>
-			<b>@Html.LabelFor(m => m.UnitsInStock)</b>
-			<p>
-				@Html.TextBoxFor(m => m.UnitsInStock, new { @class = "form-control", type = "nubmer", step = "1", min = "0" })
-			</p>
-			<p>
-				@Html.CheckBoxFor(m => m.Discontinued)
-				<b>@Html.LabelFor(m => m.Discontinued)</b>
-			</p>
-			<div class="row">
-				<div class="col-lg-4">
-					<b>@Html.LabelFor(m => m.GenresInput)</b>
-					<p>
-						@foreach (var genre in Model.GenresData)
-						{
-							@Html.CreateCheckbox("GenresInput", genre.Name, Model.GenresInput)
-						}
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<b>@Html.LabelFor(m => m.PlatformTypesInput)</b>
-					<p>
-						@foreach (var platformType in Model.PlatformTypesData)
-						{
-							@Html.CreateCheckbox("PlatformTypesInput", platformType.Type, Model.PlatformTypesInput)
-						}
-					</p>
-				</div>
-				<div class="col-sm-4">
-					<b>@Html.LabelFor(m => m.PublisherInput)</b>
-					<p>
-						@foreach (var publisher in Model.PublisherData)
-						{
-							@Html.CreateRadioButton("PublisherInput", publisher.CompanyName, Model.PublisherInput)
-						}
-					</p>
-				</div>
-			</div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.ViewsCount)
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.NorthwindId)
+            @Html.HiddenFor(m => m.IsDeleted)
+            @Html.HiddenFor(m => m.IsUpdated)
+            @Html.HiddenFor(m => m.ImageData.Id)
+            @Html.HiddenFor(m => m.ImageData.Name)
+            @Html.HiddenFor(m => m.ImageData.MimeType)
+            @Html.HiddenFor(m => m.ImageData.Data)
+            <b>@Html.LabelFor(m => m.Key)</b>
+            <p>
+                @Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Key)
+            </p>
+            <b>@Html.LabelFor(m => m.Name)</b>
+            <p>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name)
+            </p>
+            <b>@Html.LabelFor(m => m.Description)</b>
+            <p>
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Description)
+            </p>
+            <b>@Html.LabelFor(m => m.Price)</b>
+            <p>
+                @Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                @Html.ValidationMessageFor(m => m.Price)
+            </p>
+            <b>@Html.LabelFor(m => m.DatePublished)</b>
+            <p>
+                @Html.TextBoxFor(m => m.DatePublished, new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(m => m.DatePublished)
+            </p>
+            <b>@Html.LabelFor(m => m.UnitsInStock)</b>
+            <p>
+                @Html.TextBoxFor(m => m.UnitsInStock, new { @class = "form-control", type = "nubmer", step = "1", min = "0" })
+            </p>
+            <p>
+                @Html.CheckBoxFor(m => m.Discontinued)
+                <b>@Html.LabelFor(m => m.Discontinued)</b>
+            </p>
 
-			@for (var i = 0; i < Model.PlatformTypesData.Count; i++)
-			{
-				@Html.HiddenFor(m => m.PlatformTypesData[i].Id)
-				@Html.HiddenFor(m => m.PlatformTypesData[i].Type)
-			}
+            @if (Model.ImageData != null)
+            {
+                <b>@Html.LabelFor(m => m.ImageData)</b>
+                <p><img src="@imgSrc" style="max-width:320px; max-height:240px;" /></p>
+            }
 
-			@for (var i = 0; i < Model.GenresData.Count; i++)
-			{
-				@Html.HiddenFor(m => m.GenresData[i].Id)
-				@Html.HiddenFor(m => m.GenresData[i].Name)
-			}
+            <b>@Html.LabelFor(m => m.ImageInput)</b>
+            <p>@Html.TextBoxFor(m => m.ImageInput, new { type = "file" })</p>
+            <div class="row">
+                <div class="col-lg-4">
+                    <b>@Html.LabelFor(m => m.GenresInput)</b>
+                    <p>
+                        @foreach (var genre in Model.GenresData)
+                        {
+                            @Html.CreateCheckbox("GenresInput", genre.Name, Model.GenresInput)
+                        }
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <b>@Html.LabelFor(m => m.PlatformTypesInput)</b>
+                    <p>
+                        @foreach (var platformType in Model.PlatformTypesData)
+                        {
+                            @Html.CreateCheckbox("PlatformTypesInput", platformType.Type, Model.PlatformTypesInput)
+                        }
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <b>@Html.LabelFor(m => m.PublisherInput)</b>
+                    <p>
+                        @foreach (var publisher in Model.PublisherData)
+                        {
+                            @Html.CreateRadioButton("PublisherInput", publisher.CompanyName, Model.PublisherInput)
+                        }
+                    </p>
+                </div>
+            </div>
 
-			@for (var i = 0; i < Model.PublisherData.Count; i++)
-			{
-				@Html.HiddenFor(m => m.PublisherData[i].Id)
-				@Html.HiddenFor(m => m.PublisherData[i].CompanyName)
-				@Html.HiddenFor(m => m.PublisherData[i].Description)
-				@Html.HiddenFor(m => m.PublisherData[i].HomePage)
-			}
-			@Html.ValidationSummary()
-			<button type="submit" class="btn btn-default">@GlobalResource.ToUpdate</button>
-			@Html.ActionLink(GlobalResource.Back, "Show", "Games", new {key = Model.Key}, new {@class = "btn btn-primary"})
-		</div>
-	</div>
+            @for (var i = 0; i < Model.PlatformTypesData.Count; i++)
+            {
+                @Html.HiddenFor(m => m.PlatformTypesData[i].Id)
+                @Html.HiddenFor(m => m.PlatformTypesData[i].Type)
+            }
+
+            @for (var i = 0; i < Model.GenresData.Count; i++)
+            {
+                @Html.HiddenFor(m => m.GenresData[i].Id)
+                @Html.HiddenFor(m => m.GenresData[i].Name)
+            }
+
+            @for (var i = 0; i < Model.PublisherData.Count; i++)
+            {
+                @Html.HiddenFor(m => m.PublisherData[i].Id)
+                @Html.HiddenFor(m => m.PublisherData[i].CompanyName)
+                @Html.HiddenFor(m => m.PublisherData[i].Description)
+                @Html.HiddenFor(m => m.PublisherData[i].HomePage)
+            }
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-default">@GlobalResource.ToUpdate</button>
+            @Html.ActionLink(GlobalResource.Back, "Show", "Games", new { key = Model.Key }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
 }

@@ -162,6 +162,11 @@ namespace GameStore.Web.Controllers
 			return new FileContentResult(fileBytes, "application/pdf");
 		}
 
+        public void UpdateImage(GameViewModel game)
+        {
+
+        }
+
 		private CompositeGamesViewModel UpdateGames(CompositeGamesViewModel model)
 		{
 			var itemsToSkip = model.PageSize * (model.CurrentPage - 1);

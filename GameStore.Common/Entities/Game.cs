@@ -50,9 +50,9 @@ namespace GameStore.Common.Entities
 		[BsonRepresentation(BsonType.Int32)]
 		public bool Discontinued { get; set; }
 
-		public virtual Publisher Publisher { get; set; }
+        public Image Image { get; set; }
 
-		public virtual Image Image { get; set; }
+        public virtual Publisher Publisher { get; set; }
 
 		public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 

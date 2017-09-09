@@ -4,6 +4,7 @@ using GameStore.Web.Infrastructure.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace GameStore.Web.Models
 {
@@ -47,7 +48,9 @@ namespace GameStore.Web.Models
 
 		public int CommentsCount { get; set; }
 
-		public ImageViewModel Image { get; set; }
+		public ImageViewModel ImageData { get; set; }
+
+        public HttpPostedFileBase ImageInput { get; set; }
 
 		[Display(Name = "UnitsInStock", ResourceType = typeof(GlobalResource))]
 		public short UnitsInStock { get; set; }

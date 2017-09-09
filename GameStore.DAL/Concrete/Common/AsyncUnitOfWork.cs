@@ -1,9 +1,10 @@
 ﻿using GameStore.DAL.Context;
+using GameStore.DAL.Abstract.Common;
 using System.Threading.Tasks;
 
 namespace GameStore.DAL.Concrete.Common
 {
-	public class AsyncUnitOfWork
+	public class AsyncUnitOfWork : IAsyncUnitOfWork
 	{
 		private readonly GameStoreContext _context;
 
@@ -12,9 +13,9 @@ namespace GameStore.DAL.Concrete.Common
 			_context = context;
 		}
 
-		public async Task<int> SaveAsync()
+		public async Task SaveAsync()
 		{
-			return await _context.SaveChangesAsync();
+			await _context.SaveChangesAsync();
 		}
 	}
 }

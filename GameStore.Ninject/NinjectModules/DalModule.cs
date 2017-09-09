@@ -54,6 +54,10 @@ namespace GameStore.DI.NinjectModules
 			Bind<ICopier<Game>>().To<GameCopier>();
 			Bind<ICopier<Genre>>().To<GenreCopier>();
 			Bind<ICopier<Publisher>>().To<PublisherCopier>();
+
+            Bind<IAsyncEfGameRepository>().To<AsyncEfGameRepository>();
+            Bind<IAsyncMongoGameRepository>().To<AsyncMongoGameRepository>();
+            Bind<IAsyncLogger<Game>>().To<AsyncMongoGameLogger>();
 		}
 	}
 }

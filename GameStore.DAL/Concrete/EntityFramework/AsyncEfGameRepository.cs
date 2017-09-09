@@ -12,10 +12,10 @@ namespace GameStore.DAL.Concrete.EntityFramework
 	public class AsyncEfGameRepository : IAsyncEfGameRepository
 	{
 		private readonly GameStoreContext _context;
-		private readonly ILogger<Game> _logger;
+		private readonly IAsyncLogger<Game> _logger;
 
 		public AsyncEfGameRepository(GameStoreContext context,
-			ILogger<Game> logger)
+			IAsyncLogger<Game> logger)
 		{
 			_context = context;
 			_logger = logger;
@@ -23,7 +23,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 		public async Task<Game> GetSingleOrDefaultAsync(Expression<Func<Game, bool>> predicate)
 		{
-			return await _context.Games.SingleOrDefaultAsync(predicate);
+			return await _context.Games.Include(g => g.Image).SingleOrDefaultAsync(predicate);
 		}
 
 		public async Task UpdateAsync(Game game)
@@ -37,6 +37,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 				oldGame.GameLocales = game.GameLocales;
 				oldGame.Genres = game.Genres;
 				oldGame.PlatformTypes = game.PlatformTypes;
+                oldGame.Image = game.Image;
 			}
 			else
 			{
@@ -45,7 +46,7 @@ namespace GameStore.DAL.Concrete.EntityFramework
 
 			var container = CreateContainer("Update", game, oldGame);
 
-			_logger.LogChange(container);
+			await _logger.LogChangeAsync(container);
 		}
 
 		private GameLogContainer CreateContainer(string action, Game newGame, Game oldGame = null)

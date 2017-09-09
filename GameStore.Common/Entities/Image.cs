@@ -1,4 +1,6 @@
-﻿namespace GameStore.Common.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GameStore.Common.Entities
 {
 	public class Image : BaseEntity
 	{
@@ -8,6 +10,7 @@
 
 		public string MimeType { get; set; }
 
+        [Required]
 		public virtual Game Game { get; set; }
 	}
 }
